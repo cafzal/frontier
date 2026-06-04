@@ -176,6 +176,16 @@ Contributions welcome — start with the developer docs:
 - [`architecture.md`](architecture.md) — system architecture & data flow
 - [`best-practices.md`](best-practices.md) — skill & prompt design guidelines
 
+## Acknowledgements
+
+Frontier builds on excellent open-source optimization work. These run as installed dependencies (not vendored), so this is citation and thanks rather than a redistribution requirement:
+
+- **[pymoo](https://pymoo.org/)** (Apache-2.0) — the NSGA-II / NSGA-III evolutionary solvers at Frontier's core. Blank, J. & Deb, K. (2020). *pymoo: Multi-Objective Optimization in Python.* IEEE Access, 8, 89497–89509. The underlying algorithms are Deb et al., NSGA-II (2002) and Deb & Jain, NSGA-III (2014).
+- **[HiGHS](https://highs.dev/)** (MIT) — CPU exact-solver backend (`solver="highs"`). Huangfu, Q. & Hall, J.A.J. (2018). *Parallelizing the dual revised simplex method.* Mathematical Programming Computation, 10(1), 119–142.
+- **[NVIDIA cuOpt](https://github.com/NVIDIA/cuopt)** (Apache-2.0) — GPU exact-solver backend (`solver="cuopt"`).
+
+pymoo, HiGHS, and cuOpt are independent projects; Frontier is not affiliated with or endorsed by their authors or NVIDIA.
+
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
