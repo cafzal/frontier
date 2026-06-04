@@ -8,7 +8,7 @@
 
 ## Summary
 
-Frontier gives AI agents a grounded optimization engine for hard decisions. The agent describes a problem in business terms; Frontier enumerates the full Pareto frontier — every non-dominated solution that balances conflicting objectives under hard constraints — and the agent narrates the tradeoffs back. NSGA-II/III under the hood (via pymoo), exposed as 4 MCP tools (`model`, `solve`, `explore`, `get_skill`). Frontier is the engine; the agent is the interface.
+Frontier gives AI agents a grounded optimization engine for hard decisions. The agent describes a problem in business terms; Frontier enumerates the full Pareto frontier — every non-dominated solution that balances conflicting objectives under hard constraints — and the agent narrates the tradeoffs back. An evolutionary algorithm (NSGA-II/III via pymoo) explores the frontier fast; an optional exact solver is the follow-on that grounds each point to provably optimal when a decision needs certifying — *approximate exploration, exact follow-on*. Exposed as 4 MCP tools (`model`, `solve`, `explore`, `get_skill`). Frontier is the engine; the agent is the interface.
 
 The design is **explainable, governable optimization**: the engine owns the *deterministic guardrails* — hard constraints it never violates, reproducible runs (same inputs → same frontier), dominance filtering, pre-solve validation, and quality gates — while the *human judgment* stays at the two calls that matter: which objectives and constraints define the problem, and which non-dominated solution to commit to. The agent explains every tradeoff (shadow prices, frontier shape, marginal rates, dominance) and never names a "best"; every claim it makes traces back to returned data, so the result is explainable and the decision is auditable line by line. The wedge is combinatorial, constrained, portfolio-like decisions with conflicting objectives.
 
@@ -37,7 +37,7 @@ LLMs can reason about tradeoffs conversationally but can't *solve* them — they
 
 **What Frontier adds beyond an LLM alone:**
 - **The full non-dominated frontier** — every Pareto-optimal tradeoff, not a single recommendation or a weighted ranking
-- **Provably optimal where the shape supports it** — for subset selection and mean-variance allocation, the agent can certify the frontier with an exact solver: each point proven optimal, not just a strong heuristic — for when a stakeholder needs *this is optimal*, not *our best find*
+- **Provably optimal where the shape supports it** — for subset selection and mean-variance allocation, an exact solver is the *follow-on* that grounds each frontier point to provably optimal, not just a strong heuristic — for when a stakeholder needs *this is optimal*, not *our best find*
 - **Hard constraints, enforced** — 8 constraint types (cardinality, forced include/exclude, objective bounds, exclusion pairs, dependencies, group limits, allocation caps), never violated during search
 - **Auditable by construction** — every reported tradeoff traces to returned data (scores, shadow prices, dominance), not a fluent guess; runs are reproducible (same inputs → same frontier), so a stakeholder can re-examine the decision line by line
 - **Scenario & risk modeling** — independent frontiers per scenario, plus CVaR / worst-case / expected risk per objective
@@ -123,7 +123,7 @@ FRONTIER_MCP_TOKEN=your-secret MCP_TRANSPORT=sse python -m mcp_server.server
 
 Point your MCP client at the local server — for SSE that's `http://localhost:8000/sse`. The optional web UI lives in [`ui/`](ui/) — see its [README](ui/README.md).
 
-**Optional exact-solver backends.** Beyond the default NSGA-II/III, Frontier can wrap the NSGA search around an *exact inner solve* — each scalarization is solved to optimality, so the frontier points are certifiable rather than heuristic. Two backends cover binary selection (MILP) and mean-variance portfolios (QP): `highs` (`pip install highspy`, CPU and cross-platform) or `cuopt` (NVIDIA GPU). The agent opts in **per run** — `solve(solver="highs", exact=true)` — for a provably-optimal frontier on a final/decision run, while exploration stays on the fast evolutionary default. Opt-in and gated, so the default path is unchanged — see [`architecture.md`](architecture.md#solver-backends-pluggable) for scope and details.
+**Optional exact-solver backends.** Beyond the default NSGA-II/III, Frontier can wrap the NSGA search around an *exact inner solve* — each scalarization is solved to optimality, so the frontier points are certifiable rather than heuristic. Two backends cover binary selection (MILP) and mean-variance portfolios (QP): `highs` (`pip install highspy`, CPU and cross-platform) or `cuopt` (GPU). The agent opts in **per run** — `solve(solver="highs", exact=true)` — for a provably-optimal frontier on a final/decision run, while exploration stays on the fast evolutionary default. Opt-in and gated, so the default path is unchanged — see [`architecture.md`](architecture.md#solver-backends-pluggable) for scope and details.
 
 ### Deploy your own
 
