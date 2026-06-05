@@ -68,11 +68,11 @@ _MILP_ABS_GAP = 0.0
 # unchanged. `_solve_qp_cuopt_matrix` is that path; it passes the SAME (PSD-projected)
 # covariance the verified term-by-term path packs into `set_quadratic_objective_matrix`
 # (cuOpt symmetrises Q+Qᵀ internally either way), so the two are equivalent *by construction*
-# and differ only in build cost. Default off until a GPU run confirms the equivalence — the
-# comparison notebook's dense-QP panel runs matrix vs term-by-term vs HiGHS for exactly that —
-# after which flipping to True routes `optimize(solver="cuopt")` proportional runs through the
-# scalable build with no other change.
-_USE_MATRIX_QP = False
+# and differ only in build cost. The GPU A/B confirmed equivalence (matrix vs term-by-term:
+# 0.00e+00 weight max-diff on a dense n=60 QP, identical optimum out to n=1500 in the comparison
+# notebook's dense-QP panel), so this is now the default cuOpt QP build — `optimize(solver="cuopt")`
+# proportional runs go through the scalable O(nnz) construction. (MILP still builds term-by-term.)
+_USE_MATRIX_QP = True
 
 
 def _solve_qp_cuopt(

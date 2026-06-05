@@ -1511,6 +1511,7 @@ def explore(
             # certificate lands, mirroring the solve-response injection.
             if not _was_injected(p.problem_id, "solution_interpreter"):
                 _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
+                _mark_injected(p.problem_id, "solution_interpreter")
             return result
         case "scenario_results":
             try:

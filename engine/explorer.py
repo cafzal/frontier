@@ -7,6 +7,13 @@ import numpy as np
 from .models import Aggregation, CuratedSolution, Direction, Problem, Run, _content_signature
 
 
+def _provenance(problem, run) -> dict:
+    """Heuristic-vs-exact label for an explore result. A stripped or omitted source= silently
+    returns the exploratory run, and run_id alone is opaque — this lets a consumer (or the
+    certify->source="exact" handoff) tell the certified-exact overlay from the heuristic frontier."""
+    return {"solver": run.solver, "kind": "exact" if run is problem.exact_run else "exploratory"}
+
+
 def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | None = None) -> dict:
     """Frontier overview: ranges, correlations, extremes, balanced solution."""
     run = _require_run(problem, scenario, source)
@@ -93,6 +100,7 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
         },
         "inflection_point_candidates": inflection_candidates,
     }
+    result["frontier"] = _provenance(problem, run)
 
     if problem.reference_points:
         result["balanced_vs_references"] = _compute_reference_analysis(
@@ -201,6 +209,7 @@ def get_solutions(problem: Problem, scenario: str | None = None, detail: bool = 
         ]
     result = {
         "run_id": run.run_id,
+        "frontier": _provenance(problem, run),
         "total_solutions": len(run.solutions),
         "detail": detail,
         "solutions": sols,
@@ -223,6 +232,7 @@ def get_solution(problem: Problem, solution_id: int, scenario: str | None = None
     for s in run.solutions:
         if s.solution_id == solution_id:
             result = s.model_dump()
+            result["frontier"] = _provenance(problem, run)
             if problem.reference_points:
                 result["vs_references"] = _compute_reference_analysis(
                     s.objective_values, problem.reference_points, problem.objectives,
