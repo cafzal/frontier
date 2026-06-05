@@ -3,10 +3,12 @@
 import pytest
 
 from engine.explorer import (
+    _frontier_provenance,
     compare_solutions,
     get_solution,
     get_solutions,
     get_tradeoffs,
+    marginal_analysis,
 )
 from engine.models import (
     CardinalityConstraint,
@@ -14,7 +16,9 @@ from engine.models import (
     ObjectiveBoundConstraint,
     Option,
     Problem,
+    Run,
     Score,
+    Solution,
 )
 from engine.optimizer import optimize
 
@@ -331,3 +335,71 @@ class TestBindingAnalysis:
             assert "constraint" in entry
             assert "binding_fraction" in entry
             assert entry["shadow_prices"] or entry["note"]
+
+
+class TestFrontierProvenance:
+    """`_frontier_provenance` labels which frontier a result came from, so a heuristic
+    frontier is never silently passed off as the exact overlay — the failure mode when
+    `explore`'s `source` is omitted or dropped before it reaches the engine.
+    """
+
+    @staticmethod
+    def _run(solver, rid):
+        return Run(
+            run_id=rid, solver=solver,
+            solutions=[Solution(solution_id=1, selected_options=["A"],
+                                objective_values={"x": 1.0})],
+        )
+
+    def test_exact_run_labeled_exact(self):
+        run = self._run("highs", "exact-1")
+        prov = _frontier_provenance(Problem(exact_run=run), run)
+        assert prov["kind"] == "exact"
+        assert prov["solver"] == "highs"
+        assert prov["run_id"] == "exact-1"
+        assert "exact_overlay_available" not in prov  # nothing better to point at
+
+    def test_heuristic_with_overlay_advertises_it(self):
+        nsga = self._run("nsga-iii", "nsga-1")
+        exact = self._run("highs", "exact-1")
+        prov = _frontier_provenance(Problem(run=nsga, exact_run=exact), nsga)
+        assert prov["kind"] == "heuristic"
+        assert prov["solver"] == "nsga-iii"
+        assert prov["run_id"] == "nsga-1"
+        assert prov["exact_overlay_available"] is True
+        assert 'source="exact"' in prov["hint"]
+
+    def test_overlay_hint_suppressed_for_scenarios(self):
+        # Scenario runs are NSGA-only and the base-case exact overlay doesn't apply to them,
+        # so the "exact overlay available" hint must not leak onto scenario results.
+        nsga = self._run("nsga-iii", "nsga-1")
+        exact = self._run("highs", "exact-1")
+        prov = _frontier_provenance(
+            Problem(run=nsga, exact_run=exact), nsga, scenario="budget_cut")
+        assert prov["kind"] == "heuristic"
+        assert "exact_overlay_available" not in prov
+
+    def test_heuristic_without_overlay_has_no_hint(self):
+        nsga = self._run("nsga-ii", "nsga-1")
+        prov = _frontier_provenance(Problem(run=nsga), nsga)
+        assert prov["kind"] == "heuristic"
+        assert "exact_overlay_available" not in prov
+
+    def test_every_labeled_action_carries_provenance(self, solved_problem):
+        # The label is a per-site convention, so enumerate every analytics action that resolves
+        # a frontier — a future call site shipping without frontier_source fails CI here, not in
+        # production. (solutions/solution return the dict directly; tradeoffs/compare/
+        # marginal_analysis flow through the server's _format_explore passthrough.)
+        p = solved_problem
+        ids = [s["solution_id"] for s in get_solutions(p)["solutions"]]
+        results = {
+            "tradeoffs": get_tradeoffs(p),
+            "solutions": get_solutions(p),
+            "solution": get_solution(p, ids[0]),
+            "compare": compare_solutions(p, ids[:2]),
+            "marginal_analysis": marginal_analysis(p),
+        }
+        for action, result in results.items():
+            assert "frontier_source" in result, f"{action} dropped frontier_source"
+            assert result["frontier_source"]["kind"] == "heuristic", action
+            assert result["frontier_source"]["run_id"] == p.run.run_id, action

@@ -7,11 +7,15 @@ certifies — confirming the invariant holds strictly when the exact points are 
 construction. Solver-agnostic: the helper treats HiGHS and cuOpt identically.
 """
 
+import tempfile
+
 import numpy as np
 import pytest
 
+import mcp_server.server as srv
 from engine.explorer import _dominates_min, certify_against_exact
 from engine.models import Objective, Option, Problem, Run, Score, Solution
+from engine.store import Store
 
 
 def _problem(objectives):
@@ -165,3 +169,43 @@ def test_certify_next_steps_milp_points_to_binding_analysis():
     c = certify_against_exact(prob, _run([(8.0, 3.0)], objs),
                               _run([(10.0, 2.0)], objs, solver="highs", exact=True))
     assert "binding_analysis" in c["next_steps"] and "sensitivity" not in c["next_steps"]
+
+
+# ─── journey wiring: the read-side skill injects once per problem (regression) ───
+
+
+@pytest.fixture
+def srv_tmp_store(monkeypatch):
+    """Isolated temp store + cleared skill-injection tracking, for driving the certify handler
+    in mcp_server.server directly (mirrors the fixture in tests/test_server.py)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        monkeypatch.setattr(srv, "store", Store(tmpdir))
+        srv._injected_skills.clear()
+        yield
+
+
+def test_certify_injects_solution_interpreter_only_once_per_problem(srv_tmp_store):
+    """Regression: the certify branch must MARK solution_interpreter injected after surfacing it,
+    so a second certify on the same problem does not re-inject the full ~49KB skill body.
+
+    Reproduces the post-re-arm state where certify is the first action to inject the skill — a
+    structural model/update clears the injection flag while preserving both runs (server.py
+    ~line 583). That is the only path where the double-inject surfaced; in the normal journey the
+    first solve already injects+marks it, so certify suppresses correctly. Before the fix, both
+    certify responses carried `_skill_guidance`; after it, only the first does.
+    """
+    prob = _problem(_OBJS)                                                   # proportional mean-variance QP
+    prob.run = _run([(8.0, 3.0), (12.0, 5.0)], _OBJS)                        # exploratory NSGA frontier
+    prob.exact_run = _run([(10.0, 2.0)], _OBJS, solver="highs")             # exact overlay
+    srv.store.save(prob)
+    pid = prob.problem_id
+
+    assert not srv._was_injected(pid, "solution_interpreter")               # flag clear at certify time
+
+    first = srv.explore(action="certify", problem_id=pid)
+    assert "error" not in first
+    assert first.get("_skill_guidance", {}).get("skill") == "solution_interpreter"  # surfaced once...
+
+    second = srv.explore(action="certify", problem_id=pid)
+    assert "error" not in second
+    assert "_skill_guidance" not in second                                  # ...and never again

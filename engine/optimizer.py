@@ -825,12 +825,12 @@ def optimize(
     # stamps its own provenance on the Run. An explicitly requested exact solver that doesn't
     # fit the problem shape raises rather than silently degrading to NSGA — the same
     # no-silent-degradation contract the solve tool enforces.
-    from solvers import EXACT_SOLVERS, exact_solver_fits
+    from solvers import exact_solver_fits, is_exact_solver
 
     backend = (solver or "").strip().lower()
     if backend in ("", "nsga", "auto", "default"):
         backend = ""
-    elif backend in EXACT_SOLVERS:
+    elif is_exact_solver(backend):
         fits, reason = exact_solver_fits(problem)
         if not fits:
             raise ValueError(f"Exact solver '{backend}' does not fit this problem: {reason}")

@@ -93,3 +93,14 @@ def exact_solver_fits(problem: "Problem") -> tuple[bool, str]:
             "exact QP path"
         )
     return True, ""
+
+
+def is_exact_solver(solver: str | None) -> bool:
+    """Whether a solver name denotes an exact backend (vs the default heuristic NSGA).
+
+    The one place that answers "did/should an exact backend produce this?" — pass a
+    ``Run.solver`` or a requested backend name. Tolerates ``None``/empty (an unstamped or
+    legacy run counts as heuristic). Centralizes the ``EXACT_SOLVERS`` membership test so
+    every caller classifies runs the same way.
+    """
+    return (solver or "") in EXACT_SOLVERS

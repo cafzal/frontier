@@ -25,7 +25,7 @@ from engine.models import (
 )
 from engine.optimizer import optimize
 from engine.store import Store
-from solvers import available_solvers, exact_solver_fits
+from solvers import available_solvers, exact_solver_fits, is_exact_solver
 
 _HAS_HIGHS = importlib.util.find_spec("highspy") is not None
 
@@ -111,6 +111,12 @@ class TestSelectionSurface:
     def test_keys_present(self):
         avail = available_solvers()
         assert set(avail) == {"nsga", "highs", "cuopt"}
+
+    def test_is_exact_solver_classifies(self):
+        # The single classifier the explorer/server/optimizer all share.
+        assert is_exact_solver("highs") and is_exact_solver("cuopt")
+        assert not is_exact_solver("nsga-ii") and not is_exact_solver("nsga-iii")
+        assert not is_exact_solver(None) and not is_exact_solver("")
 
     def test_binary_fits_exact(self):
         fits, reason = exact_solver_fits(_binary_problem())
