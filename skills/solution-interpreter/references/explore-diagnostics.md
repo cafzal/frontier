@@ -50,6 +50,7 @@ The exact-overlay audit (`explorer.certify_against_exact`). Top-level fields:
 | `exact_certified` | bool | True only when a MILP overlay ran at a zero gap (`exact=true`) |
 | `nsga_count` / `exact_count` | int | Frontier sizes |
 | `dominance_audit` | obj | The heuristic slack exact catches (below) |
+| `coverage` | obj\|null | Hypervolume the overlay reclaims over NSGA alone (below); `null` on a degenerate flat-axis front |
 | `invariant` | obj | The NSGA-never-dominates check (below) |
 | `corner_sharpening` | dict | Per-objective exact-vs-NSGA best (below) |
 | `headline_corner` | str\|null | The objective whose corner exact sharpened most (usually the risk corner) |
@@ -63,6 +64,14 @@ The exact-overlay audit (`explorer.certify_against_exact`). Top-level fields:
 ```
 
 Count + fraction of NSGA "Pareto" points the exact frontier strictly dominates — points that looked efficient but a provably better mix exists. The fraction is the headline trust number; `examples` are concrete dominated→dominating pairs.
+
+### `coverage`
+
+```json
+{"nsga_hypervolume": 0.62, "combined_hypervolume": 0.74, "exact_reclaims": 0.12, "reclaimed_fraction": 0.16}
+```
+
+The hypervolume the exact overlay reclaims over the NSGA frontier alone — the *magnitude* behind the dominance count. All four values are normalized to [0,1] (the box, the same convention as a run's `hypervolume_normalized`), computed against a shared reference over the combined front so it is fair to both. `reclaimed_fraction` is the headline: it grows with problem size, and is near-zero on a small instance the heuristic already covers (exact confirms, doesn't expand). The whole block is `null` when the combined front is degenerate (a flat axis).
 
 ### `invariant`
 

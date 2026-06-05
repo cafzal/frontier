@@ -313,14 +313,16 @@ On MILP and LP, present the frontier-inferred estimate and name it as an estimat
 
 ### Reading the Certificate (explore certify)
 
-`explore certify` audits the exploratory NSGA frontier against an exact overlay (`solve(solver="highs"|"cuopt")`). It answers the **trust** question — *"how do I know nothing better exists, and are my picks provably near-optimal?"* — the auditor counterpart to the produce-side narration in `optimization_strategy`. Translate the pre-built `recommendation` / `next_steps`; don't echo them. Three blocks:
+`explore certify` audits the exploratory NSGA frontier against an exact overlay (`solve(solver="highs"|"cuopt")`). It answers the **trust** question — *"how do I know nothing better exists, and are my picks provably near-optimal?"* — the auditor counterpart to the produce-side narration in `optimization_strategy`. Translate the pre-built `recommendation` / `next_steps`; don't echo them. It certifies *per-scalarization optimality + dominance + coverage* — never that the whole frontier is provably optimal (no single optimum exists for a multi-objective problem), so keep the language scoped. Four blocks:
 
 *Dominance audit* — `dominance_audit.nsga_dominated_by_exact` / `nsga_dominated_fraction` / `examples`: the NSGA "Pareto" points the exact frontier strictly beats — heuristic slack the EA presented as efficient. The fraction is the headline trust number:
 - *"Exact audited the explored frontier: [N] of [M] points ([fraction]) are actually dominated — plans that looked efficient, but a provably better mix exists. Here's one: [examples]."*
 - Zero dominated is itself a result: *"Exact confirms every explored point is on the true frontier — the EA's picks hold up."*
 
-*Invariant* — `invariant.holds`: NSGA should dominate **no** exact point. When it holds, say so plainly — it's the strongest trust statement available:
-- *"NSGA dominates no exact point — exact can only confirm or improve, so the frontier you explored is sound."*
+*Coverage* — `coverage.reclaimed_fraction`: the hypervolume the exact overlay reclaims over NSGA alone — the magnitude behind the dominance count, and the trust number that grows with problem size. Lead with it at scale; near-zero is the honest small-instance result (the heuristic already covers the frontier — exact confirms, doesn't expand). When `coverage` is `null` the combined front is degenerate (a flat axis) — skip it and lean on the dominance fraction.
+
+*Invariant* — `invariant.holds`: NSGA should dominate **no** exact point. This is a *soundness check on the overlay* — an exact point is optimal for its scalarization (to the solver's gap), so NSGA shouldn't beat it; when it does, that's the rounding footnote below, not a heuristic win. Confirm it holds, but don't lead with it as a quality win — the substantive trust numbers are the dominance fraction and the coverage gain:
+- *"NSGA dominates no exact point — the overlay is sound; exact can only confirm or improve."*
 
 *Corner sharpening* — `corner_sharpening` is per-objective (`nsga_best`→`exact_best`, `improvement`, `status` ∈ `sharpened` | `matched` | `under-sampled`); `headline_corner` names the one that matters most (usually the convex risk/variance corner the decision turns on):
 - *"Exact sharpens the [headline_corner] corner the decision hinges on: [nsga_best] → [exact_best]. The EA got close; exact nails it."*

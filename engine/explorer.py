@@ -342,6 +342,38 @@ def _dominates_min(a: np.ndarray, b: np.ndarray, eps: float = 1e-9) -> bool:
     return bool(np.all(a <= b + eps) and np.any(a < b - eps))
 
 
+def _coverage_gain(N: np.ndarray, E: np.ndarray, seed: int = 42) -> dict | None:
+    """Hypervolume the exact overlay reclaims over the NSGA frontier alone — the *magnitude*
+    companion to the dominance *count*, and the coverage value that grows with problem size.
+
+    Both fronts arrive in minimize-space. Normalize the *combined* set into one shared [0, 1] box
+    so a single reference point is fair to both (hypervolume is reference-point dependent), then
+    Monte-Carlo the dominated volume of NSGA alone vs NSGA∪exact against the same reference and
+    sample. Same seed → identical samples → ``combined ≥ nsga`` exactly, so the reclaimed volume
+    is never a sampling artifact. Returns ``None`` when the combined front is degenerate (a flat
+    axis), where coverage is undefined. Volumes are normalized to the box (the engine's
+    ``hypervolume_normalized`` convention), so they read on the same 0–1 scale as a run's quality.
+    """
+    from engine.optimizer import _approx_hypervolume
+
+    P = np.vstack([N, E])
+    f_min = P.min(axis=0)
+    spread = P.max(axis=0) - f_min
+    if not np.all(spread > 0):
+        return None
+    ref = np.ones(P.shape[1]) * 1.1
+    hv_box = float(np.prod(ref))
+    hv_nsga = _approx_hypervolume((N - f_min) / spread, ref, seed=seed) / hv_box
+    hv_comb = _approx_hypervolume((P - f_min) / spread, ref, seed=seed) / hv_box
+    reclaimed = max(0.0, hv_comb - hv_nsga)  # combined ≥ nsga by construction (shared seed/samples); the clamp only absorbs FP noise
+    return {
+        "nsga_hypervolume": round(hv_nsga, 4),
+        "combined_hypervolume": round(hv_comb, 4),
+        "exact_reclaims": round(reclaimed, 4),
+        "reclaimed_fraction": round(reclaimed / hv_comb, 4) if hv_comb > 0 else 0.0,
+    }
+
+
 def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> dict:
     """Audit an approximate (NSGA) frontier against an exact-solver frontier — the
     explore-then-certify workflow made measurable. **Solver-agnostic:** the exact run can come
@@ -351,10 +383,13 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
     An exact inner solve is optimal for its scalarization (to a 0.1% gap; a certified zero gap with
     ``exact=True``), so overlaying exact points on the heuristic frontier can only **confirm or
     improve** it, never worsen it — exact acts as an *auditor*. This certificate makes that concrete
-    on three axes:
+    on four axes:
 
     - **Dominance audit** — how many NSGA points the exact frontier strictly dominates: heuristic
       slack, points presented as efficient that an exact solver beats at their own cost.
+    - **Coverage** — the hypervolume the exact overlay reclaims over the NSGA frontier alone: the
+      *magnitude* behind the dominance count, and the coverage value that grows with problem size
+      (near-zero on a small instance the heuristic already covers — exact confirms, doesn't expand).
     - **The invariant** — NSGA should dominate *no* exact point. A violation isn't a heuristic win
       (the exact point is optimal for its scalarization); it flags that the exact run *under-sampled*
       that region on its EA budget, so it's reported as a budget signal, not a defeat.
@@ -460,6 +495,8 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "certificate with the `solution_interpreter` skill ('Reading the Certificate')."
         )
 
+    coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
+
     return {
         "nsga_run_id": nsga_run.run_id,
         "exact_run_id": exact_run.run_id,
@@ -472,6 +509,7 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "nsga_dominated_fraction": round(len(dominated_idx) / len(N), 4) if len(N) else 0.0,
             "examples": examples,
         },
+        "coverage": coverage,
         "invariant": {
             "holds": exact_dominated == 0,
             "exact_dominated_by_nsga": exact_dominated,

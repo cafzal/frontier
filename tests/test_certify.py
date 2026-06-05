@@ -119,6 +119,83 @@ def test_empty_run_raises():
         certify_against_exact(prob, _run([], _OBJS), _run([(1.0, 1.0)], _OBJS))
 
 
+# ─── coverage (hypervolume the exact overlay reclaims) ───
+
+def test_coverage_reclaims_volume_when_exact_extends_the_front():
+    """When the exact overlay reaches a point that dominates/extends the NSGA front, it reclaims
+    hypervolume — the magnitude companion to the dominance count."""
+    prob = _problem(_OBJS)
+    nsga = _run([(10.0, 5.0)], _OBJS)                           # Return 10, Risk 5
+    exact = _run([(12.0, 3.0)], _OBJS, solver="highs")         # better on both → extends the front
+    c = certify_against_exact(prob, nsga, exact)
+    cov = c["coverage"]
+    assert cov is not None
+    assert 0.0 <= cov["reclaimed_fraction"] <= 1.0
+    assert cov["exact_reclaims"] > 0.0                          # exact expands the covered region
+    assert cov["combined_hypervolume"] >= cov["nsga_hypervolume"]
+
+
+def test_coverage_is_zero_when_exact_adds_nothing():
+    """When every exact point is already dominated by NSGA, the overlay reclaims no volume — the
+    honest small-instance result (exact confirms, doesn't expand). Here the 0 is geometric: NSGA
+    already dominates the exact point, so the union adds nothing."""
+    prob = _problem(_OBJS)
+    nsga = _run([(12.0, 3.0)], _OBJS)                           # dominates the exact point below
+    exact = _run([(10.0, 5.0)], _OBJS, solver="highs")
+    c = certify_against_exact(prob, nsga, exact)
+    assert c["coverage"]["exact_reclaims"] == 0.0
+    assert c["coverage"]["reclaimed_fraction"] == 0.0
+
+
+def test_coverage_none_on_degenerate_front():
+    """A combined front with a flat axis (no spread) has undefined coverage — reported as None,
+    not a divide-by-zero."""
+    prob = _problem(_OBJS)
+    c = certify_against_exact(prob, _run([(10.0, 5.0)], _OBJS),
+                              _run([(10.0, 5.0)], _OBJS, solver="highs"))
+    assert c["coverage"] is None
+
+
+def test_coverage_partial_reclaim_on_multi_point_fronts():
+    """The realistic regime: exact extends *part* of a multi-point NSGA front, so the reclaimed
+    fraction lands strictly between 0 and 1 — single-point fronts collapse to the trivial
+    box-origin case, so this locks the multi-point normalization the metric is built for."""
+    prob = _problem(_OBJS)
+    nsga = _run([(10.0, 5.0), (8.0, 4.0), (6.0, 2.0)], _OBJS)
+    exact = _run([(12.0, 3.0), (11.0, 2.5), (9.0, 1.8)], _OBJS, solver="highs")
+    cov = certify_against_exact(prob, nsga, exact)["coverage"]
+    assert cov is not None
+    assert 0.0 < cov["reclaimed_fraction"] < 1.0
+    assert cov["combined_hypervolume"] > cov["nsga_hypervolume"]
+
+
+def test_coverage_zero_reclaim_on_multi_point_fronts_when_nsga_dominates():
+    """Multi-point counterpart to the zero case: when the NSGA front dominates the whole exact
+    set, the union reclaims no volume — a genuine-geometry 0, not the single-point box-origin
+    degeneracy."""
+    prob = _problem(_OBJS)
+    nsga = _run([(12.0, 3.0), (11.0, 2.5), (9.0, 1.8)], _OBJS)   # dominates every exact point below
+    exact = _run([(10.0, 5.0), (8.0, 4.0), (6.0, 2.0)], _OBJS, solver="highs")
+    cov = certify_against_exact(prob, nsga, exact)["coverage"]
+    assert cov is not None
+    assert cov["exact_reclaims"] == 0.0 and cov["reclaimed_fraction"] == 0.0
+
+
+def test_coverage_handles_three_objectives():
+    """Coverage normalization is per-axis, so it must be dimension-agnostic — a 3-objective front
+    yields a valid in-[0,1] reclaim, not an indexing error."""
+    objs = [Objective(name="Return", direction="maximize", aggregation="avg"),
+            Objective(name="Risk", direction="minimize", aggregation="quadratic"),
+            Objective(name="Cost", direction="minimize", aggregation="sum")]
+    prob = _problem(objs)
+    nsga = _run([(10.0, 5.0, 9.0), (8.0, 4.0, 7.0)], objs)
+    exact = _run([(12.0, 3.0, 6.0), (11.0, 2.5, 8.0)], objs, solver="highs")
+    cov = certify_against_exact(prob, nsga, exact)["coverage"]
+    assert cov is not None
+    assert 0.0 <= cov["reclaimed_fraction"] <= 1.0
+    assert cov["combined_hypervolume"] >= cov["nsga_hypervolume"]
+
+
 # ─── integration: real solver, MILP invariant is strict ───
 
 def test_certify_milp_example_invariant_strict():

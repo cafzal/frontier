@@ -57,7 +57,7 @@ mcp = FastMCP(
         "Multi-objective portfolio optimization engine.\n\n"
         "WORKFLOW: model/create → model/update (objectives, options, scores, constraints) → solve/run → explore. "
         "For a FINAL/decision run on a supported shape (binary selection, or mean-variance QP), opt into an exact "
-        "solver — solve(solver=\"highs\"|\"cuopt\") — then `explore certify` to audit NSGA vs exact (dominance, the "
+        "solver — solve(solver=\"highs\"|\"cuopt\") — then `explore certify` to audit NSGA vs exact (dominance, coverage, the "
         "NSGA-never-dominates invariant, corner sharpening), then — on continuous/QP — `explore sensitivity` for "
         "solver-exact duals, then decide.\n\n"
         "Domain skills — problem_framing, data_collection, optimization_strategy, solution_interpreter — "
@@ -1112,7 +1112,7 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
         "full_result_path": str(full_result_path),
         "next_steps": (
             ("This is an exact overlay, stored alongside the exploratory NSGA frontier — run "
-             "`explore certify` (no params) to audit it: dominance audit, the NSGA-never-dominates "
+             "`explore certify` (no params) to audit it: dominance audit, coverage gain, the NSGA-never-dominates "
              "invariant, and per-objective corner sharpening. Then use "
              if is_exact_solver(run.solver) else "Use ")
             + "`explore tradeoffs` for the frontier overview, `explore solution <id>` for a "
@@ -1342,8 +1342,9 @@ def explore(
       compare_runs — Compare run history.
                    Requires: run_ids (list of 2+ run ID strings).
       certify    — Audit the exploratory NSGA frontier against the exact overlay: how many
-                   NSGA points the exact frontier dominates (heuristic slack), the invariant that
-                   NSGA dominates no exact point, and per-objective corner sharpening (strongest at
+                   NSGA points the exact frontier dominates (heuristic slack), the hypervolume
+                   coverage it reclaims, the invariant that NSGA dominates no exact point, and
+                   per-objective corner sharpening (strongest at
                    the convex risk/variance corner). The explore→certify workflow made measurable.
                    No params needed — audits `run` (NSGA) against `exact_run` (the exact
                    overlay), so the flow is: solve(), then solve(solver="highs"|"cuopt"), then
