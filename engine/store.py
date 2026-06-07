@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import tempfile
 from pathlib import Path
 
 from .models import Problem
@@ -22,7 +24,7 @@ class Store:
 
     def save(self, problem: Problem) -> None:
         path = self._path(problem.problem_id)
-        path.write_text(problem.model_dump_json(indent=2))
+        _atomic_write(path, problem.model_dump_json(indent=2))
 
     def load(self, problem_id: str) -> Problem:
         path = self._path(problem_id)
@@ -78,8 +80,31 @@ class Store:
         """Write a solve run's full result to disk and return the path."""
         path = self.run_result_path(problem_id, run_id, scenario=scenario)
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(payload, indent=2))
+        _atomic_write(path, json.dumps(payload, indent=2))
         return path
+
+
+def _atomic_write(path: Path, text: str) -> None:
+    """Write ``text`` to ``path`` atomically.
+
+    Writes a uniquely-named sibling temp file, then ``os.replace`` (an atomic
+    same-directory rename). A concurrent reader therefore never sees a
+    half-written file, and concurrent writers — e.g. a background solve worker
+    saving a run while a foreground ``model/update`` saves an edit — each get
+    their own temp file, so the only race left is which complete write wins the
+    rename (resolved at the engine layer by the solve worker's stale-guard).
+    """
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{path.name}.", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w") as f:
+            f.write(text)
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 
 _SAFE_ID = re.compile(r"^[A-Za-z0-9_-]+$")

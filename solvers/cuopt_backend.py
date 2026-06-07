@@ -356,20 +356,22 @@ def _optimize_cuopt(
     max_solutions: int | None = None,
     seed: int = 42,
     exact: bool = False,
+    time_limit: float | None = None,
 ) -> Run:
     """Delegate to the shared NSGA-scalarization engine with the cuOpt inner solves: binary →
     exact MILP per scalarization, proportional → exact convex QP per scalarization. Returns a
     ``Run`` in the engine's exact shape (identical to the NSGA paths). ``exact`` certifies each
-    MILP solve."""
+    MILP solve; ``time_limit`` (s) bounds the scalarization sweep (best-so-far on a cap)."""
     if problem.approach == Approach.binary:
         run = optimize_milp(problem, mode, inner_milp=_solve_milp_cuopt,
-                            max_solutions=max_solutions, seed=seed, exact=exact)
+                            max_solutions=max_solutions, seed=seed, exact=exact,
+                            time_limit=time_limit)
     else:
         # Scalable matrix build when enabled, else the GPU-verified term-by-term path.
         inner_qp = _solve_qp_cuopt_matrix if _USE_MATRIX_QP else _solve_qp_cuopt
         run = optimize_qp(problem, mode, inner_qp=inner_qp,
                           pop=_SPIKE_POP, gen=_SPIKE_GEN,
-                          max_solutions=max_solutions, seed=seed)
+                          max_solutions=max_solutions, seed=seed, time_limit=time_limit)
     # Provenance lives with the producer: stamp here so a direct call is labelled correctly,
     # not only when routed through optimize(). exact is a no-op on the always-exact QP path.
     run.solver, run.exact = "cuopt", exact

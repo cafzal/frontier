@@ -282,6 +282,8 @@ class Run(BaseModel):
     seed_used: int | None = None  # Deterministic RNG seed; echoed for reproducibility
     solver: str = "nsga-ii"  # engine that produced this run: nsga-ii / nsga-iii / highs / cuopt
     exact: bool = False  # MILP zero-gap certification was requested (no-op on the always-exact QP and on NSGA)
+    time_limit: float | None = None  # wall-clock cap (s) requested for this solve; None = uncapped
+    time_limited: bool = False  # True when the cap was hit, so this frontier is best-so-far, not fully converged
 
 
 # --- Feedback ---

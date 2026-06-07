@@ -6,6 +6,7 @@ import contextlib
 import hashlib
 import math
 import threading
+import time
 
 import numpy as np
 from pymoo.algorithms.moo.nsga2 import NSGA2
@@ -19,6 +20,9 @@ from pymoo.core.repair import Repair
 from pymoo.core.sampling import Sampling
 from pymoo.operators.sampling.rnd import BinaryRandomSampling, FloatRandomSampling
 from pymoo.optimize import minimize as pymoo_minimize
+from pymoo.termination.collection import TerminationCollection
+from pymoo.termination.max_gen import MaximumGenerationTermination
+from pymoo.termination.max_time import TimeBasedTermination
 from pymoo.util.nds.non_dominated_sorting import NonDominatedSorting
 from pymoo.util.ref_dirs import get_reference_directions
 
@@ -779,6 +783,33 @@ def _tune_parameters(problem: Problem, mode: OptimizeMode, seed_population: np.n
     return AlgClass(**alg_kwargs), n_gen
 
 
+def _build_termination(n_gen: int, time_limit: float | None):
+    """Termination for pymoo: the generation cap, optionally OR'd with a wall-clock cap.
+
+    ``TerminationCollection`` stops at whichever sub-criterion fires first (its progress is
+    the max over members), so a ``time_limit`` bounds a long ``thorough`` run without
+    truncating a fast one that converges by generation count first. None → the plain
+    ``("n_gen", n_gen)`` tuple, i.e. the prior behavior unchanged.
+    """
+    if time_limit and time_limit > 0:
+        return TerminationCollection(
+            MaximumGenerationTermination(n_gen),
+            TimeBasedTermination(float(time_limit)),
+        )
+    return ("n_gen", n_gen)
+
+
+def _was_time_limited(time_limit: float | None, elapsed: float) -> bool:
+    """True only when the wall-clock cap actually cut the search short (best-so-far frontier).
+
+    pymoo's ``TimeBasedTermination`` fires at the first generation boundary where elapsed
+    reaches the cap, so a *time*-terminated run measures ``elapsed >= time_limit`` while a run
+    that *converged* by generation count first stops below the cap. Keying on that threshold
+    (not a fractional margin) avoids mislabeling a run that merely happened to finish near its
+    cap. ``time_limit <= 0`` is uncapped (``_build_termination`` ignores it), so never limited."""
+    return bool(time_limit) and time_limit > 0 and elapsed >= time_limit
+
+
 def optimize(
     problem: Problem,
     mode: OptimizeMode | None = None,
@@ -786,6 +817,7 @@ def optimize(
     seed: int | None = None,
     exact: bool = False,
     solver: str | None = None,
+    time_limit: float | None = None,
 ) -> Run:
     """Validate and run multi-objective optimization. Returns a Run with solutions.
 
@@ -806,6 +838,12 @@ def optimize(
     exact: exact backends only — certify each MILP scalarization (gap→0, accept only a
     proven-Optimal status) instead of the default gap/time-bounded solve. Slower; lets a
     run trade speed for certified optimality. No-op on the NSGA paths.
+
+    time_limit: optional wall-clock cap in seconds. On the NSGA path it is OR'd with the
+    generation budget (stop at whichever fires first); on an exact path it bounds the
+    scalarization sweep. When the cap is hit the returned frontier is best-so-far and the
+    Run is flagged ``time_limited`` (each exact point is still optimal for its scalarization
+    — only coverage is partial). None = uncapped (the prior behavior).
 
     The chosen engine is recorded on ``Run.solver`` (and ``Run.exact``) so results stay
     traceable to how they were produced.
@@ -836,16 +874,20 @@ def optimize(
             raise ValueError(f"Exact solver '{backend}' does not fit this problem: {reason}")
         if backend == "cuopt":
             from solvers.cuopt_backend import _optimize_cuopt
-            return _optimize_cuopt(problem, mode, max_solutions=max_solutions, seed=seed, exact=exact)
+            return _optimize_cuopt(problem, mode, max_solutions=max_solutions, seed=seed,
+                                   exact=exact, time_limit=time_limit)
         from solvers.highs_backend import _optimize_highs
-        return _optimize_highs(problem, mode, max_solutions=max_solutions, seed=seed, exact=exact)
+        return _optimize_highs(problem, mode, max_solutions=max_solutions, seed=seed,
+                               exact=exact, time_limit=time_limit)
     else:
         raise ValueError(f"Unknown solver '{solver}'. Use 'nsga' (default), 'highs', or 'cuopt'.")
 
     if problem.approach == Approach.proportional:
-        run = _optimize_proportional(problem, mode, max_solutions=max_solutions, seed=seed)
+        run = _optimize_proportional(problem, mode, max_solutions=max_solutions, seed=seed,
+                                     time_limit=time_limit)
     else:
-        run = _optimize_binary(problem, mode, max_solutions=max_solutions, seed=seed)
+        run = _optimize_binary(problem, mode, max_solutions=max_solutions, seed=seed,
+                               time_limit=time_limit)
     run.solver = "nsga-iii" if len(problem.objectives) >= 4 else "nsga-ii"
     return run
 
@@ -1008,6 +1050,7 @@ def optimize_scenarios(
     seed: int | None = None,
     exact: bool = False,
     solver: str | None = None,
+    time_limit: float | None = None,
 ) -> dict[str, Run]:
     """Run optimization independently per scenario. Returns {scenario_name: Run}.
 
@@ -1037,7 +1080,7 @@ def optimize_scenarios(
             scenario_seed = (seed + name_hash) % (2**31 - 1)
         return scenario.name, optimize(
             scenario_problem, mode=mode, max_solutions=max_solutions, seed=scenario_seed,
-            exact=exact, solver=solver,
+            exact=exact, solver=solver, time_limit=time_limit,
         )
 
     with ThreadPoolExecutor(max_workers=len(problem.scenario_config.scenarios)) as pool:
@@ -1114,6 +1157,7 @@ def _optimize_binary(
     mode: OptimizeMode,
     max_solutions: int | None = None,
     seed: int = 42,
+    time_limit: float | None = None,
 ) -> Run:
     """Binary mode: pick K of N options."""
     n_options = len(problem.options)
@@ -1132,9 +1176,11 @@ def _optimize_binary(
     algorithm, n_gen = _tune_parameters(problem, mode, seed_population=seeds if len(seeds) > 0 else None)
 
     with _seeded_rng_fallback(seed):  # make pymoo's unseeded survival/selection RNG deterministic
+        t0 = time.monotonic()
         result = pymoo_minimize(
-            pymoo_problem, algorithm, ("n_gen", n_gen), seed=seed, verbose=False,
+            pymoo_problem, algorithm, _build_termination(n_gen, time_limit), seed=seed, verbose=False,
         )
+        elapsed = time.monotonic() - t0
 
     # Elite preservation: union extreme-point seeds with result, keep Pareto front.
     union_X, union_F = _union_with_elites(result, pymoo_problem, seeds if len(seeds) > 0 else None)
@@ -1160,6 +1206,8 @@ def _optimize_binary(
         quality=_compute_quality(result, seed=seed),
         mode=mode,
         seed_used=seed,
+        time_limit=time_limit,
+        time_limited=_was_time_limited(time_limit, elapsed),
     )
 
 
@@ -1168,6 +1216,7 @@ def _optimize_proportional(
     mode: OptimizeMode,
     max_solutions: int | None = None,
     seed: int = 42,
+    time_limit: float | None = None,
 ) -> Run:
     """Proportional mode: allocate integer percentages (0-100, sum to 100)."""
     n_options = len(problem.options)
@@ -1186,9 +1235,11 @@ def _optimize_proportional(
     algorithm, n_gen = _tune_parameters(problem, mode, seed_population=seeds if len(seeds) > 0 else None)
 
     with _seeded_rng_fallback(seed):  # make pymoo's unseeded survival/selection RNG deterministic
+        t0 = time.monotonic()
         result = pymoo_minimize(
-            pymoo_problem, algorithm, ("n_gen", n_gen), seed=seed, verbose=False,
+            pymoo_problem, algorithm, _build_termination(n_gen, time_limit), seed=seed, verbose=False,
         )
+        elapsed = time.monotonic() - t0
 
     # Elite preservation: union extreme-point seeds with result, keep Pareto front.
     union_X, union_F = _union_with_elites(result, pymoo_problem, seeds if len(seeds) > 0 else None)
@@ -1244,6 +1295,8 @@ def _optimize_proportional(
         quality=_compute_quality(result, seed=seed),
         mode=mode,
         seed_used=seed,
+        time_limit=time_limit,
+        time_limited=_was_time_limited(time_limit, elapsed),
     )
 
 

@@ -32,6 +32,21 @@ The solve phase has its own sub-workflow:
 
 The examine step is where most iteration happens. Few solutions? Constraints too tight — relax and re-run. Solutions clustered? Objectives may be correlated — consolidate and re-run. Key option never selected? Check its scores — adjust and re-run.
 
+### Long Solves Run in the Background
+
+A solve that doesn't finish within a short inline window — typically **thorough**, **exact** (`highs`/`cuopt`), or a large problem — returns a handle, not a frontier: `{status:"running", job_id, label, elapsed_s}`. This is the **normal** path for heavy runs, not an error or a failure. Quick exploratory runs still return their frontier inline as before.
+
+When you get a running handle:
+- **Poll** `solve(action="status", job_id=<id>)` until `status` becomes `"complete"` (then you get the full result — frontier preview, quality, the `solution_interpreter` skill — exactly as an inline solve) or `"error"`.
+- **Narrate, don't stall.** Between polls, tell the user it's optimizing and roughly how long it's been (`elapsed_s`, `label`) — e.g. *"Running the exact solve; ~40s in."* Never present or reason about results while a solve is still running.
+- **Results persist.** The run is saved as soon as it completes, so `explore` works even if a poll was interrupted — re-poll or just `explore` once you know it finished.
+- **Kick off and keep talking.** For a run you already expect to be long (a final thorough/exact pass), pass `wait_seconds=0` to get the handle immediately and keep the conversation moving while it solves.
+- **`stale`** means the problem was edited while the solve ran, so the frontier no longer matches the model — nothing was overwritten; just re-run.
+
+### Bounding a Run (time_limit)
+
+`time_limit` (seconds) caps a run's wall clock — useful to bound a thorough/exact pass or keep cost predictable. The solve stops at its normal budget *or* the cap, whichever comes first. A capped run is flagged **`time_limited: true`** and returns its **best-so-far** frontier: present it as a *partial* result — don't claim full convergence or full coverage, and offer to re-run uncapped (or with a higher cap) for the complete frontier. On an exact run a cap only thins *coverage* (fewer scalarizations sampled); each point returned is still optimal for its scalarization, so per-point optimality claims still hold — only "this is the whole frontier" does not.
+
 ## Core Judgment
 
 ### Approach Selection

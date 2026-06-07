@@ -16,8 +16,13 @@ Injection map:
 from __future__ import annotations
 
 import functools
+import hashlib
 import json
 import os
+import threading
+import uuid
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -60,6 +65,10 @@ mcp = FastMCP(
         "solver — solve(solver=\"highs\"|\"cuopt\") — then `explore certify` to audit NSGA vs exact (dominance, coverage, the "
         "NSGA-never-dominates invariant, corner sharpening), then — on continuous/QP — `explore sensitivity` for "
         "solver-exact duals, then decide.\n\n"
+        "LONG SOLVES RUN IN THE BACKGROUND: a slow solve/run (thorough, exact, or large) returns "
+        "{status:\"running\", job_id} instead of blocking — poll solve(action=\"status\", job_id=...) until "
+        "status=\"complete\". This is normal; narrate progress to the user between polls and never claim "
+        "results while a solve is still running.\n\n"
         "Domain skills — problem_framing, data_collection, optimization_strategy, solution_interpreter — "
         "are the canonical guides. data_collection / optimization_strategy / solution_interpreter "
         "auto-inject into tool responses at phase transitions. "
@@ -158,6 +167,182 @@ def _inject_skill(result: dict, skill_name: str, reason: str) -> dict:
             "content": content,
         }
     return result
+
+
+# ─── Long-running solve jobs ───
+#
+# FastMCP runs *sync* tool functions directly on the asyncio event loop, so a 150 s
+# optimize() blocks the whole server (no pings/keepalive, no other calls) AND blows the
+# client's per-call timeout — the turn dies before the solve returns. So `solve run`
+# dispatches the heavy optimize+persist to a worker thread, waits inline only a short
+# budget, and otherwise hands back a {status:"running", job_id} handle the agent polls via
+# `solve status`. Fast solves still finish within the wait and return inline (unchanged).
+# The worker persists the run, so results survive even if polling is interrupted.
+# Determinism holds: the optimizer's seeded-RNG shim is thread-local, and optimize_scenarios
+# already runs solves off-thread the same way.
+
+_SOLVE_WAIT_SECONDS = float(os.environ.get("FRONTIER_SOLVE_WAIT_SECONDS", "10"))  # inline budget
+_SOLVE_WAIT_CAP = float(os.environ.get("FRONTIER_SOLVE_WAIT_CAP", "60"))          # max caller-set wait
+_SOLVE_WORKERS = int(os.environ.get("FRONTIER_SOLVE_WORKERS", "4"))
+_SOLVE_JOB_TTL = float(os.environ.get("FRONTIER_SOLVE_JOB_TTL", "3600"))          # keep finished jobs (s)
+
+
+@dataclass
+class SolveJob:
+    job_id: str
+    problem_id: str
+    action: str            # "run" | "run_scenarios"
+    label: str             # human phase label for progress narration, e.g. "solve: highs thorough"
+    started_at: datetime
+    done: threading.Event
+    status: str = "running"      # running | complete | error
+    result: dict | None = None   # delivered payload (success / infeasible / stale)
+    error: str | None = None     # unexpected worker crash only (optimize errors are caught in-body)
+    finished_at: datetime | None = None
+    delivered: bool = False      # once-guard for delivery side effects (skill injection)
+
+
+_solve_jobs: dict[str, SolveJob] = {}
+_solve_jobs_lock = threading.Lock()
+_solve_pool = ThreadPoolExecutor(max_workers=_SOLVE_WORKERS, thread_name_prefix="frontier-solve")
+
+# Serializes the read-modify-write a solve worker does to attach its run to the stored problem.
+# Concurrent same-problem background solves are a normal flow (run NSGA, then run an exact
+# overlay) — without this their load→modify→save could interleave and lose one run. Held only
+# for the brief persist, on the worker thread; foreground edits made *during* a solve are caught
+# separately by the fingerprint stale-guard.
+_store_write_lock = threading.Lock()
+
+# Problem fields that determine a solve's result. If any change while a background solve runs,
+# the computed frontier no longer matches the stored problem, so the worker reports `stale`
+# rather than overwriting the concurrent edit (results/curation/etc. are deliberately excluded).
+_SOLVE_INPUT_FIELDS = {
+    "approach", "objectives", "options", "scores", "constraints",
+    "interaction_matrices", "scenario_config",
+}
+
+
+def _solve_fingerprint(p: Problem) -> str:
+    payload = p.model_dump(mode="json", include=_SOLVE_INPUT_FIELDS)
+    return hashlib.md5(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
+
+
+def _solve_label(action: str, mode: OptimizeMode | None, solver: str | None,
+                 exact: bool, time_limit: float | None) -> str:
+    parts = [f"{solver or 'nsga'} {(mode.value if mode else 'fast')}"]
+    if exact and solver:
+        parts.append("exact-certified")
+    if time_limit:
+        parts.append(f"≤{time_limit:g}s")
+    base = "scenarios" if action == "run_scenarios" else "solve"
+    return f"{base}: {' '.join(parts)}"
+
+
+def _resolve_wait(wait_seconds: float | None) -> float:
+    if wait_seconds is None:
+        return _SOLVE_WAIT_SECONDS
+    return max(0.0, min(float(wait_seconds), _SOLVE_WAIT_CAP))
+
+
+def _reap_jobs() -> None:
+    """Evict finished jobs past their TTL so the registry can't grow unbounded. Called (under
+    the lock) when a new job is registered — cheap, and recent results stay pollable."""
+    now = datetime.now(timezone.utc)
+    expired = [jid for jid, j in _solve_jobs.items()
+               if j.finished_at and (now - j.finished_at).total_seconds() > _SOLVE_JOB_TTL]
+    for jid in expired:
+        _solve_jobs.pop(jid, None)
+
+
+def _running_handle(job: SolveJob) -> dict:
+    elapsed = (datetime.now(timezone.utc) - job.started_at).total_seconds()
+    return {
+        "status": "running",
+        "job_id": job.job_id,
+        "problem_id": job.problem_id,
+        "action": job.action,
+        "label": job.label,
+        "started_at": job.started_at.isoformat(),
+        "elapsed_s": round(elapsed, 1),
+        "poll_with": f"solve(action='status', job_id='{job.job_id}')",
+        "note": (
+            f"Solve is running in the background ({job.label}) — expected for thorough, exact, "
+            "or large problems. Poll `solve status` with this job_id until status is 'complete'; "
+            "the run is persisted, so `explore` works once it finishes. Between polls, tell the "
+            "user it's optimizing and how long it's taken so far — don't claim results yet."
+        ),
+    }
+
+
+def _deliver(problem_id: str, job: SolveJob) -> dict:
+    """Render a finished job for return. Adds job_id + a status that reflects the OUTCOME
+    (complete / infeasible / error / stale), and on a successful solve injects
+    solution_interpreter once per problem + re-arms optimization_strategy — the same throttle
+    the old inline _solve_run applied, now at delivery time (inline-complete or status), always
+    on a request thread (never the worker), so the injection state stays single-threaded. The
+    injection/reset side effects fire once per job (`delivered`), so re-polling a finished job
+    is a pure read and can't re-arm/suppress guidance for a later model cycle."""
+    if job.status == "error":  # unexpected worker crash
+        return {"status": "error", "job_id": job.job_id, "feasible": False, "error": job.error}
+    result = dict(job.result or {})
+    result["job_id"] = job.job_id
+    succeeded = "run_id" in result or "scenarios_optimized" in result
+    if "status" not in result:  # stale already sets its own; classify the rest by outcome
+        result["status"] = ("complete" if succeeded
+                            else "error" if result.get("error")
+                            else "infeasible")
+    if succeeded and not job.delivered:  # a real frontier was produced, first delivery only
+        if not _was_injected(problem_id, "solution_interpreter"):
+            _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
+            _mark_injected(problem_id, "solution_interpreter")
+        _reset_injection(problem_id, "optimization_strategy")
+    job.delivered = True
+    return result
+
+
+def _solve_dispatch(p: Problem, action: str, work_fn, *, label: str,
+                    wait_seconds: float | None) -> dict:
+    """Run ``work_fn`` (the heavy solve+persist) in a worker thread, wait inline up to the
+    resolved budget, and return the full result if it finished — else a running handle to poll."""
+    job = SolveJob(
+        job_id=uuid.uuid4().hex,
+        problem_id=p.problem_id,
+        action=action,
+        label=label,
+        started_at=datetime.now(timezone.utc),
+        done=threading.Event(),
+    )
+    with _solve_jobs_lock:
+        _reap_jobs()
+        _solve_jobs[job.job_id] = job
+
+    def _runner() -> None:
+        try:
+            job.result = work_fn()
+            job.status = "complete"
+        except Exception as e:  # optimize errors are caught in-body; this is an unexpected crash
+            job.status = "error"
+            job.error = str(e)
+        finally:
+            job.finished_at = datetime.now(timezone.utc)
+            job.done.set()
+
+    _solve_pool.submit(_runner)
+    if job.done.wait(timeout=_resolve_wait(wait_seconds)):
+        return _deliver(p.problem_id, job)
+    return _running_handle(job)
+
+
+def _solve_status(job_id: str | None) -> dict:
+    if not job_id:
+        return {"error": "status requires a job_id (from a prior solve run/run_scenarios response)."}
+    with _solve_jobs_lock:
+        job = _solve_jobs.get(job_id)
+    if job is None:
+        return {"error": f"No solve job '{job_id}'. It may have expired (TTL) or the id is wrong."}
+    if not job.done.is_set():
+        return _running_handle(job)
+    return _deliver(job.problem_id, job)
 
 
 # ─── Skills as resources ───
@@ -881,12 +1066,15 @@ def _parse_constraint(c: dict | Constraint) -> Constraint:
 @mcp.tool()
 def solve(
     action: str,
-    problem_id: str,
+    problem_id: str | None = None,
     mode: str | None = None,
     max_solutions: int | None = None,
     seed: int | None = None,
     solver: str | None = None,
     exact: bool = False,
+    time_limit: float | None = None,
+    wait_seconds: float | None = None,
+    job_id: str | None = None,
 ) -> dict:
     """Validate and run the optimizer.
 
@@ -895,13 +1083,24 @@ def solve(
     per problem. See the `model` docstring for `_skill_guidance` shape and the
     once-per-problem throttle.
 
+    Long solves run in the BACKGROUND. A `run`/`run_scenarios` that doesn't finish within a
+    short inline budget (~10s — thorough, exact, or large problems) returns
+    `{status:"running", job_id}` instead of blocking; poll `solve status` with that job_id
+    until `status="complete"`, then you get the normal result. Fast solves still return inline.
+    The solve always completes and persists in the background, so `explore` works once it's done.
+
     Actions:
       validate       — Check if problem is ready. Returns issues, missing scores, and the
                        available solvers (`solvers` block) for this environment.
-      run            — Validate, then optimize. Returns Pareto frontier + solution_interpreter skill.
+      run            — Validate, then optimize. Returns the Pareto frontier (+ solution_interpreter
+                       skill), OR a {status:"running", job_id} handle to poll (see above).
                        Side effects: archives the previous run; clears results_stale; persists full
                        results to full_result_path on disk.
       run_scenarios  — Run optimization independently per scenario. Requires scenario_config.
+                       May also return a running handle to poll.
+      status         — Poll a background solve by `job_id`. Returns status="running" (with
+                       elapsed_s) until done, then the full solve result. A "stale" status means
+                       the problem was edited mid-solve (nothing was overwritten) — re-run.
 
     Args:
       mode: "fast" (default) for quick exploration iterations, "thorough" for
@@ -931,15 +1130,37 @@ def solve(
       exact: Exact backends only — certify each MILP inner solve to a zero optimality gap
             instead of the default speed-oriented bounded solve. Slower; use when stakeholders
             need certified optimality. No-op on the always-exact QP and on the default NSGA path.
+      time_limit: Optional wall-clock cap in seconds for a `run`/`run_scenarios`. The search
+            stops at the generation/scalarization budget OR this cap, whichever fires first; a
+            capped run returns its best-so-far frontier flagged `time_limited` (on an exact run
+            each returned point is still optimal for its scalarization — only coverage is partial).
+            It bounds the main search (a strong bound, not a hard deadline: on an exact run a small
+            bounded setup phase isn't counted). Omit for an uncapped run. Pairs with backgrounding:
+            bound a long run, or keep cost predictable. Present a `time_limited` result as partial —
+            don't claim full convergence.
+      wait_seconds: How long to block inline for the solve before handing back a background job
+            handle. Default ~10s. Pass 0 to get the handle immediately (for a known-long run, so
+            you can keep talking to the user while it solves). The solve runs to completion in the
+            background regardless of this value.
+      job_id: For action="status" only — the id from a running solve's response.
 
     Key guidance:
     - Expect iteration: first run is exploration, not the answer.
     - Use "fast" while refining scores/constraints, "thorough" when finalized.
+    - Long solves background and return {status:"running", job_id} — poll `solve status` until
+      complete. This is normal. Narrate progress to the user between polls; never claim results
+      while a solve is still running.
     - Default NSGA explores; opt into an exact `solver` for provable optimality on a final run.
     - If zero solutions: check cardinality constraints and objective bounds for conflicts.
     - After re-run: check explore/curated to see which curated solutions survived.
     - 5-10 solutions is healthy; very few = constraints too tight.
     """
+    # `status` polls a background job by id and needs no problem load — handle it first.
+    if action == "status":
+        return _solve_status(job_id)
+
+    if problem_id is None:
+        return {"error": f"Action '{action}' requires a problem_id."}
     try:
         p = store.load(problem_id)
     except FileNotFoundError:
@@ -965,12 +1186,14 @@ def solve(
             return result
         case "run":
             return _solve_run(p, opt_mode, max_solutions=max_solutions, seed=seed,
-                              solver=solver, exact=exact)
+                              solver=solver, exact=exact, time_limit=time_limit,
+                              wait_seconds=wait_seconds)
         case "run_scenarios":
             return _solve_run_scenarios(p, opt_mode, max_solutions=max_solutions, seed=seed,
-                                        solver=solver, exact=exact)
+                                        solver=solver, exact=exact, time_limit=time_limit,
+                                        wait_seconds=wait_seconds)
         case _:
-            return {"error": f"Unknown action: {action}. Use validate/run/run_scenarios."}
+            return {"error": f"Unknown action: {action}. Use validate/run/run_scenarios/status."}
 
 
 def _solver_availability(p: Problem) -> dict:
@@ -1020,7 +1243,11 @@ def _resolve_solver(p: Problem, solver: str | None) -> tuple[str | None, dict | 
 
 
 def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int | None = None,
-               seed: int | None = None, solver: str | None = None, exact: bool = False) -> dict:
+               seed: int | None = None, solver: str | None = None, exact: bool = False,
+               time_limit: float | None = None, wait_seconds: float | None = None) -> dict:
+    """Validate + resolve the solver inline (fast, immediate errors), then dispatch the heavy
+    optimize+persist to a background worker. Returns the full result if it finishes within the
+    inline wait, else a {status:"running", job_id} handle to poll via `solve status`."""
     vr = optimizer.validate(p)
     if not vr.ready:
         vr_data = json.loads(vr.model_dump_json())
@@ -1030,46 +1257,73 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
     if solver_err:
         return solver_err
 
+    fingerprint = _solve_fingerprint(p)
+    label = _solve_label("run", mode, solver, exact, time_limit)
+    return _solve_dispatch(
+        p, "run",
+        lambda: _solve_run_body(p, fingerprint, mode=mode, max_solutions=max_solutions,
+                                seed=seed, solver=solver, exact=exact, time_limit=time_limit),
+        label=label, wait_seconds=wait_seconds,
+    )
+
+
+def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None = None,
+                    max_solutions: int | None = None, seed: int | None = None,
+                    solver: str | None = None, exact: bool = False,
+                    time_limit: float | None = None) -> dict:
+    """Heavy solve body — runs in a worker thread. Optimizes the dispatch snapshot, then
+    re-loads the problem and (only if its solve-inputs are unchanged) attaches the run and
+    persists. Skill injection is deliberately NOT here — `_deliver` does it on the request
+    thread so the once-per-problem throttle stays single-threaded."""
     try:
         run = optimizer.optimize(p, mode=mode, max_solutions=max_solutions, seed=seed,
-                                 solver=solver, exact=exact)
+                                 solver=solver, exact=exact, time_limit=time_limit)
     except Exception as e:
         return {"feasible": False, "error": str(e)}
 
-    if not run.solutions:
-        analysis = optimizer.analyze_infeasibility(p)
-        return {
-            "feasible": False,
-            **analysis,
-        }
-
-    # Snapshot constraints on the run
-    run.constraints_snapshot = [c.model_dump() for c in p.constraints]
-
-    # An exact solve is an *overlay* — store it in exact_run and leave the
-    # exploratory `run` (NSGA) intact, so a problem can hold both frontiers at once
-    # (explore-with-EA, then certify). A default/NSGA run replaces `run` and archives
-    # the prior one for comparison.
-    #
-    # A solve only refreshes the frontier it produces. If results were stale (the
-    # problem was edited since the last solve), the *other* stored frontier predates
-    # that edit and is no longer valid — drop it, so clearing results_stale below
-    # doesn't vouch for a frontier that no longer matches the problem.
+    # Persist (and interpret the result) against the CURRENT stored problem — a background
+    # solve can outlive a concurrent edit. The lock serializes this read-modify-write against
+    # another background solve on the same problem (the normal "run NSGA, then run an exact
+    # overlay" flow), so two runs can't lose each other. If the solve-inputs changed while we
+    # ran, the frontier no longer matches the model: report `stale` and save nothing rather than
+    # clobbering the edit — the gate also covers the infeasible result, so a concurrent edit that
+    # changed feasibility isn't reported as a stale "infeasible".
     from solvers import is_exact_solver
 
-    was_stale = p.results_stale
-    if is_exact_solver(run.solver):
-        p.exact_run = run
-        if was_stale:
-            p.run = None
-    else:
-        if p.run is not None:
-            p.runs.append(p.run)
-        p.run = run
-        if was_stale:
-            p.exact_run = None
-    p.results_stale = False
-    store.save(p)
+    with _store_write_lock:
+        p = store.load(p.problem_id)
+        if _solve_fingerprint(p) != fingerprint:
+            return {
+                "status": "stale",
+                "stale": True,
+                "note": ("The problem was edited while this solve was running, so the frontier no "
+                         "longer matches the current model. Nothing was overwritten — re-run solve."),
+            }
+        if run.solutions:
+            # Snapshot constraints from the (unchanged) solved state.
+            run.constraints_snapshot = [c.model_dump() for c in p.constraints]
+            # An exact solve is an *overlay* — store it in exact_run and leave the exploratory
+            # `run` (NSGA) intact, so a problem can hold both frontiers at once (explore-with-EA,
+            # then certify). A default/NSGA run replaces `run` and archives the prior one. A solve
+            # only refreshes the frontier it produces; if results were stale the *other* stored
+            # frontier predates that edit and is dropped, so clearing results_stale below doesn't
+            # vouch for a frontier that no longer matches.
+            was_stale = p.results_stale
+            if is_exact_solver(run.solver):
+                p.exact_run = run
+                if was_stale:
+                    p.run = None
+            else:
+                if p.run is not None:
+                    p.runs.append(p.run)
+                p.run = run
+                if was_stale:
+                    p.exact_run = None
+            p.results_stale = False
+            store.save(p)
+
+    if not run.solutions:
+        return {"feasible": False, **optimizer.analyze_infeasibility(p)}
 
     # Persist the full run result to disk so agents can consume it without
     # pulling the whole payload into context. Path is returned in the response.
@@ -1090,6 +1344,8 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
         "seed_used": run.seed_used,
         "solver_used": run.solver,
         "exact": run.exact,
+        "time_limit": run.time_limit,
+        "time_limited": run.time_limited,
     }
     full_result_path = store.write_run_result(p.problem_id, run.run_id, full_payload)
 
@@ -1102,6 +1358,8 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
         "seed_used": run.seed_used,
         "solver_used": run.solver,
         "exact": run.exact,
+        "time_limit": run.time_limit,
+        "time_limited": run.time_limited,
         "objective_ranges": _objective_ranges(run.solutions, p.objectives),
         "preview": _solve_preview(run.solutions, p.objectives),
         "quality": json.loads(run.quality.model_dump_json()),
@@ -1123,14 +1381,7 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
             "is the preferred path for anything beyond a few dozen solutions.)"
         ),
     }
-
-    # Inject solution_interpreter once per problem (until structural change resets it).
-    if not _was_injected(p.problem_id, "solution_interpreter"):
-        _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
-        _mark_injected(p.problem_id, "solution_interpreter")
-    # Reset optimization_strategy so it can re-fire on the next model change cycle
-    _reset_injection(p.problem_id, "optimization_strategy")
-
+    # Skill injection happens in `_deliver` (request thread), not here in the worker.
     return result
 
 
@@ -1179,7 +1430,10 @@ def _solve_preview(solutions: list, objectives: list) -> dict:
 
 
 def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solutions: int | None = None,
-                         seed: int | None = None, solver: str | None = None, exact: bool = False) -> dict:
+                         seed: int | None = None, solver: str | None = None, exact: bool = False,
+                         time_limit: float | None = None, wait_seconds: float | None = None) -> dict:
+    """Validate inline, then dispatch per-scenario optimization to a background worker. Returns
+    the full per-scenario summary if it finishes within the inline wait, else a running handle."""
     vr = optimizer.validate(p)
     if not vr.ready:
         vr_data = json.loads(vr.model_dump_json())
@@ -1189,15 +1443,52 @@ def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solut
     if solver_err:
         return solver_err
 
+    # Fail fast inline on a missing scenario config (mirrors optimize_scenarios' own checks),
+    # so a config mistake is an immediate error, not a dispatched-then-failed job.
+    sc = p.scenario_config
+    if not (sc and sc.enabled):
+        return {"error": "Scenario config not enabled."}
+    if not sc.scenarios:
+        return {"error": "No scenarios defined."}
+
+    fingerprint = _solve_fingerprint(p)
+    label = _solve_label("run_scenarios", mode, solver, exact, time_limit)
+    return _solve_dispatch(
+        p, "run_scenarios",
+        lambda: _solve_run_scenarios_body(p, fingerprint, mode=mode, max_solutions=max_solutions,
+                                          seed=seed, solver=solver, exact=exact, time_limit=time_limit),
+        label=label, wait_seconds=wait_seconds,
+    )
+
+
+def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None = None,
+                              max_solutions: int | None = None, seed: int | None = None,
+                              solver: str | None = None, exact: bool = False,
+                              time_limit: float | None = None) -> dict:
+    """Heavy per-scenario solve body — runs in a worker thread. Skill injection happens at
+    delivery (`_deliver`), not here."""
     try:
         scenario_results = optimizer.optimize_scenarios(p, mode=mode, max_solutions=max_solutions,
-                                                        seed=seed, solver=solver, exact=exact)
+                                                        seed=seed, solver=solver, exact=exact,
+                                                        time_limit=time_limit)
     except ValueError as e:
         return {"error": str(e)}
 
-    p.scenario_run = ScenarioRun(scenario_runs=scenario_results)
-    p.results_stale = False
-    store.save(p)
+    # Persist against the current stored problem (a background run can outlive an edit), under
+    # the lock so a concurrent same-problem background solve can't interleave its read-modify-
+    # write. Stale check guards against a mid-solve edit, same as the single-run body.
+    with _store_write_lock:
+        p = store.load(p.problem_id)
+        if _solve_fingerprint(p) != fingerprint:
+            return {
+                "status": "stale",
+                "stale": True,
+                "note": ("The problem was edited while these scenarios were solving, so the results no "
+                         "longer match the current model. Nothing was overwritten — re-run."),
+            }
+        p.scenario_run = ScenarioRun(scenario_runs=scenario_results)
+        p.results_stale = False
+        store.save(p)
 
     summary = {}
     result_paths: dict[str, str] = {}
@@ -1219,6 +1510,8 @@ def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solut
             "seed_used": run.seed_used,
             "solver_used": run.solver,
             "exact": run.exact,
+            "time_limit": run.time_limit,
+            "time_limited": run.time_limited,
         }
         path = store.write_run_result(p.problem_id, run.run_id, full_payload, scenario=name)
         result_paths[name] = str(path)
@@ -1232,6 +1525,8 @@ def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solut
             "seed_used": run.seed_used,
             "solver_used": run.solver,
             "exact": run.exact,
+            "time_limit": run.time_limit,
+            "time_limited": run.time_limited,
             "full_result_path": str(path),
         }
 
@@ -1247,14 +1542,7 @@ def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solut
             "is the preferred path for bulk export (no token overhead)."
         ),
     }
-
-    # Inject solution_interpreter once per problem (until structural change resets it).
-    if not _was_injected(p.problem_id, "solution_interpreter"):
-        _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
-        _mark_injected(p.problem_id, "solution_interpreter")
-    # Reset optimization_strategy so it can re-fire on the next model change cycle
-    _reset_injection(p.problem_id, "optimization_strategy")
-
+    # Skill injection happens in `_deliver` (request thread), not here in the worker.
     return result
 
 

@@ -118,6 +118,59 @@ async def _drive_repro() -> dict:
                 return out
 
 
+async def _drive_background() -> dict:
+    """Force a background solve over real stdio (wait_seconds=0) and poll it to completion —
+    proves a long solve hands back a job handle and finishes off the turn, the timeout fix."""
+    from mcp import ClientSession, StdioServerParameters
+    from mcp.client.stdio import stdio_client
+
+    with tempfile.TemporaryDirectory() as data_dir:
+        params = StdioServerParameters(
+            command=sys.executable, args=["-c", _BOOTSTRAP, data_dir],
+            cwd=str(REPO_ROOT), env=os.environ.copy(),
+        )
+        async with stdio_client(params) as (read, write):
+            async with ClientSession(read, write) as session:
+                await session.initialize()
+
+                async def call(tool, **args):
+                    return _payload(await session.call_tool(tool, args))
+
+                pid = (await call("model", action="create"))["problem_id"]
+                await call(
+                    "model", action="update", problem_id=pid,
+                    objectives=[{"name": "Rev", "direction": "maximize"},
+                                {"name": "Eff", "direction": "minimize"}],
+                    options=[{"name": n} for n in ("A", "B", "C", "D")],
+                    scores=[{"option": o, "objective": ob, "value": v}
+                            for o, ob, v in [("A", "Rev", 8), ("A", "Eff", 5), ("B", "Rev", 6),
+                                             ("B", "Eff", 3), ("C", "Rev", 9), ("C", "Eff", 7),
+                                             ("D", "Rev", 4), ("D", "Eff", 2)]],
+                )
+
+                handle = await call("solve", action="run", problem_id=pid, wait_seconds=0, seed=42)
+                final = handle
+                if handle.get("status") == "running":
+                    for _ in range(400):
+                        final = await call("solve", action="status", job_id=handle["job_id"])
+                        if final.get("status") != "running":
+                            break
+                        await asyncio.sleep(0.05)
+                return {"handle": handle, "final": final}
+
+
+@pytest.mark.skipif(not _HAS_MCP_CLIENT, reason="mcp stdio client not available")
+def test_background_solve_polls_to_completion_over_stdio():
+    out = asyncio.run(asyncio.wait_for(_drive_background(), timeout=120))
+    # wait_seconds=0 hands back a running job handle instead of blocking the turn.
+    assert out["handle"].get("status") == "running", f"expected a job handle, got {out['handle']}"
+    assert out["handle"].get("job_id")
+    # Polling `solve status` returns the finished frontier — the solve ran off the turn.
+    final = out["final"]
+    assert final.get("status") == "complete", f"solve did not complete on poll: {final}"
+    assert final.get("solutions_found", 0) >= 1 and "run_id" in final
+
+
 @pytest.mark.skipif(not _HAS_MCP_CLIENT, reason="mcp stdio client not available")
 def test_source_survives_stdio_transport():
     # Hard timeout so a wedged stdio handshake fails loudly instead of hanging CI (a healthy

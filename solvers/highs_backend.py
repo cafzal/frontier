@@ -239,14 +239,16 @@ def _optimize_highs(
     max_solutions: int | None = None,
     seed: int = 42,
     exact: bool = False,
+    time_limit: float | None = None,
 ) -> Run:
     """Delegate to the shared NSGA-scalarization engine with the HiGHS inner solves: binary →
     exact MILP per scalarization, proportional → exact convex QP per scalarization. Returns a
     ``Run`` in the engine's exact shape (identical to the NSGA paths). ``exact`` certifies each
-    MILP solve."""
+    MILP solve; ``time_limit`` (s) bounds the scalarization sweep (best-so-far on a cap)."""
     if problem.approach == Approach.binary:
         run = optimize_milp(problem, mode, inner_milp=_solve_milp_highs,
-                            max_solutions=max_solutions, seed=seed, exact=exact)
+                            max_solutions=max_solutions, seed=seed, exact=exact,
+                            time_limit=time_limit)
     else:
         m = getattr(mode, "value", "fast")
         pop, gen = _QP_BUDGET.get(m, _QP_BUDGET["fast"])
@@ -254,7 +256,7 @@ def _optimize_highs(
         # each final-frontier point — the dual read rides the marshaling re-solve, no extra cost.
         run = optimize_qp(problem, mode, inner_qp=_solve_qp_highs,
                           inner_qp_sensitivity=_solve_qp_highs_sensitivity, pop=pop, gen=gen,
-                          max_solutions=max_solutions, seed=seed)
+                          max_solutions=max_solutions, seed=seed, time_limit=time_limit)
     # Provenance lives with the producer: stamp here so a direct call is labelled correctly,
     # not only when routed through optimize(). exact is a no-op on the always-exact QP path.
     run.solver, run.exact = "highs", exact

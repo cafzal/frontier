@@ -192,6 +192,8 @@ Every solve returns two pre-computed signals — read them first, before scannin
 - `True` — say nothing; the frontier is the complete picture.
 - `False` — frame the set explicitly: *"You're seeing N of [total_pareto_found] solutions — a representative sample, not the full set."* This matters when the user is reasoning about coverage ("are there other strategies?") or confidence ("how do I know nothing better exists?"). Encourage `max_solutions=` overrides if they want more.
 
+**Acting on `time_limited`:** When `time_limited` is `True`, a wall-clock cap stopped the run early, so the frontier is **best-so-far, not converged**. Say so before presenting it — *"This is a time-bounded run, so it's a partial frontier — worth a full re-run before committing."* — and offer to re-run uncapped (or with a higher cap). On an exact run a cap thins coverage only: each returned point is still optimal for its scalarization (per-point optimality claims hold), but don't call it the whole frontier.
+
 **Translating `WARNING` issues:**
 
 The raw `issues[]` strings are agent-readable. Translate to user language:

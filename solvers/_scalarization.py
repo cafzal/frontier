@@ -27,6 +27,8 @@ so no MIQP is needed even when the overall shape is mixed-integer-quadratic.
 
 from __future__ import annotations
 
+import time
+
 import numpy as np
 from pymoo.algorithms.moo.nsga2 import NSGA2
 from pymoo.core.problem import Problem as PymooProblem
@@ -370,11 +372,17 @@ class _QpFrontierProblem(PymooProblem):
 
 
 def optimize_qp(problem, mode, *, inner_qp, inner_qp_sensitivity=None, pop, gen,
-                max_solutions=None, seed=42) -> Run:
+                max_solutions=None, seed=42, time_limit=None) -> Run:
     """Proportional mean-variance solve: the EA walks an epsilon-constraint target per linear
     objective (and, under a cardinality/group cap, the asset-selection priorities) while
     ``inner_qp`` solves each inner min-variance QP exactly. Returns a ``Run`` in the engine's
-    exact shape, so explorer / metrics / store need no changes."""
+    exact shape, so explorer / metrics / store need no changes.
+
+    ``time_limit`` (s) bounds the EA scalarization sweep — its dominant pop×gen inner-solve
+    cost — stopping at the generation budget or the wall-clock cap, whichever fires first
+    (best-effort: the cheap eps-bound and marshaling solves around the sweep are not counted).
+    A capped run returns a sparser best-so-far frontier; each returned point is still optimal
+    for its scalarization."""
     n_options = len(problem.options)
     opt_names = [o.name for o in problem.options]
     obj_list = problem.objectives
@@ -417,7 +425,10 @@ def optimize_qp(problem, mode, *, inner_qp, inner_qp_sensitivity=None, pop, gen,
         algorithm = NSGA2(pop_size=pop, sampling=seed_X)
     else:
         algorithm = NSGA2(pop_size=pop)
-    result = pymoo_minimize(pymoo_problem, algorithm, ("n_gen", gen), seed=seed, verbose=False)
+    _t0 = time.monotonic()
+    result = pymoo_minimize(pymoo_problem, algorithm, _opt._build_termination(gen, time_limit),
+                            seed=seed, verbose=False)
+    _elapsed = time.monotonic() - _t0
 
     n_lin = len(linear_coefs)
     solutions: list[Solution] = []
@@ -464,7 +475,8 @@ def optimize_qp(problem, mode, *, inner_qp, inner_qp_sensitivity=None, pop, gen,
     solutions, total_found = _opt._prune_pareto(solutions, obj_list, max_n=max_n)
     solutions = _opt._sort_and_reindex(solutions, obj_list)
     return Run(solutions=solutions, total_pareto_found=total_found,
-               quality=_opt._compute_quality(result, seed=seed), mode=mode, seed_used=seed)
+               quality=_opt._compute_quality(result, seed=seed), mode=mode, seed_used=seed,
+               time_limit=time_limit, time_limited=_opt._was_time_limited(time_limit, _elapsed))
 
 
 # --------------------------------------------------------------------------- #
@@ -508,11 +520,16 @@ class _MilpFrontierProblem(PymooProblem):
 
 
 def optimize_milp(problem, mode, *, inner_milp, max_solutions=None,
-                  seed=42, exact=False) -> Run:
+                  seed=42, exact=False, time_limit=None) -> Run:
     """Binary selection solve: the EA evolves epsilon targets on the non-primary objectives
     while ``inner_milp`` solves the scalarized 0/1 MILP (minimizing objective 0) exactly per
     individual. The EA budget auto-scales with the option count (``_milp_budget``). Same
-    Run/Solution shape as the NSGA binary path. ``exact`` certifies each inner solve."""
+    Run/Solution shape as the NSGA binary path. ``exact`` certifies each inner solve.
+
+    ``time_limit`` (s) bounds the EA sweep (generation budget or wall clock, whichever first);
+    a capped run returns a sparser best-so-far frontier, each point still exact for its
+    scalarization. Best-effort — the eps-bound and marshaling solves around the sweep are not
+    counted."""
     n, names, S, dirs, mc = _build_milp_data(problem)
     pop, gen = _milp_budget(n)
     objs = problem.objectives
@@ -530,7 +547,10 @@ def optimize_milp(problem, mode, *, inner_milp, max_solutions=None,
 
     pp = _MilpFrontierProblem(S, dirs, primary, nonprimary, mc, n, objs, eps_bounds,
                               exact=exact, inner_milp=inner_milp)
-    result = pymoo_minimize(pp, NSGA2(pop_size=pop), ("n_gen", gen), seed=seed, verbose=False)
+    _t0 = time.monotonic()
+    result = pymoo_minimize(pp, NSGA2(pop_size=pop), _opt._build_termination(gen, time_limit),
+                            seed=seed, verbose=False)
+    _elapsed = time.monotonic() - _t0
 
     solutions: list[Solution] = []
     seen: set = set()
@@ -553,4 +573,5 @@ def optimize_milp(problem, mode, *, inner_milp, max_solutions=None,
     solutions, total = _opt._prune_pareto(solutions, objs, max_n=max_n)
     solutions = _opt._sort_and_reindex(solutions, objs)
     return Run(solutions=solutions, total_pareto_found=total,
-               quality=_opt._compute_quality(result, seed=seed), mode=mode, seed_used=seed)
+               quality=_opt._compute_quality(result, seed=seed), mode=mode, seed_used=seed,
+               time_limit=time_limit, time_limited=_opt._was_time_limited(time_limit, _elapsed))
