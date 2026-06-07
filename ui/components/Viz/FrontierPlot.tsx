@@ -93,8 +93,19 @@ export function FrontierPlot({ data }: { data: ScatterVizData }) {
 
   const canScatter = nObj <= 3;
   const [mode, setMode] = useState<"scatter" | "parcoords">("scatter");
-  const effective: Effective =
-    !canScatter || mode === "parcoords"
+  // Color-by mode: encode a chosen objective as marker color on a 2D scatter, with the two
+  // remaining objectives as the x/y axes. Lets a 3-objective frontier render as a clean colored
+  // 2D scatter instead of 3D. Driven by viz_data.color_objective (set by the render route);
+  // when unset, the normal dimensional view applies.
+  const colorObj = data.color_objective ?? null;
+  const axisObjs = useMemo(
+    () => (colorObj ? objs.filter((o) => o.name !== colorObj) : objs),
+    [objs, colorObj],
+  );
+  const colorActive = !!colorObj && axisObjs.length >= 2;
+  const effective: Effective = colorActive
+    ? "scatter2d"
+    : !canScatter || mode === "parcoords"
       ? "parcoords"
       : nObj <= 2
         ? "scatter2d"
@@ -146,6 +157,44 @@ export function FrontierPlot({ data }: { data: ScatterVizData }) {
       p.solution_id === selected?.id ? "#000000" : isCurated(p) ? SELECTED_COLOR : "#ffffff"
     );
     const customdata = data.points.map((p) => [p.solution_id, nameOf(p) ?? "—", "base"]);
+
+    // Color-by view: one 2D scattergl trace, the chosen objective encoded as a continuous
+    // marker color (with a colorbar); the two remaining objectives are the axes. Short-circuits
+    // the dimensional branches below so a 3-objective frontier reads as a clean colored 2D.
+    if (colorActive) {
+      const xName = axisObjs[0].name;
+      const yName = axisObjs[1].name;
+      const cvals = data.points.map((p) => p.values[colorObj!]);
+      return {
+        plotData: [
+          {
+            type: "scattergl",
+            mode: "markers",
+            x: data.points.map((p) => p.values[xName]),
+            y: data.points.map((p) => p.values[yName]),
+            customdata,
+            marker: {
+              color: cvals,
+              colorscale: "Viridis",
+              showscale: true,
+              colorbar: { title: { text: colorObj, side: "right" }, thickness: 12, len: 0.9, outlinewidth: 0 },
+              size: sizes,
+              line: { width: lineWidths, color: lineColors },
+            },
+            hovertemplate:
+              `#%{customdata[0]} %{customdata[1]}<br>` +
+              `${xName}: %{x:.2f}<br>${yName}: %{y:.2f}<br>${colorObj}: %{marker.color:.2f}<extra></extra>`,
+          },
+        ],
+        layout: {
+          xaxis: { title: { text: `${xName} (${axisObjs[0].direction})` } },
+          yaxis: { title: { text: `${yName} (${axisObjs[1].direction})` } },
+          margin: { l: 60, r: 20, t: 10, b: 50 },
+          dragmode: "zoom",
+          hovermode: "closest",
+        },
+      };
+    }
 
     // The exact-certified overlay drawn over a faded heuristic field — a separate solid
     // emerald-diamond trace (built for scatter only; parcoords can't overlay a second trace).
@@ -283,7 +332,7 @@ export function FrontierPlot({ data }: { data: ScatterVizData }) {
       ],
       layout: { margin: { l: 80, r: 60, t: 56, b: 20 } },
     };
-  }, [data, objs, effective, roleOf, selected, hasOverlay, isExactView, overlay, dominated]);
+  }, [data, objs, effective, roleOf, selected, hasOverlay, isExactView, overlay, dominated, colorActive, axisObjs, colorObj]);
 
   function onClick(e: { points?: Array<{ customdata?: [number, string, string] }> }) {
     const pt = e?.points?.[0];
@@ -323,8 +372,9 @@ export function FrontierPlot({ data }: { data: ScatterVizData }) {
     if (!same) setBrushIds(next);
   }
 
-  const kind =
-    effective === "scatter2d"
+  const kind = colorActive
+    ? `2D scatter · color ${colorObj}`
+    : effective === "scatter2d"
       ? "2D scatter"
       : effective === "scatter3d"
         ? "3D scatter"
@@ -344,12 +394,16 @@ export function FrontierPlot({ data }: { data: ScatterVizData }) {
           <CertChip prov={prov} hasOverlay={hasOverlay} />
         </div>
         <div className="flex items-center gap-3">
-          {canScatter && <Toggle mode={mode} setMode={setMode} nObj={nObj} />}
-          <Legend
-            hasCurated={data.points.some((p) => !!p.name)}
-            showCertified={hasOverlay}
-            showDominated={hasOverlay && dominated.size > 0}
-          />
+          {canScatter && !colorActive && <Toggle mode={mode} setMode={setMode} nObj={nObj} />}
+          {colorActive ? (
+            <span className="text-[10px] text-stone-500">color encodes {colorObj}</span>
+          ) : (
+            <Legend
+              hasCurated={data.points.some((p) => !!p.name)}
+              showCertified={hasOverlay}
+              showDominated={hasOverlay && dominated.size > 0}
+            />
+          )}
         </div>
       </div>
       <Plot

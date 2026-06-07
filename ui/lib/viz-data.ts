@@ -48,6 +48,10 @@ export type ScatterVizData = {
   inflection_ids: number[];
   provenance?: ScatterProvenance; // present on the real explore path; absent in isolated builds
   exact_overlay?: ScatterExactOverlay | null;
+  // Optional: render as a 2D scatter colored by this objective (the two remaining objectives
+  // become the x/y axes). Lets a 3-objective frontier show as a clean color-encoded 2D scatter
+  // instead of 3D. Set by the render route (?color=<objective>); absent on the normal chat path.
+  color_objective?: string | null;
 };
 
 export type ParallelCoordsSeries = {
