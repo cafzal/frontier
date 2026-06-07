@@ -68,7 +68,7 @@ Every problem is auto-persisted in the engine's store (`data/`, keyed by id) —
 
 Two ways to use Frontier:
 
-- **Web UI** — a browser chat shell over the engine, with interactive charts (2D/3D scatter and parallel coordinates that adapt to objective count, per-scenario overlays, and exact-certified points denoted on the frontier once you certify) and curate-straight-from-the-chart. Try the hosted app at **[frontier-ui.onrender.com](https://frontier-ui.onrender.com/)** (password-gated — ask @cafzal for access), or run/deploy your own (requires an API key; see [`ui/`](ui/) and [Deploy your own](#deploy-your-own))
+- **Web UI** — a browser chat shell over the engine, with interactive charts (2D/3D scatter and parallel coordinates that adapt to objective count — a 3-objective frontier can also render as a 2D scatter colored by a chosen objective — per-scenario overlays, and exact-certified points denoted on the frontier once you certify) and curate-straight-from-the-chart. Try the hosted app at **[frontier-ui.onrender.com](https://frontier-ui.onrender.com/)** (password-gated — ask @cafzal for access), or run/deploy your own (requires an API key; see [`ui/`](ui/) and [Deploy your own](#deploy-your-own))
 - **MCP client** — connect any MCP-compatible client (Claude Code, Claude Desktop, claude.ai, Cursor, Codex). The hosted beta engine (`https://frontier-592q.onrender.com/sse`) is gated by a token — ask @cafzal for `FRONTIER_TOKEN`; or [self-host](#self-host) your own (ungated by default).
 
 The MCP-client snippets below assume the hosted engine.
