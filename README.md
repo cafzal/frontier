@@ -8,43 +8,45 @@
 
 ## Summary
 
-Frontier gives AI agents a grounded optimization engine for hard decisions. The agent describes a problem in business terms; Frontier enumerates the full Pareto frontier — every non-dominated solution that balances conflicting objectives under hard constraints — and the agent narrates the tradeoffs back. Evolutionary/approximate (NSGA-II/III via pymoo) and exact (cuOpt and HiGHS) under the hood, exposed as 4 MCP tools (`model`, `solve`, `explore`, `get_skill`). Frontier is the engine; the agent is the interface.
+Frontier helps you make hard decisions that have many options and conflicting goals: which projects to fund, how to split a budget, who to source from. You describe the decision to an AI agent in plain language; it models the problem, optimizes it, and walks you through the **full set of best tradeoffs** rather than one black-box answer. You make the final call.
 
-The design is **explainable, governable optimization**: the engine owns the *deterministic guardrails* — hard constraints it never violates, reproducible runs (same inputs + seed → same frontier), dominance filtering, pre-solve validation, and quality gates — while the *human judgment* stays at the two calls that matter: which objectives and constraints define the problem, and which non-dominated solution to commit to. The agent explains every tradeoff (shadow prices, frontier shape, marginal rates, dominance) and never names a "best"; every claim it makes traces back to returned data, so the result is explainable and the decision is auditable line by line. The wedge is combinatorial, constrained, portfolio-like decisions with conflicting objectives.
+Under the hood it maps the **Pareto frontier** (every option where you can't improve one goal without sacrificing another) with evolutionary search (NSGA-II/III) plus optional exact solvers (HiGHS, cuOpt), all exposed as four MCP tools. Every number it reports is computed, not guessed, so the decision stays explainable and auditable, and the engine never overrides the two calls that are yours: how to frame the problem and which tradeoff to pick.
+
+**Try it:** the [hosted demo](https://frontier-ui.onrender.com/) (ask @cafzal for access), or [set up your own](#setup) in any MCP client.
 
 ## Examples
 
-Several [worked examples](examples/) are included for you to learn from and adapt — each ships a ready prompt you can paste into any connected client to reproduce the result. Select results displayed below.
+[Worked examples](examples/) you can load and adapt: each ships a paste-ready prompt that reproduces the result. Two shown:
 
 <table>
 <tr>
 <td width="50%" valign="top">
 <img src="assets/example-portfolio.png" alt="ETF efficient frontier with a plain-language tradeoff read" /><br/>
-<sub>Investment portfolio</sub>
+<sub>Investment portfolio: risk / return / yield frontier with a plain-language tradeoff read</sub>
 </td>
 <td width="50%" valign="top">
 <img src="assets/example-capital.png" alt="Capital project formulation and per-scenario frontiers" /><br/>
-<sub>Capital project selection</sub>
+<sub>Capital project selection: 120 projects, exact-certified, with per-scenario frontiers</sub>
 </td>
 </tr>
 </table>
 
 ## Purpose
 
-LLMs can reason about tradeoffs conversationally but can't *solve* them: they can't reliably enumerate a combinatorial option space, enforce hard constraints, and produce the Pareto frontier. These are the decisions teams used to grind out in spreadsheets, until the spreadsheet hit a complexity wall: too many options, too many interacting constraints, objectives that genuinely conflict. Frontier supplies the missing half: the **LLM translates** the decision into a structured model and narrates the result; an **optimization solver** does the math neither a spreadsheet nor an LLM can. It fits problems where data can score options, objectives genuinely conflict (no single "best"), and the space is too large and too constrained for intuition.
+LLMs reason about tradeoffs but can't *solve* them: they can't reliably enumerate a huge option space, enforce hard constraints, and produce the frontier. Spreadsheets hit the same wall once the options and constraints multiply. Frontier fills the gap: the LLM translates and narrates, an optimizer does the math, and you get the tradeoffs instead of a guess.
 
-**By shape, not domain:** any decision that selects a subset from many options (which K of N) or allocates a budget across them (how much of each), balancing conflicting objectives under hard constraints — with data to score the options and a space too large for a spreadsheet or intuition. Pairwise interactions (covariance, audience overlap, correlated risk) make it genuinely nonlinear.
+**When it fits (by shape, not domain):** any decision that picks a subset from many options (which K of N) or splits a budget across them (how much of each), under conflicting objectives and hard constraints, with data to score the options. Pairwise interactions (covariance, audience overlap, correlated risk) make it genuinely nonlinear.
 
-**What Frontier adds beyond an LLM alone:**
-- **The full non-dominated frontier** — every Pareto-optimal tradeoff, not a single recommendation or a weighted ranking
-- **An optional exact auditor over the frontier** — on subset-selection and mean-variance shapes, the agent overlays an exact inner solve (HiGHS on CPU, NVIDIA cuOpt on GPU): explore the frontier fast, then certify the finalists. The payoff is trust and coverage at scale: each pick confirmed optimal for its tradeoff, and dominated points the heuristic showed as efficient caught. On small problems the heuristic already covers the frontier; the audit earns its keep on hard ones.
-- **Hard constraints, enforced** — 8 constraint types (cardinality, forced include/exclude, objective bounds, exclusion pairs, dependencies, group limits, allocation caps), never violated during search
-- **Auditable by construction** — every reported tradeoff traces to returned data (scores, shadow prices, dominance), not a fluent guess; runs are reproducible (same inputs + seed → same frontier; `seed_used` is recorded), so a stakeholder can re-examine the decision line by line
-- **Scenario & risk modeling** — independent frontiers per scenario, plus CVaR / worst-case / expected / minimax-regret risk per objective
-- **Knowledge discovery** — mine the frontier (or a curated subset) for per-option selection rates, design principles, decision-space strategy families, and feedback-learned rules (`explore composition`)
-- **Longitudinal state** — problems persist across sessions; curated picks track survival across re-runs
+**What it adds beyond an LLM alone:**
+- **Full tradeoff frontier** — every Pareto-optimal option, not one recommendation or a weighted ranking.
+- **Optional exact audit** — certify the finalists against an exact solver (HiGHS on CPU, cuOpt on GPU) on supported shapes; it catches dominated points the heuristic showed as efficient.
+- **Hard constraints, enforced** — 8 types (cardinality, force include/exclude, objective bounds, exclusion pairs, dependencies, group limits, allocation caps), never violated during search.
+- **Grounded & reproducible** — every number traces to computed data, and the same inputs + seed reproduce the exact frontier.
+- **Scenarios & risk** — independent frontiers per scenario, plus CVaR / worst-case / expected / minimax-regret per objective.
+- **Knowledge discovery** — mine the frontier for selection rates, design principles, and strategy families (`explore composition`).
+- **Persistent state** — problems persist across sessions; curated picks track survival across re-runs.
 
-*Why not just ask an agent to write a solver?* You can, for a one-shot problem. Frontier is the turnkey pairing: an LLM translation-and-narration layer over an optimization solver, grounded (every number computed, not guessed), auditable, and reusable across problems and re-runs, instead of bespoke optimization code rebuilt and re-verified each time.
+*Why not have the agent just write a solver?* For a one-off, sure. Frontier is the turnkey, reusable version: grounded, auditable, and consistent across problems and re-runs.
 
 ## Workflow
 
@@ -124,7 +126,7 @@ FRONTIER_MCP_TOKEN=your-secret MCP_TRANSPORT=sse python -m mcp_server.server
 
 Point your MCP client at the local server — for SSE that's `http://localhost:8000/sse`. The optional web UI lives in [`ui/`](ui/) — see its [README](ui/README.md).
 
-**Optional exact-solver audit layer.** Beyond the default NSGA-II/III, Frontier can wrap the NSGA search around an *exact inner solve*. Two first-class backends share one scalarization engine and differ only in the inner solve: `highs` (`pip install highspy`, CPU, cross-platform) and `cuopt` (NVIDIA GPU) — pick by hardware, identical certificate either way. Because an exact point is optimal for its scalarization, overlaying it on the heuristic frontier can only confirm or sharpen it, never worsen it (the invariant: NSGA never dominates an exact point). The agent does this in one call — **`explore certify`** to audit the NSGA `run` against the `exact_run` overlay and returns a dominance audit of NSGA points an exact solve dominates, the hypervolume coverage the overlay reclaims, and a recommendation. See [`architecture.md`](architecture.md#solver-backends-pluggable) for scope and details. The same exact run also exposes **solver-exact shadow prices + reduced costs** via **`explore sensitivity`** (`where_to_invest` / `near_misses`) — on **both continuous paths** (the QP mean-variance solve and the purely linear LP allocation); only integer **MILP** runs fall back to the frontier-inferred estimate (integer optima have no duals).
+**Exact solvers (optional).** Install `highspy` (CPU; `pip install highspy`) or cuOpt (NVIDIA GPU) to unlock `solver="highs"|"cuopt"`: exact certification (`explore certify`) and solver-exact sensitivity (`explore sensitivity`) on supported shapes. How it works (the shared scalarization engine, the certify invariant, which shapes carry duals) is in [`architecture.md`](architecture.md#solver-backends-pluggable).
 
 ### Deploy your own
 
