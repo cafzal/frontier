@@ -53,9 +53,10 @@ You drive Frontier by talking to an AI agent, in a coding-agent MCP client or th
 1. **Frame it.** Name the objectives (what to maximize or minimize), the options to choose among, and any hard constraints, plus scenarios if the future is uncertain. *e.g. "We're choosing a CRM for a 10-person startup: maximize features and support, minimize cost; budget under $50k/yr; pick one."*
 2. **Score the options.** Hand over the numbers, or let the agent estimate and flag what's shaky. *e.g. "Score these five CRMs on cost and support from their pricing pages."*
 3. **Solve.** The agent validates the setup, then runs the optimizer for the Pareto frontier, optionally once per scenario. *e.g. "Solve it."*
-4. **Explore the tradeoffs.** Frontier shape, the extremes, the balanced/knee, the marginal cost of pushing an objective, robustness across scenarios, and curate the picks you like. *e.g. "Show the tradeoffs, recommend a balanced pick, and curate it as 'Lean choice'."*
-5. **Certify and examine.** On a finalized pick, audit the frontier against an exact solver where the shape supports it (`explore certify` sharpens the risk corner and flags any dominated points), then read the solver-exact sensitivity (`explore sensitivity` for where-to-invest shadow prices and near-miss reduced costs). *e.g. "Certify the finalists and show me what's binding."*
+4. **Explore the tradeoffs.** Frontier shape, the extremes, the balanced/knee, the marginal cost of pushing an objective, robustness across scenarios. *e.g. "Show the tradeoffs and recommend a balanced pick."*
+5. **Certify and examine.** Before committing, audit the frontier against an exact solver where the shape supports it (`explore certify` sharpens the risk corner and flags any dominated points), then read the solver-exact sensitivity (`explore sensitivity` for where-to-invest shadow prices and near-miss reduced costs). *e.g. "Certify the finalists and show me what's binding."*
 6. **Iterate.** Tighten a constraint, add a scenario, re-solve, and compare against the previous run. *e.g. "Cap cost at $40k and re-run: what dropped off the frontier?"*
+7. **Decide.** Curate the finalists and commit to the pick that fits your tradeoffs: the engine lays out the options and leaves the final call to you. *e.g. "Curate the balanced plan as 'Lean choice' and commit."*
 
 ### Saving & loading
 
