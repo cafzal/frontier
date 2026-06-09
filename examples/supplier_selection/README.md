@@ -12,10 +12,9 @@ Load with `model load source="supplier_selection"`, or paste this to an agent co
 
 ## The workflow
 
-1. **Explore** (`solve run`): the multi-sourcing frontier across the five objectives, with its extremes, a balanced plan, and the knees.
-2. **Stress-test** (`solve run_scenarios`): re-solve under `china_disruption` (those suppliers offline) and `demand_surge` (per-supplier capacity tightens to 10%) to find resilient mixes.
-3. **Certify** (`solve solver="highs"`, then `explore certify`): the exact mean-variance QP overlay audits the heuristic frontier and sharpens the minimum-concentration-risk corner.
-4. **Examine sensitivity** (`explore sensitivity`): solver-exact duals: which constraint (a region cap, the reliability floor) is the binding lever, which supplier is the closest near-miss, and which sit pinned at a cap.
-5. **Decide** (`explore curate`): pin a few sourcing plans and choose on the tradeoffs.
+1. **Solve** (`solve run`, plus `solve run_scenarios` for the disruption scenarios): the optimizer produces the multi-sourcing frontier across the five objectives and a per-scenario frontier for `china_disruption` (those suppliers offline) and `demand_surge` (per-supplier capacity tightens to 10%).
+2. **Explore the tradeoffs** (`explore tradeoffs`): the extremes, a balanced plan, the knees, and how resilient each mix is across the scenarios.
+3. **Certify and examine** (`solve solver="highs"` → `explore certify` → `explore sensitivity`): the exact mean-variance QP overlay audits the heuristic frontier and sharpens the minimum-concentration-risk corner; the duals show which constraint (a region cap, the reliability floor) is the binding lever, which supplier is the closest near-miss, and which sit pinned at a cap.
+4. **Decide** (`explore curate`): pin a few sourcing plans and commit on the tradeoffs.
 
 For the same QP shape in finance, see [`investment_portfolio`](../investment_portfolio/); for the energy version, [`capacity_planning`](../capacity_planning/).

@@ -1,6 +1,6 @@
 # Examples
 
-Loadable Frontier problems — combinatorial, multi-objective decisions that need a real solver, not a spreadsheet. Each has a `problem.json` (objectives, approach, constraints, scenarios) + a `scores.json` (options, scores, interaction matrices), and a paste-able prompt in its own README.
+Loadable Frontier problems: combinatorial, multi-objective decisions beyond a spreadsheet. Each ships a `problem.json` (objectives, approach, constraints, scenarios), a `scores.json` (options, scores, interaction matrices), a paste-able prompt, and a workflow walkthrough in its own README. Each is pre-framed and pre-scored, so its walkthrough picks up the [main workflow](../README.md#workflow) at **Solve** (steps 1–2, Frame and Score, are already done).
 
 | Example | Decision & objectives | Files |
 |---|---|---|

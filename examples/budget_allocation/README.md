@@ -12,9 +12,9 @@ Load with `model load source="budget_allocation"`, or paste this to an agent con
 
 ## The workflow
 
-1. **Explore** (`solve run`): the ROI/reach frontier with its extremes, a balanced plan, and the knees.
-2. **Certify** (`solve solver="highs"`, then `explore certify`): the exact LP overlay audits the heuristic frontier and sharpens the ROI corner.
-3. **Examine sensitivity** (`explore sensitivity`): solver-exact duals at the balanced plan. The Strategic Reach floor prices at ~4.0 (each point of reach costs ~4% ROI, rising along the frontier into diminishing returns); Localization is the closest near-miss (reduced cost ~10); AI Copilot and Self-Serve Onboarding sit at the 35% cap and would take more if allowed.
-4. **Decide** (`explore curate`): pin a few plans and choose on the tradeoffs.
+1. **Solve** (`solve run`): the optimizer produces the ROI/reach Pareto frontier.
+2. **Explore the tradeoffs** (`explore tradeoffs`): the extremes, a balanced plan, and the knees.
+3. **Certify and examine** (`solve solver="highs"` → `explore certify` → `explore sensitivity`): the exact LP overlay audits the heuristic frontier and sharpens the ROI corner; the duals at the balanced plan show the Strategic Reach floor pricing at ~4.0 (each point of reach costs ~4% ROI, rising into diminishing returns), Localization as the closest near-miss (reduced cost ~10), and AI Copilot and Self-Serve Onboarding pinned at the 35% cap.
+4. **Decide** (`explore curate`): pin a few plans and commit on the tradeoffs.
 
 A small near-miss says "improve the option"; a binding cap says "lift your own limit." For the richer product-mix LP see [`production_mix`](../production_mix/); for the mean-variance QP, [`investment_portfolio`](../investment_portfolio/); for binary selection with no duals, [`capital_project_selection_120`](../capital_project_selection_120/).

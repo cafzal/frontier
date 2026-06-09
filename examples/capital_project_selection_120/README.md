@@ -12,9 +12,9 @@ Load with `model load source="capital_project_selection_120"`, or paste this to 
 
 ## The workflow
 
-1. **Explore** (`solve run`): the NPV/cost/risk/strategic-fit frontier of funding plans, with its extremes, a balanced plan, and the knees.
-2. **Certify** (`solve solver="highs"` or `"cuopt"`, then `explore certify`): the exact MILP overlay returns the optimal subset for each scalarization and audits which heuristic points it dominates. At 120 binary options this is the headline step, reclaiming tradeoff surface a fixed-resolution metaheuristic misses.
-3. **Examine** (`explore sensitivity`): integer selections carry no solver duals, so this reports the frontier-inferred binding analysis (which caps and the budget bind) rather than exact shadow prices.
-4. **Decide** (`explore curate`): pin a few funding plans and choose on the tradeoffs.
+1. **Solve** (`solve run`): the optimizer produces the NPV/cost/risk/strategic-fit frontier of funding plans.
+2. **Explore the tradeoffs** (`explore tradeoffs`): the extremes, a balanced plan, and the knees.
+3. **Certify and examine** (`solve solver="highs"` or `"cuopt"` → `explore certify` → `explore sensitivity`): the exact MILP overlay returns the optimal subset per scalarization and audits which heuristic points it dominates (the headline step at 120 binary options, reclaiming tradeoff surface a fixed-resolution metaheuristic misses); integer selections carry no solver duals, so the examine falls back to the frontier-inferred binding analysis (which caps and the budget bind).
+4. **Decide** (`explore curate`): pin a few funding plans and commit on the tradeoffs.
 
 **Aggregation note.** All four objectives are totals (`sum`): a capital *deployment* decision wants the most total value the budget buys, with the binding budget and caps mediating portfolio size. Per-project *quality* (average strategic-fit or risk *level*) would be `avg`, which answers a different fixed-size question and falls outside the exact-MILP's linear scope. For `avg` / `quadratic` aggregation on a continuous shape, see [`investment_portfolio`](../investment_portfolio/).

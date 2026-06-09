@@ -12,10 +12,9 @@ Load with `model load source="capacity_planning"`, or paste this to an agent con
 
 ## The workflow
 
-1. **Explore** (`solve run`): the capacity-mix frontier across the five objectives, with its extremes, a balanced mix, and the knees.
-2. **Stress-test** (`solve run_scenarios`): re-solve under `carbon_price` and `low_renewables_year` (solar and wind correlations rise) to find robust mixes.
-3. **Certify** (`solve solver="highs"`, then `explore certify`): the exact mean-variance QP overlay audits the heuristic frontier and sharpens the minimum-variability-risk corner.
-4. **Examine sensitivity** (`explore sensitivity`): solver-exact duals: which constraint (the CO2 cap, the Firmness floor) is the binding lever, which project is the closest near-miss, and which sit pinned at a cap.
-5. **Decide** (`explore curate`): pin a few capacity mixes and choose on the tradeoffs.
+1. **Solve** (`solve run`, plus `solve run_scenarios` for the scenarios): the optimizer produces the capacity-mix frontier across the five objectives and a per-scenario frontier for `carbon_price` and `low_renewables_year` (solar and wind correlations rise).
+2. **Explore the tradeoffs** (`explore tradeoffs`): the extremes, a balanced mix, the knees, and how robust each mix is across the scenarios.
+3. **Certify and examine** (`solve solver="highs"` → `explore certify` → `explore sensitivity`): the exact mean-variance QP overlay audits the heuristic frontier and sharpens the minimum-variability-risk corner; the duals show which constraint (the CO2 cap, the Firmness floor) is the binding lever, which project is the closest near-miss, and which sit pinned at a cap.
+4. **Decide** (`explore curate`): pin a few capacity mixes and commit on the tradeoffs.
 
 For the same QP shape, see [`supplier_selection`](../supplier_selection/) and [`investment_portfolio`](../investment_portfolio/).

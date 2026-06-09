@@ -12,9 +12,9 @@ Load with `model load source="production_mix"`, or paste this to an agent connec
 
 ## The workflow
 
-1. **Explore** (`solve run`): a margin/throughput/sustainability frontier with per-objective extremes, a balanced plan, and the knees where the exchange rate jumps.
-2. **Certify** (`solve solver="highs"`, then `explore certify`): the exact LP overlay audits the heuristic frontier for dominated points and corner sharpening; all three per-line limits bind.
-3. **Examine sensitivity** (`explore sensitivity`): solver-exact duals at the balanced plan. The Throughput floor is the binding lever (each extra unit costs ~0.44 of margin, rising along the frontier into diminishing returns); Gear Sets is the closest near-miss; Aerospace, Optics, and Fasteners sit at the 30% cap and would take more if allowed; products held out by the line limit are filtered as structural exclusions.
-4. **Decide** (`explore curate`): pin a few plans and choose on the tradeoffs.
+1. **Solve** (`solve run`): the optimizer produces the margin/throughput/sustainability Pareto frontier.
+2. **Explore the tradeoffs** (`explore tradeoffs`): the per-objective extremes, a balanced plan, and the knees where the exchange rate jumps.
+3. **Certify and examine** (`solve solver="highs"` → `explore certify` → `explore sensitivity`): the exact LP overlay audits the heuristic frontier (all three per-line limits bind); the duals at the balanced plan show the Throughput floor as the binding lever (each extra unit costs ~0.44 of margin, rising into diminishing returns), Gear Sets as the closest near-miss, Aerospace / Optics / Fasteners pinned at the 30% cap, and the line-limited products filtered as structural exclusions.
+4. **Decide** (`explore curate`): pin a few plans and commit on the tradeoffs.
 
 The interior, near-zero-reduced-cost SKU (here Pump Assemblies) is the swing that sets the marginal price; Frontier infers it from the duals today, and an exposed solver basis status would name it directly. For the two-objective LP see [`budget_allocation`](../budget_allocation/); for the mean-variance QP, [`investment_portfolio`](../investment_portfolio/).

@@ -12,9 +12,9 @@ Load with `model load source="channel_budget"`, or paste this to an agent connec
 
 ## The workflow
 
-1. **Explore** (`solve run`): the Conversions/Reach/ROAS/Brand-Lift frontier, where each mix leans efficiency versus reach versus brand, and where the knees are.
-2. **Stress-test** (`solve run_scenarios`): re-solve under `signal_loss` (measurement erosion cuts attributable conversions) and `demand_pullback` (a downturn softens response and efficiency) to see which mixes hold up.
-3. **Examine** (`explore sensitivity`): maximizing Reach is a non-convex quadratic, so the exact backend declines this shape; sensitivity reports the frontier-inferred binding analysis (which caps and the ROAS floor bind) rather than solver duals.
-4. **Decide** (`explore curate`): pin a few allocations and choose on the tradeoffs.
+1. **Solve** (`solve run`, plus `solve run_scenarios` for the macro regimes): the optimizer produces the Conversions/Reach/ROAS/Brand-Lift frontier and a per-scenario frontier for `signal_loss` (measurement erosion cuts attributable conversions) and `demand_pullback` (a downturn softens response and efficiency).
+2. **Explore the tradeoffs** (`explore tradeoffs`): where each mix leans efficiency versus reach versus brand, the knees, and how the frontier shifts across the scenarios.
+3. **Certify and examine** (`explore sensitivity`): maximizing Reach is a non-convex quadratic, so the exact backend declines this shape: there is no exact certificate, and the examine reports the frontier-inferred binding analysis (which caps and the ROAS floor bind) rather than solver duals.
+4. **Decide** (`explore curate`): pin a few allocations and commit on the tradeoffs.
 
 This example stays on the heuristic frontier: the audience-overlap term makes Reach a maximize-quadratic, outside the exact solver's convex minimize-risk scope. For the exact mean-variance counterpart, where the quadratic is a minimize-risk term, see [`supplier_selection`](../supplier_selection/) and [`investment_portfolio`](../investment_portfolio/).
