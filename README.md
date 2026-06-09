@@ -146,9 +146,9 @@ For full schemas, action parameters, data model, persistence layout, and the ski
 
 Four MCP tools — full action lists and parameters in [`architecture.md`](architecture.md):
 
-- **`model`** — define and edit the problem: objectives (2–7; sum/avg/min/max/quadratic aggregation), options, scores, 8 constraint types, interaction matrices, reference points, and scenarios; plus save/load of named problems.
-- **`solve`** — validate and optimize via NSGA-II/III: fast/thorough modes, seeded reproducibility (`seed_used`), per-scenario runs, frontier-quality gates, and infeasibility analysis; plus optional exact backends (HiGHS/cuOpt) to audit the frontier on supported shapes, paired with `explore certify`. Long runs (thorough, exact, large) execute in the **background** — `solve` hands back a `{status:"running", job_id}` handle and the agent polls `solve status` to completion, so a multi-minute solve never times out the turn; an optional `time_limit` bounds a run (best-so-far, flagged `time_limited`).
-- **`explore`** — navigate results: tradeoffs and frontier shape, extremes / balanced / inflection points, shadow prices, exact sensitivity (`explore sensitivity` — where-to-invest shadow prices + near-miss reduced costs on exact continuous runs), marginal rates, scenario robustness (incl. CVaR and minimax regret), solution-set mining (`explore composition` — selection rates, design principles, strategy families, feedback rules), run comparison, curation, and feedback.
+- **`model`** — define and edit the problem (objectives, options, scores, 8 constraint types, interaction matrices, scenarios): `create` / `update` / `get`, plus `save` / `load` for named problems.
+- **`solve`** — validate and optimize (NSGA-II/III, fast/thorough, seeded): `run`, `run_scenarios`, and `status` to poll background runs; opt-in `solver="highs"|"cuopt"` exact backends on supported shapes.
+- **`explore`** — navigate results: `tradeoffs`, `certify` (audit the exact overlay), `sensitivity` (solver-exact shadow prices + near-misses), `composition` (mine selection rates, principles, strategy families), plus `compare` / `solutions` / `scenario_results` / `curate`.
 - **`get_skill`** — fetch the workflow guidance below.
 
 ### Skills
