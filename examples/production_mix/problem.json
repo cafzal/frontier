@@ -1,0 +1,60 @@
+{
+  "name": "Production Mix Allocation",
+  "domain": "manufacturing",
+  "context": "Allocate a fixed plant capacity across products on three lines to maximize unit margin, throughput, and sustainability. No single product may take more than 30% of capacity, and each line can run at most two SKUs at once (a changeover/tooling limit). Three purely linear objectives over a continuous allocation make this an exact multi-objective LP \u2014 so beyond the frontier the solver returns exact duals: which line is the binding constraint to expand (shadow price), which product is the closest near-miss (reduced cost), and which SKU is the fractional swing that sets the marginal price (basic at ~0).",
+  "approach": "proportional",
+  "objectives": [
+    {
+      "name": "Margin",
+      "direction": "maximize",
+      "unit": "$/unit",
+      "aggregation": "avg"
+    },
+    {
+      "name": "Throughput",
+      "direction": "maximize",
+      "unit": "k units/wk",
+      "aggregation": "avg"
+    },
+    {
+      "name": "Sustainability",
+      "direction": "maximize",
+      "unit": "score",
+      "aggregation": "avg"
+    }
+  ],
+  "constraints": [
+    {
+      "type": "max_allocation",
+      "max": 30
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Aerospace Fittings",
+        "Medical Components",
+        "Optics Housings"
+      ],
+      "max": 2
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Fasteners",
+        "Brackets",
+        "Connectors",
+        "Stamped Housings"
+      ],
+      "max": 2
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Pump Assemblies",
+        "Valve Bodies",
+        "Gear Sets"
+      ],
+      "max": 2
+    }
+  ]
+}

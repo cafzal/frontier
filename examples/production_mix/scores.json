@@ -1,0 +1,196 @@
+{
+  "options": [
+    {
+      "name": "Aerospace Fittings",
+      "description": ""
+    },
+    {
+      "name": "Medical Components",
+      "description": ""
+    },
+    {
+      "name": "Optics Housings",
+      "description": ""
+    },
+    {
+      "name": "Fasteners",
+      "description": ""
+    },
+    {
+      "name": "Brackets",
+      "description": ""
+    },
+    {
+      "name": "Connectors",
+      "description": ""
+    },
+    {
+      "name": "Stamped Housings",
+      "description": ""
+    },
+    {
+      "name": "Pump Assemblies",
+      "description": ""
+    },
+    {
+      "name": "Valve Bodies",
+      "description": ""
+    },
+    {
+      "name": "Gear Sets",
+      "description": ""
+    }
+  ],
+  "scores": [
+    {
+      "option": "Aerospace Fittings",
+      "objective": "Margin",
+      "value": 52.0
+    },
+    {
+      "option": "Aerospace Fittings",
+      "objective": "Throughput",
+      "value": 6.0
+    },
+    {
+      "option": "Aerospace Fittings",
+      "objective": "Sustainability",
+      "value": 9.0
+    },
+    {
+      "option": "Medical Components",
+      "objective": "Margin",
+      "value": 48.0
+    },
+    {
+      "option": "Medical Components",
+      "objective": "Throughput",
+      "value": 8.0
+    },
+    {
+      "option": "Medical Components",
+      "objective": "Sustainability",
+      "value": 8.0
+    },
+    {
+      "option": "Optics Housings",
+      "objective": "Margin",
+      "value": 44.0
+    },
+    {
+      "option": "Optics Housings",
+      "objective": "Throughput",
+      "value": 7.0
+    },
+    {
+      "option": "Optics Housings",
+      "objective": "Sustainability",
+      "value": 9.0
+    },
+    {
+      "option": "Fasteners",
+      "objective": "Margin",
+      "value": 14.0
+    },
+    {
+      "option": "Fasteners",
+      "objective": "Throughput",
+      "value": 65.0
+    },
+    {
+      "option": "Fasteners",
+      "objective": "Sustainability",
+      "value": 5.0
+    },
+    {
+      "option": "Brackets",
+      "objective": "Margin",
+      "value": 18.0
+    },
+    {
+      "option": "Brackets",
+      "objective": "Throughput",
+      "value": 55.0
+    },
+    {
+      "option": "Brackets",
+      "objective": "Sustainability",
+      "value": 4.0
+    },
+    {
+      "option": "Connectors",
+      "objective": "Margin",
+      "value": 20.0
+    },
+    {
+      "option": "Connectors",
+      "objective": "Throughput",
+      "value": 48.0
+    },
+    {
+      "option": "Connectors",
+      "objective": "Sustainability",
+      "value": 6.0
+    },
+    {
+      "option": "Stamped Housings",
+      "objective": "Margin",
+      "value": 16.0
+    },
+    {
+      "option": "Stamped Housings",
+      "objective": "Throughput",
+      "value": 60.0
+    },
+    {
+      "option": "Stamped Housings",
+      "objective": "Sustainability",
+      "value": 5.0
+    },
+    {
+      "option": "Pump Assemblies",
+      "objective": "Margin",
+      "value": 30.0
+    },
+    {
+      "option": "Pump Assemblies",
+      "objective": "Throughput",
+      "value": 28.0
+    },
+    {
+      "option": "Pump Assemblies",
+      "objective": "Sustainability",
+      "value": 7.0
+    },
+    {
+      "option": "Valve Bodies",
+      "objective": "Margin",
+      "value": 34.0
+    },
+    {
+      "option": "Valve Bodies",
+      "objective": "Throughput",
+      "value": 22.0
+    },
+    {
+      "option": "Valve Bodies",
+      "objective": "Sustainability",
+      "value": 6.0
+    },
+    {
+      "option": "Gear Sets",
+      "objective": "Margin",
+      "value": 27.0
+    },
+    {
+      "option": "Gear Sets",
+      "objective": "Throughput",
+      "value": 32.0
+    },
+    {
+      "option": "Gear Sets",
+      "objective": "Sustainability",
+      "value": 8.0
+    }
+  ]
+}
