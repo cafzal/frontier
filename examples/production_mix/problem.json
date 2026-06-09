@@ -1,7 +1,7 @@
 {
   "name": "Production Mix Allocation",
   "domain": "manufacturing",
-  "context": "Allocate a fixed plant capacity across products on three lines to maximize unit margin, throughput, and sustainability. No single product may take more than 30% of capacity, and each line can run at most two SKUs at once (a changeover/tooling limit). Three purely linear objectives over a continuous allocation make this an exact multi-objective LP \u2014 so beyond the frontier the solver returns exact duals: which line is the binding constraint to expand (shadow price), which product is the closest near-miss (reduced cost), and which SKU is the fractional swing that sets the marginal price (basic at ~0).",
+  "context": "Allocate a fixed plant capacity across products on three lines to maximize unit margin, throughput, and sustainability. No single product may take more than 30% of capacity, and each line can run at most two SKUs at once (a changeover/tooling limit). Three purely linear objectives over a continuous allocation make this an exact multi-objective LP, so the solver returns exact duals beyond the frontier: which constraint is the binding lever (shadow price), which product is the closest near-miss (reduced cost), and which SKU is the fractional swing that sets the marginal price. Two scenarios stress the mix.",
   "approach": "proportional",
   "objectives": [
     {
@@ -55,6 +55,80 @@
         "Gear Sets"
       ],
       "max": 2
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "input_cost_spike",
+      "probability": null,
+      "description": "A raw-material and energy cost spike squeezes the thin-margin commodity line; the differentiated Precision and Standard products hold their pricing.",
+      "score_overrides": [
+        {
+          "option": "Fasteners",
+          "objective": "Margin",
+          "value": 9.0
+        },
+        {
+          "option": "Brackets",
+          "objective": "Margin",
+          "value": 12.0
+        },
+        {
+          "option": "Connectors",
+          "objective": "Margin",
+          "value": 13.0
+        },
+        {
+          "option": "Stamped Housings",
+          "objective": "Margin",
+          "value": 10.0
+        }
+      ],
+      "score_adjustments": [],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
+    },
+    {
+      "name": "capacity_crunch",
+      "probability": null,
+      "description": "A demand surge means no single product can absorb as much of the plant; the per-product cap tightens from 30% to 20%, forcing a broader mix.",
+      "score_overrides": [],
+      "score_adjustments": [],
+      "constraint_overrides": [
+        {
+          "type": "max_allocation",
+          "max": 20
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "Aerospace Fittings",
+            "Medical Components",
+            "Optics Housings"
+          ],
+          "max": 2
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "Fasteners",
+            "Brackets",
+            "Connectors",
+            "Stamped Housings"
+          ],
+          "max": 2
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "Pump Assemblies",
+            "Valve Bodies",
+            "Gear Sets"
+          ],
+          "max": 2
+        }
+      ],
+      "interaction_matrix_overrides": []
     }
   ]
 }
