@@ -346,3 +346,8 @@ class TestSensitivity:
         res = explorer.sensitivity_analysis(p)
         assert res["source"] == "solver_exact"
         assert "where_to_invest" in res and "near_misses" in res
+        # Regression: the diminishing-returns trend must populate on the LP path. _shadow_price_trend
+        # matched only the QP "return_floor" role, leaving the LP "linear_floor" trend empty.
+        trend = res["frontier_shadow_price_trend"]
+        assert trend, "LP path must populate frontier_shadow_price_trend (the swept linear_floor objective)"
+        assert all("shadow_price" in t and t["lever"] == "Yield" for t in trend)
