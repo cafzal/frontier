@@ -1,10 +1,21 @@
 # Supplier selection
 
-Split a production order across 25 global suppliers: cost, reliability, lead time, ESG risk, and correlated regional disruption all pull against each other (the cheap suppliers are slower, less reliable, and riskier), and the per-region caps plus the quadratic concentration term make it too combinatorial for a spreadsheet or an LLM alone.
+Split a production order across 25 global suppliers balancing cost, reliability, lead time, ESG risk, and correlated regional disruption: the cheap suppliers are slower, less reliable, and riskier, and the per-region caps plus the quadratic concentration term make it too combinatorial for a spreadsheet or an LLM alone. The minimize-risk quadratic puts it on Frontier's exact mean-variance (QP) path.
 
-- **`problem.json`** — definition: 5 objectives (Cost ↓, Reliability ↑, LeadTime ↓, ESGRisk ↓, ConcentrationRisk ↓ quadratic), proportional approach, constraints (≤15% per supplier, ≤3 active suppliers per region, weighted reliability ≥78), and two scenarios: `china_disruption` (China suppliers offline) and `demand_surge` (a volume spike tightens per-supplier capacity to 10%).
-- **`scores.json`** — 25 suppliers across 6 regions with per-objective scores plus the `ConcentrationRisk` interaction matrix (high within-region correlation, ~0 across regions).
+- **`problem.json`**: 5 objectives (Cost / LeadTime / ESGRisk / ConcentrationRisk minimize, Reliability maximize; ConcentrationRisk is quadratic), proportional approach, constraints (≤15% per supplier, ≤3 active suppliers per region, weighted reliability ≥78), and two scenarios (`china_disruption`, `demand_surge`).
+- **`scores.json`**: 25 suppliers across 6 regions with per-objective scores, plus the `ConcentrationRisk` interaction matrix (high within-region correlation, ~0 across regions).
+- **`solutions.json`**: the exploratory NSGA `run` plus the per-scenario `scenario_run`.
 
-Load both into Frontier (`model create` → `model update` with the objectives/options/scores/constraints/interaction_matrices/scenarios → `solve run` → `explore`), or paste this to an agent connected to Frontier:
+Load with `model load source="supplier_selection"`, or paste this to an agent connected to Frontier:
 
-> Allocate our order across the 25 suppliers in scores.json — minimize unit cost, maximize reliability, minimize lead time and ESG risk, and minimize concentration risk using the ConcentrationRisk interaction matrix (correlated regional disruption, not weighted-average). Constraints: no supplier over 15%, at most 3 active suppliers per region, weighted reliability at least 78. Show the tradeoffs across the base case, a China-region disruption (those suppliers offline), and a demand surge (per-supplier cap tightens to 10%) — the range of non-dominated multi-sourcing plans and where the knees are, not one "best."
+> Allocate our order across the 25 suppliers in scores.json to minimize unit cost, maximize reliability, minimize lead time and ESG risk, and minimize concentration risk via the ConcentrationRisk interaction matrix. Constraints: no supplier over 15%, at most 3 active suppliers per region, weighted reliability at least 78. Explore the tradeoffs across the base case and the disruption scenarios, solve it exactly (solver=highs), certify it, and read the duals.
+
+## The workflow
+
+1. **Explore** (`solve run`): the multi-sourcing frontier across the five objectives, with its extremes, a balanced plan, and the knees.
+2. **Stress-test** (`solve run_scenarios`): re-solve under `china_disruption` (those suppliers offline) and `demand_surge` (per-supplier capacity tightens to 10%) to find resilient mixes.
+3. **Certify** (`solve solver="highs"`, then `explore certify`): the exact mean-variance QP overlay audits the heuristic frontier and sharpens the minimum-concentration-risk corner.
+4. **Examine sensitivity** (`explore sensitivity`): solver-exact duals: which constraint (a region cap, the reliability floor) is the binding lever, which supplier is the closest near-miss, and which sit pinned at a cap.
+5. **Decide** (`explore curate`): pin a few sourcing plans and choose on the tradeoffs.
+
+For the same QP shape in finance, see [`investment_portfolio`](../investment_portfolio/); for the energy version, [`capacity_planning`](../capacity_planning/).
