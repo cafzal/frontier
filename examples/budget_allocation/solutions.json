@@ -1,0 +1,4880 @@
+{
+  "run": {
+    "run_id": "9f649309-a397-44bb-ba02-c0802db06dd3",
+    "created_at": "2026-06-09T22:03:25.998154Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.7599,
+          "Strategic Reach": 7.3096
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 30,
+          "Mobile Revamp": 0,
+          "Marketplace": 35,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "d9b73ad62433",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.7559,
+          "Strategic Reach": 7.3117
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 31,
+          "Mobile Revamp": 0,
+          "Marketplace": 34,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "5e699b4076a5",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.7122,
+          "Strategic Reach": 7.3298
+        },
+        "allocations": {
+          "AI Copilot": 34,
+          "Self-Serve Onboarding": 32,
+          "Mobile Revamp": 0,
+          "Marketplace": 34,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "d542dd80e6d7",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6887,
+          "Strategic Reach": 7.3382
+        },
+        "allocations": {
+          "AI Copilot": 34,
+          "Self-Serve Onboarding": 33,
+          "Mobile Revamp": 0,
+          "Marketplace": 33,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "68d279fd4c96",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6822,
+          "Strategic Reach": 7.3544
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 32,
+          "Mobile Revamp": 0,
+          "Marketplace": 33,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7b699cc0b96a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6662,
+          "Strategic Reach": 7.3623
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 32,
+          "Mobile Revamp": 0,
+          "Marketplace": 33,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7b699cc0b96a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6192,
+          "Strategic Reach": 7.3858
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 33,
+          "Mobile Revamp": 0,
+          "Marketplace": 32,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4a5aefb58815",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6099,
+          "Strategic Reach": 7.3968
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 33,
+          "Mobile Revamp": 0,
+          "Marketplace": 32,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4a5aefb58815",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.5926,
+          "Strategic Reach": 7.4075
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 33,
+          "Mobile Revamp": 0,
+          "Marketplace": 32,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4a5aefb58815",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.5489,
+          "Strategic Reach": 7.4462
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 0,
+          "Marketplace": 30,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "32d1613e9f09",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.5266,
+          "Strategic Reach": 7.4464
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 0,
+          "Marketplace": 30,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "32d1613e9f09",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.4901,
+          "Strategic Reach": 7.4627
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 1,
+          "Marketplace": 29,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "09e76692e99a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.4467,
+          "Strategic Reach": 7.4754
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 1,
+          "Marketplace": 29,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "09e76692e99a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.406,
+          "Strategic Reach": 7.4853
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 2,
+          "Marketplace": 28,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0d87b92f0de2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.3579,
+          "Strategic Reach": 7.4911
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 2,
+          "Marketplace": 28,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0d87b92f0de2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.3262,
+          "Strategic Reach": 7.5024
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 3,
+          "Marketplace": 27,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c6579eae0720",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.3236,
+          "Strategic Reach": 7.5053
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 3,
+          "Marketplace": 27,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c6579eae0720",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.2497,
+          "Strategic Reach": 7.5158
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 4,
+          "Marketplace": 26,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c2c0fefe440d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.182,
+          "Strategic Reach": 7.5234
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 4,
+          "Marketplace": 26,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c2c0fefe440d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.1491,
+          "Strategic Reach": 7.5467
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 5,
+          "Marketplace": 25,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "de59be0020b0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.1341,
+          "Strategic Reach": 7.5502
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 5,
+          "Marketplace": 25,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "de59be0020b0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.0725,
+          "Strategic Reach": 7.5583
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 6,
+          "Marketplace": 24,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "93e0cf005a51",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.0488,
+          "Strategic Reach": 7.5602
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 6,
+          "Marketplace": 24,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "93e0cf005a51",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.0255,
+          "Strategic Reach": 7.5702
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 6,
+          "Marketplace": 24,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "93e0cf005a51",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 25,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.0062,
+          "Strategic Reach": 7.5836
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 7,
+          "Marketplace": 23,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "31c08015ebe9",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 26,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.9546,
+          "Strategic Reach": 7.5875
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 7,
+          "Marketplace": 23,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "31c08015ebe9",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 27,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.9283,
+          "Strategic Reach": 7.5972
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 8,
+          "Marketplace": 22,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "35146b3de0db",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 28,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.9161,
+          "Strategic Reach": 7.6063
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 8,
+          "Marketplace": 22,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "35146b3de0db",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 29,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.8435,
+          "Strategic Reach": 7.6194
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 9,
+          "Marketplace": 21,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "89dd5db5624e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.8308,
+          "Strategic Reach": 7.6275
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 9,
+          "Marketplace": 21,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "89dd5db5624e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 31,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.7781,
+          "Strategic Reach": 7.6338
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 9,
+          "Marketplace": 21,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "89dd5db5624e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 32,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.769,
+          "Strategic Reach": 7.6435
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 10,
+          "Marketplace": 20,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "bb74566bfa6a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 33,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.7439,
+          "Strategic Reach": 7.649
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 10,
+          "Marketplace": 20,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "bb74566bfa6a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 34,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.7029,
+          "Strategic Reach": 7.6587
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 11,
+          "Marketplace": 19,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "663c69ec0b80",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 35,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.6372,
+          "Strategic Reach": 7.6621
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 11,
+          "Marketplace": 19,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "663c69ec0b80",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 36,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.6,
+          "Strategic Reach": 7.6863
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 12,
+          "Marketplace": 18,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "8485ff8b548c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 37,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.5587,
+          "Strategic Reach": 7.6943
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 12,
+          "Marketplace": 18,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "8485ff8b548c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 38,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.4989,
+          "Strategic Reach": 7.7098
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 13,
+          "Marketplace": 17,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0a9f5dbb351b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 39,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.462,
+          "Strategic Reach": 7.7187
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 13,
+          "Marketplace": 17,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0a9f5dbb351b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 40,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.4212,
+          "Strategic Reach": 7.729
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 14,
+          "Marketplace": 16,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "e13aab9ca358",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 41,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.3804,
+          "Strategic Reach": 7.7412
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 15,
+          "Marketplace": 15,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "25210b60eb39",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 42,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.3436,
+          "Strategic Reach": 7.7512
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 15,
+          "Marketplace": 15,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "25210b60eb39",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 43,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.2974,
+          "Strategic Reach": 7.7594
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 15,
+          "Marketplace": 15,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "25210b60eb39",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 44,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.2915,
+          "Strategic Reach": 7.7634
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 16,
+          "Marketplace": 14,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "ef03888f2add",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 45,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.249,
+          "Strategic Reach": 7.7747
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 16,
+          "Marketplace": 14,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "ef03888f2add",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 46,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.2224,
+          "Strategic Reach": 7.7769
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 16,
+          "Marketplace": 14,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "ef03888f2add",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 47,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.1704,
+          "Strategic Reach": 7.7945
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 17,
+          "Marketplace": 13,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "6e4db967bcfb",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 48,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.1284,
+          "Strategic Reach": 7.8038
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 18,
+          "Marketplace": 12,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cc7883d13df0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 49,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.1114,
+          "Strategic Reach": 7.8079
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 18,
+          "Marketplace": 12,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cc7883d13df0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 50,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.0504,
+          "Strategic Reach": 7.8161
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 18,
+          "Marketplace": 12,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cc7883d13df0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 51,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.0075,
+          "Strategic Reach": 7.8309
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 19,
+          "Marketplace": 11,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7e7920ad1f7f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 52,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.954,
+          "Strategic Reach": 7.8455
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 20,
+          "Marketplace": 10,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a5684ffd35cd",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 53,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.9427,
+          "Strategic Reach": 7.851
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 20,
+          "Marketplace": 10,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a5684ffd35cd",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 54,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.8167,
+          "Strategic Reach": 7.8796
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 21,
+          "Marketplace": 9,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4b2042011caa",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 55,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.8014,
+          "Strategic Reach": 7.8828
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 22,
+          "Marketplace": 8,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a3d2967cc4b2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 56,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.7567,
+          "Strategic Reach": 7.8946
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 22,
+          "Marketplace": 8,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a3d2967cc4b2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 57,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.7312,
+          "Strategic Reach": 7.8991
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 22,
+          "Marketplace": 8,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a3d2967cc4b2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 58,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.684,
+          "Strategic Reach": 7.9095
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 23,
+          "Marketplace": 7,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cd3bf33ff12b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 59,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.6555,
+          "Strategic Reach": 7.9173
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 23,
+          "Marketplace": 7,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cd3bf33ff12b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 60,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.6139,
+          "Strategic Reach": 7.9192
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 23,
+          "Marketplace": 7,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cd3bf33ff12b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 61,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.5633,
+          "Strategic Reach": 7.9454
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 25,
+          "Marketplace": 5,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "dafb3f7d8939",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 62,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.5416,
+          "Strategic Reach": 7.9478
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 25,
+          "Marketplace": 5,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "dafb3f7d8939",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 63,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.4551,
+          "Strategic Reach": 7.9703
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 26,
+          "Marketplace": 4,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "eb47ac345942",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 64,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.4122,
+          "Strategic Reach": 7.9769
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 26,
+          "Marketplace": 4,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "eb47ac345942",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 65,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.3788,
+          "Strategic Reach": 7.9877
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 27,
+          "Marketplace": 3,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4ce143931032",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 66,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.3527,
+          "Strategic Reach": 7.9976
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 27,
+          "Marketplace": 3,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4ce143931032",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 67,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.3196,
+          "Strategic Reach": 7.9982
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 27,
+          "Marketplace": 3,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4ce143931032",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 68,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.291,
+          "Strategic Reach": 8.0104
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 28,
+          "Marketplace": 2,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "3205d7475c5f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 69,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.2362,
+          "Strategic Reach": 8.0155
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 28,
+          "Marketplace": 2,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "3205d7475c5f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 70,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.2108,
+          "Strategic Reach": 8.0311
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 29,
+          "Marketplace": 1,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7f4f8e4ab43c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 71,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.1826,
+          "Strategic Reach": 8.0342
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 29,
+          "Marketplace": 1,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7f4f8e4ab43c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 72,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp"
+        ],
+        "objective_values": {
+          "ROI": 25.1319,
+          "Strategic Reach": 8.0496
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 30,
+          "Marketplace": 0,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "d01d96d6cdb5",
+        "sensitivity": null
+      }
+    ],
+    "total_pareto_found": 72,
+    "quality": {
+      "hypervolume_normalized": 0.6246,
+      "spacing_cv": 0.4894
+    },
+    "constraints_snapshot": [],
+    "seed_used": 42,
+    "solver": "nsga-ii",
+    "exact": false,
+    "time_limit": null,
+    "time_limited": false
+  },
+  "exact_run": {
+    "run_id": "0a57f911-03a4-4ab7-ae99-b7a486be5c2c",
+    "created_at": "2026-06-09T22:03:26.328940Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.8,
+          "Strategic Reach": 7.3
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 30,
+          "Mobile Revamp": 0,
+          "Marketplace": 35,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "d9b73ad62433",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -25.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -3.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 30,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 0,
+              "reduced_cost": 3.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 35,
+              "reduced_cost": -5.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 7.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 13.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 5.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.75,
+          "Strategic Reach": 7.33
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 31,
+          "Mobile Revamp": 0,
+          "Marketplace": 34,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "5e699b4076a5",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -38.333333
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 1.666667
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 31,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 0,
+              "reduced_cost": 4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 34,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 13.666667,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 14.666667,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.7,
+          "Strategic Reach": 7.36
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 32,
+          "Mobile Revamp": 0,
+          "Marketplace": 33,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7b699cc0b96a",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -38.333333
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 1.666667
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 32,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 0,
+              "reduced_cost": 4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 33,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 13.666667,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 14.666667,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.65,
+          "Strategic Reach": 7.39
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 33,
+          "Mobile Revamp": 0,
+          "Marketplace": 32,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4a5aefb58815",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -38.333333
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 1.666667
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 33,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 0,
+              "reduced_cost": 4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 32,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 13.666667,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 14.666667,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.6,
+          "Strategic Reach": 7.42
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 34,
+          "Mobile Revamp": 0,
+          "Marketplace": 31,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "40a3bd135f22",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -38.333333
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 1.666667
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 34,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 0,
+              "reduced_cost": 4.666667,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 31,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 13.666667,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 14.666667,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 13.333333,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.47,
+          "Strategic Reach": 7.47
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 1,
+          "Marketplace": 29,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "09e76692e99a",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 29,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.39,
+          "Strategic Reach": 7.49
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 2,
+          "Marketplace": 28,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0d87b92f0de2",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 2,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 28,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.31,
+          "Strategic Reach": 7.51
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 3,
+          "Marketplace": 27,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c6579eae0720",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 27,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.23,
+          "Strategic Reach": 7.53
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 4,
+          "Marketplace": 26,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "c2c0fefe440d",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 26,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.15,
+          "Strategic Reach": 7.55
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 5,
+          "Marketplace": 25,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "de59be0020b0",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 25,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 27.07,
+          "Strategic Reach": 7.57
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 6,
+          "Marketplace": 24,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "93e0cf005a51",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 6,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 24,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.99,
+          "Strategic Reach": 7.59
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 7,
+          "Marketplace": 23,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "31c08015ebe9",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 23,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.91,
+          "Strategic Reach": 7.61
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 8,
+          "Marketplace": 22,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "35146b3de0db",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 8,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 22,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.83,
+          "Strategic Reach": 7.63
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 9,
+          "Marketplace": 21,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "89dd5db5624e",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 9,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 21,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.75,
+          "Strategic Reach": 7.65
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 10,
+          "Marketplace": 20,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "bb74566bfa6a",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 10,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 20,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.67,
+          "Strategic Reach": 7.67
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 11,
+          "Marketplace": 19,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "663c69ec0b80",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 11,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 19,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.59,
+          "Strategic Reach": 7.69
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 12,
+          "Marketplace": 18,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "8485ff8b548c",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 12,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 18,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.51,
+          "Strategic Reach": 7.71
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 13,
+          "Marketplace": 17,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "0a9f5dbb351b",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 13,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 17,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.35,
+          "Strategic Reach": 7.75
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 15,
+          "Marketplace": 15,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "25210b60eb39",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 15,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 15,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.27,
+          "Strategic Reach": 7.77
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 16,
+          "Marketplace": 14,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "ef03888f2add",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 16,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 14,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.19,
+          "Strategic Reach": 7.79
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 17,
+          "Marketplace": 13,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "6e4db967bcfb",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 17,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 13,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.11,
+          "Strategic Reach": 7.81
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 18,
+          "Marketplace": 12,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cc7883d13df0",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 18,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 12,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 26.03,
+          "Strategic Reach": 7.83
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 19,
+          "Marketplace": 11,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7e7920ad1f7f",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 19,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 11,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.95,
+          "Strategic Reach": 7.85
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 20,
+          "Marketplace": 10,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a5684ffd35cd",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 20,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 10,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 25,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.87,
+          "Strategic Reach": 7.87
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 21,
+          "Marketplace": 9,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4b2042011caa",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 21,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 9,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 26,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.79,
+          "Strategic Reach": 7.89
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 22,
+          "Marketplace": 8,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "a3d2967cc4b2",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 22,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 8,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 27,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.71,
+          "Strategic Reach": 7.91
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 23,
+          "Marketplace": 7,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "cd3bf33ff12b",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 23,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 28,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.63,
+          "Strategic Reach": 7.93
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 24,
+          "Marketplace": 6,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "941e27fca324",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 24,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 6,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 29,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.55,
+          "Strategic Reach": 7.95
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 25,
+          "Marketplace": 5,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "dafb3f7d8939",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 25,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.47,
+          "Strategic Reach": 7.97
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 26,
+          "Marketplace": 4,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "eb47ac345942",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 26,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 31,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.39,
+          "Strategic Reach": 7.99
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 27,
+          "Marketplace": 3,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "4ce143931032",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 27,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 32,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.31,
+          "Strategic Reach": 8.01
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 28,
+          "Marketplace": 2,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "3205d7475c5f",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 28,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 2,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 33,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp",
+          "Marketplace"
+        ],
+        "objective_values": {
+          "ROI": 25.23,
+          "Strategic Reach": 8.03
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 29,
+          "Marketplace": 1,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "7f4f8e4ab43c",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 29,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 34,
+        "selected_options": [
+          "AI Copilot",
+          "Self-Serve Onboarding",
+          "Mobile Revamp"
+        ],
+        "objective_values": {
+          "ROI": 25.15,
+          "Strategic Reach": 8.05
+        },
+        "allocations": {
+          "AI Copilot": 35,
+          "Self-Serve Onboarding": 35,
+          "Mobile Revamp": 30,
+          "Marketplace": 0,
+          "Data Platform": 0,
+          "Enterprise SSO": 0,
+          "Localization": 0,
+          "Partner API": 0
+        },
+        "content_signature": "d01d96d6cdb5",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -50.0
+            },
+            {
+              "name": "Strategic Reach",
+              "role": "linear_floor",
+              "shadow_price": 4.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "AI Copilot",
+              "allocation": 35,
+              "reduced_cost": -14.0,
+              "eligible": true
+            },
+            {
+              "option": "Self-Serve Onboarding",
+              "allocation": 35,
+              "reduced_cost": -7.0,
+              "eligible": true
+            },
+            {
+              "option": "Mobile Revamp",
+              "allocation": 30,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Marketplace",
+              "allocation": 0,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "Data Platform",
+              "allocation": 0,
+              "reduced_cost": 11.0,
+              "eligible": true
+            },
+            {
+              "option": "Enterprise SSO",
+              "allocation": 0,
+              "reduced_cost": 16.0,
+              "eligible": true
+            },
+            {
+              "option": "Localization",
+              "allocation": 0,
+              "reduced_cost": 10.0,
+              "eligible": true
+            },
+            {
+              "option": "Partner API",
+              "allocation": 0,
+              "reduced_cost": 18.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      }
+    ],
+    "total_pareto_found": 34,
+    "quality": {
+      "hypervolume_normalized": 0.6223,
+      "spacing_cv": 0.5713
+    },
+    "constraints_snapshot": [],
+    "seed_used": 42,
+    "solver": "highs",
+    "exact": false,
+    "time_limit": null,
+    "time_limited": false
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Growth Budget Allocation",
+  "domain": "product",
+  "context": "Split a fixed growth budget across initiatives to maximize projected ROI and strategic reach, with no single initiative above 35% of the budget. Two purely linear objectives over a continuous allocation make this an exact multi-objective LP \u2014 so beyond the frontier, the solver returns exact duals: which initiative is a near-miss (reduced cost) and which limit is binding (shadow price).",
+  "approach": "proportional",
+  "objectives": [
+    {
+      "name": "ROI",
+      "direction": "maximize",
+      "unit": "%",
+      "aggregation": "avg"
+    },
+    {
+      "name": "Strategic Reach",
+      "direction": "maximize",
+      "unit": "score",
+      "aggregation": "avg"
+    }
+  ],
+  "constraints": [
+    {
+      "type": "max_allocation",
+      "max": 35
+    }
+  ]
+}

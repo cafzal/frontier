@@ -1,0 +1,118 @@
+{
+  "options": [
+    {
+      "name": "AI Copilot",
+      "description": ""
+    },
+    {
+      "name": "Self-Serve Onboarding",
+      "description": ""
+    },
+    {
+      "name": "Mobile Revamp",
+      "description": ""
+    },
+    {
+      "name": "Marketplace",
+      "description": ""
+    },
+    {
+      "name": "Data Platform",
+      "description": ""
+    },
+    {
+      "name": "Enterprise SSO",
+      "description": ""
+    },
+    {
+      "name": "Localization",
+      "description": ""
+    },
+    {
+      "name": "Partner API",
+      "description": ""
+    }
+  ],
+  "scores": [
+    {
+      "option": "AI Copilot",
+      "objective": "ROI",
+      "value": 28.0
+    },
+    {
+      "option": "AI Copilot",
+      "objective": "Strategic Reach",
+      "value": 9.0
+    },
+    {
+      "option": "Self-Serve Onboarding",
+      "objective": "ROI",
+      "value": 25.0
+    },
+    {
+      "option": "Self-Serve Onboarding",
+      "objective": "Strategic Reach",
+      "value": 8.0
+    },
+    {
+      "option": "Mobile Revamp",
+      "objective": "ROI",
+      "value": 22.0
+    },
+    {
+      "option": "Mobile Revamp",
+      "objective": "Strategic Reach",
+      "value": 7.0
+    },
+    {
+      "option": "Marketplace",
+      "objective": "ROI",
+      "value": 30.0
+    },
+    {
+      "option": "Marketplace",
+      "objective": "Strategic Reach",
+      "value": 5.0
+    },
+    {
+      "option": "Data Platform",
+      "objective": "ROI",
+      "value": 15.0
+    },
+    {
+      "option": "Data Platform",
+      "objective": "Strategic Reach",
+      "value": 6.0
+    },
+    {
+      "option": "Enterprise SSO",
+      "objective": "ROI",
+      "value": 18.0
+    },
+    {
+      "option": "Enterprise SSO",
+      "objective": "Strategic Reach",
+      "value": 4.0
+    },
+    {
+      "option": "Localization",
+      "objective": "ROI",
+      "value": 12.0
+    },
+    {
+      "option": "Localization",
+      "objective": "Strategic Reach",
+      "value": 7.0
+    },
+    {
+      "option": "Partner API",
+      "objective": "ROI",
+      "value": 20.0
+    },
+    {
+      "option": "Partner API",
+      "objective": "Strategic Reach",
+      "value": 3.0
+    }
+  ]
+}

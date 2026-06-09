@@ -2506,11 +2506,13 @@ def _format_solution_sensitivity(s):
 
 
 def _shadow_price_trend(solutions) -> list[dict]:
-    """The swept-constraint (return-floor) shadow price across the frontier, by solution_id —
-    the diminishing-returns curve made exact."""
+    """The swept-objective shadow price across the frontier, by solution_id — the
+    diminishing-returns curve made exact. The swept constraint is the QP path's ``return_floor``
+    or, on the pure-linear LP path (no quadratic primary), the first objective ``linear_floor``."""
     trend = []
     for s in sorted(solutions, key=lambda x: x.solution_id):
-        sp = next((x for x in s.sensitivity.shadow_prices if x.role == "return_floor"), None)
+        sp = next((x for x in s.sensitivity.shadow_prices
+                   if x.role in ("return_floor", "linear_floor")), None)
         if sp is not None:
             trend.append({"solution_id": s.solution_id, "lever": sp.name,
                           "shadow_price": sp.shadow_price})
