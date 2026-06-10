@@ -1,22 +1,24 @@
 "use client";
 
 /**
- * Render-only chart page for demo capture — the real FrontierPlot with no chat chrome.
+ * Render-only chart page for demo capture — the real Viz components with no chat chrome.
  * Drive it from the capture harness:
- *   /render?problem_id=<id>              → heuristic frontier + exact overlay
- *                                          (2-obj → emerald-certified diamonds over faded dominated)
- *   /render?problem_id=<id>&source=exact → exact-only certified frontier
- *   /render?problem_id=<id>&scenario=<s> → a scenario's frontier
+ *   /render?problem_id=<id>                        → heuristic frontier + exact overlay
+ *                                                    (2-obj → emerald-certified diamonds over faded dominated)
+ *   /render?problem_id=<id>&source=exact           → exact-only certified frontier
+ *   /render?problem_id=<id>&scenario=<s>           → a scenario's frontier
+ *   /render?problem_id=<id>&action=scenario_results → the ScenarioSummary panel (regret + robustness)
  *
+ * Dispatches via VizRenderer so any viz_data type renders (scatter, scenario_summary, …).
  * Reads the query string client-side (window.location.search) so no Suspense
  * boundary is needed. See `.claude/plans/demo-capture-lessons.md` §C.
  */
 import { useEffect, useState } from "react";
-import { FrontierPlot } from "@/components/Viz/FrontierPlot";
-import type { ScatterVizData } from "@/lib/viz-data";
+import { VizRenderer } from "@/components/Viz";
+import type { VizData } from "@/lib/viz-data";
 
 export default function RenderPage() {
-  const [viz, setViz] = useState<ScatterVizData | null>(null);
+  const [viz, setViz] = useState<VizData | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export default function RenderPage() {
       data-render-root
       style={{ padding: 24, maxWidth: 920, margin: "0 auto", background: "#fff" }}
     >
-      <FrontierPlot data={viz} />
+      <VizRenderer data={viz} />
     </div>
   );
 }

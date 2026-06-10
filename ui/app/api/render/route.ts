@@ -17,7 +17,7 @@
  */
 import { Client as MCPClient } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import { extractVizData, type ScatterVizData } from "@/lib/viz-data";
+import { extractVizData } from "@/lib/viz-data";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -41,6 +41,7 @@ function authedFetch(token?: string) {
 export async function GET(req: Request) {
   const url = new URL(req.url);
   const problem_id = url.searchParams.get("problem_id");
+  const action = url.searchParams.get("action") ?? "tradeoffs"; // "tradeoffs" → scatter; "scenario_results" → scenario_summary panel
   const source = url.searchParams.get("source") ?? undefined; // "exact" → exact-only; omit → heuristic + overlay (combined)
   const scenario = url.searchParams.get("scenario") ?? undefined;
   const color = url.searchParams.get("color") ?? undefined; // a 3rd objective to encode as marker color (2D color-by view)
@@ -56,7 +57,7 @@ export async function GET(req: Request) {
     });
     await mcp.connect(transport);
 
-    const args: Record<string, unknown> = { action: "tradeoffs", problem_id };
+    const args: Record<string, unknown> = { action, problem_id };
     if (source) args.source = source;
     if (scenario) args.scenario = scenario;
 
@@ -65,22 +66,22 @@ export async function GET(req: Request) {
       .map((c: any) => (typeof c?.text === "string" ? c.text : ""))
       .join("\n");
 
-    const viz = extractVizData(text).find((v) => v.type === "scatter") as
-      | ScatterVizData
-      | undefined;
+    // Which viz_data block to surface depends on the explore action driving this render.
+    const wantType = action === "scenario_results" ? "scenario_summary" : "scatter";
+    const vizList = extractVizData(text);
+    const viz = vizList.find((v) => v.type === wantType) ?? vizList[0];
     if (!viz) {
       return Response.json(
         {
-          error:
-            "no scatter viz_data — the run may not exist, or the problem has >3 objectives (parcoords only)",
+          error: `no ${wantType} viz_data — the run may not exist, or the problem shape doesn't produce it`,
           raw: text.slice(0, 400),
         },
         { status: 404 },
       );
     }
-    // Optional 2D color-by view: encode a chosen objective as marker color (the route's way to
-    // get a 2D-colored-by-3rd-objective scatter the chat agent's viz_data can't express).
-    if (color && viz.objectives.some((o) => o.name === color)) {
+    // Optional 2D color-by view (scatter only): encode a chosen objective as marker color (the
+    // route's way to get a 2D-colored-by-3rd-objective scatter the chat agent's viz_data can't express).
+    if (color && viz.type === "scatter" && viz.objectives.some((o) => o.name === color)) {
       viz.color_objective = color;
     }
     return Response.json({ vizData: viz });
