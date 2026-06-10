@@ -37,6 +37,30 @@ class TestModelCreate:
         assert "problem_id" in result
         assert result["name"] == ""
 
+    def test_create_accepts_constraints(self):
+        """Constraints are problem structure — they land at create, not silently vanish."""
+        result = srv.model(
+            action="create",
+            options=[{"name": "A"}, {"name": "B"}],
+            constraints=[{"type": "cardinality", "min": 1, "max": 1}],
+        )
+        assert result["constraints"] == 1
+        got = srv.model(action="get", problem_id=result["problem_id"], section="constraints")
+        assert got["constraints"][0]["type"] == "cardinality"
+
+    def test_create_rejects_content_params_it_does_not_apply(self):
+        """Scores (and scenarios etc.) at create error with a pointer to update —
+        silently dropping them would solve a different problem than described."""
+        result = srv.model(
+            action="create",
+            options=[{"name": "A"}],
+            scores=[{"option": "A", "objective": "Rev", "value": 1}],
+        )
+        assert "error" in result
+        assert "update" in result["error"]
+        result = srv.model(action="create", scenario_config={"scenarios": []})
+        assert "error" in result
+
 
 class TestModelUpdate:
     def test_update_metadata(self):
@@ -746,6 +770,31 @@ class TestScenarios:
         assert {"solution_id", "max_regret", "mean_regret", "feasible_in_all", "by_scenario"} <= set(first)
         # by_scenario drives the panel's per-solution tooltip — keyed by scenario name.
         assert set(first["by_scenario"]) == {"Base", "Growth"}
+        # Unsaturated regret keeps its minimax pick and reports the full count.
+        assert regret.get("saturated") is not True
+        assert regret["per_solution_total"] >= len(regret["per_solution"])
+
+    def test_scenario_regret_saturation_flagged(self):
+        """When every base solution is infeasible under a scenario, regret saturates at
+        1.0 across the board — the payload must say so and omit the meaningless minimax
+        pick instead of nominating an arbitrary all-tied solution (user test, finding P5)."""
+        pid = _build_solvable_problem()                  # base cardinality 2-3
+        srv.model(action="update", problem_id=pid, scenario_config={
+            "enabled": True,
+            "scenarios": [
+                {"name": "Tight", "constraint_overrides": [
+                    {"type": "cardinality", "min": 1, "max": 1},   # every base slate infeasible
+                ]},
+            ],
+        })
+        srv.solve(action="run", problem_id=pid)
+        srv.solve(action="run_scenarios", problem_id=pid)
+        regret = srv.explore(action="scenario_results", problem_id=pid)["regret"]
+        assert regret["available"] is True
+        assert regret["saturated"] is True
+        assert "Tight" in regret["saturation_note"]
+        assert regret["minimax_choice"] is None
+        assert all(ps["feasible_in_all"] is False for ps in regret["per_solution"])
 
     def test_scenario_results_without_run(self):
         pid = _build_solvable_problem()
@@ -1629,6 +1678,32 @@ class TestSkillInjectionOnSolve:
         result = srv.solve(action="run", problem_id=pid)
         assert result["_skill_guidance"]["skill"] == "solution_interpreter"
 
+    def test_scores_only_update_does_not_rearm_solution_interpreter(self):
+        """Score-value refinements mark results stale but keep interpretation guidance
+        armed: the tweak→re-solve iteration loop must not re-pay the full core
+        (docstring contract; post-streamlining user test, finding P2)."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        assert srv._was_injected(pid, "solution_interpreter")
+        updated = srv.model(action="update", problem_id=pid,
+                            scores=[{"option": "A", "objective": "Rev", "value": 9}])
+        assert updated["status"]["results_stale"] is True       # staleness still marked
+        assert srv._was_injected(pid, "solution_interpreter")   # but no re-arm
+        result = srv.solve(action="run", problem_id=pid)
+        assert "_skill_guidance" not in result                  # and no re-inject
+
+    def test_solve_delivery_does_not_rearm_optimization_strategy(self):
+        """A completed solve must not re-arm optimization_strategy: before the fix, a
+        post-solve score tweak at a still-complete matrix re-fired the full ~5.5k-token
+        core every iteration cycle (user test, finding P2)."""
+        pid = _build_solvable_problem()                         # injects optimization_strategy at 100%
+        assert srv._was_injected(pid, "optimization_strategy")
+        srv.solve(action="run", problem_id=pid)
+        assert srv._was_injected(pid, "optimization_strategy")  # delivery left it marked
+        tweaked = srv.model(action="update", problem_id=pid,
+                            scores=[{"option": "B", "objective": "Eff", "value": 4}])
+        assert "_skill_guidance" not in tweaked                 # no re-fire after solve
+
     def test_solve_validation_failure_no_injection(self):
         created = srv.model(action="create")
         pid = created["problem_id"]
@@ -1661,15 +1736,20 @@ class TestSkillInjectionOnSolve:
         assert result["ready"] is True
         assert "_skill_guidance" not in result
 
-    def test_solve_resets_optimization_strategy_for_next_cycle(self):
-        """After solve, model changes should allow optimization_strategy to re-inject."""
+    def test_solve_does_not_reset_optimization_strategy(self):
+        """A completed solve keeps optimization_strategy marked — post-solve validate
+        or score tweaks must not re-pay the core. Only an objectives/options shape
+        change re-arms it (docstring contract; user test, finding P2)."""
         pid = _build_solvable_problem()
         srv.solve(action="run", problem_id=pid)
-        # solve resets optimization_strategy. Validate should re-inject.
         result = srv.solve(action="validate", problem_id=pid)
         assert result["ready"] is True
-        assert "_skill_guidance" in result
-        assert result["_skill_guidance"]["skill"] == "optimization_strategy"
+        assert "_skill_guidance" not in result
+        # A shape change still re-arms via the model-update path.
+        srv.model(action="update", problem_id=pid,
+                  options=[{"name": "A"}, {"name": "B"}, {"name": "C"}, {"name": "D"},
+                           {"name": "E"}])
+        assert not srv._was_injected(pid, "optimization_strategy")
 
     def test_run_scenarios_injects_solution_interpreter(self):
         pid = _build_solvable_problem()

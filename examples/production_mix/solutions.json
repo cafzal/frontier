@@ -3100,7 +3100,40 @@
       "hypervolume_normalized": 0.4483,
       "spacing_cv": 0.5745
     },
-    "constraints_snapshot": [],
+    "constraints_snapshot": [
+      {
+        "type": "max_allocation",
+        "max": 30
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Aerospace Fittings",
+          "Medical Components",
+          "Optics Housings"
+        ],
+        "max": 2
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Fasteners",
+          "Brackets",
+          "Connectors",
+          "Stamped Housings"
+        ],
+        "max": 2
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Pump Assemblies",
+          "Valve Bodies",
+          "Gear Sets"
+        ],
+        "max": 2
+      }
+    ],
     "seed_used": 42,
     "solver": "nsga-ii",
     "exact": false,
@@ -9187,7 +9220,40 @@
       "hypervolume_normalized": 0.4189,
       "spacing_cv": 0.682
     },
-    "constraints_snapshot": [],
+    "constraints_snapshot": [
+      {
+        "type": "max_allocation",
+        "max": 30
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Aerospace Fittings",
+          "Medical Components",
+          "Optics Housings"
+        ],
+        "max": 2
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Fasteners",
+          "Brackets",
+          "Connectors",
+          "Stamped Housings"
+        ],
+        "max": 2
+      },
+      {
+        "type": "group_limit",
+        "options": [
+          "Pump Assemblies",
+          "Valve Bodies",
+          "Gear Sets"
+        ],
+        "max": 2
+      }
+    ],
     "seed_used": 42,
     "solver": "highs",
     "exact": false,

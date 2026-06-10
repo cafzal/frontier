@@ -1798,7 +1798,12 @@
       "hypervolume_normalized": 0.6246,
       "spacing_cv": 0.4894
     },
-    "constraints_snapshot": [],
+    "constraints_snapshot": [
+      {
+        "type": "max_allocation",
+        "max": 35
+      }
+    ],
     "seed_used": 42,
     "solver": "nsga-ii",
     "exact": false,
@@ -4870,7 +4875,12 @@
       "hypervolume_normalized": 0.6223,
       "spacing_cv": 0.5713
     },
-    "constraints_snapshot": [],
+    "constraints_snapshot": [
+      {
+        "type": "max_allocation",
+        "max": 35
+      }
+    ],
     "seed_used": 42,
     "solver": "highs",
     "exact": false,

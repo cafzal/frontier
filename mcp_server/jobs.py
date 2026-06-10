@@ -24,7 +24,6 @@ from mcp_server.guidance import (
     _SOLUTION_INTERPRETER_PROMPT,
     _inject_skill,
     _mark_injected,
-    _reset_injection,
     _was_injected,
 )
 
@@ -136,11 +135,13 @@ def _running_handle(job: SolveJob) -> dict:
 def _deliver(problem_id: str, job: SolveJob) -> dict:
     """Render a finished job for return. Adds job_id + a status that reflects the OUTCOME
     (complete / infeasible / error / stale), and on a successful solve injects
-    solution_interpreter once per problem + re-arms optimization_strategy — the same throttle
-    the old inline _solve_run applied, now at delivery time (inline-complete or status), always
-    on a request thread (never the worker), so the injection state stays single-threaded. The
-    injection/reset side effects fire once per job (`delivered`), so re-polling a finished job
-    is a pure read and can't re-arm/suppress guidance for a later model cycle."""
+    solution_interpreter once per problem, at delivery time (inline-complete or status),
+    always on a request thread (never the worker), so the injection state stays
+    single-threaded. Delivery does NOT re-arm optimization_strategy — per the model
+    docstring only an objectives/options shape change re-arms it, so the post-solve
+    tweak→re-solve loop doesn't re-pay the full core. The injection side effect fires
+    once per job (`delivered`), so re-polling a finished job is a pure read and can't
+    suppress guidance for a later model cycle."""
     if job.status == "error":  # unexpected worker crash
         return {"status": "error", "job_id": job.job_id, "feasible": False, "error": job.error}
     result = dict(job.result or {})
@@ -154,7 +155,6 @@ def _deliver(problem_id: str, job: SolveJob) -> dict:
         if not _was_injected(problem_id, "solution_interpreter"):
             _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
             _mark_injected(problem_id, "solution_interpreter")
-        _reset_injection(problem_id, "optimization_strategy")
     job.delivered = True
     return result
 

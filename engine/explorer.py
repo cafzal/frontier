@@ -688,19 +688,39 @@ def scenario_regret(problem: Problem) -> dict:
         if best_sid is not None:
             per_objective[ob.name] = {"min_max_regret": round(best_val, 3), "achieved_by_solution_id": best_sid}
 
-    minimax = per_solution[0] if per_solution else None
-    return {
+    # per_solution is sorted ascending by max_regret, so the metric is saturated exactly
+    # when the BEST solution already hits 1.0 — every base solution is infeasible or fully
+    # dominated in some scenario, and "minimizes worst-case regret" picks among an all-1.0
+    # tie. Don't nominate a winner from a meaningless tie; name the saturating scenarios.
+    saturated = bool(per_solution) and per_solution[0]["max_regret"] >= 1.0
+    minimax = per_solution[0] if per_solution and not saturated else None
+    result = {
         "available": True,
         "method": "scenario_minimax",
         "normalization": "per_objective_range",
         "per_objective": per_objective,
         "per_solution": per_solution[:20],
+        "per_solution_total": len(per_solution),
         "minimax_choice": ({"solution_id": minimax["solution_id"],
                             "content_signature": minimax["content_signature"],
                             "max_regret": minimax["max_regret"]} if minimax else None),
         "note": ("regret = best-achievable-in-scenario minus this solution re-evaluated there, "
-                 "normalized per objective range; minimax_choice minimizes worst-case regret."),
+                 "normalized per objective range; minimax_choice minimizes worst-case regret. "
+                 "per_solution lists the lowest-max-regret solutions "
+                 "(see per_solution_total for the full count)."),
     }
+    if saturated:
+        sat_scens = [name for name in scen_runs
+                     if all(ps["by_scenario"].get(name) == 1.0 for ps in per_solution)]
+        result["saturated"] = True
+        result["saturation_note"] = (
+            "minimax not informative — every base-frontier solution hits max regret "
+            f"(infeasible or fully dominated) under: {', '.join(sat_scens) or 'some scenario'}. "
+            "minimax_choice is omitted. Pick a hedge from that scenario's own frontier "
+            "(explore tradeoffs scenario=<name>) or fold its constraints into the base "
+            "model and re-solve."
+        )
+    return result
 
 
 def _compute_reference_analysis(solution_obj_values: dict, reference_points: list, objectives: list) -> list[dict]:

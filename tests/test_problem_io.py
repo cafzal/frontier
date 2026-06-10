@@ -273,3 +273,20 @@ def test_bundled_examples_load_faithfully():
         assert p.objectives and p.options and p.scores
         if p.scenario_config and p.scenario_config.scenarios:
             assert p.scenario_config.enabled is True
+
+
+def test_bundled_examples_baked_runs_snapshot_constraints():
+    """Baked run/exact_run must snapshot the problem's constraints — an empty snapshot
+    makes the first compare_runs against a fresh solve report a phantom criteria diff
+    (post-streamlining user test, finding P4). Scenario runs carry no snapshot by
+    engine behavior, so they are exempt."""
+    avail = problem_io.list_available()
+    for name in avail["examples"]:
+        p = problem_io.load_problem(name)
+        for label, run in (("run", p.run), ("exact_run", p.exact_run)):
+            if run is None:
+                continue
+            assert len(run.constraints_snapshot) == len(p.constraints), (
+                f"{name}/{label}: constraints_snapshot has {len(run.constraints_snapshot)} "
+                f"entries but the problem has {len(p.constraints)} constraints"
+            )

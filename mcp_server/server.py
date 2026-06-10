@@ -238,16 +238,20 @@ def model(
 
     Actions:
       create  — Start a new problem. Params: name?, domain?, context?, approach?,
-                objectives?, options? (all optional; add via update later).
+                objectives?, options?, constraints? (all optional; add via update later).
+                Scores, reference_points, scenario_config, and interaction_matrices are
+                NOT applied at create — passing them errors with a pointer to update.
       update  — Modify problem. Params: problem_id (required), plus any of:
                 name, domain, context, objectives, options, scores, constraints,
                 approach ("binary" or "proportional"),
                 reference_points (list of {type, name?, objective_values, selected_options?}),
                 interaction_matrices (list of {objective, entries} for quadratic aggregation).
                 Scores use merge semantics; everything else is full replacement.
-                Side effects: structural edits (objectives/options/constraints/approach/matrices/scenarios)
-                mark the latest run stale and re-arm solution_interpreter — and, on an objectives/options
-                shape change, optimization_strategy — so the next solve re-injects fresh guidance.
+                Side effects: score and structural edits both mark the latest run stale.
+                Only structural edits (objectives/options/constraints/approach/matrices/scenarios)
+                re-arm solution_interpreter — and, on an objectives/options shape change,
+                optimization_strategy — so the next solve re-injects fresh guidance.
+                Score-only updates re-arm nothing: iterate freely without re-paying guidance.
       get     — Problem state. Params: problem_id, section? (optional).
                 Without section: the summary (counts + status flags — always small).
                 With section: targeted slice. Valid sections:
@@ -311,6 +315,15 @@ def model(
 
 
 def _model_create(params: dict) -> dict:
+    # Content params create doesn't apply must error, not vanish — a one-shot
+    # framing call that loses its scores or scenarios would otherwise solve a
+    # different problem than the user described.
+    unsupported = [k for k in ("scores", "reference_points", "scenario_config",
+                               "interaction_matrices") if k in params]
+    if unsupported:
+        return {"error": f"{', '.join(unsupported)} not applied at create — "
+                         "create the problem first, then pass them to "
+                         "model update problem_id=<id>."}
     kwargs = dict(
         name=params.get("name", ""),
         domain=params.get("domain", ""),
@@ -328,6 +341,8 @@ def _model_create(params: dict) -> dict:
             Option(**o) if isinstance(o, dict) else o
             for o in params["options"]
         ]
+    if "constraints" in params:
+        kwargs["constraints"] = [_parse_constraint(c) for c in params["constraints"]]
     p = Problem(**kwargs)
     store.save(p)
     result = {
@@ -337,6 +352,7 @@ def _model_create(params: dict) -> dict:
         "created_at": p.created_at.isoformat(),
         "objectives": len(p.objectives),
         "options": len(p.options),
+        "constraints": len(p.constraints),
     }
     # Next step is scoring — inject data_collection guidance
     _inject_skill(result, "data_collection",
@@ -356,7 +372,8 @@ def _model_update(params: dict) -> dict:
     except FileNotFoundError:
         return {"error": f"Problem {pid} not found."}
 
-    structural_change = False
+    structural_change = False   # drives results_stale + metrics; includes score edits
+    interpreter_rearm = False   # re-arms solution_interpreter; excludes score-only edits
 
     # Metadata updates
     if "name" in params:
@@ -383,6 +400,7 @@ def _model_update(params: dict) -> dict:
                 m for m in p.interaction_matrices if m.objective not in removed
             ]
         structural_change = True
+        interpreter_rearm = True
 
     # Options — full replacement
     if "options" in params:
@@ -411,6 +429,7 @@ def _model_update(params: dict) -> dict:
 
             p.constraints = [c for c in p.constraints if not _constraint_references_removed(c, removed)]
         structural_change = True
+        interpreter_rearm = True
 
     # Scores — merge semantics (upsert by option+objective)
     if "scores" in params:
@@ -436,11 +455,13 @@ def _model_update(params: dict) -> dict:
     if "constraints" in params:
         p.constraints = [_parse_constraint(c) for c in params["constraints"]]
         structural_change = True
+        interpreter_rearm = True
 
     # Approach
     if "approach" in params:
         p.approach = Approach(params["approach"])
         structural_change = True
+        interpreter_rearm = True
 
     # Scenario config
     if "scenario_config" in params:
@@ -472,6 +493,7 @@ def _model_update(params: dict) -> dict:
                 ))
             p.scenario_config = ScenarioConfig(enabled=sc.get("enabled", True), scenarios=scenarios)
         structural_change = True
+        interpreter_rearm = True
 
     # Interaction matrices — upsert by objective name
     if "interaction_matrices" in params:
@@ -481,6 +503,7 @@ def _model_update(params: dict) -> dict:
             im_map[im.objective] = im
         p.interaction_matrices = list(im_map.values())
         structural_change = True
+        interpreter_rearm = True
 
     # Reference points — full replacement (interpretive, no structural impact)
     if "reference_points" in params:
@@ -563,9 +586,12 @@ def _model_update(params: dict) -> dict:
     if problem_shape_change:
         _reset_injection(pid, "optimization_strategy")
 
-    # Any structural edit invalidates prior solve results — re-arm
-    # solution_interpreter so the next solve re-injects fresh guidance.
-    if structural_change:
+    # Structural edits (objectives/options/constraints/approach/matrices/scenarios)
+    # re-arm solution_interpreter so the next solve re-injects fresh guidance.
+    # Score-value refinements deliberately do NOT re-arm: they still mark results
+    # stale, but the tweak→re-solve iteration loop must not re-pay the full core —
+    # the guidance_pointer re-fetch covers long-session context loss instead.
+    if interpreter_rearm:
         _reset_injection(pid, "solution_interpreter")
 
     return result
