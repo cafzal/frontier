@@ -23,6 +23,11 @@ import { renderRateLimiter, clientKey, tooManyRequests } from "@/lib/rate-limit"
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+// This endpoint is READ-ONLY: only these explore actions (which return viz_data) are
+// allowed. The `explore` tool also has state-mutating actions (feedback, curate) that
+// must never be reachable from an unsanitized query param.
+const RENDER_ACTIONS = new Set(["tradeoffs", "scenario_results"]);
+
 const FRONTIER_MCP_URL =
   process.env.FRONTIER_MCP_URL ??
   (process.env.FRONTIER_MCP_HOST
@@ -51,6 +56,12 @@ export async function GET(req: Request) {
   const color = url.searchParams.get("color") ?? undefined; // a 3rd objective to encode as marker color (2D color-by view)
   if (!problem_id) {
     return Response.json({ error: "problem_id query param required" }, { status: 400 });
+  }
+  if (!RENDER_ACTIONS.has(action)) {
+    return Response.json(
+      { error: `unsupported action '${action}'; this endpoint serves: ${[...RENDER_ACTIONS].join(", ")}` },
+      { status: 400 },
+    );
   }
 
   let mcp: MCPClient | null = null;

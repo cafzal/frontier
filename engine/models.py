@@ -6,9 +6,16 @@ import hashlib
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field
+
+# Reject non-finite floats (inf / nan) on user-supplied numeric fields. A NaN score
+# silently passes validation, serializes to JSON `null` on save, then raises an
+# uncaught ValidationError on every later load — permanently bricking the record.
+# allow_inf_nan=False makes pydantic reject it at input time instead. Applied only to
+# user-input fields; engine-computed outputs (Solution/Run/quality) keep plain float.
+FiniteFloat = Annotated[float, Field(allow_inf_nan=False)]
 
 
 # --- Enums ---
@@ -71,7 +78,7 @@ class Option(BaseModel):
 class Score(BaseModel):
     option: str
     objective: str
-    value: float
+    value: FiniteFloat
 
 
 class InteractionScaleGroup(BaseModel):
@@ -81,7 +88,7 @@ class InteractionScaleGroup(BaseModel):
     correlations rise 50% in recession") without re-uploading a full matrix.
     """
     options: list[str]
-    factor: float
+    factor: FiniteFloat
 
 
 class InteractionMatrix(BaseModel):
@@ -102,7 +109,7 @@ class InteractionMatrix(BaseModel):
     within a group; negative factors flip the sign.
     """
     objective: str
-    entries: dict[str, dict[str, float]] = {}
+    entries: dict[str, dict[str, FiniteFloat]] = {}
     mode: Literal["replace", "upsert"] = "replace"
     scale_groups: list[InteractionScaleGroup] = []
 
@@ -130,7 +137,7 @@ class ObjectiveBoundConstraint(BaseModel):
     type: Literal["objective_bound"] = "objective_bound"
     objective: str
     operator: BoundOperator
-    value: float
+    value: FiniteFloat
 
 
 class ExclusionPairConstraint(BaseModel):
@@ -174,7 +181,7 @@ Constraint = (
 class ReferencePoint(BaseModel):
     type: Literal["baseline", "aspirational"]
     name: str = ""
-    objective_values: dict[str, float] = {}  # partial OK
+    objective_values: dict[str, FiniteFloat] = {}  # partial OK
     selected_options: list[str] = []  # baseline only — the current portfolio
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
@@ -185,13 +192,13 @@ class ReferencePoint(BaseModel):
 class ScoreAdjustment(BaseModel):
     """Adjust scores for an objective across all options in a scenario."""
     objective: str
-    multiply: float | None = None  # e.g. 0.8 = reduce by 20%
-    add: float | None = None  # e.g. -5 = subtract 5 from all scores
+    multiply: FiniteFloat | None = None  # e.g. 0.8 = reduce by 20%
+    add: FiniteFloat | None = None  # e.g. -5 = subtract 5 from all scores
 
 
 class Scenario(BaseModel):
     name: str
-    probability: float | None = None  # optional; only needed for expected-value weighting
+    probability: FiniteFloat | None = None  # optional; only needed for expected-value weighting
     description: str = ""
     score_overrides: list[Score] = []  # only changed scores; base matrix fills rest
     score_adjustments: list[ScoreAdjustment] = []  # bulk adjustments by objective

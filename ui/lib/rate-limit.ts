@@ -26,6 +26,8 @@ export interface RateLimiterOptions {
   global: RateLimitRule;
   /** Injectable clock (defaults to Date.now), for deterministic tests. */
   now?: () => number;
+  /** Hard ceiling on tracked client keys (memory bound). Defaults to 4096. */
+  maxKeys?: number;
 }
 
 export interface RateLimitResult {
@@ -54,50 +56,69 @@ export class RateLimiter {
   private readonly globalWindow: CounterWindow = { count: 0, resetAt: 0 };
   private readonly perKey: RateLimitRule;
   private readonly global: RateLimitRule;
+  private readonly maxKeys: number;
   private readonly now: () => number;
 
   constructor(opts: RateLimiterOptions) {
     this.perKey = opts.perKey;
     this.global = opts.global;
     this.now = opts.now ?? (() => Date.now());
+    this.maxKeys = opts.maxKeys ?? 4096;
+  }
+
+  /** Number of currently-tracked client keys (for observability/tests). */
+  get trackedKeys(): number {
+    return this.keyWindows.size;
   }
 
   /**
-   * Record one request against `key`. Returns ok=false (without consuming a
-   * slot from either window) when either the global or the per-key limit is
-   * already exhausted, so a rejected request never counts toward the cap.
+   * Record one request against `key`. Returns ok=false (without consuming a slot
+   * from either window) when either limit is already exhausted.
+   *
+   * The global cap is checked BEFORE a per-key entry is allocated, so a flood of
+   * distinct keys can't grow the Map past the global throughput (≈global.limit new
+   * keys per window, which then expire) — this is the memory-exhaustion fix. A hard
+   * `maxKeys` ceiling with eviction is the belt-and-suspenders bound for any config
+   * where global.limit is set very high.
    */
   check(key: string): RateLimitResult {
     const t = this.now();
-
     roll(this.globalWindow, this.global, t);
-    let keyWindow = this.keyWindows.get(key);
-    if (!keyWindow) {
-      keyWindow = { count: 0, resetAt: 0 };
-      this.keyWindows.set(key, keyWindow);
-    }
-    roll(keyWindow, this.perKey, t);
 
-    // Check both before consuming, so a request blocked by one limit doesn't
-    // burn a slot in the other.
     if (this.globalWindow.count >= this.global.limit) {
+      // Reject before touching keyWindows — no allocation on the global-rejected path.
       return { ok: false, scope: "global", retryAfterMs: this.globalWindow.resetAt - t };
     }
+
+    const keyWindow = this.acquireKeyWindow(key, t);
+    roll(keyWindow, this.perKey, t);
     if (keyWindow.count >= this.perKey.limit) {
       return { ok: false, scope: "key", retryAfterMs: keyWindow.resetAt - t };
     }
 
     this.globalWindow.count++;
     keyWindow.count++;
-    this.sweep(t);
     return { ok: true };
   }
 
-  /** Drop expired per-key windows so the map can't grow without bound. */
-  private sweep(t: number): void {
-    if (this.keyWindows.size < 1024) return;
+  private acquireKeyWindow(key: string, t: number): CounterWindow {
+    const existing = this.keyWindows.get(key);
+    if (existing) return existing;
+    if (this.keyWindows.size >= this.maxKeys) this.evict(t);
+    const w: CounterWindow = { count: 0, resetAt: 0 };
+    this.keyWindows.set(key, w);
+    return w;
+  }
+
+  /** Hard-bound the Map: drop expired windows, then evict oldest-inserted until under cap. */
+  private evict(t: number): void {
     for (const [k, w] of this.keyWindows) {
       if (t >= w.resetAt) this.keyWindows.delete(k);
+    }
+    while (this.keyWindows.size >= this.maxKeys) {
+      const oldest = this.keyWindows.keys().next().value;
+      if (oldest === undefined) break;
+      this.keyWindows.delete(oldest);
     }
   }
 }
@@ -135,21 +156,29 @@ export function createRateLimiter(
 export const chatRateLimiter = createRateLimiter("CHAT", 30, 90);
 export const renderRateLimiter = createRateLimiter("RENDER", 60, 180);
 
+// Number of trusted proxy hops in front of the app (Render appends one). The client
+// IP is the hop appended by the *innermost trusted* proxy = the Nth-from-right XFF
+// entry. Tune via TRUSTED_PROXY_HOPS if deployed behind a different topology.
+const TRUSTED_PROXY_HOPS = (() => {
+  const n = Number.parseInt(process.env.TRUSTED_PROXY_HOPS ?? "", 10);
+  return Number.isFinite(n) && n > 0 ? n : 1;
+})();
+
 /**
- * Best-effort client identifier from proxy headers. Uses the RIGHTMOST
- * x-forwarded-for hop — the value appended by the trusted proxy (Render) — because
- * a client controls everything to its left, so keying on the leftmost would let an
- * attacker mint a fresh bucket per request. Behind multiple proxy hops the rightmost
- * may be an infra IP (per-IP then coarsens toward the global cap, which is the real
- * bound); adjust if deployed behind a different topology.
+ * Best-effort client identifier for the PER-KEY limit (the global cap is the real
+ * bound). Picks the Nth-from-right x-forwarded-for hop — the address the trusted
+ * proxy appended, which a client can't spoof from the left. When XFF is missing or
+ * too short, returns "unknown" (a shared bucket, still bounded by the global cap)
+ * rather than keying off a client-spoofable header.
  */
 export function clientKey(req: Request): string {
   const xff = req.headers.get("x-forwarded-for");
   if (xff) {
     const hops = xff.split(",").map((s) => s.trim()).filter(Boolean);
-    if (hops.length) return hops[hops.length - 1]!;
+    const pick = hops[hops.length - TRUSTED_PROXY_HOPS];
+    if (pick) return pick;
   }
-  return req.headers.get("x-real-ip")?.trim() || "unknown";
+  return "unknown";
 }
 
 /** Build a 429 response with a Retry-After header from a failed check. */

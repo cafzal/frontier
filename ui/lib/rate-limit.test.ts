@@ -93,16 +93,43 @@ test("a rejected request consumes no slot in either window (check before commit)
   assert.equal(rl.check("d").scope, "global"); // now exhausted
 });
 
-test("clientKey uses the rightmost (proxy-appended) x-forwarded-for hop, then x-real-ip, then unknown", () => {
+test("clientKey uses the trusted (rightmost) x-forwarded-for hop, else a shared bucket", () => {
   // Rightmost wins: a client-spoofed leftmost ("1.2.3.4") is ignored in favor of
   // the trusted-proxy-appended "5.6.7.8".
   assert.equal(
     clientKey(new Request("http://x", { headers: { "x-forwarded-for": "1.2.3.4, 5.6.7.8" } })),
     "5.6.7.8",
   );
+  // x-real-ip is NOT used as the bucket key (a client could spoof it) — fall back to a
+  // shared "unknown" bucket, which is still bounded by the global cap.
   assert.equal(
     clientKey(new Request("http://x", { headers: { "x-real-ip": "9.9.9.9" } })),
-    "9.9.9.9",
+    "unknown",
   );
   assert.equal(clientKey(new Request("http://x")), "unknown");
+});
+
+test("global cap bounds Map growth: distinct keys past the global limit don't allocate", () => {
+  const clock = fakeClock();
+  const rl = new RateLimiter({
+    perKey: { limit: 100, windowMs: 1000 },
+    global: { limit: 5, windowMs: 1000 },
+    now: clock.now,
+  });
+  for (let i = 0; i < 1000; i++) rl.check(`ip-${i}`);
+  // Only the 5 requests that passed the global cap allocated a key window; the other
+  // 995 were rejected at the global check before touching the Map.
+  assert.equal(rl.trackedKeys, 5);
+});
+
+test("Map is hard-capped: maxKeys bounds tracked keys even with a huge global limit", () => {
+  const clock = fakeClock();
+  const rl = new RateLimiter({
+    perKey: { limit: 1000, windowMs: 1000 },
+    global: { limit: 1_000_000, windowMs: 1000 },
+    maxKeys: 10,
+    now: clock.now,
+  });
+  for (let i = 0; i < 500; i++) rl.check(`ip-${i}`);
+  assert.ok(rl.trackedKeys <= 10, `trackedKeys=${rl.trackedKeys} must stay <= maxKeys (10)`);
 });

@@ -350,3 +350,33 @@ class TestValidationCombinatorial:
         # All valid → no warnings or errors → ready
         assert vr.ready is True
         assert all(i.severity != "error" for i in vr.issues)
+
+
+class TestProblemSizeBounds:
+    """Upper bounds are a generous anti-abuse backstop, not a usability limit — they
+    only reject a runaway/garbage payload, never a real (even very large) problem.
+    Patch the module ceilings low so a normal _make_problem (5 options / 2 obj / 10
+    scores) trips them; defaults (100k options) never flag a real problem."""
+
+    def test_rejects_too_many_options(self, monkeypatch):
+        import engine.optimizer as opt
+        monkeypatch.setattr(opt, "_MAX_OPTIONS", 3)
+        vr = validate(_make_problem())
+        assert vr.ready is False
+        assert any("Too many options" in i.message for i in vr.issues)
+
+    def test_rejects_too_many_objectives(self, monkeypatch):
+        import engine.optimizer as opt
+        monkeypatch.setattr(opt, "_MAX_OBJECTIVES", 1)
+        vr = validate(_make_problem())
+        assert any("Too many objectives" in i.message for i in vr.issues)
+
+    def test_rejects_too_many_scores(self, monkeypatch):
+        import engine.optimizer as opt
+        monkeypatch.setattr(opt, "_MAX_SCORES", 3)
+        vr = validate(_make_problem())
+        assert any("Too many scores" in i.message for i in vr.issues)
+
+    def test_normal_problem_has_no_size_error(self):
+        vr = validate(_make_problem())
+        assert not any("Too many" in i.message for i in vr.issues)

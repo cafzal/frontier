@@ -20,6 +20,8 @@ import os
 import sys
 from datetime import datetime, timezone
 
+from pydantic import ValidationError
+
 from mcp.server.fastmcp import FastMCP
 
 from engine import explorer, metrics, optimizer, problem_io
@@ -208,6 +210,19 @@ def get_skill(skill_name: str, section: str | None = None) -> str:
 # ─── Tool 1: model ───
 
 
+def _format_validation_error(e: ValidationError) -> str:
+    """Concise one-line summary of a pydantic ValidationError for tool responses
+    (first few field errors), instead of the multi-line default dump."""
+    parts = []
+    for err in e.errors()[:3]:
+        loc = ".".join(str(x) for x in err["loc"]) or "(root)"
+        parts.append(f"{loc}: {err['msg']}")
+    extra = len(e.errors()) - 3
+    if extra > 0:
+        parts.append(f"(+{extra} more)")
+    return "; ".join(parts)
+
+
 @mcp.tool()
 def model(
     action: str,
@@ -296,23 +311,28 @@ def model(
             "source": source, "save_as": save_as,
         }.items() if v is not None
     }
-    match action:
-        case "create":
-            return _model_create(params)
-        case "update":
-            return _model_update(params)
-        case "get":
-            return _model_get(params)
-        case "list":
-            return _model_list()
-        case "delete":
-            return _model_delete(params)
-        case "save":
-            return _model_save(params)
-        case "load":
-            return _model_load(params)
-        case _:
-            return {"error": f"Unknown action: {action}. Use create/update/get/list/delete/save/load."}
+    try:
+        match action:
+            case "create":
+                return _model_create(params)
+            case "update":
+                return _model_update(params)
+            case "get":
+                return _model_get(params)
+            case "list":
+                return _model_list()
+            case "delete":
+                return _model_delete(params)
+            case "save":
+                return _model_save(params)
+            case "load":
+                return _model_load(params)
+            case _:
+                return {"error": f"Unknown action: {action}. Use create/update/get/list/delete/save/load."}
+    except ValidationError as e:
+        # Malformed model input (e.g. a non-finite score, a wrong field type) — return a
+        # concise error instead of an uncaught tool crash, and before anything is persisted.
+        return {"error": f"Invalid input: {_format_validation_error(e)}"}
 
 
 def _model_create(params: dict) -> dict:

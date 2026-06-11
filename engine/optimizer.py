@@ -5,6 +5,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import math
+import os
 import threading
 import time
 
@@ -192,6 +193,18 @@ from .models import (
 )
 
 
+# Upper bounds are an anti-abuse / accidental-blowup backstop, NOT a usability limit.
+# Real problems (large asset universes, big project portfolios) can run to many
+# thousands of options — far past the bundled examples (≤120) — and a large problem
+# taking a long time is fine (that's what time_limit + background jobs are for). So
+# these defaults sit absurdly high: they only catch a runaway/garbage payload (e.g. a
+# millions-of-options memory/storage bomb), never a real decision. Raise via env if a
+# genuinely larger deployment ever needs it.
+_MAX_OPTIONS = int(os.environ.get("FRONTIER_MAX_OPTIONS", "100000"))
+_MAX_OBJECTIVES = int(os.environ.get("FRONTIER_MAX_OBJECTIVES", "50"))
+_MAX_SCORES = int(os.environ.get("FRONTIER_MAX_SCORES", "10000000"))
+
+
 def validate(problem: Problem) -> ValidationResult:
     """Check if a problem is ready to optimize."""
     issues: list[ValidationIssue] = []
@@ -227,6 +240,28 @@ def validate(problem: Problem) -> ValidationResult:
         issues.append(ValidationIssue(
             severity="error",
             message=f"Need at least 3 options, have {len(problem.options)}.",
+        ))
+
+    # Upper bounds — refuse pathologically large problems before the solver allocates
+    # population/genome arrays that scale with these counts. Generous backstops, not a
+    # usability limit (raise via FRONTIER_MAX_OPTIONS / _OBJECTIVES / _SCORES if needed).
+    if len(problem.options) > _MAX_OPTIONS:
+        issues.append(ValidationIssue(
+            severity="error",
+            message=f"Too many options ({len(problem.options)}); max is {_MAX_OPTIONS} "
+                    f"(raise FRONTIER_MAX_OPTIONS for a larger deployment).",
+        ))
+    if len(problem.objectives) > _MAX_OBJECTIVES:
+        issues.append(ValidationIssue(
+            severity="error",
+            message=f"Too many objectives ({len(problem.objectives)}); max is {_MAX_OBJECTIVES} "
+                    f"(raise FRONTIER_MAX_OBJECTIVES for a larger deployment).",
+        ))
+    if len(problem.scores) > _MAX_SCORES:
+        issues.append(ValidationIssue(
+            severity="error",
+            message=f"Too many scores ({len(problem.scores)}); max is {_MAX_SCORES} "
+                    f"(raise FRONTIER_MAX_SCORES for a larger deployment).",
         ))
 
     # Score matrix completeness

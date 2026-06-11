@@ -1,5 +1,10 @@
 """Tests for Frontier engine models — round-trip serialization."""
 
+import math
+
+import pytest
+from pydantic import ValidationError
+
 from engine.models import (
     CardinalityConstraint,
     ForceExcludeConstraint,
@@ -9,7 +14,9 @@ from engine.models import (
     Option,
     Problem,
     Run,
+    Scenario,
     Score,
+    ScoreAdjustment,
     Solution,
 )
 
@@ -66,3 +73,50 @@ def test_run_with_solutions():
     run2 = Run.model_validate_json(data)
     assert len(run2.solutions) == 2
     assert run2.solutions[0].selected_options == ["A", "B"]
+
+
+# ─── Non-finite (inf/nan) rejection on user-input numeric fields ───
+#
+# A NaN score used to pass validation, serialize to JSON null on save, then raise an
+# uncaught ValidationError on every later load — permanently bricking the record. These
+# guard that non-finite values are rejected at the model boundary instead.
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_score_rejects_non_finite(bad):
+    with pytest.raises(ValidationError):
+        Score(option="A", objective="X", value=bad)
+
+
+def test_score_accepts_large_finite():
+    # The cap is on finiteness, not magnitude — a huge but finite score is fine.
+    assert Score(option="A", objective="X", value=1e18).value == 1e18
+
+
+@pytest.mark.parametrize("bad", [float("nan"), float("inf"), float("-inf")])
+def test_objective_bound_rejects_non_finite(bad):
+    with pytest.raises(ValidationError):
+        ObjectiveBoundConstraint(objective="X", operator="max", value=bad)
+
+
+def test_score_adjustment_rejects_non_finite():
+    with pytest.raises(ValidationError):
+        ScoreAdjustment(objective="X", multiply=float("inf"))
+    with pytest.raises(ValidationError):
+        ScoreAdjustment(objective="X", add=float("nan"))
+
+
+def test_scenario_probability_rejects_non_finite():
+    with pytest.raises(ValidationError):
+        Scenario(name="s", probability=float("nan"))
+
+
+def test_non_finite_never_round_trips_through_problem_json():
+    # The brick path: build → save (JSON) → load. With finiteness enforced, the bad
+    # value can't be constructed in the first place, so a Problem holding it can't exist.
+    with pytest.raises(ValidationError):
+        Problem(
+            objectives=[Objective(name="X", direction="maximize")],
+            options=[Option(name="A")],
+            scores=[Score(option="A", objective="X", value=math.nan)],
+        )

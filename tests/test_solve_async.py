@@ -55,6 +55,43 @@ def _poll(job_id, timeout=60.0) -> dict:
     raise AssertionError(f"solve job {job_id} did not finish within {timeout}s")
 
 
+def _fake_job(job_id, *, finished):
+    """A registry entry with no real worker, for exercising the in-flight cap."""
+    now = datetime.now(timezone.utc)
+    return srv.SolveJob(
+        job_id=job_id, problem_id="p", action="run", label="x",
+        started_at=now, done=threading.Event(),
+        finished_at=now if finished else None,
+    )
+
+
+class TestInflightCap:
+    """A flood of solve calls must not queue unbounded work (each item pins a Problem
+    snapshot). Past the cap, dispatch rejects with a clear error instead of submitting."""
+
+    def test_rejects_when_inflight_cap_reached(self, monkeypatch):
+        import mcp_server.jobs as jobs
+        monkeypatch.setattr(jobs, "_SOLVE_MAX_INFLIGHT", 2)
+        with srv._solve_jobs_lock:
+            srv._solve_jobs.clear()
+            for i in range(2):  # two unfinished jobs fill the cap
+                srv._solve_jobs[f"j{i}"] = _fake_job(f"j{i}", finished=False)
+        r = jobs._solve_dispatch(Problem(name="x"), "run", lambda: {"run_id": "r"},
+                                 label="t", wait_seconds=0)
+        assert r.get("status") == "error"
+        assert "Too many solves" in r["error"]
+
+    def test_finished_jobs_do_not_count_toward_cap(self, monkeypatch):
+        import mcp_server.jobs as jobs
+        monkeypatch.setattr(jobs, "_SOLVE_MAX_INFLIGHT", 1)
+        with srv._solve_jobs_lock:
+            srv._solve_jobs.clear()
+            srv._solve_jobs["done"] = _fake_job("done", finished=True)  # not in flight
+        # A finished job doesn't occupy a slot, so a real solve still dispatches.
+        r = srv.solve(action="run", problem_id=_ready(), wait_seconds=0, seed=42)
+        assert r.get("status") in ("running", "complete")
+
+
 class TestBackgroundDispatch:
     def test_wait_zero_returns_running_handle(self):
         pid = _ready()

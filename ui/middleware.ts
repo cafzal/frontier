@@ -36,7 +36,12 @@ export function middleware(req: NextRequest) {
   if (header) {
     const [scheme, encoded] = header.split(" ");
     if (scheme === "Basic" && encoded) {
-      const decoded = atob(encoded);
+      let decoded = "";
+      try {
+        decoded = atob(encoded);
+      } catch {
+        decoded = ""; // malformed base64 → treat as failed auth (401), never a 500
+      }
       const sep = decoded.indexOf(":");
       const user = decoded.slice(0, sep);
       const pass = decoded.slice(sep + 1);

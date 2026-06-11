@@ -43,6 +43,11 @@ _SOLVE_WAIT_SECONDS = float(os.environ.get("FRONTIER_SOLVE_WAIT_SECONDS", "10"))
 _SOLVE_WAIT_CAP = float(os.environ.get("FRONTIER_SOLVE_WAIT_CAP", "60"))          # max caller-set wait
 _SOLVE_WORKERS = int(os.environ.get("FRONTIER_SOLVE_WORKERS", "4"))
 _SOLVE_JOB_TTL = float(os.environ.get("FRONTIER_SOLVE_JOB_TTL", "3600"))          # keep finished jobs (s)
+# Cap concurrent + queued solves so a flood of `solve run` calls can't grow the executor
+# queue (each item pins a Problem snapshot) without bound. The UI rate-limits its callers,
+# but direct MCP clients don't, so this is their backstop. Generous for normal flows
+# (NSGA + an exact overlay, per-scenario runs); tune via env.
+_SOLVE_MAX_INFLIGHT = int(os.environ.get("FRONTIER_SOLVE_MAX_INFLIGHT", "24"))
 
 
 @dataclass
@@ -173,6 +178,16 @@ def _solve_dispatch(p: Problem, action: str, work_fn, *, label: str,
     )
     with _solve_jobs_lock:
         _reap_jobs()
+        inflight = sum(1 for j in _solve_jobs.values() if j.finished_at is None)
+        if inflight >= _SOLVE_MAX_INFLIGHT:
+            return {
+                "status": "error",
+                "error": (
+                    f"Too many solves in progress ({inflight} of {_SOLVE_MAX_INFLIGHT} "
+                    "in flight). Wait for running solves to finish (poll their job_ids) "
+                    "or retry shortly."
+                ),
+            }
         _solve_jobs[job.job_id] = job
 
     def _runner() -> None:
