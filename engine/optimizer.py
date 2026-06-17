@@ -932,6 +932,7 @@ def certify_curated(
     source_run: Run,
     *,
     solver: str,
+    exact: bool = False,
     mode: OptimizeMode | None = None,
     max_solutions: int | None = None,
 ) -> Run:
@@ -939,8 +940,9 @@ def certify_curated(
     frontier points, rather than the full ~pop×gen exact scalarization ``optimize(solver=…)`` runs.
 
     The lean *explore-then-certify* path — the heuristic (NSGA) explores, the exact solver certifies
-    only what it kept. Dispatches to the requested exact backend; proportional QP/LP only (binary MILP
-    keeps the full exact pass). Returns a ``Run`` in the engine's exact shape, stamped with its solver.
+    only what it kept — on any supported shape (binary MILP, proportional QP/LP). ``exact`` certifies
+    each MILP point to a zero gap (no-op on the always-exact QP/LP). Dispatches to the requested exact
+    backend; returns a ``Run`` in the engine's exact shape, stamped with its solver.
     """
     from solvers import exact_solver_fits, is_exact_solver
 
@@ -951,9 +953,9 @@ def certify_curated(
         raise ValueError(f"Exact solver '{solver}' does not fit this problem: {reason}")
     if solver == "cuopt":
         from solvers.cuopt_backend import _certify_curated_cuopt
-        return _certify_curated_cuopt(problem, source_run, mode=mode, max_solutions=max_solutions)
+        return _certify_curated_cuopt(problem, source_run, exact=exact, mode=mode, max_solutions=max_solutions)
     from solvers.highs_backend import _certify_curated_highs
-    return _certify_curated_highs(problem, source_run, mode=mode, max_solutions=max_solutions)
+    return _certify_curated_highs(problem, source_run, exact=exact, mode=mode, max_solutions=max_solutions)
 
 
 def _apply_matrix_override(base: "InteractionMatrix | None", override: "InteractionMatrix") -> "InteractionMatrix":

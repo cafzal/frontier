@@ -307,12 +307,15 @@ def _optimize_highs(
     return run
 
 
-def _certify_curated_highs(problem: Problem, source_run: Run, *, mode=None, max_solutions=None) -> Run:
-    """Progressive certify with HiGHS inner solves: exact-solve only ``source_run``'s frontier points
-    (the proportional QP/LP twin of a full ``_optimize_highs`` exact pass, at ~|frontier| solves)."""
+def _certify_curated_highs(problem: Problem, source_run: Run, *, exact: bool = False,
+                           mode=None, max_solutions=None) -> Run:
+    """Progressive certify with HiGHS inner solves: exact-solve only ``source_run``'s frontier points —
+    the ~|frontier|-solve twin of a full ``_optimize_highs`` exact pass, on any supported shape
+    (binary MILP, proportional QP/LP)."""
     if problem.approach == Approach.binary:
-        raise ValueError("progressive certify supports proportional QP/LP; use the full exact pass for binary MILP")
-    if any(o.aggregation == Aggregation.quadratic for o in problem.objectives):
+        run = certify_curated_frontier(problem, source_run, inner_milp=_solve_milp_highs,
+                                       exact=exact, mode=mode, max_solutions=max_solutions)
+    elif any(o.aggregation == Aggregation.quadratic for o in problem.objectives):
         run = certify_curated_frontier(problem, source_run, inner=_solve_qp_highs,
                                        inner_sensitivity=_solve_qp_highs_sensitivity,
                                        mode=mode, max_solutions=max_solutions)
@@ -320,5 +323,5 @@ def _certify_curated_highs(problem: Problem, source_run: Run, *, mode=None, max_
         run = certify_curated_frontier(problem, source_run, inner=_solve_lp_highs,
                                        inner_sensitivity=_solve_lp_highs_sensitivity,
                                        mode=mode, max_solutions=max_solutions)
-    run.solver, run.exact = "highs", False
+    run.solver, run.exact = "highs", exact
     return run

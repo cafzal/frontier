@@ -637,11 +637,16 @@ def _optimize_cuopt(
     return run
 
 
-def _certify_curated_cuopt(problem: Problem, source_run: Run, *, mode=None, max_solutions=None) -> Run:
+def _certify_curated_cuopt(problem: Problem, source_run: Run, *, exact: bool = False,
+                           mode=None, max_solutions=None) -> Run:
     """Progressive certify with cuOpt (GPU) inner solves: exact-solve only ``source_run``'s frontier
-    points — the proportional QP/LP twin of a full ``_optimize_cuopt`` exact pass, at ~|frontier| solves."""
+    points — the ~|frontier|-solve twin of a full ``_optimize_cuopt`` exact pass, on any supported
+    shape (binary MILP, proportional QP/LP)."""
     if problem.approach == Approach.binary:
-        raise ValueError("progressive certify supports proportional QP/LP; use the full exact pass for binary MILP")
+        run = certify_curated_frontier(problem, source_run, inner_milp=_solve_milp_cuopt,
+                                       exact=exact, mode=mode, max_solutions=max_solutions)
+        run.solver, run.exact = "cuopt", exact
+        return run
     if any(o.aggregation == Aggregation.quadratic for o in problem.objectives):
         inner, inner_sens = ((_solve_qp_cuopt_matrix, _solve_qp_cuopt_matrix_sensitivity) if _USE_MATRIX_QP
                              else (_solve_qp_cuopt, _solve_qp_cuopt_sensitivity))

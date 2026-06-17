@@ -1136,15 +1136,16 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     thread so the once-per-problem throttle stays single-threaded."""
     from solvers import is_exact_solver
 
-    # Exact overlay on a proportional shape: by default *certify the existing NSGA frontier*
-    # (progressive — exact-solve only its curated points) rather than run a full exact pass.
-    # Falls back to a full pass when there's no NSGA `run` to certify or on a binary (MILP) shape.
+    # Exact overlay: by default *certify the existing NSGA frontier* (progressive — exact-solve only
+    # its curated points) rather than run a full exact pass. Covers every supported shape (binary MILP,
+    # proportional QP/LP); falls back to a full pass only when there's no NSGA `run` to certify.
     overlay_scope = None
     use_curated = (is_exact_solver(solver) and (scope or "curated") != "full"
-                   and p.approach != Approach.binary and p.run is not None and bool(p.run.solutions))
+                   and p.run is not None and bool(p.run.solutions))
     try:
         if use_curated:
-            run = optimizer.certify_curated(p, p.run, solver=solver, mode=mode, max_solutions=max_solutions)
+            run = optimizer.certify_curated(p, p.run, solver=solver, exact=exact,
+                                            mode=mode, max_solutions=max_solutions)
             overlay_scope = "curated"
         else:
             run = optimizer.optimize(p, mode=mode, max_solutions=max_solutions, seed=seed,

@@ -1,12 +1,16 @@
 """Progressive certify (`optimizer.certify_curated`): exact-solve only an existing run's frontier
 points, the lean explore-then-certify overlay. Locks the faithfulness properties that let it stand in
 for a full exact pass: a proper filtered exact Run, solver duals on the continuous path, idempotence on
-an already-exact frontier, and the proportional-only scope."""
+an already-exact frontier, and coverage of every supported shape (binary MILP, proportional QP/LP)."""
+import importlib.util as _ilu
+
 import numpy as np
 import pytest
 
 from engine.optimizer import certify_curated, optimize
 from engine.problem_io import examples_dir, read_bundle
+
+_HAS_HIGHS = _ilu.find_spec("highspy") is not None
 
 
 def _load(name):
@@ -52,11 +56,25 @@ def test_certify_curated_idempotent_on_exact_frontier(name):
     assert np.all(np.abs(hi_r - hi_e) / span < 0.05)
 
 
-def test_certify_curated_rejects_binary():
-    p = _load("capital_project_selection_120")                     # binary MILP → full exact pass only
-    nsga = optimize(p, seed=42)
-    with pytest.raises(ValueError, match="proportional"):
-        certify_curated(p, nsga, solver="highs")
+@pytest.mark.skipif(not _HAS_HIGHS, reason="highspy not installed")
+def test_certify_curated_binary_milp():
+    """Binary selection is supported too: re-solve each NSGA point's scalarization as a 0/1 MILP."""
+    from engine.problem_io import from_portable
+    prob = from_portable(
+        {"name": "x", "domain": "d", "context": "c", "approach": "binary",
+         "objectives": [{"name": "Value", "direction": "maximize", "aggregation": "sum"},
+                        {"name": "Cost", "direction": "minimize", "aggregation": "sum"}],
+         "constraints": [{"type": "cardinality", "min": 2, "max": 4}]},
+        {"options": [{"name": n} for n in "ABCDEF"],
+         "scores": [{"option": o, "objective": ob, "value": float(v)}
+                    for o, vv in zip("ABCDEF", [(9, 5), (7, 3), (8, 6), (5, 2), (6, 4), (4, 1)])
+                    for ob, v in zip(["Value", "Cost"], vv)]})
+    nsga = optimize(prob, seed=42)
+    cert = certify_curated(prob, nsga, solver="highs")
+    assert cert.solver == "highs" and len(cert.solutions) > 0
+    # every certified pick respects the cardinality window and is a real 0/1 selection
+    for s in cert.solutions:
+        assert 2 <= len(s.selected_options) <= 4
 
 
 def test_certify_curated_needs_exact_solver():
@@ -67,13 +85,10 @@ def test_certify_curated_needs_exact_solver():
 
 
 # --- MCP surface: solve(solver=…, scope=…) — curated is the default exact overlay --------------
-import importlib.util as _ilu
 import tempfile
 
 from mcp_server import server as srv
 from engine.store import Store
-
-_HAS_HIGHS = _ilu.find_spec("highspy") is not None
 
 
 @pytest.fixture()
