@@ -684,6 +684,84 @@ def optimize_lp(problem, mode, *, inner_lp, inner_lp_sensitivity=None, pop, gen,
 
 
 # --------------------------------------------------------------------------- #
+# Progressive certify (exact-solve only an existing run's frontier points)
+# --------------------------------------------------------------------------- #
+def certify_curated_frontier(problem, source_run, *, inner, inner_sensitivity=None,
+                             mode=None, max_solutions=None) -> Run:
+    """Exact-solve **only the points of an existing run** (typically the exploratory NSGA frontier),
+    re-solving each for its own support + epsilon targets, and assemble them into an exact ``Run`` —
+    non-dominated-filtered, pruned, and re-indexed exactly like a full scalarization's frontier.
+
+    This is the lean *explore-then-certify* overlay: where ``optimize_qp`` / ``optimize_lp`` run the
+    inner solver on every one of ~pop×gen NSGA *evaluations* (the inner solve **is** NSGA's fitness),
+    this runs it once per *curated frontier point* (~dozens). The heuristic explores; the exact solver
+    certifies only what it kept. Proportional QP / LP only (the inner is shape-matched by the caller);
+    each returned point is optimal for its scalarization, so the overlay can only confirm or sharpen
+    the source frontier — the same auditor guarantee as the full exact pass, at a fraction of the cost.
+    Duals ride the re-solve when ``inner_sensitivity`` is supplied (parity with the full exact path)."""
+    n_options = len(problem.options)
+    opt_names = [o.name for o in problem.options]
+    opt_index = {n: i for i, n in enumerate(opt_names)}
+    obj_list = problem.objectives
+    score_matrix = _opt._build_score_matrix(problem)
+    cp = _opt._parse_constraints(problem)
+    im = _opt._build_interaction_matrices(problem)
+    linear_idxs = _resolve_linear_objectives(problem)
+    linear_coefs = [score_matrix[:, j] for j in linear_idxs]
+    linear_maximize = [obj_list[j].direction.value == "maximize" for j in linear_idxs]
+    max_weight = (cp["max_allocation"] / 100.0) if cp.get("max_allocation") else None
+    prop = _opt._ProportionalProblem(n_options=n_options, score_matrix=score_matrix,
+                                     objectives=obj_list, interaction_matrices=im, **cp)
+    is_qp = bool(im)
+    cov = _nearest_psd(im[_resolve_objective_roles(problem)[0]]) if is_qp else None
+
+    solutions: list[Solution] = []
+    seen: set[str] = set()
+    for src in source_run.solutions:
+        support = [opt_index[n] for n in src.selected_options if n in opt_index]
+        # Each source point's reported objective values become this point's epsilon targets: QP
+        # epsilon-constrains every linear objective (variance minimized); LP optimizes the primary and
+        # epsilon-constrains the rest, so it carries one fewer target.
+        idxs = linear_idxs if is_qp else linear_idxs[1:]
+        eps = np.array([src.objective_values.get(obj_list[j].name, 0.0) for j in idxs], dtype=float)
+        if is_qp and inner_sensitivity is not None:
+            w_frac, ok, raw_sens = _solve_individual_sensitivity(
+                cov, linear_coefs, linear_maximize, max_weight, eps, support, inner_sensitivity)
+        elif is_qp:
+            w_frac, ok = _solve_individual(cov, linear_coefs, linear_maximize, max_weight, eps, support, inner)
+            raw_sens = None
+        elif inner_sensitivity is not None:
+            w_frac, ok, raw_sens = _solve_individual_lp_sensitivity(
+                linear_coefs, linear_maximize, max_weight, eps, support, inner_sensitivity)
+        else:
+            w_frac, ok = _solve_individual_lp(linear_coefs, linear_maximize, max_weight, eps, support, inner)
+            raw_sens = None
+        if not ok:
+            continue
+        raw = _round_weights_to_pct(w_frac, n_options, cp.get("max_allocation"))
+        selected = [opt_names[i] for i in range(n_options) if raw[i] > 0]
+        alloc_map = {opt_names[i]: int(raw[i]) for i in range(n_options)}
+        sig = _content_signature(selected, alloc_map)
+        if sig in seen:
+            continue
+        seen.add(sig)
+        W_pct = raw.astype(float).reshape(1, -1)
+        obj_values = {obj.name: round(float(prop._aggregate_objective(W_pct, j)[0]), 4)
+                      for j, obj in enumerate(obj_list)}
+        sensitivity = (_build_solution_sensitivity(raw_sens, opt_names, raw, linear_idxs, obj_list)
+                       if raw_sens else None)
+        solutions.append(Solution(solution_id=len(solutions), selected_options=selected,
+                                  objective_values=obj_values, allocations=alloc_map, sensitivity=sensitivity))
+
+    solutions = _nondominated(solutions, obj_list)
+    max_n = max_solutions or _opt.MAX_PARETO_SOLUTIONS
+    solutions, total_found = _opt._prune_pareto(solutions, obj_list, max_n=max_n)
+    solutions = _opt._sort_and_reindex(solutions, obj_list)
+    return Run(solutions=solutions, total_pareto_found=total_found,
+               quality=source_run.quality, mode=mode or source_run.mode, seed_used=source_run.seed_used)
+
+
+# --------------------------------------------------------------------------- #
 # MILP genome (binary selection)
 # --------------------------------------------------------------------------- #
 class _MilpFrontierProblem(PymooProblem):
