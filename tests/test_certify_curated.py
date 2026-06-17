@@ -64,3 +64,59 @@ def test_certify_curated_needs_exact_solver():
     nsga = optimize(p, seed=42)
     with pytest.raises(ValueError, match="exact solver"):
         certify_curated(p, nsga, solver="nsga")
+
+
+# --- MCP surface: solve(solver=…, scope=…) — curated is the default exact overlay --------------
+import importlib.util as _ilu
+import tempfile
+
+from mcp_server import server as srv
+from engine.store import Store
+
+_HAS_HIGHS = _ilu.find_spec("highspy") is not None
+
+
+@pytest.fixture()
+def tmp_store(monkeypatch):
+    with tempfile.TemporaryDirectory() as d:
+        monkeypatch.setattr(srv, "store", Store(d))
+        yield
+
+
+def _proportional_pid():
+    pid = srv.model(action="create")["problem_id"]
+    srv.model(action="update", problem_id=pid, approach="proportional",
+              objectives=[{"name": "ROI", "direction": "maximize"},
+                          {"name": "Reach", "direction": "maximize"}],
+              options=[{"name": n} for n in ["A", "B", "C", "D", "E"]],
+              scores=[{"option": o, "objective": ob, "value": v}
+                      for o, ob, v in [("A", "ROI", 8), ("A", "Reach", 3), ("B", "ROI", 6), ("B", "Reach", 7),
+                                       ("C", "ROI", 9), ("C", "Reach", 2), ("D", "ROI", 4), ("D", "Reach", 8),
+                                       ("E", "ROI", 7), ("E", "Reach", 5)]],
+              constraints=[{"type": "max_allocation", "max": 40}])
+    return pid
+
+
+@pytest.mark.skipif(not _HAS_HIGHS, reason="highspy not installed")
+def test_solve_scope_defaults_to_curated_after_a_run(tmp_store):
+    pid = _proportional_pid()
+    srv.solve(action="run", problem_id=pid, seed=42)                          # NSGA explore first
+    res = srv.solve(action="run", problem_id=pid, seed=42, solver="highs")    # default exact overlay
+    assert res["overlay_scope"] == "curated" and res["solver_used"] == "highs"
+    p = srv.store.load(pid)
+    assert p.run.solver.startswith("nsga") and p.exact_run.solver == "highs"  # overlay, run intact
+
+
+@pytest.mark.skipif(not _HAS_HIGHS, reason="highspy not installed")
+def test_solve_scope_full_runs_full_pass(tmp_store):
+    pid = _proportional_pid()
+    srv.solve(action="run", problem_id=pid, seed=42)
+    res = srv.solve(action="run", problem_id=pid, seed=42, solver="highs", scope="full")
+    assert res["overlay_scope"] == "full" and res["solver_used"] == "highs"
+
+
+@pytest.mark.skipif(not _HAS_HIGHS, reason="highspy not installed")
+def test_solve_scope_curated_falls_back_to_full_without_a_run(tmp_store):
+    pid = _proportional_pid()
+    res = srv.solve(action="run", problem_id=pid, seed=42, solver="highs")    # no prior NSGA run
+    assert res["overlay_scope"] == "full"                                     # nothing to certify → full pass

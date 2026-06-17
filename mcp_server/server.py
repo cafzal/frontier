@@ -921,6 +921,7 @@ def solve(
     seed: int | None = None,
     solver: str | None = None,
     exact: bool = False,
+    scope: str | None = None,
     time_limit: float | None = None,
     wait_seconds: float | None = None,
     job_id: str | None = None,
@@ -979,6 +980,13 @@ def solve(
       exact: Exact backends only — certify each MILP inner solve to a zero optimality gap
             instead of the default speed-oriented bounded solve. Slower; use when stakeholders
             need certified optimality. No-op on the always-exact QP and on the default NSGA path.
+      scope: Exact backends, proportional shapes only — how to produce the exact overlay.
+            "curated" (DEFAULT): progressively certify the existing NSGA `run` by exact-solving only
+            its frontier points — the lean explore-then-certify path; run `solve run` first so there's
+            a frontier to certify. "full": a full exact pass (the exact solver on every NSGA
+            evaluation — an exact-*guided* search), for when you want exact optimization to drive the
+            exploration too, not just certify it. Curated falls back to a full pass when no NSGA run
+            exists yet or on a binary (MILP) shape. The mode that ran is echoed as `overlay_scope`.
       time_limit: Optional wall-clock cap in seconds for a `run`/`run_scenarios`. The search
             stops at the generation/scalarization budget OR this cap, whichever fires first; a
             capped run returns its best-so-far frontier flagged `time_limited` (on an exact run
@@ -1035,7 +1043,7 @@ def solve(
             return result
         case "run":
             return _solve_run(p, opt_mode, max_solutions=max_solutions, seed=seed,
-                              solver=solver, exact=exact, time_limit=time_limit,
+                              solver=solver, exact=exact, scope=scope, time_limit=time_limit,
                               wait_seconds=wait_seconds)
         case "run_scenarios":
             return _solve_run_scenarios(p, opt_mode, max_solutions=max_solutions, seed=seed,
@@ -1093,6 +1101,7 @@ def _resolve_solver(p: Problem, solver: str | None) -> tuple[str | None, dict | 
 
 def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int | None = None,
                seed: int | None = None, solver: str | None = None, exact: bool = False,
+               scope: str | None = None,
                time_limit: float | None = None, wait_seconds: float | None = None) -> dict:
     """Validate + resolve the solver inline (fast, immediate errors), then dispatch the heavy
     optimize+persist to a background worker. Returns the full result if it finishes within the
@@ -1111,22 +1120,36 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
     return _solve_dispatch(
         p, "run",
         lambda: _solve_run_body(p, fingerprint, mode=mode, max_solutions=max_solutions,
-                                seed=seed, solver=solver, exact=exact, time_limit=time_limit),
+                                seed=seed, solver=solver, exact=exact, scope=scope,
+                                time_limit=time_limit),
         label=label, wait_seconds=wait_seconds,
     )
 
 
 def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None = None,
                     max_solutions: int | None = None, seed: int | None = None,
-                    solver: str | None = None, exact: bool = False,
+                    solver: str | None = None, exact: bool = False, scope: str | None = None,
                     time_limit: float | None = None) -> dict:
     """Heavy solve body — runs in a worker thread. Optimizes the dispatch snapshot, then
     re-loads the problem and (only if its solve-inputs are unchanged) attaches the run and
     persists. Skill injection is deliberately NOT here — `_deliver` does it on the request
     thread so the once-per-problem throttle stays single-threaded."""
+    from solvers import is_exact_solver
+
+    # Exact overlay on a proportional shape: by default *certify the existing NSGA frontier*
+    # (progressive — exact-solve only its curated points) rather than run a full exact pass.
+    # Falls back to a full pass when there's no NSGA `run` to certify or on a binary (MILP) shape.
+    overlay_scope = None
+    use_curated = (is_exact_solver(solver) and (scope or "curated") != "full"
+                   and p.approach != Approach.binary and p.run is not None and bool(p.run.solutions))
     try:
-        run = optimizer.optimize(p, mode=mode, max_solutions=max_solutions, seed=seed,
-                                 solver=solver, exact=exact, time_limit=time_limit)
+        if use_curated:
+            run = optimizer.certify_curated(p, p.run, solver=solver, mode=mode, max_solutions=max_solutions)
+            overlay_scope = "curated"
+        else:
+            run = optimizer.optimize(p, mode=mode, max_solutions=max_solutions, seed=seed,
+                                     solver=solver, exact=exact, time_limit=time_limit)
+            overlay_scope = "full" if is_exact_solver(solver) else None
     except Exception as e:
         return {"feasible": False, "error": str(e)}
 
@@ -1207,6 +1230,7 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
         "seed_used": run.seed_used,
         "solver_used": run.solver,
         "exact": run.exact,
+        "overlay_scope": overlay_scope,
         "time_limit": run.time_limit,
         "time_limited": run.time_limited,
         "objective_ranges": _objective_ranges(run.solutions, p.objectives),
