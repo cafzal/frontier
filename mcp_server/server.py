@@ -980,13 +980,13 @@ def solve(
       exact: Exact backends only — certify each MILP inner solve to a zero optimality gap
             instead of the default speed-oriented bounded solve. Slower; use when stakeholders
             need certified optimality. No-op on the always-exact QP and on the default NSGA path.
-      scope: Exact backends, proportional shapes only — how to produce the exact overlay.
-            "curated" (DEFAULT): progressively certify the existing NSGA `run` by exact-solving only
-            its frontier points — the lean explore-then-certify path; run `solve run` first so there's
-            a frontier to certify. "full": a full exact pass (the exact solver on every NSGA
-            evaluation — an exact-*guided* search), for when you want exact optimization to drive the
-            exploration too, not just certify it. Curated falls back to a full pass when no NSGA run
-            exists yet or on a binary (MILP) shape. The mode that ran is echoed as `overlay_scope`.
+      scope: Exact backends, any supported shape (binary MILP / proportional QP/LP) — how to produce
+            the exact overlay. "curated" (DEFAULT): progressively certify the existing NSGA `run` by
+            exact-solving only its frontier points — the lean explore-then-certify path; run `solve run`
+            first so there's a frontier to certify. "full": a full exact pass (the exact solver on every
+            NSGA evaluation — an exact-*guided* search), for when you want exact optimization to drive
+            the exploration too, not just certify it. Curated falls back to a full pass when no NSGA run
+            exists yet. The mode that ran is echoed as `overlay_scope`.
       time_limit: Optional wall-clock cap in seconds for a `run`/`run_scenarios`. The search
             stops at the generation/scalarization budget OR this cap, whichever fires first; a
             capped run returns its best-so-far frontier flagged `time_limited` (on an exact run
