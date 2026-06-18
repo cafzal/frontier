@@ -223,19 +223,13 @@ def _solve_lp_highs_sensitivity(primary_coef, primary_maximize, eps_list, max_we
     return weights, ok, raw
 
 
-def _solve_milp_highs(min_coef, eps_list, mc, n, exact=False):
-    """One binary MILP via HiGHS: minimize ``min_coef·x`` over x∈{0,1}ⁿ subject to the epsilon
-    constraints ``(coef, op, rhs)`` (op 'ge'/'le') and the combinatorial constraints in
-    ``mc``. Returns ``(0/1 selection array, ok)``. Exact; ``exact=True`` certifies with a zero
-    gap, otherwise a sub-granularity gap is allowed for speed.
-    """
-    import highspy
-
-    h = highspy.Highs()
-    h.silent()
-    h.setOptionValue("mip_rel_gap", 0.0 if exact else _MILP_REL_GAP)
-    h.setOptionValue("time_limit", _MILP_TIME_LIMIT)
-
+def _add_milp_constraints(h, n, eps_list, mc):
+    """Add the binary vars + every Frontier constraint to a HiGHS model in the canonical order:
+    the epsilon rows ``(coef, op, rhs)`` (op 'ge'/'le') first, then the combinatorial constraints
+    in ``mc`` (cardinality, objective bounds, force in/out, dependency, exclusion, group limit).
+    Returns the binary variable handle ``x``. Shared by the per-scalarization MILP solve and the
+    feasibility/witness audit so both encode the *same* feasible region — the audit's "feasible
+    space" is provably the space ``solve`` optimizes over, not a re-derivation that could drift."""
     x = h.addBinaries(n)
     for coef, op, rhs in eps_list:
         expr = (x * [float(c) for c in coef]).sum()
@@ -259,7 +253,23 @@ def _solve_milp_highs(min_coef, eps_list, mc, n, exact=False):
         gc = np.zeros(n)
         gc[grp] = 1.0
         h.addConstr((x * list(gc)).sum() <= gmax)
+    return x
 
+
+def _solve_milp_highs(min_coef, eps_list, mc, n, exact=False):
+    """One binary MILP via HiGHS: minimize ``min_coef·x`` over x∈{0,1}ⁿ subject to the epsilon
+    constraints ``(coef, op, rhs)`` (op 'ge'/'le') and the combinatorial constraints in
+    ``mc``. Returns ``(0/1 selection array, ok)``. Exact; ``exact=True`` certifies with a zero
+    gap, otherwise a sub-granularity gap is allowed for speed.
+    """
+    import highspy
+
+    h = highspy.Highs()
+    h.silent()
+    h.setOptionValue("mip_rel_gap", 0.0 if exact else _MILP_REL_GAP)
+    h.setOptionValue("time_limit", _MILP_TIME_LIMIT)
+
+    x = _add_milp_constraints(h, n, eps_list, mc)
     h.minimize((x * [float(c) for c in min_coef]).sum())
 
     status = h.modelStatusToString(h.getModelStatus())
@@ -269,6 +279,27 @@ def _solve_milp_highs(min_coef, eps_list, mc, n, exact=False):
         ok = h.solutionStatusToString(h.getInfo().primal_solution_status) == "Feasible"
     sel = np.array([round(v) for v in h.vals(x)], dtype=float) if ok else np.zeros(n)
     return sel, ok
+
+
+def _audit_milp_highs(eps_list, mc, n):
+    """Feasibility MILP for the witness/audit path: is there an x∈{0,1}ⁿ satisfying the
+    combinatorial constraints ``mc`` plus the extra ``eps_list`` rows (a negated property)? A
+    constant objective makes this pure feasibility, so HiGHS returns the first feasible incumbent.
+
+    Returns ``(model_status, sel)`` with the RAW status string ('Optimal' | 'Infeasible' |
+    'Time limit' | …). Unlike ``_solve_milp_highs``'s boolean ``ok``, the audit verdict turns on
+    which non-optimal status it was — Infeasible (the property holds) must stay distinct from a
+    time limit (inconclusive), so collapsing both to False would silently mis-certify."""
+    import highspy
+
+    h = highspy.Highs()
+    h.silent()
+    h.setOptionValue("time_limit", _MILP_TIME_LIMIT)
+    x = _add_milp_constraints(h, n, eps_list, mc)
+    h.minimize((x * [0.0 for _ in range(n)]).sum())  # constant objective → any feasible point
+    status = h.modelStatusToString(h.getModelStatus())
+    sel = np.array([round(v) for v in h.vals(x)], dtype=float) if status == "Optimal" else np.zeros(n)
+    return status, sel
 
 
 def _optimize_highs(

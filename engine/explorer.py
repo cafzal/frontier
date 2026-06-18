@@ -1007,6 +1007,64 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
     }
 
 
+def _audit_framing(verdict: str) -> dict:
+    """Per-verdict recommendation + next-step for the `explore audit` payload. The deep
+    presentation playbook lives in solution_interpreter → 'Reading the Audit (explore audit)';
+    this is the one-line frame the agent leads with."""
+    read = "Read this with the `solution_interpreter` skill ('Reading the Audit (explore audit)')."
+    text = {
+        "feasible": "A feasible plan exists — the current constraints are satisfiable. The witness is "
+                    "one concrete example; proceed to solve() for the frontier.",
+        "no_feasible_plan": "No feasible plan exists — the constraints jointly over-constrain the problem "
+                            "(the exact version of validate's pre-solve check). Relax the tightest "
+                            "constraint and re-probe before solving.",
+        "violated": "The property does NOT hold across the feasible space — the witness is a concrete "
+                    "counterexample. Treat the property as an aspiration, not a guarantee; encode it as a "
+                    "hard constraint if it must hold.",
+        "holds": "Proven: the property holds for EVERY feasible plan — the negation is infeasible across "
+                 "the whole feasible region, not a sampled subset. A guarantee you can put in front of a "
+                 "stakeholder, not a spot-check.",
+        "holds_vacuously": "The property holds only vacuously — there are no feasible plans for it to apply "
+                           "to. Probe feasibility first (audit with no property).",
+        "inconclusive": "INCONCLUSIVE — the solve hit its time limit without a verdict. Do not read this "
+                        "as a pass.",
+    }
+    if verdict == "unsupported":
+        return {"next_steps": "Shape not auditable in v1 — see `reason`. " + read}
+    return {"recommendation": text.get(verdict, ""), "next_steps": read}
+
+
+def audit_property(problem: Problem, property_dict: dict | None) -> dict:
+    """MCP payload for `explore audit` — the witness / feasibility auditor (sibling of certify).
+
+    Parses the optional property (a ``Constraint`` dict — same vocabulary as model constraints),
+    runs the engine audit over the whole feasible space, and frames the verdict for presentation.
+    No prior solve required: audit reasons about the model's feasible region directly, so it can
+    feasibility-probe *before* spending a solve."""
+    from engine import optimizer
+
+    prop = None
+    if property_dict is not None:
+        if not isinstance(property_dict, dict):
+            raise ValueError(
+                "audit `property` must be a constraint object, e.g. "
+                '{"type": "objective_bound", "objective": "Cost", "operator": "max", "value": 100}.')
+        from pydantic import TypeAdapter, ValidationError
+
+        from engine.models import Constraint
+        try:
+            prop = TypeAdapter(Constraint).validate_python(property_dict)
+        except ValidationError as e:
+            errs = e.errors()
+            raise ValueError(
+                f"audit `property` isn't a valid constraint: {errs[0].get('msg', e) if errs else e}")
+
+    result = optimizer.audit(problem, prop=prop, solver="highs")
+    result["audited"] = ("feasibility of the current constraint set" if prop is None else property_dict)
+    result.update(_audit_framing(result["verdict"]))
+    return result
+
+
 def _constraint_key(c: dict) -> str:
     """Stable string key for a constraint dict, for comparison."""
     ctype = c.get("type", "")

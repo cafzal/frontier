@@ -94,6 +94,10 @@ mcp = FastMCP(
         "solver — solve(solver=\"highs\"|\"cuopt\") — then `explore certify` to audit NSGA vs exact (dominance, coverage, the "
         "NSGA-never-dominates invariant, corner sharpening), then — on continuous/QP — `explore sensitivity` for "
         "solver-exact duals, then decide.\n\n"
+        "GOVERNANCE CHECK (optional, binary problems): `explore audit` reasons over the WHOLE feasible space, not just "
+        "the frontier — prove a property holds for EVERY feasible plan (verdict 'holds', a guarantee) or get a concrete "
+        "counterexample witness (verdict 'violated'); with no property it probes feasibility (the exact form of validate). "
+        "Needs HiGHS; no prior solve required.\n\n"
         "LONG SOLVES RUN IN THE BACKGROUND: a slow solve/run (thorough, exact, or large) returns "
         "{status:\"running\", job_id} instead of blocking — poll solve(action=\"status\", job_id=...) until "
         "status=\"complete\". This is normal; narrate progress to the user between polls and never claim "
@@ -1480,6 +1484,7 @@ def explore(
     detail: bool = False,
     cvar_alpha: float | None = None,
     format: str | None = None,
+    audit_property: dict | None = None,
 ) -> dict:
     """Navigate results after solving.
 
@@ -1522,6 +1527,14 @@ def explore(
                    sharpening. No params (audits `run` vs `exact_run`; flow: solve →
                    solve(solver="highs"|"cuopt") → certify). Optional: run_ids (exactly 2,
                    one NSGA + one exact, order-free) for explicit historical runs.
+      audit      — Witness / feasibility auditor (the feasibility-side sibling of certify): reason
+                   over the WHOLE feasible space, not just the frontier. No params → feasibility
+                   probe ("is any plan feasible under the current constraints?" — the exact form of
+                   validate's pre-solve check; verdict feasible / no_feasible_plan). With
+                   audit_property (a constraint-shaped dict, same vocabulary as model constraints) →
+                   prove a guarantee: does the property hold for EVERY feasible plan (verdict
+                   "holds") or here is a concrete counterexample (verdict "violated" + witness).
+                   Binary problems; needs HiGHS. Reads the model directly — no prior solve required.
       scenario_results — Cross-scenario robustness: option_robustness (importance-ranked,
                    tiers core/common/marginal), scenario-specific options, expected values
                    (ideal-point), scenario_risk per objective (expected/worst/best/cvar), and
@@ -1687,6 +1700,14 @@ def explore(
             if not _was_injected(p.problem_id, "solution_interpreter"):
                 _inject_skill(result, "solution_interpreter", _SOLUTION_INTERPRETER_PROMPT)
                 _mark_injected(p.problem_id, "solution_interpreter")
+            return _attach_guidance_pointer(result, action)
+        case "audit":
+            # Witness / feasibility auditor — proves a property across the whole feasible space (or
+            # probes feasibility). Reads the model's constraints directly, so no prior run needed.
+            try:
+                result = explorer.audit_property(p, audit_property)
+            except ValueError as e:
+                return {"error": str(e)}
             return _attach_guidance_pointer(result, action)
         case "scenario_results":
             try:

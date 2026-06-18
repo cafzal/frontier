@@ -131,6 +131,7 @@ _DECISION_GUIDANCE: dict[str, tuple[str, str]] = {
     "marginal_analysis": ("solution_interpreter", "Marginal Analysis Interpretation"),
     "curate": ("solution_interpreter", "Solution Curation"),
     "certify": ("solution_interpreter", "Reading the Certificate (explore certify)"),
+    "audit": ("solution_interpreter", "Reading the Audit (explore audit)"),
     "sensitivity": ("solution_interpreter", "Exact Sensitivity — Shadow Prices & Reduced Costs (solver duals)"),
 }
 

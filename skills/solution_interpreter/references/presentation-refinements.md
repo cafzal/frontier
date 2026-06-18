@@ -182,6 +182,26 @@ Once an exact overlay exists, *which* solutions are certified becomes decision-r
 - **Keep prose and chart telling one story.** The web UI draws certified points solid and the not-yet-certified field faded; let your language match — certified reads as confirmed/optimal, heuristic as provisional/approximate. A reader moving between your table and the chart should meet the same distinction in both.
 - **Don't over-mark.** On a plain heuristic frontier with no exact run there is nothing to certify — don't add an empty status column or imply a certification you don't have. The marker earns its place only once an exact overlay exists; until then, the honest frame is "approximate frontier, exact audit available if you want it."
 
+### Reading the Audit (explore audit)
+
+`explore audit` is the **feasibility-side sibling of certify**. Certify asks "is each frontier point optimal?"; audit asks "what's true across the *whole feasible space*?" — every feasible plan, not just the non-dominated ones the frontier shows. It answers the **governance** question — *"can I guarantee no feasible plan violates this, or is this constraint set even satisfiable?"* — that the frontier structurally can't. It needs no prior solve: it reasons about the model's feasible region directly, so it's also the way to feasibility-probe a constraint set *before* spending a solve. Binary problems, HiGHS. Translate the verdict; don't echo the raw fields.
+
+The payload carries a `verdict`, the `audited` echo (the property, or "feasibility of the current constraint set"), an optional `witness` (a concrete plan), and a pre-built `recommendation` / `next_steps`. Read each verdict this way:
+
+| `verdict` | What it means | How to present |
+|---|---|---|
+| `holds` | The property holds for **every** feasible plan — the negation is infeasible across the whole region, *proven*, not sampled | Lead with the guarantee: *"Across every feasible plan, [property] holds — that's a proof over the whole feasible space, not a spot-check."* Scope it: the guarantee is **conditional on the current constraints** — if they change, re-audit. |
+| `violated` | At least one feasible plan breaks the property — the `witness` is a concrete counterexample | Present the witness as a **plan**, entity-native: *"[property] isn't guaranteed — e.g. this feasible plan breaks it: selects [witness.selected_options], reaching [witness.objective_values]."* Then the lever: if it *must* hold, encode it as a hard constraint (it currently isn't one). |
+| `feasible` | A feasible plan exists (probe) | *"The constraints are satisfiable — here's one plan that works."* Proceed to `solve`. |
+| `no_feasible_plan` | No plan satisfies the constraints (probe) | *"As stated, no plan is feasible — the constraints over-constrain."* This is the exact form of `validate`'s pre-solve check; route to optimization_strategy → *Infeasibility Response* to find the tightest constraint. |
+| `holds_vacuously` | The property "holds" only because the feasible region is empty | Don't report it as a win — surface the empty region first (probe feasibility with no property). |
+| `inconclusive` | The solve hit its time limit | **Never read as a pass.** Say it's undetermined and suggest simplifying the model or narrowing the property. (The cardinal discipline: a non-result is not a proof.) |
+| `unsupported` | Shape out of v1 scope (proportional/continuous, or non-sum aggregation) | State the `reason` plainly; the EA frontier still applies. Don't improvise an audit. |
+
+**An empty-plan witness is itself a finding.** When `witness.selected_options` is empty, the model admits "select nothing," and that's what broke the property — usually a missing cardinality floor (`min ≥ 1`). Name it: *"the audit's counterexample is the empty plan — your model allows selecting nothing; add a cardinality minimum if at least one pick is required."*
+
+**Scope the language.** `holds` is a guarantee over the feasible region *as currently constrained* — strong, but not "globally true for all time." Keep it traceable (it's the negation-infeasibility result), and never inflate `feasible` (one plan exists) into `holds` (all plans comply) — they're different claims.
+
 ### Marginal Analysis Interpretation
 
 The `explore marginal_analysis` action returns structured data for each conflicting pair: `rates` (per-step cost ratios) and optionally `inflection` (with `solution_id`, `position`, `jump_factor`). Interpret these:
@@ -363,4 +383,25 @@ Curation is how users build a decision set from the raw frontier. Use `explore c
 - `format="csv"`: for spreadsheets or further tooling.
 
 Both emit raw curated solutions (names, signatures, objective values, selected options or allocations) — no narrative. Your job is the narrative; the export is the data. Offer it naturally at handoff moments: *"Want me to export the curated set as a markdown table you can paste into your doc?"* Don't auto-export — the user decides when they're ready to take work out of the session.
+
+### Stakeholder Writeup & the Why-Triplet
+
+When the user has **decided** — a solution chosen, or a curated set locked — and needs to carry it to others (a memo, a deck, a review), shift from exploration to a **stakeholder writeup**. This is a Confirming/handoff move, *not* an exploration one: reach for it only once the decision is made, because its structure presumes a single chosen plan — using it mid-exploration would fight *Never Say Best*. The export (`explore curated format=…`) is the data table; this is the narrative that frames it.
+
+**The six-part order** (each part traces to returned data, never to assertion or solver internals):
+
+1. **Decision Question** — open with the user's original question (the problem `context`). *"We needed to choose how to allocate across these markets."*
+2. **What Was Decided** — the chosen plan(s): name the selected options/allocations and their objective values. Frame it as a *chosen tradeoff among efficient options*, not "the best": *"We chose [name]: [objective values] — it trades [X] for [Y]."*
+3. **Why These Choices** — the key drivers, read from the frontier: which options are consensus picks (`composition` always/consensus), which constraints bind and at what rate (`binding_analysis` / exact shadow prices), why this point over its neighbors (dominance, marginal rates).
+4. **Confidence** — how we know it's sound: the **certificate** if an exact overlay exists ("every point optimal, not heuristic"), the frontier quality signals, and scenario robustness / CVaR if scenarios were run. This is the multi-objective replacement for a single optimality gap — *don't* report a lone "gap %". Where a governance guarantee matters, an `explore audit` "holds" result belongs here.
+5. **Impact** — the objective values in business terms, against a baseline or target when a reference point exists: *"$X cost — a Y% reduction vs the current allocation."*
+6. **Next Steps** — validate-with-experts / implement / stress-test / re-audit, as fits the decision.
+
+**The why-triplet** — the three questions every decision-maker asks. Answer each from returned data, in the user's entities, never from solver internals:
+
+- **Why was X selected?** → `composition` consensus + its scores. *"X is in every efficient plan — it's the lowest-cost way to clear the quality bar."*
+- **Why was Y excluded?** → it's Pareto-dominated, or a near-miss. *"Y costs more for no objective gain"* (dominance), or *"Y would enter if its [objective] improved by ~[reduced cost from `explore sensitivity`]"* (near-miss).
+- **What's blocking better than Z?** → the binding constraint and its shadow price. *"The cardinality cap — each extra slot buys ~[gain] of [objective] (`binding_analysis`)."*
+
+**Discipline:** every number traces to a tool result (Traceable Claims); "Why excluded" leans on Pareto dominance, which has no single-objective analogue; and the chosen plan stays framed as *one efficient tradeoff the user selected*, not a solver verdict. The scaffold organizes what the exploration already surfaced — it doesn't invent new claims.
 

@@ -823,6 +823,30 @@ class _MilpFrontierProblem(PymooProblem):
         out["G"] = np.where(feas, -1.0, 1.0).reshape(-1, 1)
 
 
+def audit_milp(problem, negated_disjuncts, *, inner_audit):
+    """Backend-agnostic witness / feasibility audit over a binary problem's feasible region.
+
+    The feasible region is the problem's own hard constraints (``_build_milp_data``'s ``mc``).
+    Each entry of ``negated_disjuncts`` is a set of extra linear rows ``(coef, op, rhs)`` encoding
+    ONE way to violate the audited property — a *disjunction*, because some properties negate to an
+    OR (cardinality → count≤min-1 OR count≥max+1). The property holds iff EVERY disjunct is
+    infeasible against the feasible region; the first feasible disjunct is a counterexample witness.
+
+    ``inner_audit(eps_list, mc, n) -> (status, sel)`` is the injected feasibility solve (HiGHS
+    today; a cuOpt sibling can drop in later — same split as ``optimize_milp``'s ``inner_milp``).
+    Returns ``{feasible, witness_options, statuses}``; the engine maps that — with the property /
+    probe context — to a verdict."""
+    n, names, _, _, mc = _build_milp_data(problem)   # score matrix / directions unused for feasibility
+    statuses: list[str] = []
+    for rows in negated_disjuncts:
+        status, sel = inner_audit(rows, mc, n)
+        statuses.append(status)
+        if status == "Optimal":   # a feasible witness violating the property
+            witness = [names[i] for i in range(n) if sel[i] > 0.5]
+            return {"feasible": True, "witness_options": witness, "statuses": statuses}
+    return {"feasible": False, "witness_options": None, "statuses": statuses}
+
+
 def optimize_milp(problem, mode, *, inner_milp, max_solutions=None,
                   seed=42, exact=False, time_limit=None) -> Run:
     """Binary selection solve: the EA evolves epsilon targets on the non-primary objectives

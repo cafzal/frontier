@@ -1109,6 +1109,132 @@ def evaluate_slate(
     return score_slate(problem, selected_options, allocations, scenario)["values"]
 
 
+def _negate_property(problem: Problem, prop) -> list[list[tuple]]:
+    """Encode the *negation* of an audited property as binary MILP rows — the witness condition.
+    INFEASIBLE on the negation (intersected with the problem's own constraints) proves the property
+    holds across the whole feasible space; a feasible point is a concrete counterexample.
+
+    Returns a *disjunction* (list of row-sets), each row ``(coef, op, rhs)`` with op 'ge'/'le'.
+    ``prop is None`` (feasibility probe) → one empty row-set ("is any plan feasible at all?"). Most
+    properties negate to a single row-set; cardinality negates to two (below-min OR above-max).
+    The property is expressed in Frontier's existing ``Constraint`` vocabulary — no new grammar."""
+    n = len(problem.options)
+    ix = {o.name: i for i, o in enumerate(problem.options)}
+
+    def idx(name: str) -> int:
+        if name not in ix:
+            raise ValueError(f"audit property references unknown option '{name}'.")
+        return ix[name]
+
+    def unit(name: str) -> list[float]:
+        v = [0.0] * n
+        v[idx(name)] = 1.0
+        return v
+
+    if prop is None:
+        return [[]]
+    t = prop.type
+    if t == "force_include":       # holds: in every feasible plan → witness: a plan without it
+        return [[(unit(prop.option), "le", 0.0)]]
+    if t == "force_exclude":       # holds: in no feasible plan → witness: a plan with it
+        return [[(unit(prop.option), "ge", 1.0)]]
+    if t == "exclusion_pair":      # holds: never both → witness: a plan with both
+        coef = [0.0] * n
+        coef[idx(prop.option_a)] = 1.0
+        coef[idx(prop.option_b)] = 1.0
+        return [[(coef, "ge", 2.0)]]
+    if t == "dependency":          # holds: if_option ⇒ then_option → witness: if ∧ ¬then
+        return [[(unit(prop.if_option), "ge", 1.0), (unit(prop.then_option), "le", 0.0)]]
+    if t == "group_limit":         # holds: ≤max from group → witness: ≥max+1 from it
+        coef = [0.0] * n
+        for o in prop.options:
+            coef[idx(o)] = 1.0
+        return [[(coef, "ge", prop.max + 1)]]
+    if t == "cardinality":         # holds: min ≤ count ≤ max → witness: count≤min-1 OR count≥max+1
+        ones = [1.0] * n
+        disjuncts = []
+        if prop.min > 0:
+            disjuncts.append([(ones, "le", prop.min - 1)])
+        disjuncts.append([(ones, "ge", prop.max + 1)])
+        return disjuncts
+    if t == "objective_bound":
+        ocol = {o.name: j for j, o in enumerate(problem.objectives)}
+        if prop.objective not in ocol:
+            raise ValueError(f"audit property references unknown objective '{prop.objective}'.")
+        col = _build_score_matrix(problem)[:, ocol[prop.objective]].astype(float).tolist()
+        tol = max(1e-6, 1e-6 * abs(prop.value))   # strict violation; thin band only
+        if prop.operator == "max":     # holds: J ≤ value → witness: J ≥ value + tol
+            return [[(col, "ge", prop.value + tol)]]
+        return [[(col, "le", prop.value - tol)]]   # operator 'min': holds J ≥ value
+    raise ValueError(
+        f"audit doesn't support property type '{t}'. Auditable: force_include, force_exclude, "
+        "exclusion_pair, dependency, group_limit, cardinality, objective_bound "
+        "(max_allocation is proportional-only)."
+    )
+
+
+def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
+    """Witness / feasibility audit over a binary problem's whole feasible region — the auditor
+    sibling of ``certify`` (which audits optimality; this audits feasibility / property claims).
+
+    With ``prop=None`` it *probes feasibility* — "is any plan feasible under the current
+    constraints?". With ``prop`` (a ``Constraint``) it *proves a guarantee* — does the property hold
+    for EVERY feasible plan (the negation is infeasible across the whole region, not a sample), or is
+    there a concrete counterexample witness? Binary selection only in v1 (the exact MILP feasibility
+    path); proportional/continuous is declined cleanly — no silent fallback.
+
+    Returns a structured verdict dict (``verdict`` ∈ feasible / no_feasible_plan / violated / holds /
+    holds_vacuously / inconclusive / unsupported)."""
+    from solvers import available_solvers, exact_solver_fits
+    from solvers._scalarization import audit_milp
+
+    if solver != "highs":
+        return {"verdict": "unsupported",
+                "reason": f"audit v1 runs on the HiGHS backend; solver='{solver}' is not supported."}
+    if problem.approach != Approach.binary:
+        return {"verdict": "unsupported",
+                "reason": "audit v1 supports binary selection problems; a proportional/continuous "
+                          "feasibility audit is not yet implemented (the EA frontier still applies)."}
+    fits, why = exact_solver_fits(problem)
+    if not fits:
+        return {"verdict": "unsupported",
+                "reason": f"audit reuses the exact MILP encoding, which declines this shape: {why}"}
+    if not available_solvers().get("highs"):
+        return {"verdict": "unsupported",
+                "reason": "audit needs the HiGHS exact backend — `pip install highspy`."}
+
+    from solvers.highs_backend import _audit_milp_highs
+
+    disjuncts = _negate_property(problem, prop)   # raises ValueError on unknown option/objective
+    raw = audit_milp(problem, disjuncts, inner_audit=_audit_milp_highs)
+    statuses = raw["statuses"]
+    is_probe = prop is None
+    base = {"mode": "feasibility_probe" if is_probe else "property_audit",
+            "solver": "highs", "statuses": statuses}
+
+    if raw["feasible"]:
+        names = raw["witness_options"]
+        sl = score_slate(problem, names)
+        return {**base, "verdict": "feasible" if is_probe else "violated",
+                "witness": {"selected_options": names,
+                            "objective_values": sl["values"], "feasible": sl["feasible"]}}
+
+    if all(s == "Infeasible" for s in statuses):
+        if is_probe:
+            return {**base, "verdict": "no_feasible_plan", "witness": None}
+        # Negation infeasible — but confirm the feasible region isn't itself empty, else "holds" is
+        # only vacuously true (the classic "num_points==0 ≠ PASS" trap from feasibility auditing).
+        if not audit_milp(problem, [[]], inner_audit=_audit_milp_highs)["feasible"]:
+            return {**base, "verdict": "holds_vacuously", "witness": None,
+                    "note": "the feasible region is empty — the property holds only vacuously; "
+                            "probe feasibility first (audit with no property)."}
+        return {**base, "verdict": "holds", "witness": None}
+
+    return {**base, "verdict": "inconclusive", "witness": None,
+            "reason": "the feasibility solve hit its time limit without proving infeasibility — "
+                      "INCONCLUSIVE, not a pass. Simplify the model or narrow the property."}
+
+
 def optimize_scenarios(
     problem: Problem,
     mode: OptimizeMode | None = None,

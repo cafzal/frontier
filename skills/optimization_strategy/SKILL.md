@@ -115,6 +115,7 @@ When the solver returns no solutions:
 - Check if objective bounds conflict with each other.
 - Suggest relaxing the tightest constraint first.
 - Ask the user: "Which of these constraints is most negotiable?"
+- To confirm infeasibility **exactly** before (or without) a full solve — or get a concrete feasible *witness* plan when the constraints ARE satisfiable — use `explore audit` with no property: the binary feasibility probe, the exact counterpart to `validate`'s pre-solve conflict check. With a property (any constraint shape), `explore audit` also proves whether a guardrail holds across the *entire* feasible space (verdict `holds`) or returns a counterexample plan — the governance read, presented via `frontier://skills/solution_interpreter` → *Reading the Audit*.
 
 ### Status Literacy
 
