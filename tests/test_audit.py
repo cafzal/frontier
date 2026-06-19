@@ -63,8 +63,12 @@ def _problem(approach="binary", constraints=None, aggregation="sum"):
 def test_probe_satisfiable_returns_feasible_witness():
     r = audit(_problem(constraints=[CardinalityConstraint(min=1, max=2)]))
     assert r["verdict"] == "feasible"
-    assert r["mode"] == "feasibility_probe"
+    assert r["audit_kind"] == "feasibility_probe"
     assert r["witness"] is not None and r["witness"]["feasible"] is True
+    # Region echo pins what the verdict is conditional on; raw solver fields are not surfaced.
+    assert r["feasible_region"]["n_options"] == 4
+    assert any(c["type"] == "cardinality" for c in r["feasible_region"]["constraints"])
+    assert "statuses" not in r and "mode" not in r
 
 
 def test_probe_overconstrained_returns_no_feasible_plan():
@@ -73,7 +77,6 @@ def test_probe_overconstrained_returns_no_feasible_plan():
                                     ForceExcludeConstraint(option="A")]))
     assert r["verdict"] == "no_feasible_plan"
     assert r["witness"] is None
-    assert r["statuses"] == ["Infeasible"]
 
 
 # ─── Property audit: holds ───
@@ -84,8 +87,7 @@ def test_property_holds_across_feasible_space():
               CardinalityConstraint(min=1, max=4))
     assert r["verdict"] == "holds"
     assert r["witness"] is None
-    # Cardinality negates to a disjunction (below-min OR above-max); min=1>0 so both branches run.
-    assert r["statuses"] == ["Infeasible", "Infeasible"]
+    assert r["audit_kind"] == "property_audit"
 
 
 def test_objective_bound_holds_when_cap_never_reached():
@@ -148,16 +150,17 @@ def test_property_holds_vacuously_on_empty_region():
     assert "note" in r
 
 
-def test_proportional_shape_declined():
-    r = audit(_problem(approach="proportional"))
-    assert r["verdict"] == "unsupported"
-    assert "binary" in r["reason"]
+def test_proportional_shape_declined_raises():
+    # An unfit shape is a hard decline (a tool error), not a structured "unsupported" verdict —
+    # the same convention as solve's exact gate and certify's precondition.
+    with pytest.raises(ValueError, match="binary"):
+        audit(_problem(approach="proportional"))
 
 
-def test_nonsum_aggregation_declined():
+def test_nonsum_aggregation_declined_raises():
     # The exact MILP only encodes additive objectives; a min-aggregated one is out of scope.
-    r = audit(_problem(aggregation="min"))
-    assert r["verdict"] == "unsupported"
+    with pytest.raises(ValueError):
+        audit(_problem(aggregation="min"))
 
 
 def test_unknown_option_raises():
@@ -178,6 +181,13 @@ def test_explorer_payload_frames_verdict_and_echoes_property():
 def test_explorer_payload_rejects_malformed_property():
     with pytest.raises(ValueError, match="valid constraint"):
         explorer.audit_property(_problem(), {"type": "not_a_constraint"})
+
+
+def test_explorer_payload_raises_on_unsupported_shape():
+    # An unfit shape propagates the engine's ValueError, so the MCP layer returns a tool error
+    # (consistent with solve), not a structured "unsupported" verdict.
+    with pytest.raises(ValueError):
+        explorer.audit_property(_problem(approach="proportional"), None)
 
 
 # ─── Wire-level: explore audit over real stdio ───

@@ -1029,8 +1029,8 @@ def _audit_framing(verdict: str) -> dict:
         "inconclusive": "INCONCLUSIVE — the solve hit its time limit without a verdict. Do not read this "
                         "as a pass.",
     }
-    if verdict == "unsupported":
-        return {"next_steps": "Shape not auditable in v1 — see `reason`. " + read}
+    # An unfit shape / missing backend raises ValueError upstream (→ a tool error), never reaching
+    # here — so every verdict in `text` is an analytical outcome, framed the same way.
     return {"recommendation": text.get(verdict, ""), "next_steps": read}
 
 

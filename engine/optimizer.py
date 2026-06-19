@@ -1181,36 +1181,45 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
     constraints?". With ``prop`` (a ``Constraint``) it *proves a guarantee* — does the property hold
     for EVERY feasible plan (the negation is infeasible across the whole region, not a sample), or is
     there a concrete counterexample witness? Binary selection only in v1 (the exact MILP feasibility
-    path); proportional/continuous is declined cleanly — no silent fallback.
+    path).
 
     Returns a structured verdict dict (``verdict`` ∈ feasible / no_feasible_plan / violated / holds /
-    holds_vacuously / inconclusive / unsupported)."""
+    holds_vacuously / inconclusive). **Raises ``ValueError`` when the shape or backend can't serve an
+    audit** (non-binary, non-sum aggregation, or HiGHS not installed) — the same hard-decline
+    convention as ``solve``'s exact gate and ``certify``'s precondition, never a silent or structured
+    degradation."""
     from solvers import available_solvers, exact_solver_fits
     from solvers._scalarization import audit_milp
 
     if solver != "highs":
-        return {"verdict": "unsupported",
-                "reason": f"audit v1 runs on the HiGHS backend; solver='{solver}' is not supported."}
+        raise ValueError(f"audit v1 runs on the HiGHS backend; solver='{solver}' is not supported.")
     if problem.approach != Approach.binary:
-        return {"verdict": "unsupported",
-                "reason": "audit v1 supports binary selection problems; a proportional/continuous "
-                          "feasibility audit is not yet implemented (the EA frontier still applies)."}
+        raise ValueError(
+            "audit v1 supports binary selection problems; a proportional/continuous feasibility "
+            "audit is not yet implemented — explore the allocation frontier with the EA instead.")
     fits, why = exact_solver_fits(problem)
     if not fits:
-        return {"verdict": "unsupported",
-                "reason": f"audit reuses the exact MILP encoding, which declines this shape: {why}"}
+        raise ValueError(f"audit reuses the exact MILP encoding, which declines this shape: {why}")
     if not available_solvers().get("highs"):
-        return {"verdict": "unsupported",
-                "reason": "audit needs the HiGHS exact backend — `pip install highspy`."}
+        raise ValueError("audit needs the HiGHS exact backend — `pip install highspy`.")
 
     from solvers.highs_backend import _audit_milp_highs
 
     disjuncts = _negate_property(problem, prop)   # raises ValueError on unknown option/objective
     raw = audit_milp(problem, disjuncts, inner_audit=_audit_milp_highs)
-    statuses = raw["statuses"]
+    statuses = raw["statuses"]                    # raw solver statuses drive the verdict; not surfaced
     is_probe = prop is None
-    base = {"mode": "feasibility_probe" if is_probe else "property_audit",
-            "solver": "highs", "statuses": statuses}
+    # Pin the audited region so a `holds` is self-certifying — the guarantee is conditional on
+    # exactly these constraints, the traceable-claims convention the explore analytics follow.
+    base = {
+        "audit_kind": "feasibility_probe" if is_probe else "property_audit",
+        "solver": "highs",
+        "feasible_region": {
+            "approach": problem.approach.value,
+            "n_options": len(problem.options),
+            "constraints": [c.model_dump(mode="json") for c in (problem.constraints or [])],
+        },
+    }
 
     if raw["feasible"]:
         names = raw["witness_options"]
@@ -1232,7 +1241,8 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
 
     return {**base, "verdict": "inconclusive", "witness": None,
             "reason": "the feasibility solve hit its time limit without proving infeasibility — "
-                      "INCONCLUSIVE, not a pass. Simplify the model or narrow the property."}
+                      "INCONCLUSIVE, not a pass; " + ("simplify the model and re-probe."
+                      if is_probe else "narrow the property or simplify the model.")}
 
 
 def optimize_scenarios(

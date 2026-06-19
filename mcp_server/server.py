@@ -1486,7 +1486,8 @@ def explore(
     format: str | None = None,
     audit_property: dict | None = None,
 ) -> dict:
-    """Navigate results after solving.
+    """Navigate results after solving — or, with `audit`, interrogate the model's feasible region
+    directly (no prior solve needed). Every other action reads a run.
 
     `solution_interpreter` auto-injects on the first solve per problem (see the
     `model` docstring for `_skill_guidance` shape and the once-per-problem throttle).
