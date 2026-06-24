@@ -218,6 +218,8 @@ Before handing a finished model to the solver, make one pass that asks whether i
 - **Unambiguous direction** — every objective resolves to a single maximize-or-minimize sense. "Balance cost and speed" is two objectives, not one; pin each direction before solve.
 - **PSD for quadratic interactions** — any objective using `quadratic` aggregation carries an interaction matrix, and for that aggregation to be a valid measure the matrix must be positive semi-definite. The schema enforces *symmetry* only (see *Interaction matrix schema*) — PSD is your check, not the tool's. A covariance matrix estimated from real, time-aligned data is PSD by construction; one entered by hand, stitched from mismatched windows, or built from a truncated factor model may not be — and an indefinite matrix makes the "risk" it reports meaningless. Confirm before solving.
 
+Those three confirm each objective is sound. For a whole-model cross-check against the decision question — goals stated but not encoded, options that can never be selected, constraints that duplicate each other — fetch `get_skill('problem_framing', section='Pre-Solve Validation')`.
+
 ## Stage Awareness
 
 ### Modeling Progression

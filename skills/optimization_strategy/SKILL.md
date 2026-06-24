@@ -116,6 +116,7 @@ When the solver returns no solutions:
 - Suggest relaxing the tightest constraint first.
 - Ask the user: "Which of these constraints is most negotiable?"
 - To confirm infeasibility **exactly** before (or without) a full solve — or get a concrete feasible *witness* plan when the constraints ARE satisfiable — use `explore audit` with no property: the binary feasibility probe, the exact counterpart to `validate`'s pre-solve conflict check. With a property (any constraint shape), `explore audit` also proves whether a guardrail holds across the *entire* feasible space (verdict `holds`) or returns a counterexample plan — the governance read, presented via `frontier://skills/solution_interpreter` → *Reading the Audit*.
+- Relaxing the tightest constraint often just exposes the *next* one binding underneath — relax and re-solve incrementally, not all at once. For the full set of constraint *interactions* (contradictory, cascading tightness, redundant, symmetry) and their distinct fixes, see `get_skill('optimization_strategy', section='Constraint Interaction Patterns')`.
 
 ### Status Literacy
 
