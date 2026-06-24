@@ -40,6 +40,7 @@ Spreadsheets hit a complexity wall once options and constraints in a decision mu
 **What it adds beyond an LLM alone:**
 - **Full tradeoff frontier**: every Pareto-optimal option, not one recommendation or a weighted ranking.
 - **Optional exact audit**: certify the finalists against an exact solver (HiGHS on CPU, cuOpt on GPU) on supported shapes; it catches dominated points the heuristic showed as efficient.
+- **Governance guarantees**: on selection problems, `explore audit` proves a guardrail holds for *every* feasible plan, returns a counterexample if not, and probes feasibility before solving.
 - **Hard constraints, enforced**: eight types: cardinality, force include, force exclude, objective bounds, exclusion pairs, dependencies, group limits, and allocation caps.
 - **Grounded & reproducible**: every number traces to computed data, and the same inputs + seed reproduce the exact frontier.
 - **Scenarios & risk**: independent frontiers per scenario, plus CVaR / worst-case / expected / minimax-regret per objective.
@@ -56,7 +57,7 @@ Drive Frontier by interacting with an AI agent, in a coding-agent MCP client or 
 2. **Score the options.** Hand over the numbers, or let the agent estimate and flag what's shaky. *e.g. "Score these five CRMs on cost and support from their pricing pages."*
 3. **Solve.** The agent validates the setup, then runs the optimizer for the Pareto frontier, optionally once per scenario. *e.g. "Solve it."*
 4. **Explore the tradeoffs.** Frontier shape, the extremes, the balanced/knee, the marginal cost of pushing an objective, robustness across scenarios. *e.g. "Show the tradeoffs and recommend a balanced pick."*
-5. **Certify and examine.** Before committing, audit the frontier against an exact solver where the shape supports it (`explore certify` sharpens the risk corner and flags any dominated points), then read the solver-exact sensitivity (`explore sensitivity` for where-to-invest shadow prices and near-miss reduced costs). To back a governance claim, `explore audit` proves whether a guardrail (a cap, a floor, a mutual exclusion) holds for *every* feasible plan or returns a concrete counterexample. *e.g. "Certify the finalists and show me what's binding."*
+5. **Certify and examine.** Before committing, audit the frontier against an exact solver where the shape supports it (`explore certify` sharpens the risk corner and flags any dominated points), then read the solver-exact sensitivity (`explore sensitivity` for where-to-invest shadow prices and near-miss reduced costs). To back a governance claim on a selection problem, `explore audit` proves whether a guardrail (a cap, a floor, a mutual exclusion) holds for *every* feasible plan, or returns a concrete counterexample. *e.g. "Certify the finalists and show me what's binding."*
 6. **Iterate.** Tighten a constraint, add a scenario, re-solve, and compare against the previous run. *e.g. "Cap cost at $40k and re-run: what dropped off the frontier?"*
 7. **Decide.** Curate the finalists and commit to the pick that fits your tradeoffs: the engine lays out the options and leaves the final call to you. *e.g. "Curate the balanced plan as 'Lean choice' and commit."*
 
@@ -81,7 +82,7 @@ Four MCP tools – full action lists and parameters in [`architecture.md`](archi
 
 - **`model`**: define and edit the problem (objectives, options, scores, 8 constraint types, interaction matrices, scenarios): `create` / `update` / `get`, plus `save` / `load` for named problems.
 - **`solve`**: validate and optimize (NSGA-II/III, fast/thorough, seeded): `run`, `run_scenarios`, and `status` to poll background runs; opt-in `solver="highs"|"cuopt"` exact backends on supported shapes.
-- **`explore`**: navigate results: `tradeoffs`, `certify` (audit the exact overlay), `audit` (prove a guardrail holds across the *whole* feasible space — or return a counterexample plan — and probe feasibility before solving), `sensitivity` (solver-exact shadow prices + near-misses), `composition` (mine selection rates, principles, strategy families), plus `compare` / `solutions` / `scenario_results` / `curate`.
+- **`explore`**: navigate results, or probe the feasible region before a solve: `tradeoffs`, `certify` (audit the exact overlay), `audit` (selection problems: prove a guardrail holds across the *whole* feasible space, or return a counterexample), `sensitivity` (solver-exact shadow prices + near-misses), `composition` (mine selection rates, principles, strategy families), plus `compare` / `solutions` / `scenario_results` / `curate`.
 - **`get_skill`**: fetch the workflow guidance below.
 
 ### Skills
