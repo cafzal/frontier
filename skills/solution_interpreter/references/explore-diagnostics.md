@@ -105,6 +105,8 @@ Dict keyed by objective name.
 
 The top-level `cvar_alpha` echoes the α the user requested (default 0.2). The CVaR key name includes α as a percent (`cvar_20`, `cvar_10`), so your narration can stay adaptive: always pull the CVaR value via `scenario_risk[obj][f"cvar_{int(alpha*100)}"]` rather than hardcoding `cvar_20`.
 
+Note the convention: **α here is the *tail fraction*, not a confidence level.** `cvar_alpha=0.2` is the worst 20% of scenarios — the inverse of the finance/textbook CVaR$_\alpha$ convention where α is the confidence (e.g. 0.95) and the tail is 1−α. In Frontier, larger α = a broader, less extreme downside.
+
 ### Interpretation notes
 
 - "Worst α-fraction by probability mass": probabilities are summed ascending (worst-first for maximize, best-first for minimize) until the cumulative mass reaches α. CVaR is the weighted mean of those scenarios' values. With 4 scenarios at 0.4/0.2/0.3/0.1 and α=0.2, the worst one (0.1) plus half of the next-worst (0.1 of 0.2) contribute.

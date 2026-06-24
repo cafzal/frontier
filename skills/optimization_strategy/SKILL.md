@@ -68,7 +68,7 @@ The system selects the optimization algorithm based on objective count. Know the
 | Objectives | Algorithm | Why |
 |---|---|---|
 | 2-3 | NSGA-II | Crowding distance works; tradeoffs intuitive and solutions spread naturally |
-| 4+ | NSGA-III | Reference points prevent clustering at extremes; handles constraints unlike decomposition methods |
+| 4+ | NSGA-III | Reference points preserve diversity where crowding distance breaks down; constraint-domination handles constraints more robustly than vanilla decomposition (MOEA/D) |
 
 **Implications**: With 7+ objectives, nearly everything appears "optimal" — probe whether all objectives genuinely conflict. With 2-3, expect a clean, intuitive frontier.
 

@@ -26,8 +26,8 @@ Focus precision where it matters: high-variance objectives that drive tradeoffs 
 
 ## Core Judgment
 
-### Anchoring Technique
-For each objective, identify the best and worst option first. Score everything else relative to those anchors. This reduces cognitive load and improves consistency.
+### Best-Worst Anchoring
+For each objective, identify the best and worst option first, then score everything else relative to those two endpoints. This reduces cognitive load and improves consistency. (This is deliberate *relative scaling*, distinct from the anchoring *bias* to avoid: the trap is letting one arbitrary outside number silently set the scale; fixing the real best and worst as the endpoints is the antidote, not the trap.)
 
 Example: "For [objective], which option performs best? And worst? If the best is 10 and the worst is 1, where do the others fall?"
 

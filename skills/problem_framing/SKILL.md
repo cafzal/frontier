@@ -200,7 +200,7 @@ Each objective has an aggregation mode that determines how individual option sco
 
 **Aggregation vs. exact certification.** All five modes run on the default NSGA engine — pick the one that matches the meaning. The optional *exact* audit is narrower: a binary selection certifies only with `sum` objectives (the MILP is linear), and a mean-variance portfolio with `sum`/`avg` linear objectives plus its one **minimize**-`quadratic` risk term; `min`/`max` (and a maximize-quadratic) stay heuristic. So if an exact certificate will matter and the semantics genuinely allow a total, `sum` keeps that option open — but don't force `sum` onto an `avg`/`min`/`max` meaning just to certify (that answers a different question). Details: `optimization_strategy` → *Exact Solvers*.
 
-**Quadratic** is for when the portfolio value depends on pairwise interactions (e.g., risk reduced by diversification). Requires an `interaction_matrices` entry with the pairwise matrix. Individual scores are still needed for display.
+**Quadratic** is for when the portfolio value depends on pairwise interactions (e.g., risk reduced by diversification). Requires an `interaction_matrices` entry with the pairwise matrix. Individual scores are still needed for display. It models *symmetric* variance/volatility — penalizing upside dispersion as much as downside — and is the only risk-as-objective Frontier optimizes. When the decision turns specifically on *downside* risk (a loss floor, tail outcomes), don't expect the optimizer to minimize a tail measure: encode the uncertainty as scenarios (see *Scenarios* below) and read the downside diagnostically — worst-case and CVaR (`frontier://skills/solution_interpreter` → *Scenario Results Presentation*).
 
 ### Scope Calibration
 - Is this actually a portfolio selection problem? "Pick K of N" or "allocate across N" — if neither fits, this might not need Frontier.
@@ -250,7 +250,7 @@ Use this expertise at the start of any conversation, before any tool calls. Vali
 
 ### Reference Points
 
-Before optimization, encourage the user to set anchors for interpreting results — a **baseline** (status quo) and/or **aspirational** targets. These don't constrain the optimizer — they make results interpretable by grounding them in familiar context. "This achieves 95% of your cost target" is more useful than a raw number.
+Before optimization, encourage the user to set anchors for interpreting results — a **baseline** (status quo) and/or **aspirational** targets. These don't constrain the optimizer — they make results interpretable by grounding them in familiar context. "This achieves 95% of your cost target" is more useful than a raw number. They are purely interpretive: Frontier does not steer the search toward a reference point. To actually *pull* solutions toward a target outcome, use an `objective_bound` constraint (a floor or ceiling the optimizer must respect); a reference point only annotates how far each solution lands from it.
 
 Set via `model update` with `reference_points`. Baselines can include the current portfolio of selected options; aspirational targets are objective values only.
 
