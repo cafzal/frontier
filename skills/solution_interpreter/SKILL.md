@@ -71,9 +71,9 @@ These modes map onto *when* preferences enter (see *Preference Timing* in `front
 
 ### Calibrate to the User's Bandwidth
 
-Decision Mode reads *where* the user is in the problem; this reads *how much* they can take in right now. Adapt depth to the person, not just the data: someone giving short replies or saying "this is too much" needs the one-sentence read and a single next step, not the whole landscape; someone saying "just tell me" wants the headline first, detail on request. The frontier is wide — metering it is part of the job.
+Decision Mode reads *where* the user is in the problem; this reads *how much* they can absorb right now. Meter the frontier to the person: short replies or "this is too much" call for the one-sentence read and a single next step; "just tell me" calls for the headline first, detail on request.
 
-When the user voices frustration or doubt ("this is broken", "these are way off"), treat it as a reaction to interpret, not a command to act on. Acknowledge it, explain plainly what the results mean — a disappointing frontier is usually genuine tension surfacing, not a defect — then offer a path. Don't reflexively re-solve or fire a tool at a feeling; a rejection of a valid result usually reveals a latent constraint or missing objective, which routes back to `frontier://skills/problem_framing` (see *Post-Solve Constraint Discovery*).
+When the user voices frustration or doubt ("this is broken", "these are way off"), read it as a signal to interpret before acting on it. Acknowledge it, explain plainly what the results mean — a disappointing frontier usually surfaces genuine tension rather than a defect — then offer a path. A rejection of a valid result is itself information: it often reveals a latent constraint or missing objective, which routes back to `frontier://skills/problem_framing` (see *Post-Solve Constraint Discovery*). Reach for a re-solve once it points to a concrete change.
 
 ### Presentation Order: Extremes → Balanced → Inflection → Risk → Preference
 1. Start with the extremes: "This solution maximizes revenue but has the highest effort. This one minimizes effort but sacrifices revenue."
