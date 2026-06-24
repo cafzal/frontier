@@ -212,13 +212,12 @@ For any domain, identify 2-4 objectives that represent genuinely conflicting goa
 
 ### Formalization Checkpoint
 
-Before handing a finished model to the solver, make one pass that asks whether it captures the *right* problem — not just whether it will solve. The solver is precise about whatever it's given, so a clean frontier over a mis-specified model is more dangerous than a rough frontier over the right one: the precision disguises the error. Confirm three things before solving:
+Before handing a finished model to the solver, make one pass that asks whether it captures the *right* problem — not just whether it will solve. The solver is precise about whatever it's given, so a clean frontier over a mis-specified model is more dangerous than a rough frontier over the right one: the precision disguises the error. Confirm four things before solving:
 
 - **Units and comparability** — each objective's scores should share one consistent unit across all options (all dollars, or all 1-10 ratings — not dollars for some options and a "high/medium/low" guess for others). `sum` and `avg` are only meaningful within a single scale; mixed units silently distort the frontier.
 - **Unambiguous direction** — every objective resolves to a single maximize-or-minimize sense. "Balance cost and speed" is two objectives, not one; pin each direction before solve.
 - **PSD for quadratic interactions** — any objective using `quadratic` aggregation carries an interaction matrix, and for that aggregation to be a valid measure the matrix must be positive semi-definite. The schema enforces *symmetry* only (see *Interaction matrix schema*) — PSD is your check, not the tool's. A covariance matrix estimated from real, time-aligned data is PSD by construction; one entered by hand, stitched from mismatched windows, or built from a truncated factor model may not be — and an indefinite matrix makes the "risk" it reports meaningless. Confirm before solving.
-
-Those three confirm each objective is sound. For a whole-model cross-check against the decision question — goals stated but not encoded, options that can never be selected, constraints that duplicate each other — fetch `get_skill('problem_framing', section='Pre-Solve Validation')`.
+- **Decision-question coverage** — read the captured question back against the model: every goal the user named should land as an objective or a constraint. A goal mentioned in passing but encoded nowhere is the most common silent mis-spec, and it's catchable precisely because the question is stored (see *Decision Question*).
 
 ## Stage Awareness
 

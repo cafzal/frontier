@@ -59,11 +59,9 @@ When you're looking up scores rather than asking the user, prioritize in order:
 2. **Independent benchmarks** — research labs, standardized testing, peer-reviewed data
 3. **Reputable analysis** — established tech publications, analyst reports
 
-Skip blogs, forums, and social media unless they contain original quantitative data. Favor a source that covers many option×objective cells at once — one comparison table beats scattered single-option pages and keeps the scale consistent across options.
+Skip blogs, forums, and social media unless they contain original quantitative data.
 
 **Quality signals**: numerical values with units, structured comparisons (tables), authoritative origin, recent publication date.
-
-When a source doesn't state a value cleanly, degrade through the extraction tiers rather than dropping the cell — `get_skill('data_collection', section='Extraction Tiers')` maps how cleanly a source matches to the confidence a score should carry.
 
 ### Conflict Resolution Between Sources
 When multiple sources disagree on a score:
