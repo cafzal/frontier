@@ -108,6 +108,15 @@ def test_force_include_property_violated_with_witness():
     assert w is not None and "A" not in w["selected_options"]   # the witness genuinely lacks A
 
 
+def test_force_exclude_property_violated_with_witness():
+    # A is selectable, so a feasible plan with A exists → "A never appears" isn't guaranteed.
+    r = audit(_problem(constraints=[CardinalityConstraint(min=1, max=2)]),
+              ForceExcludeConstraint(option="A"))
+    assert r["verdict"] == "violated"
+    w = r["witness"]
+    assert w is not None and "A" in w["selected_options"]       # the witness genuinely includes A
+
+
 def test_objective_bound_violated_witness_breaches_cap():
     # Region pins exactly 1; option A costs 8 > 5, so "Cost ≤ 5" is violated and A is a witness.
     r = audit(_problem(constraints=[CardinalityConstraint(min=1, max=1)]),

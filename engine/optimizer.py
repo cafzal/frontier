@@ -1161,8 +1161,18 @@ def _negate_property(problem: Problem, prop) -> list[list[tuple]]:
         ocol = {o.name: j for j, o in enumerate(problem.objectives)}
         if prop.objective not in ocol:
             raise ValueError(f"audit property references unknown objective '{prop.objective}'.")
+        obj = problem.objectives[ocol[prop.objective]]
+        if obj.aggregation != Aggregation.sum:
+            # The witness row J = col·x equals the objective ONLY under sum aggregation. The audit
+            # gate (exact_solver_fits) already forces sum on binary, so this guards against a future
+            # gate change silently making the bound linear-but-wrong (avg/min/max/quadratic ≠ col·x).
+            raise ValueError(
+                f"audit objective_bound needs a sum-aggregated objective; '{prop.objective}' uses "
+                f"'{obj.aggregation.value}'.")
         col = _build_score_matrix(problem)[:, ocol[prop.objective]].astype(float).tolist()
-        tol = max(1e-6, 1e-6 * abs(prop.value))   # strict violation; thin band only
+        # FP strict-violation band: J is a sum of (discrete) per-option scores, so a small relative
+        # epsilon cleanly separates "J > value" from "J = value" without floating-point ties.
+        tol = max(1e-6, 1e-6 * abs(prop.value))
         if prop.operator == "max":     # holds: J ≤ value → witness: J ≥ value + tol
             return [[(col, "ge", prop.value + tol)]]
         return [[(col, "le", prop.value - tol)]]   # operator 'min': holds J ≥ value
