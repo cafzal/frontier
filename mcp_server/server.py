@@ -262,6 +262,8 @@ def model(
                 objectives?, options?, constraints? (all optional; add via update later).
                 Scores, reference_points, scenario_config, and interaction_matrices are
                 NOT applied at create — passing them errors with a pointer to update.
+                `source` belongs to action='load' (it rebuilds a saved/example bundle),
+                so passing it to create errors with a pointer there.
       update  — Modify problem. Params: problem_id (required), plus any of:
                 name, domain, context, objectives, options, scores, constraints,
                 approach ("binary" or "proportional"),
