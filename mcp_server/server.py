@@ -350,6 +350,12 @@ def _model_create(params: dict) -> dict:
         return {"error": f"{', '.join(unsupported)} not applied at create — "
                          "create the problem first, then pass them to "
                          "model update problem_id=<id>."}
+    # `source` is the loader param — create ignores it, which would silently yield an
+    # empty problem. Point at the action that actually rebuilds a bundle rather than
+    # dropping it (the same "don't let a content param vanish" rule as above).
+    if "source" in params:
+        return {"error": f"source is only applied by action='load'. Did you mean "
+                         f"model(action='load', source='{params['source']}')?"}
     kwargs = dict(
         name=params.get("name", ""),
         domain=params.get("domain", ""),

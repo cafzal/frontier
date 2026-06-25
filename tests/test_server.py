@@ -62,6 +62,16 @@ class TestModelCreate:
         result = srv.model(action="create", scenario_config={"scenarios": []})
         assert "error" in result
 
+    def test_create_rejects_source_with_load_pointer(self):
+        """source is the loader param — create must point at action='load' rather than
+        silently making an empty problem (a real agent-confusion trap)."""
+        result = srv.model(action="create", source="investment_portfolio")
+        assert "error" in result
+        assert "load" in result["error"]
+        assert "source" in result["error"]
+        # It must NOT have created an (empty) problem.
+        assert "problem_id" not in result
+
 
 class TestModelUpdate:
     def test_update_metadata(self):
