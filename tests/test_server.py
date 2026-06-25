@@ -1103,6 +1103,8 @@ class TestCuration:
         result = srv.explore(action="curated", problem_id=pid, format="markdown")
         assert result["total_curated"] == 0
         assert result["content"] == ""
+        # An empty export is nothing to hand off — no Stakeholder Writeup pointer.
+        assert "guidance_pointer" not in result
 
     def test_export_curated_bad_format(self):
         pid = _build_solvable_problem()

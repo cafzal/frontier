@@ -81,6 +81,7 @@ def test_prose_and_code_referenced_sections_resolve():
         ("solution_interpreter", "Denoting Certification — Prose & Tables"), # B-P2: exact-overlay solve
         ("solution_interpreter", "Stakeholder Writeup & the Why-Triplet"),   # B-P2: curated export
         ("problem_framing", "Formalization Checkpoint"),     # validate framing pointer
+        ("problem_framing", "Preference Timing"),            # cited from optimization_strategy + solution_interpreter prose
         ("problem_framing", "Constraint schemas"),           # schema-extraction targets
         ("problem_framing", "Interaction matrix schema"),
         ("problem_framing", "Interaction matrix override schema"),

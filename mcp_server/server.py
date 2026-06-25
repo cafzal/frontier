@@ -1779,9 +1779,11 @@ def explore(
                 except ValueError as e:
                     return {"error": str(e)}
                 # Rendering an export is the handoff moment — point at the writeup playbook
-                # (B-P2). A plain `curated` listing is navigation and stays pointer-free.
-                result["guidance_pointer"] = _make_guidance_pointer(
-                    "solution_interpreter", "Stakeholder Writeup & the Why-Triplet")
+                # (B-P2), but only when there's a curated set to write up. An empty export is
+                # nothing to hand off, so it stays pointer-free like a plain `curated` listing.
+                if p.curated_solutions:
+                    result["guidance_pointer"] = _make_guidance_pointer(
+                        "solution_interpreter", "Stakeholder Writeup & the Why-Triplet")
                 return result
             return explorer.list_curated(p)
         case "marginal_analysis":
