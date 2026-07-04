@@ -1183,6 +1183,64 @@ def _negate_property(problem: Problem, prop) -> list[list[tuple]]:
     )
 
 
+def diagnose_conflicts(problem: Problem) -> dict:
+    """Minimal conflict set for an infeasible binary problem — deletion filtering over the
+    user's named constraints.
+
+    Rebuilds the feasibility MILP dropping one constraint at a time: a constraint whose removal
+    leaves the rest still infeasible is unnecessary for the contradiction (dropped permanently);
+    one whose removal restores feasibility is a conflict member (kept). Converges to ONE minimal
+    infeasible subset: relaxing any single member clears THIS conflict, while other independent
+    conflicts may remain — the members are leads, not proof, and nothing is auto-relaxed.
+    O(#constraints) feasibility solves, cheap on binary-selection shapes.
+
+    highspy's row-level IIS (``getIis``) is available but names solver rows; the deletion filter
+    keeps the explanation in the user's constraint vocabulary. Every filter solve must reach a
+    solver-proven verdict — a stopped solve yields an inconclusive diagnosis, never a guessed
+    conflict (the same never-overclaim bar as the audit verdicts)."""
+    from solvers._scalarization import audit_milp
+    from solvers.highs_backend import _audit_milp_highs
+
+    def _feasible_without(trial) -> bool | None:
+        sub = problem.model_copy(update={"constraints": list(trial)})
+        raw = audit_milp(sub, [[]], inner_audit=_audit_milp_highs)
+        if raw["feasible"]:
+            return True
+        return False if all(s == "Infeasible" for s in raw["statuses"]) else None
+
+    members = list(problem.constraints or [])
+    # Precondition guard: the filter's logic is only sound over a PROVEN-infeasible set — on a
+    # satisfiable one it would keep every constraint and present the whole model as a "conflict".
+    f0 = _feasible_without(members)
+    if f0 is True:
+        return {"satisfiable": True,
+                "note": "the constraint set is satisfiable — there is no contradiction to diagnose "
+                        "(an empty frontier here comes from something else, e.g. the solve budget)."}
+    inconclusive = {"inconclusive": True,
+                    "reason": "a deletion-filter solve stopped without a verdict — no conflict set "
+                              "is claimed (a guessed conflict would be worse than none)."}
+    if f0 is None:
+        return inconclusive
+    i = 0
+    while i < len(members):
+        trial = members[:i] + members[i + 1:]
+        f = _feasible_without(trial)
+        if f is None:
+            return inconclusive
+        if f is False:
+            members = trial   # still contradictory without it → not part of this conflict
+        else:
+            i += 1            # removal restores feasibility → conflict member
+    return {
+        "constraints": [c.model_dump(mode="json") for c in members],
+        "minimal": True,
+        "diagnosis": "these constraints cannot all hold together; relaxing any ONE of them clears "
+                     "this conflict",
+        "caveat": "leads, not proof — other independent conflicts may remain; relax one member and "
+                  "re-run `explore audit` to confirm feasibility (nothing is relaxed for you)",
+    }
+
+
 def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
     """Witness / feasibility audit over a binary problem's whole feasible region — the auditor
     sibling of ``certify`` (which audits optimality; this audits feasibility / property claims).
@@ -1240,7 +1298,8 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
 
     if all(s == "Infeasible" for s in statuses):
         if is_probe:
-            return {**base, "verdict": "no_feasible_plan", "witness": None}
+            return {**base, "verdict": "no_feasible_plan", "witness": None,
+                    "conflicts": diagnose_conflicts(problem)}
         # Negation infeasible — but confirm the feasible region isn't itself empty, else "holds" is
         # only vacuously true (the classic "num_points==0 ≠ PASS" trap from feasibility auditing).
         nonempty = audit_milp(problem, [[]], inner_audit=_audit_milp_highs)
@@ -1250,7 +1309,8 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
             if all(s == "Infeasible" for s in nonempty["statuses"]):
                 return {**base, "verdict": "holds_vacuously", "witness": None,
                         "note": "the feasible region is empty — the property holds only vacuously; "
-                                "probe feasibility first (audit with no property)."}
+                                "probe feasibility first (audit with no property).",
+                        "conflicts": diagnose_conflicts(problem)}
             return {**base, "verdict": "holds", "witness": None,
                     "note": "the negation is proven infeasible, so the property holds for every "
                             "feasible plan — but the non-emptiness probe stopped without a verdict "
@@ -2101,7 +2161,14 @@ def analyze_infeasibility(problem: Problem) -> dict:
         binding = [c.model_dump() for c in problem.constraints]
         suggestions = ["Constraints may be jointly infeasible. Try relaxing multiple constraints."]
 
-    return {"binding_constraints": binding, "suggestions": suggestions}
+    result = {"binding_constraints": binding, "suggestions": suggestions}
+    # Exact upgrade where the shape supports it: a solver-proven minimal conflict set beats the
+    # one-at-a-time heuristic above (which can only say "may help", and enumerates with a cutoff).
+    from solvers import available_solvers, exact_solver_fits
+    if (problem.approach == Approach.binary and exact_solver_fits(problem)[0]
+            and available_solvers().get("highs")):
+        result["conflicts"] = diagnose_conflicts(problem)
+    return result
 
 
 def _compute_quality(result, seed: int = 42) -> QualityIndicators:

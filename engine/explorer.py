@@ -1033,8 +1033,10 @@ def _audit_framing(verdict: str) -> dict:
         "feasible": "A feasible plan exists — the current constraints are satisfiable. The witness is "
                     "one concrete example; proceed to solve() for the frontier.",
         "no_feasible_plan": "No feasible plan exists — the constraints jointly over-constrain the problem "
-                            "(the exact version of validate's pre-solve check). Relax the tightest "
-                            "constraint and re-probe before solving.",
+                            "(the exact version of validate's pre-solve check). The attached `conflicts` "
+                            "names a minimal set that cannot all hold together: relaxing any one member "
+                            "clears that conflict, though other independent conflicts may remain — relax "
+                            "one and re-probe to confirm. Which member to relax is the user's call.",
         "violated": "The property does NOT hold across the feasible space — the witness is a concrete "
                     "counterexample. Treat the property as an aspiration, not a guarantee; encode it as a "
                     "hard constraint if it must hold.",
@@ -1042,7 +1044,8 @@ def _audit_framing(verdict: str) -> dict:
                  "the whole feasible region, not a sampled subset. A guarantee you can put in front of a "
                  "stakeholder, not a spot-check.",
         "holds_vacuously": "The property holds only vacuously — there are no feasible plans for it to apply "
-                           "to. Probe feasibility first (audit with no property).",
+                           "to. The attached `conflicts` names the contradiction; relax one member and "
+                           "re-probe feasibility (audit with no property).",
         "inconclusive": "INCONCLUSIVE — the solve stopped (time limit or solver error; see the attached "
                         "status) without proving anything. Not evidence either way; do not read this "
                         "as a pass.",
