@@ -17,10 +17,12 @@ import sys
 import tempfile
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 pytest.importorskip("highspy")
 
+import solvers.highs_backend as hb
 from engine import explorer
 from engine.models import (
     CardinalityConstraint,
@@ -175,6 +177,86 @@ def test_nonsum_aggregation_declined_raises():
 def test_unknown_option_raises():
     with pytest.raises(ValueError, match="unknown option"):
         audit(_problem(), ForceIncludeConstraint(option="ZZ"))
+
+
+# ─── Verdict hardening: every non-proof status maps to inconclusive, never to holds ───
+#
+# `holds` requires a solver-proven Infeasible on the negation; anything else the solver can return
+# (time limit, iteration limit, error statuses) must land on `inconclusive` with the raw status and
+# a reason attached, and never surface a witness. Real-path check first (HiGHS at a zero time limit
+# reliably returns 'Time limit reached' with no incumbent — verified empirically), then injected
+# statuses for paths a real solve can't force deterministically.
+
+def test_time_limit_real_solver_probe_maps_to_inconclusive(monkeypatch):
+    # A stopped probe is not evidence of infeasibility. (Presolve fully resolves this tiny
+    # model's *property* negations even at a zero limit — correctly — so the probe is the one
+    # path a real zero-limit solve stalls deterministically; property-audit stops are covered
+    # below via injected statuses.)
+    monkeypatch.setattr(hb, "_MILP_TIME_LIMIT", 0.0)
+    r = audit(_problem(constraints=[CardinalityConstraint(min=1, max=2)]))
+    assert r["verdict"] == "inconclusive"
+    assert r["witness"] is None                       # witnesses are verdict-gated
+    assert "Time limit reached" in r["solver_status"]
+    assert "Time limit reached" in r["reason"] and "INCONCLUSIVE" in r["reason"]
+
+
+def test_time_limit_property_audit_maps_to_inconclusive(monkeypatch):
+    _inject(monkeypatch, lambda eps, mc, n: ("Time limit reached", np.zeros(n)))
+    r = audit(_problem(constraints=[CardinalityConstraint(min=2, max=2)]),
+              CardinalityConstraint(min=1, max=4))
+    assert r["verdict"] == "inconclusive"
+    assert r["witness"] is None
+    assert r["solver_status"] == ["Time limit reached"]
+    assert "INCONCLUSIVE" in r["reason"]
+
+
+def _inject(monkeypatch, inner):
+    """Route audit()'s inner feasibility solve through a fake, for statuses a real solve
+    can't force deterministically. audit() imports `_audit_milp_highs` at call time, so
+    patching the backend module attribute reaches it."""
+    monkeypatch.setattr(hb, "_audit_milp_highs", inner)
+
+
+def test_error_status_maps_to_inconclusive_never_holds(monkeypatch):
+    # A solver error on the negation is not a proof of infeasibility.
+    _inject(monkeypatch, lambda eps, mc, n: ("Solve error", np.zeros(n)))
+    r = audit(_problem(constraints=[CardinalityConstraint(min=2, max=2)]),
+              CardinalityConstraint(min=1, max=4))
+    assert r["verdict"] == "inconclusive"
+    assert r["solver_status"] == ["Solve error"]
+    assert r["witness"] is None
+
+
+def test_mixed_statuses_map_to_inconclusive(monkeypatch):
+    # Cardinality negates to two disjuncts; one proven Infeasible + one stopped ≠ holds.
+    calls = iter(["Infeasible", "Time limit reached"])
+    _inject(monkeypatch, lambda eps, mc, n: (next(calls), np.zeros(n)))
+    r = audit(_problem(constraints=[CardinalityConstraint(min=2, max=2)]),
+              CardinalityConstraint(min=2, max=3))
+    assert r["verdict"] == "inconclusive"
+    assert r["solver_status"] == ["Time limit reached"]
+
+
+def test_vacuity_probe_timeout_does_not_claim_empty_region(monkeypatch):
+    # Negation proven infeasible, but the non-emptiness re-probe stops early: the guarantee
+    # stands (holds), while "the region is empty" (holds_vacuously) would be an overclaim.
+    _inject(monkeypatch, lambda eps, mc, n:
+            (("Time limit reached", np.zeros(n)) if not eps else ("Infeasible", np.zeros(n))))
+    r = audit(_problem(constraints=[CardinalityConstraint(min=2, max=2)]),
+              CardinalityConstraint(min=1, max=4))
+    assert r["verdict"] == "holds"
+    assert "unconfirmed" in r["note"] and "Time limit reached" in r["note"]
+
+
+def test_solver_exception_propagates_as_error_not_verdict(monkeypatch):
+    # A crash inside the solve is a hard tool error (the same convention as unfit shapes),
+    # never converted into any verdict.
+    def boom(eps, mc, n):
+        raise RuntimeError("solver crashed")
+    _inject(monkeypatch, boom)
+    with pytest.raises(RuntimeError, match="solver crashed"):
+        audit(_problem(constraints=[CardinalityConstraint(min=2, max=2)]),
+              CardinalityConstraint(min=1, max=4))
 
 
 # ─── Explorer payload (the MCP shape) ───

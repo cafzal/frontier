@@ -1026,7 +1026,8 @@ def _audit_framing(verdict: str) -> dict:
                  "stakeholder, not a spot-check.",
         "holds_vacuously": "The property holds only vacuously — there are no feasible plans for it to apply "
                            "to. Probe feasibility first (audit with no property).",
-        "inconclusive": "INCONCLUSIVE — the solve hit its time limit without a verdict. Do not read this "
+        "inconclusive": "INCONCLUSIVE — the solve stopped (time limit or solver error; see the attached "
+                        "status) without proving anything. Not evidence either way; do not read this "
                         "as a pass.",
     }
     # An unfit shape / missing backend raises ValueError upstream (→ a tool error), never reaching

@@ -1217,7 +1217,7 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
 
     disjuncts = _negate_property(problem, prop)   # raises ValueError on unknown option/objective
     raw = audit_milp(problem, disjuncts, inner_audit=_audit_milp_highs)
-    statuses = raw["statuses"]                    # raw solver statuses drive the verdict; not surfaced
+    statuses = raw["statuses"]                    # raw solver statuses drive the verdict; surfaced only on inconclusive
     is_probe = prop is None
     # Pin the audited region so a `holds` is self-certifying — the guarantee is conditional on
     # exactly these constraints, the traceable-claims convention the explore analytics follow.
@@ -1243,15 +1243,29 @@ def audit(problem: Problem, prop=None, solver: str = "highs") -> dict:
             return {**base, "verdict": "no_feasible_plan", "witness": None}
         # Negation infeasible — but confirm the feasible region isn't itself empty, else "holds" is
         # only vacuously true (the classic "num_points==0 ≠ PASS" trap from feasibility auditing).
-        if not audit_milp(problem, [[]], inner_audit=_audit_milp_highs)["feasible"]:
-            return {**base, "verdict": "holds_vacuously", "witness": None,
-                    "note": "the feasible region is empty — the property holds only vacuously; "
-                            "probe feasibility first (audit with no property)."}
+        nonempty = audit_milp(problem, [[]], inner_audit=_audit_milp_highs)
+        if not nonempty["feasible"]:
+            # "Empty region" is itself a claim needing a solver-proven Infeasible; a probe that
+            # stopped early (time limit / error) is not evidence of emptiness.
+            if all(s == "Infeasible" for s in nonempty["statuses"]):
+                return {**base, "verdict": "holds_vacuously", "witness": None,
+                        "note": "the feasible region is empty — the property holds only vacuously; "
+                                "probe feasibility first (audit with no property)."}
+            return {**base, "verdict": "holds", "witness": None,
+                    "note": "the negation is proven infeasible, so the property holds for every "
+                            "feasible plan — but the non-emptiness probe stopped without a verdict "
+                            f"(HiGHS: {', '.join(sorted(set(nonempty['statuses'])))}), so whether any "
+                            "feasible plan exists is unconfirmed; probe feasibility (audit with no "
+                            "property) to check."}
         return {**base, "verdict": "holds", "witness": None}
 
+    # Any status besides Optimal / Infeasible (time limit, iteration limit, solver error, …) proves
+    # nothing in either direction. Attach the raw statuses so the stop cause is traceable.
+    stopped = sorted({s for s in statuses if s != "Infeasible"})
     return {**base, "verdict": "inconclusive", "witness": None,
-            "reason": "the feasibility solve hit its time limit without proving infeasibility — "
-                      "INCONCLUSIVE, not a pass; " + ("simplify the model and re-probe."
+            "solver_status": stopped,
+            "reason": f"the feasibility solve stopped without a verdict (HiGHS: {', '.join(stopped)}) — "
+                      "INCONCLUSIVE, not evidence either way; " + ("simplify the model and re-probe."
                       if is_probe else "narrow the property or simplify the model.")}
 
 
