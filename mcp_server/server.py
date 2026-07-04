@@ -873,12 +873,24 @@ def _model_load(params: dict) -> dict:
     store.save(p)
     _reset_all_injections(p.problem_id)
 
+    # Name the library the bundle actually came from: a user's saved/ problem shadows a
+    # bundled example of the same name (problem_io.resolve_source), and a stale saved copy
+    # silently standing in for a curated example has burned real demo sessions.
+    bundle_dir = problem_io.resolve_source(source)
+    library = "saved" if bundle_dir.parent == problem_io.saved_dir() else "examples"
+    shadowed = (library == "saved"
+                and (problem_io.examples_dir() / bundle_dir.name / "problem.json").exists())
+
     total = len(p.objectives) * len(p.options)
     result = {
         "problem_id": p.problem_id,
         "name": p.name,
         "domain": p.domain,
         "loaded_from": source,
+        "library": library,
+        **({"note": (f"Loaded YOUR saved problem '{source}' (saved/ shadows the bundled "
+                     f"example of the same name). To load the pristine example instead, "
+                     f"rename or delete the saved copy.")} if shadowed else {}),
         "approach": p.approach.value,
         "status": {
             "objectives": len(p.objectives),

@@ -2054,6 +2054,22 @@ class TestModelLoadSave:
         assert loaded["status"]["scenarios"] == 3
         assert loaded["status"]["interaction_matrices"] == 1
 
+    def test_load_names_the_library_and_flags_a_shadowing_save(self, tmp_saved):
+        """saved/ shadows a bundled example of the same name (resolve_source) — the load
+        response must say WHICH library served the bundle, and call out the shadow, or a
+        stale saved copy silently stands in for the pristine example."""
+        example = srv.model(action="load", source="investment_portfolio")
+        assert example["library"] == "examples"
+        assert "note" not in example
+
+        pid = self._scored_problem()
+        srv.model(action="save", problem_id=pid, save_as="investment_portfolio")
+        shadowing = srv.model(action="load", source="investment_portfolio")
+        assert shadowing["library"] == "saved"
+        assert "shadows" in shadowing["note"]
+        # The shadow really served the user's problem, not the example.
+        assert shadowing["status"]["options"] == 3
+
     def test_load_without_source_lists_available(self, tmp_saved):
         result = srv.model(action="load")
         assert "error" in result
