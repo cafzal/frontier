@@ -1196,8 +1196,8 @@
     "time_limited": false
   },
   "exact_run": {
-    "run_id": "3473d3ae-78ca-4814-b242-d2699cbf1196",
-    "created_at": "2026-07-04T04:26:46.177032Z",
+    "run_id": "e74fa84b-7ec6-4bf4-a6d2-731d0bfe99ea",
+    "created_at": "2026-07-04T16:58:53.868983Z",
     "mode": "fast",
     "solutions": [
       {
@@ -1267,7 +1267,9 @@
         "solution_id": 3,
         "selected_options": [
           "R02",
+          "R03",
           "R04",
+          "R08",
           "R10",
           "R11",
           "R12",
@@ -1276,7 +1278,6 @@
           "R18",
           "R31",
           "R33",
-          "R37",
           "R39",
           "R41",
           "U2",
@@ -1284,12 +1285,12 @@
           "U4"
         ],
         "objective_values": {
-          "NetValue": 1064.0,
-          "Cost": 333.0,
-          "ReliabilityRisk": 87.4
+          "NetValue": 1166.1,
+          "Cost": 367.6,
+          "ReliabilityRisk": 95.4
         },
         "allocations": null,
-        "content_signature": "a2ce6895a006",
+        "content_signature": "69174bc0d503",
         "sensitivity": null
       },
       {
@@ -1301,6 +1302,34 @@
           "R10",
           "R11",
           "R12",
+          "R14",
+          "R15",
+          "R18",
+          "R31",
+          "R33",
+          "R39",
+          "R41",
+          "U2",
+          "U3",
+          "U4"
+        ],
+        "objective_values": {
+          "NetValue": 1081.8,
+          "Cost": 334.3,
+          "ReliabilityRisk": 86.1
+        },
+        "allocations": null,
+        "content_signature": "019394699fb2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "R02",
+          "R04",
+          "R10",
+          "R11",
+          "R12",
           "R15",
           "R18",
           "R31",
@@ -1313,39 +1342,12 @@
           "U4"
         ],
         "objective_values": {
-          "NetValue": 1043.2,
-          "Cost": 321.6,
-          "ReliabilityRisk": 81.0
+          "NetValue": 981.5,
+          "Cost": 301.0,
+          "ReliabilityRisk": 72.2
         },
         "allocations": null,
-        "content_signature": "c891ad5e697e",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 5,
-        "selected_options": [
-          "R02",
-          "R03",
-          "R04",
-          "R10",
-          "R11",
-          "R12",
-          "R15",
-          "R31",
-          "R33",
-          "R39",
-          "R41",
-          "U2",
-          "U3",
-          "U4"
-        ],
-        "objective_values": {
-          "NetValue": 938.9,
-          "Cost": 287.0,
-          "ReliabilityRisk": 66.2
-        },
-        "allocations": null,
-        "content_signature": "8835a2a23c37",
+        "content_signature": "2c55fbfc78d4",
         "sensitivity": null
       },
       {
@@ -1357,22 +1359,24 @@
           "R11",
           "R12",
           "R15",
-          "R18",
+          "R29",
           "R31",
           "R33",
           "R39",
           "R41",
+          "U1",
           "U2",
           "U3",
-          "U4"
+          "U4",
+          "U13"
         ],
         "objective_values": {
-          "NetValue": 937.6,
-          "Cost": 281.7,
-          "ReliabilityRisk": 62.1
+          "NetValue": 951.4,
+          "Cost": 329.6,
+          "ReliabilityRisk": 42.0
         },
         "allocations": null,
-        "content_signature": "0e9d2d900a2d",
+        "content_signature": "08c47fb01817",
         "sensitivity": null
       },
       {
@@ -1405,7 +1409,31 @@
         "solution_id": 8,
         "selected_options": [
           "R02",
-          "R09",
+          "R04",
+          "R08",
+          "R10",
+          "R12",
+          "R18",
+          "R31",
+          "R33",
+          "R39",
+          "R41",
+          "U2",
+          "U4"
+        ],
+        "objective_values": {
+          "NetValue": 849.9,
+          "Cost": 244.4,
+          "ReliabilityRisk": 68.5
+        },
+        "allocations": null,
+        "content_signature": "553a63a1a670",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "R02",
           "R10",
           "R11",
           "R15",
@@ -1418,66 +1446,42 @@
           "U2",
           "U3",
           "U5",
-          "U7",
           "U13"
         ],
         "objective_values": {
-          "NetValue": 782.5,
-          "Cost": 380.2,
-          "ReliabilityRisk": -10.2
+          "NetValue": 728.6,
+          "Cost": 305.5,
+          "ReliabilityRisk": -3.9
         },
         "allocations": null,
-        "content_signature": "f7e1be568ff3",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 9,
-        "selected_options": [
-          "R03",
-          "R04",
-          "R12",
-          "R15",
-          "R31",
-          "R33",
-          "R39",
-          "R41",
-          "U3",
-          "U4"
-        ],
-        "objective_values": {
-          "NetValue": 663.4,
-          "Cost": 178.3,
-          "ReliabilityRisk": 51.8
-        },
-        "allocations": null,
-        "content_signature": "be43067cfe91",
+        "content_signature": "5dd290e0b73b",
         "sensitivity": null
       },
       {
         "solution_id": 10,
         "selected_options": [
           "R02",
+          "R04",
+          "R10",
+          "R11",
           "R15",
-          "R18",
-          "R29",
           "R32",
-          "R33",
           "R39",
           "R41",
           "U1",
           "U2",
           "U3",
+          "U4",
           "U5",
-          "U7",
           "U13"
         ],
         "objective_values": {
-          "NetValue": 639.9,
-          "Cost": 322.7,
-          "ReliabilityRisk": -22.3
+          "NetValue": 691.0,
+          "Cost": 321.9,
+          "ReliabilityRisk": -11.2
         },
         "allocations": null,
-        "content_signature": "bf177233e587",
+        "content_signature": "c467e0eea2f2",
         "sensitivity": null
       },
       {
@@ -1486,179 +1490,34 @@
           "R02",
           "R15",
           "R18",
-          "R32",
           "R33",
           "R39",
           "R41",
           "U1",
           "U2",
           "U3",
+          "U4",
           "U5",
-          "U7",
           "U13",
           "U14"
         ],
         "objective_values": {
-          "NetValue": 565.7,
-          "Cost": 330.7,
-          "ReliabilityRisk": -38.5
+          "NetValue": 499.8,
+          "Cost": 283.2,
+          "ReliabilityRisk": -33.1
         },
         "allocations": null,
-        "content_signature": "866b73ebbdcb",
+        "content_signature": "1f781eb26aa6",
         "sensitivity": null
       },
       {
         "solution_id": 12,
         "selected_options": [
-          "R04",
-          "R12",
-          "R31",
-          "R33",
-          "R39",
-          "R41",
-          "U4"
-        ],
-        "objective_values": {
-          "NetValue": 528.5,
-          "Cost": 118.9,
-          "ReliabilityRisk": 48.7
-        },
-        "allocations": null,
-        "content_signature": "71cee9635105",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 13,
-        "selected_options": [
           "R02",
           "R10",
-          "R15",
+          "R18",
           "R32",
           "R39",
-          "R41",
-          "U1",
-          "U2",
-          "U3",
-          "U5",
-          "U7",
-          "U8",
-          "U13",
-          "U14"
-        ],
-        "objective_values": {
-          "NetValue": 494.4,
-          "Cost": 353.5,
-          "ReliabilityRisk": -51.7
-        },
-        "allocations": null,
-        "content_signature": "506b4443d761",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 14,
-        "selected_options": [
-          "R11",
-          "R31",
-          "R33",
-          "R39",
-          "R41",
-          "U1",
-          "U2",
-          "U3",
-          "U13"
-        ],
-        "objective_values": {
-          "NetValue": 433.4,
-          "Cost": 186.5,
-          "ReliabilityRisk": -9.8
-        },
-        "allocations": null,
-        "content_signature": "036754d91857",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 15,
-        "selected_options": [
-          "R15",
-          "R29",
-          "R32",
-          "R33",
-          "R41",
-          "U1",
-          "U3",
-          "U13"
-        ],
-        "objective_values": {
-          "NetValue": 395.2,
-          "Cost": 150.8,
-          "ReliabilityRisk": -6.2
-        },
-        "allocations": null,
-        "content_signature": "9c05ae670b1c",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 16,
-        "selected_options": [
-          "R29",
-          "R31",
-          "R33",
-          "R41",
-          "U3",
-          "U13"
-        ],
-        "objective_values": {
-          "NetValue": 337.1,
-          "Cost": 101.3,
-          "ReliabilityRisk": 7.2
-        },
-        "allocations": null,
-        "content_signature": "c502e9f27196",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 17,
-        "selected_options": [
-          "R29",
-          "R32",
-          "R33",
-          "R41",
-          "U1",
-          "U3",
-          "U5",
-          "U13"
-        ],
-        "objective_values": {
-          "NetValue": 322.0,
-          "Cost": 171.0,
-          "ReliabilityRisk": -27.8
-        },
-        "allocations": null,
-        "content_signature": "fc61552965c8",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 18,
-        "selected_options": [
-          "R02",
-          "R32",
-          "R41",
-          "U2"
-        ],
-        "objective_values": {
-          "NetValue": 285.4,
-          "Cost": 96.2,
-          "ReliabilityRisk": 4.8
-        },
-        "allocations": null,
-        "content_signature": "611e0b601bf6",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 19,
-        "selected_options": [
-          "R32",
-          "R33",
           "R41",
           "U1",
           "U2",
@@ -1670,52 +1529,148 @@
           "U14"
         ],
         "objective_values": {
-          "NetValue": 247.8,
-          "Cost": 307.8,
-          "ReliabilityRisk": -77.6
+          "NetValue": 481.6,
+          "Cost": 370.6,
+          "ReliabilityRisk": -59.0
         },
         "allocations": null,
-        "content_signature": "322d97b2640d",
+        "content_signature": "e2de038c3279",
         "sensitivity": null
       },
       {
-        "solution_id": 20,
+        "solution_id": 13,
         "selected_options": [
-          "R02",
+          "R15",
+          "R18",
+          "R32",
+          "R33",
+          "R39",
           "R41",
           "U1",
           "U2",
           "U3",
           "U5",
+          "U7",
+          "U13"
+        ],
+        "objective_values": {
+          "NetValue": 453.1,
+          "Cost": 274.8,
+          "ReliabilityRisk": -40.4
+        },
+        "allocations": null,
+        "content_signature": "197261916f66",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "R04",
+          "R31",
+          "R33",
+          "R39",
+          "R41",
+          "U4"
+        ],
+        "objective_values": {
+          "NetValue": 432.4,
+          "Cost": 97.7,
+          "ReliabilityRisk": 36.0
+        },
+        "allocations": null,
+        "content_signature": "6fb9eb96acce",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "R11",
+          "R18",
+          "R31",
+          "R39",
+          "R41",
+          "U1",
+          "U2",
+          "U3",
+          "U5",
+          "U13"
+        ],
+        "objective_values": {
+          "NetValue": 418.8,
+          "Cost": 221.0,
+          "ReliabilityRisk": -27.6
+        },
+        "allocations": null,
+        "content_signature": "c85ce838f302",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "R31",
+          "R33",
+          "R39",
+          "R41"
+        ],
+        "objective_values": {
+          "NetValue": 334.6,
+          "Cost": 52.2,
+          "ReliabilityRisk": 30.0
+        },
+        "allocations": null,
+        "content_signature": "a4e3b6eb9c89",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "R15",
+          "R18",
+          "R32",
+          "R41",
+          "U1",
+          "U2",
+          "U3",
+          "U4",
+          "U5",
+          "U6",
+          "U7",
+          "U9",
           "U13",
           "U14"
         ],
         "objective_values": {
-          "NetValue": 219.5,
-          "Cost": 207.2,
-          "ReliabilityRisk": -57.2
+          "NetValue": 306.4,
+          "Cost": 390.6,
+          "ReliabilityRisk": -88.8
         },
         "allocations": null,
-        "content_signature": "180afdc133cb",
+        "content_signature": "5ac860e3239e",
         "sensitivity": null
       },
       {
-        "solution_id": 21,
+        "solution_id": 18,
         "selected_options": [
-          "R31",
-          "R41"
+          "R02",
+          "R32",
+          "R41",
+          "U1",
+          "U2",
+          "U3",
+          "U5",
+          "U13"
         ],
         "objective_values": {
-          "NetValue": 187.9,
-          "Cost": 26.7,
-          "ReliabilityRisk": 13.9
+          "NetValue": 285.4,
+          "Cost": 204.4,
+          "ReliabilityRisk": -48.3
         },
         "allocations": null,
-        "content_signature": "cf16d0666ab0",
+        "content_signature": "934e60233cf0",
         "sensitivity": null
       },
       {
-        "solution_id": 22,
+        "solution_id": 19,
         "selected_options": [
           "R31",
           "R39"
@@ -1730,67 +1685,46 @@
         "sensitivity": null
       },
       {
-        "solution_id": 23,
+        "solution_id": 20,
         "selected_options": [
           "R41",
           "U1",
           "U2",
           "U3",
-          "U5",
-          "U7",
-          "U13",
-          "U14"
-        ],
-        "objective_values": {
-          "NetValue": 106.9,
-          "Cost": 224.0,
-          "ReliabilityRisk": -77.8
-        },
-        "allocations": null,
-        "content_signature": "8fab3fcc4b22",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 24,
-        "selected_options": [
-          "U1",
-          "U2",
-          "U3",
-          "U5",
-          "U7",
-          "U8",
-          "U13",
-          "U14"
-        ],
-        "objective_values": {
-          "NetValue": 0.0,
-          "Cost": 244.4,
-          "ReliabilityRisk": -88.2
-        },
-        "allocations": null,
-        "content_signature": "3fb4c3104dff",
-        "sensitivity": null
-      },
-      {
-        "solution_id": 25,
-        "selected_options": [
-          "U1",
-          "U3",
           "U4",
           "U5",
+          "U6",
+          "U7",
+          "U8",
+          "U9",
+          "U10",
           "U13"
         ],
         "objective_values": {
-          "NetValue": 0.0,
-          "Cost": 130.6,
-          "ReliabilityRisk": -57.5
+          "NetValue": 106.9,
+          "Cost": 388.1,
+          "ReliabilityRisk": -110.6
         },
         "allocations": null,
-        "content_signature": "396082de8c8c",
+        "content_signature": "80ccbc240507",
         "sensitivity": null
       },
       {
-        "solution_id": 26,
+        "solution_id": 21,
+        "selected_options": [
+          "R31"
+        ],
+        "objective_values": {
+          "NetValue": 81.0,
+          "Cost": 10.9,
+          "ReliabilityRisk": 10.7
+        },
+        "allocations": null,
+        "content_signature": "f82bc39b99ed",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
         "selected_options": [],
         "objective_values": {
           "NetValue": 0.0,
@@ -1802,7 +1736,26 @@
         "sensitivity": null
       },
       {
-        "solution_id": 27,
+        "solution_id": 23,
+        "selected_options": [
+          "U1",
+          "U2",
+          "U3",
+          "U5",
+          "U13",
+          "U14"
+        ],
+        "objective_values": {
+          "NetValue": 0.0,
+          "Cost": 157.5,
+          "ReliabilityRisk": -68.1
+        },
+        "allocations": null,
+        "content_signature": "43252d9dd9ee",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
         "selected_options": [
           "U1",
           "U2",
@@ -1827,10 +1780,10 @@
         "sensitivity": null
       }
     ],
-    "total_pareto_found": 27,
+    "total_pareto_found": 24,
     "quality": {
-      "hypervolume_normalized": 0.3752,
-      "spacing_cv": 0.6863
+      "hypervolume_normalized": 0.3267,
+      "spacing_cv": 1.0009
     },
     "constraints_snapshot": [
       {
@@ -2092,7 +2045,7 @@
     ],
     "seed_used": 42,
     "solver": "highs",
-    "exact": false,
+    "exact": true,
     "time_limit": null,
     "time_limited": false
   },

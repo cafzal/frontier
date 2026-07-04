@@ -1537,7 +1537,9 @@
           "DBA": 74.7616,
           "IGF": 234.7024
         }
-      }
+      },
+      "mode": "replace",
+      "scale_groups": []
     }
   ]
 }

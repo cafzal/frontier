@@ -4,7 +4,7 @@ A 30-ETF portfolio balancing return, volatility (via covariance), and yield, acr
 
 - **`problem.json`**: 3 objectives (Return / Volatility / Yield), proportional approach, constraints (single-fund ≤30%, ≤3 per sector, volatility ≤20%), and three macro scenarios (`recession`, `inflation`, `rate_cuts`).
 - **`scores.json`**: the 30 funds, their per-objective scores, and the covariance matrix (the `Volatility` interaction matrix).
-- **`solutions.json`**: the exploratory NSGA `run` plus the per-scenario `scenario_run`.
+- **`solutions.json`**: the exploratory NSGA `run`, the exact mean-variance QP `exact_run` overlay (HiGHS) with solver-exact duals per point, and the per-scenario `scenario_run`.
 
 Load with `model load source="investment_portfolio"`, then drive it the way a user would — one ask per phase, with the tools that fire and what to expect:
 
@@ -15,7 +15,7 @@ Load with `model load source="investment_portfolio"`, then drive it the way a us
 2. *“Keep the balanced portfolio and the calmest one. Are these optimal, or just decent?”*
    `explore curate` per pick (the proportional quality checks are live — concentration, cap-pinning) → `solve solver="highs"` → `explore certify`: the exact mean-variance QP overlay, sharpest at the volatility corner.
 3. *“At the balanced portfolio, which of my rules is costing me the most — and which allocations hold up across all three macro futures?”*
-   `explore sensitivity` → `explore scenario_results`: solver-exact duals — Yield the costlier axis to push (~+57 vs Return ~+17), the Return shadow price falling ~51→0 along the frontier, GLD the closest near-miss, HYG pinned at its 30% cap — then robustness tiers, scenario risk, and per-scenario `varies`/`held_fixed`.
+   `explore sensitivity` → `explore scenario_results`: solver-exact duals — Yield the costlier axis to push (~3× Return's price at the balanced anchor), the Return shadow price falling to ~0 along the frontier, the near-miss read naming the closest excluded fund, HYG pinned at its 30% cap (duals are anchor-specific — expect the values to shift at another frontier point or after a re-solve) — then robustness tiers, scenario risk, and per-scenario `varies`/`held_fixed`.
 4. *“Write the shortlist up for the investment committee.”*
    `explore curated format="markdown"`: the handoff table with per-finalist quality.
 

@@ -1148,21 +1148,27 @@ def optimize(
             raise ValueError(f"Exact solver '{backend}' does not fit this problem: {reason}")
         if backend == "cuopt":
             from solvers.cuopt_backend import _optimize_cuopt
-            return _optimize_cuopt(problem, mode, max_solutions=max_solutions, seed=seed,
-                                   exact=exact, time_limit=time_limit)
-        from solvers.highs_backend import _optimize_highs
-        return _optimize_highs(problem, mode, max_solutions=max_solutions, seed=seed,
-                               exact=exact, time_limit=time_limit)
+            run = _optimize_cuopt(problem, mode, max_solutions=max_solutions, seed=seed,
+                                  exact=exact, time_limit=time_limit)
+        else:
+            from solvers.highs_backend import _optimize_highs
+            run = _optimize_highs(problem, mode, max_solutions=max_solutions, seed=seed,
+                                  exact=exact, time_limit=time_limit)
     else:
         raise ValueError(f"Unknown solver '{solver}'. Use 'nsga' (default), 'highs', or 'cuopt'.")
 
-    if problem.approach == Approach.proportional:
-        run = _optimize_proportional(problem, mode, max_solutions=max_solutions, seed=seed,
-                                     time_limit=time_limit)
-    else:
-        run = _optimize_binary(problem, mode, max_solutions=max_solutions, seed=seed,
-                               time_limit=time_limit)
-    run.solver = "nsga-iii" if len(problem.objectives) >= 4 else "nsga-ii"
+    if not backend:
+        if problem.approach == Approach.proportional:
+            run = _optimize_proportional(problem, mode, max_solutions=max_solutions, seed=seed,
+                                         time_limit=time_limit)
+        else:
+            run = _optimize_binary(problem, mode, max_solutions=max_solutions, seed=seed,
+                                   time_limit=time_limit)
+        run.solver = "nsga-iii" if len(problem.objectives) >= 4 else "nsga-ii"
+    # Provenance for every caller (the MCP layer re-stamps under its staleness guard):
+    # snapshot the constraints the run was solved under, so compare_runs never reports a
+    # phantom criteria diff against a direct-call run (e.g. a re-baked example bundle).
+    run.constraints_snapshot = [c.model_dump() for c in problem.constraints]
     return run
 
 

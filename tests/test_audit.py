@@ -455,6 +455,23 @@ def test_explorer_payload_parses_conjunction_and_echoes_it():
         explorer.audit_property(_problem(), [{"type": "force_include", "option": "A"}, {"type": "nope"}])
 
 
+def test_explorer_payload_defaults_floor_only_group_property():
+    # A floor-only group guarantee ("at least 1 from {A,B}") omits `max`; the parser
+    # defaults it to the vacuous group-size cap instead of rejecting the property.
+    region = [CardinalityConstraint(min=1, max=2),
+              GroupLimitConstraint(options=["A", "B"], min=1, max=2)]
+    out = explorer.audit_property(
+        _problem(constraints=region), {"type": "group_limit", "options": ["A", "B"], "min": 1})
+    assert out["verdict"] == "holds"
+
+
+def test_explorer_payload_error_names_the_intended_constraint_fields():
+    # Discriminated validation: the error points at the group_limit fields, not an
+    # arbitrary union member ("Input should be 'cardinality'").
+    with pytest.raises(ValueError, match="group_limit"):
+        explorer.audit_property(_problem(), {"type": "group_limit", "min": 1})
+
+
 def test_explorer_payload_raises_on_unsupported_shape():
     # An unfit shape propagates the engine's ValueError, so the MCP layer returns a tool error
     # (consistent with solve), not a structured "unsupported" verdict.

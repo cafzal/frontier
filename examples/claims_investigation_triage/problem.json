@@ -1,7 +1,7 @@
 {
   "name": "Claims Investigation Triage",
   "domain": "insurance special investigations",
-  "context": "A carrier's special-investigations unit picks which of 180 model-flagged claims to investigate this month across four lines of business. Recovery, hours, and friction pull in different directions: the best recovery-per-hour ratios sit on borderline claims where investigating a legitimate customer costs goodwill. A quarterly recovery target and a hard hours budget couple the picks \u2014 the plan must earn the target inside the capacity \u2014 under per-line concentration caps and four regulator-mandated referrals.",
+  "context": "A carrier's special-investigations unit picks which of 180 model-flagged claims to investigate this month across four lines of business. Recovery, hours, and friction pull in different directions: the best recovery-per-hour ratios sit on borderline claims where investigating a legitimate customer costs goodwill. A quarterly recovery target and a hard hours budget couple the picks \u2014 the plan must earn the target inside the capacity \u2014 under per-line concentration caps and six regulator-mandated referrals. Four big-ticket claims dominate the book \u2014 PRP-1001, LIA-1001, PRP-1002, and WC-1001 \u2014 none of them among the mandated referrals.",
   "approach": "binary",
   "objectives": [
     {
@@ -278,7 +278,7 @@
     {
       "name": "capacity_cut",
       "probability": null,
-      "description": "A catastrophe event pulls investigators onto CAT duty: the month's capacity drops to 440 hours; the recovery target does not move.",
+      "description": "A catastrophe event pulls investigators onto CAT duty: the month's capacity drops to 1,140 hours; the recovery target does not move.",
       "motivated_by": "",
       "score_overrides": [],
       "score_adjustments": [],

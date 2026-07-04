@@ -47,6 +47,7 @@
         "Solar_Sonoran",
         "Solar_HighPlains"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -56,6 +57,7 @@
         "Wind_Texas",
         "Wind_Midwest"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -65,6 +67,7 @@
         "Wind_GulfCoast",
         "Wind_PacificNW"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -74,6 +77,7 @@
         "Gas_Lakeside",
         "Gas_Delta"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -82,6 +86,7 @@
         "Nuclear_SMR_North",
         "Nuclear_SMR_East"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -90,6 +95,7 @@
         "Battery_GridA",
         "Battery_GridB"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -98,6 +104,7 @@
         "Geo_Cascades",
         "Geo_Basin"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -106,6 +113,7 @@
         "Hydro_Canyon",
         "Hydro_RiverGorge"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -114,6 +122,7 @@
         "Biomass_Northwood",
         "Biomass_Southfield"
       ],
+      "min": 0,
       "max": 60
     },
     {
@@ -126,26 +135,38 @@
       "type": "objective_bound",
       "objective": "Firmness",
       "operator": "min",
-      "value": 50
+      "value": 50.0
     }
   ],
   "scenarios": [
     {
       "name": "carbon_price",
+      "probability": null,
       "description": "A carbon price raises the effective cost of high-emitters (illustrative blanket LCOE uplift).",
+      "motivated_by": "",
+      "score_overrides": [],
       "score_adjustments": [
         {
           "objective": "LCOE",
-          "multiply": 1.15
+          "multiply": 1.15,
+          "add": null
         }
-      ]
+      ],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
     },
     {
       "name": "low_renewables_year",
+      "probability": null,
       "description": "A poor solar+wind year: renewable output swings harder and co-moves more, so within-renewable correlations rise (regime shift via scale_groups on the VariabilityRisk matrix).",
+      "motivated_by": "",
+      "score_overrides": [],
+      "score_adjustments": [],
+      "constraint_overrides": [],
       "interaction_matrix_overrides": [
         {
           "objective": "VariabilityRisk",
+          "entries": {},
           "mode": "upsert",
           "scale_groups": [
             {

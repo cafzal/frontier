@@ -32,7 +32,7 @@
       "type": "objective_bound",
       "objective": "Volatility",
       "operator": "max",
-      "value": 20
+      "value": 20.0
     },
     {
       "type": "group_limit",
@@ -44,6 +44,7 @@
         "VB",
         "SCHD"
       ],
+      "min": 0,
       "max": 3
     },
     {
@@ -55,6 +56,7 @@
         "EWJ",
         "MCHI"
       ],
+      "min": 0,
       "max": 3
     },
     {
@@ -67,6 +69,7 @@
         "HYG",
         "EMB"
       ],
+      "min": 0,
       "max": 3
     },
     {
@@ -80,6 +83,7 @@
         "VDC",
         "VOX"
       ],
+      "min": 0,
       "max": 3
     },
     {
@@ -92,26 +96,39 @@
         "DBA",
         "IGF"
       ],
+      "min": 0,
       "max": 3
     }
   ],
   "scenarios": [
     {
       "name": "rate_cuts",
+      "probability": null,
       "description": "Lower rates compress yields across the book (illustrative).",
+      "motivated_by": "",
+      "score_overrides": [],
       "score_adjustments": [
         {
           "objective": "Yield",
-          "multiply": 0.85
+          "multiply": 0.85,
+          "add": null
         }
-      ]
+      ],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
     },
     {
       "name": "recession",
+      "probability": null,
       "description": "US-equity correlations rise ~50% (regime shift via scale_groups).",
+      "motivated_by": "",
+      "score_overrides": [],
+      "score_adjustments": [],
+      "constraint_overrides": [],
       "interaction_matrix_overrides": [
         {
           "objective": "Volatility",
+          "entries": {},
           "mode": "upsert",
           "scale_groups": [
             {
@@ -131,17 +148,24 @@
     },
     {
       "name": "inflation",
+      "probability": null,
       "description": "High inflation: rates rise (yields up) while real returns are eroded.",
+      "motivated_by": "",
+      "score_overrides": [],
       "score_adjustments": [
         {
           "objective": "Return",
-          "multiply": 0.9
+          "multiply": 0.9,
+          "add": null
         },
         {
           "objective": "Yield",
-          "multiply": 1.15
+          "multiply": 1.15,
+          "add": null
         }
-      ]
+      ],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
     }
   ]
 }

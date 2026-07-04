@@ -1073,15 +1073,27 @@ def audit_property(problem: Problem, property_dict: dict | list | None) -> dict:
             raise ValueError(
                 "audit `property` must be a constraint object (or a list of them), e.g. "
                 '{"type": "objective_bound", "objective": "Cost", "operator": "max", "value": 100}.')
-        from pydantic import TypeAdapter, ValidationError
+        from typing import Annotated
+
+        from pydantic import Field, TypeAdapter, ValidationError
 
         from engine.models import Constraint
+
+        # A floor-only guarantee ("at least N from this group") is a natural audit ask;
+        # the model vocabulary requires a cap on group_limit, so default it to the vacuous
+        # one (the group size) instead of rejecting the property.
+        if d.get("type") == "group_limit" and "max" not in d and d.get("options"):
+            d = {**d, "max": len(d["options"])}
         try:
-            return TypeAdapter(Constraint).validate_python(d)
+            # Discriminate on `type` so a validation error names the intended constraint's
+            # missing/invalid fields rather than an arbitrary union member.
+            return TypeAdapter(Annotated[Constraint, Field(discriminator="type")]).validate_python(d)
         except ValidationError as e:
             errs = e.errors()
-            raise ValueError(
-                f"audit `property` isn't a valid constraint: {errs[0].get('msg', e) if errs else e}")
+            detail = "; ".join(
+                f"{'.'.join(str(loc) for loc in err.get('loc', ())) or 'property'}: {err.get('msg', '')}"
+                for err in errs[:3]) or str(e)
+            raise ValueError(f"audit `property` isn't a valid constraint: {detail}")
 
     prop = None
     if isinstance(property_dict, (list, tuple)):

@@ -35,6 +35,7 @@
         "Medical Components",
         "Optics Housings"
       ],
+      "min": 0,
       "max": 2
     },
     {
@@ -45,6 +46,7 @@
         "Connectors",
         "Stamped Housings"
       ],
+      "min": 0,
       "max": 2
     },
     {
@@ -54,6 +56,7 @@
         "Valve Bodies",
         "Gear Sets"
       ],
+      "min": 0,
       "max": 2
     }
   ],
@@ -62,6 +65,7 @@
       "name": "input_cost_spike",
       "probability": null,
       "description": "A raw-material and energy cost spike squeezes the thin-margin commodity line; the differentiated Precision and Standard products hold their pricing.",
+      "motivated_by": "",
       "score_overrides": [
         {
           "option": "Fasteners",
@@ -91,13 +95,14 @@
     {
       "name": "capacity_crunch",
       "probability": null,
-      "description": "A demand surge means no single product can absorb as much of the plant; the per-product cap tightens from 30% to 20%, forcing a broader mix.",
+      "description": "A demand surge means no single product can absorb as much of the plant; the per-product cap tightens from 30% to 25%, forcing a broader mix.",
+      "motivated_by": "",
       "score_overrides": [],
       "score_adjustments": [],
       "constraint_overrides": [
         {
           "type": "max_allocation",
-          "max": 20
+          "max": 25
         },
         {
           "type": "group_limit",
@@ -106,6 +111,7 @@
             "Medical Components",
             "Optics Housings"
           ],
+          "min": 0,
           "max": 2
         },
         {
@@ -116,6 +122,7 @@
             "Connectors",
             "Stamped Housings"
           ],
+          "min": 0,
           "max": 2
         },
         {
@@ -125,6 +132,7 @@
             "Valve Bodies",
             "Gear Sets"
           ],
+          "min": 0,
           "max": 2
         }
       ],

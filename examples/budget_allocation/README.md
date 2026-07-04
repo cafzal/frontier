@@ -15,7 +15,7 @@ Load with `model load source="budget_allocation"`, then drive it the way a user 
 2. *“Keep the balanced split and the ROI-max one. Are these actually optimal?”*
    `explore curate` per pick → `solve solver="highs"` → `explore certify`: the exact LP overlay audits the heuristic frontier and sharpens the ROI corner.
 3. *“Which of our limits is costing us the most, and which initiative just missed the cut?”*
-   `explore sensitivity`: solver-exact duals — the Strategic Reach floor pricing at ~4.0 (each point of reach costs ~4% ROI, rising into diminishing returns), Localization the closest near-miss (reduced cost ~10), AI Copilot and Self-Serve Onboarding pinned at the 35% cap. A small near-miss says "improve the option"; a binding cap says "lift your own limit."
+   `explore sensitivity`: solver-exact duals — the Strategic Reach floor pricing at ~4.0 (each point of reach costs ~4% ROI, rising into diminishing returns), Localization the closest near-miss (reduced cost ~10), AI Copilot and Self-Serve Onboarding pinned at the 35% cap. (Values as read at the balanced anchor of the shipped exact overlay — duals are anchor-specific, so expect them to shift at another frontier point or after a re-solve.)
 4. *“Write it up for the planning review.”*
    `explore curated format="markdown"`: the handoff table.
 

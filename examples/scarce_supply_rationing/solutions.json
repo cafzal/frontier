@@ -2790,8 +2790,8 @@
     "time_limited": false
   },
   "exact_run": {
-    "run_id": "2fa45fb6-dfa4-4156-b429-02ec8a6c9124",
-    "created_at": "2026-07-04T04:26:55.420709Z",
+    "run_id": "cd7ed45f-462b-4624-84aa-1dd82d69c8ed",
+    "created_at": "2026-07-04T17:05:01.203153Z",
     "mode": "fast",
     "solutions": [
       {
@@ -3124,6 +3124,315 @@
           "EMG-06"
         ],
         "objective_values": {
+          "Revenue": 3.9217,
+          "StrategicValue": 4.919,
+          "DemandFragility": 5.053
+        },
+        "allocations": {
+          "HYP-01": 6,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 0,
+          "HYP-06": 0,
+          "HYP-07": 1,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 4,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 8,
+          "DST-08": 8,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "853e76117663",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -4.860843
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.210843
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 6,
+              "reduced_cost": 0.124337,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.311928,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.023253,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.356506,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 0,
+              "reduced_cost": 0.046747,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.402169,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.163494,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.270964,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.872048,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.193976,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.422289,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.622289,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.203373,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.267711,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.124458,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.383133,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.501446,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.02747,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.483133,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 4,
+              "reduced_cost": -0.122169,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.265422,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.142169,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.208916,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.241084,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 8,
+              "reduced_cost": -0.14759,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 8,
+              "reduced_cost": -0.02759,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.514337,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.143253,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.065542,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.138554,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.27506,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.710964,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.193133,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.215783,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-01",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "DST-08",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
           "Revenue": 3.8891,
           "StrategicValue": 5.071,
           "DemandFragility": 4.959
@@ -3413,7 +3722,316 @@
         }
       },
       {
-        "solution_id": 3,
+        "solution_id": 4,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-01",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "DST-08",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.8565,
+          "StrategicValue": 5.223,
+          "DemandFragility": 4.865
+        },
+        "allocations": {
+          "HYP-01": 6,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 0,
+          "HYP-06": 0,
+          "HYP-07": 5,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 4,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 8,
+          "DST-08": 4,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "139c8a288a69",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -4.894605
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.214474
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 6,
+              "reduced_cost": 0.125789,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.315921,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.024342,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.358684,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 0,
+              "reduced_cost": 0.045658,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.402895,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.161316,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.288026,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.889474,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.185263,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.436447,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.636447,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.217895,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.283684,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.139342,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.400921,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.511974,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.016579,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.500921,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 4,
+              "reduced_cost": -0.092763,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.237105,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.030132,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.173026,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.178421,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.271579,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 8,
+              "reduced_cost": -0.12,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.545921,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.174474,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.080789,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.158158,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.296842,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.697895,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.180789,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.197632,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 5,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -3722,7 +4340,7 @@
         }
       },
       {
-        "solution_id": 4,
+        "solution_id": 6,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -4031,7 +4649,7 @@
         }
       },
       {
-        "solution_id": 5,
+        "solution_id": 7,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -4340,7 +4958,316 @@
         }
       },
       {
-        "solution_id": 6,
+        "solution_id": 8,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-01",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.7902,
+          "StrategicValue": 5.53,
+          "DemandFragility": 4.673
+        },
+        "allocations": {
+          "HYP-01": 6,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 1,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 4,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 8,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "00fe9888a8c7",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.007143
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.230952
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 6,
+              "reduced_cost": 0.091667,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.293333,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.07,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.327857,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.365476,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.040714,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.110714,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.324762,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.927857,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.186429,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.46,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.66,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.243095,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.315476,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.16619,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.440952,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.519048,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.007857,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.540952,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.149286,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.12619,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.272381,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.080714,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.369286,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 8,
+              "reduced_cost": -0.035476,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.084524,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.648571,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.275476,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.109286,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.206429,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.355,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.679286,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.165476,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.155952,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 9,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -4649,7 +5576,7 @@
         }
       },
       {
-        "solution_id": 7,
+        "solution_id": 10,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -4958,7 +5885,7 @@
         }
       },
       {
-        "solution_id": 8,
+        "solution_id": 11,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -5267,7 +6194,7 @@
         }
       },
       {
-        "solution_id": 9,
+        "solution_id": 12,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -5577,7 +6504,7 @@
         }
       },
       {
-        "solution_id": 10,
+        "solution_id": 13,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -5885,7 +6812,315 @@
         }
       },
       {
-        "solution_id": 11,
+        "solution_id": 14,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.6677,
+          "StrategicValue": 6.057,
+          "DemandFragility": 4.269
+        },
+        "allocations": {
+          "HYP-01": 6,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 7,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 6,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "491968a848c4",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.052826
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.236957
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 6,
+              "reduced_cost": 0.083913,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.289783,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.081957,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.321304,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.011957,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.356522,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.05087,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.096957,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.342826,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.946522,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.182174,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.473261,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.673261,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.256957,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.331739,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.180652,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.460217,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.526304,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.560217,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.038478,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.112609,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.16587,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.313261,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.040435,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.409565,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 6,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.12,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.690652,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.316957,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.124348,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.228696,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.38087,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.667826,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.155217,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.136087,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 15,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -6193,7 +7428,7 @@
         }
       },
       {
-        "solution_id": 12,
+        "solution_id": 16,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -6501,7 +7736,623 @@
         }
       },
       {
-        "solution_id": 13,
+        "solution_id": 17,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.6389,
+          "StrategicValue": 6.175,
+          "DemandFragility": 4.162
+        },
+        "allocations": {
+          "HYP-01": 7,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 4,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "d48ad1ab6dbd",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.072639
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.248611
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.214028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.174028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.239722,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.104028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.270278,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.139444,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.001389,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.309028,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.913889,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.242778,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.430139,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.630139,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.215,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.294444,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.139861,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.42875,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.471528,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.053611,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.52875,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.044306,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.110278,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.174028,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.32375,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.031111,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.418889,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.12,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.703472,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.328611,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.084722,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.203056,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.362222,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.714444,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.204167,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.166389,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "DST-05",
+          "DST-07",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.621,
+          "StrategicValue": 6.247,
+          "DemandFragility": 4.101
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 3,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "60fce95977ac",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.072639
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.248611
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.214028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.174028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.239722,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.104028,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.270278,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.139444,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.001389,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.309028,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.913889,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.242778,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.430139,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.630139,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.215,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.294444,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.139861,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.42875,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.471528,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.053611,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.52875,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.044306,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.110278,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.174028,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.32375,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.031111,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.418889,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.12,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.703472,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.328611,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.084722,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.203056,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.362222,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.714444,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.204167,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.166389,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 19,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -6810,7 +8661,7 @@
         }
       },
       {
-        "solution_id": 14,
+        "solution_id": 20,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -7119,7 +8970,7 @@
         }
       },
       {
-        "solution_id": 15,
+        "solution_id": 21,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -7427,7 +9278,7 @@
         }
       },
       {
-        "solution_id": 16,
+        "solution_id": 22,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -7735,7 +9586,7 @@
         }
       },
       {
-        "solution_id": 17,
+        "solution_id": 23,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -8044,7 +9895,7 @@
         }
       },
       {
-        "solution_id": 18,
+        "solution_id": 24,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -8352,7 +10203,7 @@
         }
       },
       {
-        "solution_id": 19,
+        "solution_id": 25,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -8660,7 +10511,7 @@
         }
       },
       {
-        "solution_id": 20,
+        "solution_id": 26,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -8968,7 +10819,315 @@
         }
       },
       {
-        "solution_id": 21,
+        "solution_id": 27,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "DST-05",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.4665,
+          "StrategicValue": 6.863,
+          "DemandFragility": 3.746
+        },
+        "allocations": {
+          "HYP-01": 7,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 4,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "d192e3f51e4f",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.10725
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.2525
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.21675,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.17675,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.2405,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.10675,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.2695,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.141,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.0025,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.32575,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.931,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.235,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.44375,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.64375,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.229,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.31,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.15425,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.44625,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.48125,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.0435,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.54625,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.07425,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.0815,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.20475,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.35525,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.45,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.028,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.148,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.73575,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.3605,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.0995,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.2225,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.384,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.702,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.1925,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.1485,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 28,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -9276,7 +11435,624 @@
         }
       },
       {
-        "solution_id": 22,
+        "solution_id": 29,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "DST-05",
+          "EMG-01",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.4231,
+          "StrategicValue": 7.027,
+          "DemandFragility": 3.705
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 5,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 1,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 2,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "dc9a0d6e0ddd",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.128571
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.27619
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.189524,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.04381,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.382857,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.055714,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.312857,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.075238,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.34,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.215714,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.238095,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.845714,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.377143,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.337143,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.537143,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.124762,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.215238,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.052381,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.363333,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.350952,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.171429,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.463333,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.067143,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 5,
+              "reduced_cost": -0.095714,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.202381,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.357619,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.45,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.009048,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.129048,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.742857,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.365238,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 2,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.151429,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.327143,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.815714,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.310952,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.229048,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-04",
+          "IND-08",
+          "IND-09",
+          "IND-11",
+          "IND-12",
+          "DST-03",
+          "DST-05"
+        ],
+        "objective_values": {
+          "Revenue": 3.4153,
+          "StrategicValue": 6.138,
+          "DemandFragility": 2.797
+        },
+        "allocations": {
+          "HYP-01": 6,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 5,
+          "HYP-08": 0,
+          "IND-01": 8,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 8,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 8,
+          "IND-09": 8,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 8,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 1,
+          "DST-04": 0,
+          "DST-05": 8,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 0,
+          "EMG-05": 0,
+          "EMG-06": 0
+        },
+        "content_signature": "4d554bc29011",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -2.167442
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.406977
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 6,
+              "reduced_cost": 0.080698,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.161395,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.244884,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.270698,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.052791,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.075116,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.330698,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 8,
+              "reduced_cost": -0.068837,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.755349,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.211628,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 8,
+              "reduced_cost": -0.074419,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.166279,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.458837,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.438837,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 8,
+              "reduced_cost": -0.292326,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 8,
+              "reduced_cost": -0.324419,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.785349,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.008837,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 8,
+              "reduced_cost": -0.346512,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.571163,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 0.491163,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.547674,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 8,
+              "reduced_cost": -0.189302,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.993256,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.773256,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.282791,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 1.284651,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.649767,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 1.011395,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 1.075581,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.475116,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 0,
+              "reduced_cost": 0.686977,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 0,
+              "reduced_cost": 1.328372,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 0.357907,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 31,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -9583,7 +12359,7 @@
         }
       },
       {
-        "solution_id": 23,
+        "solution_id": 32,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -9891,7 +12667,7 @@
         }
       },
       {
-        "solution_id": 24,
+        "solution_id": 33,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -10199,7 +12975,315 @@
         }
       },
       {
-        "solution_id": 25,
+        "solution_id": 34,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "DST-02",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.3203,
+          "StrategicValue": 7.378,
+          "DemandFragility": 3.403
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 8,
+          "HYP-03": 8,
+          "HYP-04": 3,
+          "HYP-05": 8,
+          "HYP-06": 0,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 2,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "5a87c5256d0c",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.255833
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.297222
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.249444,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 8,
+              "reduced_cost": -0.001389,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.4575,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.3875,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 0,
+              "reduced_cost": 0.011111,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.408333,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.296667,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.268611,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.878333,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.395,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.350833,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.550833,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.140556,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.239444,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.070278,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.398056,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.343611,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.176667,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.498056,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.169167,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 2,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.308611,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.468056,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 0.108333,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.558333,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.100556,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.220556,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 0.8575,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.477778,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.02,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.196667,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.385,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.808333,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.307778,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.192222,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 35,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -10506,7 +13590,7 @@
         }
       },
       {
-        "solution_id": 26,
+        "solution_id": 36,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -10814,7 +13898,7 @@
         }
       },
       {
-        "solution_id": 27,
+        "solution_id": 37,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -11122,7 +14206,315 @@
         }
       },
       {
-        "solution_id": 28,
+        "solution_id": 38,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.2665,
+          "StrategicValue": 7.557,
+          "DemandFragility": 3.244
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 3,
+          "HYP-05": 8,
+          "HYP-06": 5,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 8
+        },
+        "content_signature": "a4b10907ae1e",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.4975
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.325
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.255,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.0125,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.4825,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.4125,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.425,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.33,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.3825,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.995,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.345,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.4425,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.6425,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.235,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.345,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.1675,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.5175,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.4075,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.11,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.6175,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.3775,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 0.2,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.5225,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.6875,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 0.325,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.775,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.295,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.415,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 1.0825,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.7,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.12,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.33,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.535,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.725,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.23,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 8,
+              "reduced_cost": -0.07,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 39,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -11429,7 +14821,7 @@
         }
       },
       {
-        "solution_id": 29,
+        "solution_id": 40,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -11737,7 +15129,315 @@
         }
       },
       {
-        "solution_id": 30,
+        "solution_id": 41,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-04",
+          "IND-08",
+          "IND-09",
+          "IND-11",
+          "IND-12",
+          "DST-05"
+        ],
+        "objective_values": {
+          "Revenue": 3.223,
+          "StrategicValue": 6.827,
+          "DemandFragility": 2.368
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 0,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 8,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 8,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 8,
+          "IND-09": 8,
+          "IND-10": 0,
+          "IND-11": 1,
+          "IND-12": 8,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 3,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 0,
+          "EMG-05": 0,
+          "EMG-06": 0
+        },
+        "content_signature": "2b907dc5da87",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -1.957143
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.471429
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.007143,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.08,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.384286,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 0,
+              "reduced_cost": 0.182857,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.172857,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.064286,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.094286,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.242857,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.802857,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.228571,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 8,
+              "reduced_cost": -0.117143,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.13,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.538571,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.518571,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 8,
+              "reduced_cost": -0.315714,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 8,
+              "reduced_cost": -0.367143,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.832857,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 8,
+              "reduced_cost": -0.408571,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.857143,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 0.777143,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.182857,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.801429,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 1.298571,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 1.078571,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.491429,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 1.602857,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.922857,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 1.207143,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 1.31,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.612857,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 0,
+              "reduced_cost": 0.934286,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 0,
+              "reduced_cost": 1.588571,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 0.521429,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 42,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -12045,7 +15745,7 @@
         }
       },
       {
-        "solution_id": 31,
+        "solution_id": 43,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -12353,7 +16053,315 @@
         }
       },
       {
-        "solution_id": 32,
+        "solution_id": 44,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "EMG-04",
+          "EMG-05",
+          "EMG-06"
+        ],
+        "objective_values": {
+          "Revenue": 3.1876,
+          "StrategicValue": 7.789,
+          "DemandFragility": 3.025
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 5,
+          "HYP-03": 8,
+          "HYP-04": 5,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 8,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 3
+        },
+        "content_signature": "14de71714c92",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -5.635909
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.340909
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.258182,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 5,
+              "reduced_cost": 0.020455,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.496818,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.426818,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.006364,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.434545,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.349091,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.447727,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 1.061818,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.316364,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.495,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.695,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.289091,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.405455,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.223182,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.585909,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.444091,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 8,
+              "reduced_cost": -0.071818,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.685909,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.496818,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 0.314545,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.645,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 0.813182,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 0.449091,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 0.899091,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.406364,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.526364,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 1.211364,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 0.827273,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.177273,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.406364,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.620909,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.677273,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.185455,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 3,
+              "reduced_cost": 0.0,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 45,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -12660,7 +16668,314 @@
         }
       },
       {
-        "solution_id": 33,
+        "solution_id": 46,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-04",
+          "IND-08",
+          "IND-09",
+          "IND-12"
+        ],
+        "objective_values": {
+          "Revenue": 3.1523,
+          "StrategicValue": 7.07,
+          "DemandFragility": 2.227
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 8,
+          "HYP-03": 8,
+          "HYP-04": 1,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 8,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 8,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 8,
+          "IND-09": 8,
+          "IND-10": 0,
+          "IND-11": 0,
+          "IND-12": 8,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 0,
+          "EMG-05": 0,
+          "EMG-06": 0
+        },
+        "content_signature": "6b51377980b2",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -1.542667
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.593333
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.19,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 8,
+              "reduced_cost": -0.090667,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.664667,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.416667,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.344667,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.289333,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.06,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 0.876,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.277333,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 8,
+              "reduced_cost": -0.214667,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.044667,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.672667,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.652667,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 8,
+              "reduced_cost": -0.376667,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 8,
+              "reduced_cost": -0.464667,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.906,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 0,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 8,
+              "reduced_cost": -0.542667,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 1.381333,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 1.301333,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.512,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 1.264667,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 0.341333,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 1.859333,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 1.639333,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.869333,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 2.188,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 1.422667,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 1.560667,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 1.736667,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.856667,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 0,
+              "reduced_cost": 1.385333,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 0,
+              "reduced_cost": 2.064,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 0.814,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 47,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -12967,7 +17282,7 @@
         }
       },
       {
-        "solution_id": 34,
+        "solution_id": 48,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -13274,7 +17589,314 @@
         }
       },
       {
-        "solution_id": 35,
+        "solution_id": 49,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-11",
+          "EMG-04",
+          "EMG-05"
+        ],
+        "objective_values": {
+          "Revenue": 3.1278,
+          "StrategicValue": 7.959,
+          "DemandFragility": 2.88
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 7,
+          "HYP-03": 8,
+          "HYP-04": 8,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 8,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 8,
+          "IND-04": 0,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 0,
+          "IND-09": 0,
+          "IND-10": 0,
+          "IND-11": 6,
+          "IND-12": 0,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 8,
+          "EMG-05": 8,
+          "EMG-06": 0
+        },
+        "content_signature": "1891182b163e",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -6.013684
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": 0.389474
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.312632,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 7,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.585263,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 8,
+              "reduced_cost": -0.044737,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.515263,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.070526,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.508421,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 8,
+              "reduced_cost": -0.452105,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.602105,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 1.221053,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 8,
+              "reduced_cost": -0.273684,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 0,
+              "reduced_cost": 0.610526,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.810526,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 0.409474,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 0.545263,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 0,
+              "reduced_cost": 0.348421,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 0,
+              "reduced_cost": 0.75,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 0.511053,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 6,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 0,
+              "reduced_cost": 0.85,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 0.816316,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 0.619474,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 0.974211,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 1.152105,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 0.783158,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 1.233158,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 0.701579,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 0.821579,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 1.56,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 1.171053,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 0.307368,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 0.594737,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 0.838421,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 8,
+              "reduced_cost": -0.576316,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 8,
+              "reduced_cost": -0.094211,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 0.168947,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 50,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -13581,7 +18203,7 @@
         }
       },
       {
-        "solution_id": 36,
+        "solution_id": 51,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -13889,7 +18511,314 @@
         }
       },
       {
-        "solution_id": 37,
+        "solution_id": 52,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-04",
+          "IND-08",
+          "IND-09",
+          "IND-12"
+        ],
+        "objective_values": {
+          "Revenue": 3.0864,
+          "StrategicValue": 7.288,
+          "DemandFragility": 2.134
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 8,
+          "HYP-03": 8,
+          "HYP-04": 8,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 0,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 5,
+          "IND-04": 8,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 8,
+          "IND-09": 8,
+          "IND-10": 0,
+          "IND-11": 0,
+          "IND-12": 8,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 0,
+          "EMG-05": 0,
+          "EMG-06": 0
+        },
+        "content_signature": "7e184e58edb5",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -0.9
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.9
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.25,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 8,
+              "reduced_cost": -0.12,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.97,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.63,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.65,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.38,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 0,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.34,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 1.46,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 5,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.23,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 1.41,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 1.39,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 8,
+              "reduced_cost": -0.13,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 8,
+              "reduced_cost": -0.31,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 1.49,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 0,
+              "reduced_cost": 0.4,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 8,
+              "reduced_cost": -0.48,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 3.1,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 3.02,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 1.74,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 2.83,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 1.6,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 3.67,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 3.45,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 2.22,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 4.06,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 3.08,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 2.85,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 3.21,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 1.87,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 0,
+              "reduced_cost": 2.92,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 0,
+              "reduced_cost": 3.66,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 1.95,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 53,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -14197,7 +19126,7 @@
         }
       },
       {
-        "solution_id": 38,
+        "solution_id": 54,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -14504,7 +19433,315 @@
         }
       },
       {
-        "solution_id": 39,
+        "solution_id": 55,
+        "selected_options": [
+          "HYP-01",
+          "HYP-02",
+          "HYP-03",
+          "HYP-04",
+          "HYP-05",
+          "HYP-06",
+          "HYP-07",
+          "HYP-08",
+          "IND-01",
+          "IND-02",
+          "IND-03",
+          "IND-04",
+          "IND-08",
+          "IND-09",
+          "IND-12"
+        ],
+        "objective_values": {
+          "Revenue": 3.0468,
+          "StrategicValue": 7.408,
+          "DemandFragility": 2.09
+        },
+        "allocations": {
+          "HYP-01": 8,
+          "HYP-02": 8,
+          "HYP-03": 8,
+          "HYP-04": 8,
+          "HYP-05": 8,
+          "HYP-06": 8,
+          "HYP-07": 8,
+          "HYP-08": 4,
+          "IND-01": 4,
+          "IND-02": 3,
+          "IND-03": 1,
+          "IND-04": 8,
+          "IND-05": 0,
+          "IND-06": 0,
+          "IND-07": 0,
+          "IND-08": 8,
+          "IND-09": 8,
+          "IND-10": 0,
+          "IND-11": 0,
+          "IND-12": 8,
+          "DST-01": 0,
+          "DST-02": 0,
+          "DST-03": 0,
+          "DST-04": 0,
+          "DST-05": 0,
+          "DST-06": 0,
+          "DST-07": 0,
+          "DST-08": 0,
+          "DST-09": 0,
+          "DST-10": 0,
+          "EMG-01": 0,
+          "EMG-02": 0,
+          "EMG-03": 0,
+          "EMG-04": 0,
+          "EMG-05": 0,
+          "EMG-06": 0
+        },
+        "content_signature": "54f47ac83e54",
+        "sensitivity": {
+          "source": "solver_exact",
+          "shadow_prices": [
+            {
+              "name": "budget",
+              "role": "budget",
+              "shadow_price": -0.9
+            },
+            {
+              "name": "StrategicValue",
+              "role": "linear_floor",
+              "shadow_price": -0.0
+            },
+            {
+              "name": "DemandFragility",
+              "role": "linear_floor",
+              "shadow_price": -0.9
+            },
+            {
+              "name": "StrategicValue",
+              "role": "model_bound",
+              "shadow_price": -0.0
+            }
+          ],
+          "reduced_costs": [
+            {
+              "option": "HYP-01",
+              "allocation": 8,
+              "reduced_cost": -0.25,
+              "eligible": true
+            },
+            {
+              "option": "HYP-02",
+              "allocation": 8,
+              "reduced_cost": -0.12,
+              "eligible": true
+            },
+            {
+              "option": "HYP-03",
+              "allocation": 8,
+              "reduced_cost": -0.97,
+              "eligible": true
+            },
+            {
+              "option": "HYP-04",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "HYP-05",
+              "allocation": 8,
+              "reduced_cost": -0.63,
+              "eligible": true
+            },
+            {
+              "option": "HYP-06",
+              "allocation": 8,
+              "reduced_cost": -0.65,
+              "eligible": true
+            },
+            {
+              "option": "HYP-07",
+              "allocation": 8,
+              "reduced_cost": -0.38,
+              "eligible": true
+            },
+            {
+              "option": "HYP-08",
+              "allocation": 4,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-01",
+              "allocation": 4,
+              "reduced_cost": 0.34,
+              "eligible": true
+            },
+            {
+              "option": "IND-02",
+              "allocation": 3,
+              "reduced_cost": 1.46,
+              "eligible": true
+            },
+            {
+              "option": "IND-03",
+              "allocation": 1,
+              "reduced_cost": 0.0,
+              "eligible": true
+            },
+            {
+              "option": "IND-04",
+              "allocation": 8,
+              "reduced_cost": -0.06,
+              "eligible": true
+            },
+            {
+              "option": "IND-05",
+              "allocation": 0,
+              "reduced_cost": 0.23,
+              "eligible": true
+            },
+            {
+              "option": "IND-06",
+              "allocation": 0,
+              "reduced_cost": 1.41,
+              "eligible": true
+            },
+            {
+              "option": "IND-07",
+              "allocation": 0,
+              "reduced_cost": 1.39,
+              "eligible": true
+            },
+            {
+              "option": "IND-08",
+              "allocation": 8,
+              "reduced_cost": -0.13,
+              "eligible": true
+            },
+            {
+              "option": "IND-09",
+              "allocation": 8,
+              "reduced_cost": -0.31,
+              "eligible": true
+            },
+            {
+              "option": "IND-10",
+              "allocation": 0,
+              "reduced_cost": 1.49,
+              "eligible": true
+            },
+            {
+              "option": "IND-11",
+              "allocation": 0,
+              "reduced_cost": 0.4,
+              "eligible": true
+            },
+            {
+              "option": "IND-12",
+              "allocation": 8,
+              "reduced_cost": -0.48,
+              "eligible": true
+            },
+            {
+              "option": "DST-01",
+              "allocation": 0,
+              "reduced_cost": 3.1,
+              "eligible": true
+            },
+            {
+              "option": "DST-02",
+              "allocation": 0,
+              "reduced_cost": 3.02,
+              "eligible": true
+            },
+            {
+              "option": "DST-03",
+              "allocation": 0,
+              "reduced_cost": 1.74,
+              "eligible": true
+            },
+            {
+              "option": "DST-04",
+              "allocation": 0,
+              "reduced_cost": 2.83,
+              "eligible": true
+            },
+            {
+              "option": "DST-05",
+              "allocation": 0,
+              "reduced_cost": 1.6,
+              "eligible": true
+            },
+            {
+              "option": "DST-06",
+              "allocation": 0,
+              "reduced_cost": 3.67,
+              "eligible": true
+            },
+            {
+              "option": "DST-07",
+              "allocation": 0,
+              "reduced_cost": 3.45,
+              "eligible": true
+            },
+            {
+              "option": "DST-08",
+              "allocation": 0,
+              "reduced_cost": 2.22,
+              "eligible": true
+            },
+            {
+              "option": "DST-09",
+              "allocation": 0,
+              "reduced_cost": 4.06,
+              "eligible": true
+            },
+            {
+              "option": "DST-10",
+              "allocation": 0,
+              "reduced_cost": 3.08,
+              "eligible": true
+            },
+            {
+              "option": "EMG-01",
+              "allocation": 0,
+              "reduced_cost": 2.85,
+              "eligible": true
+            },
+            {
+              "option": "EMG-02",
+              "allocation": 0,
+              "reduced_cost": 3.21,
+              "eligible": true
+            },
+            {
+              "option": "EMG-03",
+              "allocation": 0,
+              "reduced_cost": 1.87,
+              "eligible": true
+            },
+            {
+              "option": "EMG-04",
+              "allocation": 0,
+              "reduced_cost": 2.92,
+              "eligible": true
+            },
+            {
+              "option": "EMG-05",
+              "allocation": 0,
+              "reduced_cost": 3.66,
+              "eligible": true
+            },
+            {
+              "option": "EMG-06",
+              "allocation": 0,
+              "reduced_cost": 1.95,
+              "eligible": true
+            }
+          ],
+          "ranging": null
+        }
+      },
+      {
+        "solution_id": 56,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -14811,7 +20048,7 @@
         }
       },
       {
-        "solution_id": 40,
+        "solution_id": 57,
         "selected_options": [
           "HYP-01",
           "HYP-02",
@@ -15179,7 +20416,7 @@
     ],
     "seed_used": 42,
     "solver": "highs",
-    "exact": false,
+    "exact": true,
     "time_limit": null,
     "time_limited": false
   },

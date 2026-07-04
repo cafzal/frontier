@@ -1570,7 +1570,9 @@ def explore(
                    "holds") or here is a concrete counterexample (verdict "violated" + witness).
                    A LIST of constraint dicts proves the conjunction — a compound guarantee holds
                    iff every conjunct holds; the payload adds a per-property breakdown and names
-                   the violated conjunct. Binary problems; needs HiGHS. Reads the model directly —
+                   the violated conjunct. A floor-only group guarantee ("at least N of these")
+                   may omit group_limit's max — it defaults to the group size (no cap).
+                   Binary problems; needs HiGHS. Reads the model directly —
                    no prior solve required.
       scenario_results — Cross-scenario robustness: option_robustness (importance-ranked,
                    tiers core/common/marginal), scenario-specific options, expected values

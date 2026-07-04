@@ -3141,8 +3141,8 @@
     "time_limited": false
   },
   "exact_run": {
-    "run_id": "e4f15c9c-7df8-46a6-83ef-983ede5e0e95",
-    "created_at": "2026-06-09T23:40:16.729141Z",
+    "run_id": "91a5db9d-daad-49aa-8888-0f0265a3a006",
+    "created_at": "2026-07-04T17:04:20.214518Z",
     "mode": "fast",
     "solutions": [
       {
@@ -9232,6 +9232,7 @@
           "Medical Components",
           "Optics Housings"
         ],
+        "min": 0,
         "max": 2
       },
       {
@@ -9242,6 +9243,7 @@
           "Connectors",
           "Stamped Housings"
         ],
+        "min": 0,
         "max": 2
       },
       {
@@ -9251,20 +9253,21 @@
           "Valve Bodies",
           "Gear Sets"
         ],
+        "min": 0,
         "max": 2
       }
     ],
     "seed_used": 42,
     "solver": "highs",
-    "exact": false,
+    "exact": true,
     "time_limit": null,
     "time_limited": false
   },
   "scenario_run": {
     "scenario_runs": {
       "input_cost_spike": {
-        "run_id": "4fca45ba-bd5b-4a26-890c-d82f7412971d",
-        "created_at": "2026-06-09T23:40:17.075125Z",
+        "run_id": "68c0a500-5998-41ff-ab7d-a91247141bc7",
+        "created_at": "2026-07-04T16:53:40.254711Z",
         "mode": "fast",
         "solutions": [
           {
@@ -12323,8 +12326,8 @@
         "time_limited": false
       },
       "capacity_crunch": {
-        "run_id": "e3a693af-23e7-43dd-9ded-4d54165af73c",
-        "created_at": "2026-06-09T23:40:17.072855Z",
+        "run_id": "0fe06483-4afa-4bf4-ae40-c1c0edff48f5",
+        "created_at": "2026-07-04T16:53:40.253147Z",
         "mode": "fast",
         "solutions": [
           {
@@ -12332,28 +12335,27 @@
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
-              "Connectors",
               "Pump Assemblies",
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.9049,
-              "Throughput": 22.2516,
-              "Sustainability": 7.2105
+              "Margin": 41.0096,
+              "Throughput": 15.9923,
+              "Sustainability": 7.5019
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
               "Optics Housings": 0,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
+              "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
+              "Pump Assemblies": 25,
+              "Valve Bodies": 25,
               "Gear Sets": 0
             },
-            "content_signature": "477c02874920",
+            "content_signature": "c7b98e7e5bf0",
             "sensitivity": null
           },
           {
@@ -12361,28 +12363,27 @@
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
-              "Connectors",
               "Pump Assemblies",
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.8,
-              "Throughput": 22.4,
-              "Sustainability": 7.2
+              "Margin": 41.0,
+              "Throughput": 16.0,
+              "Sustainability": 7.5
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
               "Optics Housings": 0,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
+              "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
+              "Pump Assemblies": 25,
+              "Valve Bodies": 25,
               "Gear Sets": 0
             },
-            "content_signature": "477c02874920",
+            "content_signature": "c7b98e7e5bf0",
             "sensitivity": null
           },
           {
@@ -12390,32 +12391,63 @@
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
-              "Connectors",
+              "Fasteners",
+              "Brackets",
               "Pump Assemblies",
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.7821,
-              "Throughput": 22.4642,
-              "Sustainability": 7.1965
+              "Margin": 40.5906,
+              "Throughput": 16.9421,
+              "Sustainability": 7.4395
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
               "Optics Housings": 0,
-              "Fasteners": 0,
-              "Brackets": 0,
-              "Connectors": 20,
+              "Fasteners": 2,
+              "Brackets": 1,
+              "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
+              "Pump Assemblies": 22,
+              "Valve Bodies": 25,
               "Gear Sets": 0
             },
-            "content_signature": "477c02874920",
+            "content_signature": "55b45e704e2d",
             "sensitivity": null
           },
           {
             "solution_id": 4,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Medical Components",
+              "Fasteners",
+              "Brackets",
+              "Pump Assemblies",
+              "Valve Bodies"
+            ],
+            "objective_values": {
+              "Margin": 40.3206,
+              "Throughput": 17.0433,
+              "Sustainability": 7.4223
+            },
+            "allocations": {
+              "Aerospace Fittings": 23,
+              "Medical Components": 25,
+              "Optics Housings": 0,
+              "Fasteners": 1,
+              "Brackets": 1,
+              "Connectors": 0,
+              "Stamped Housings": 0,
+              "Pump Assemblies": 25,
+              "Valve Bodies": 25,
+              "Gear Sets": 0
+            },
+            "content_signature": "4ed23c3f4331",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 5,
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
@@ -12424,27 +12456,86 @@
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.6993,
-              "Throughput": 22.532,
-              "Sustainability": 7.1889
+              "Margin": 40.1392,
+              "Throughput": 17.7368,
+              "Sustainability": 7.4199
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
               "Optics Housings": 0,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
+              "Connectors": 10,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
+              "Pump Assemblies": 15,
+              "Valve Bodies": 25,
               "Gear Sets": 0
             },
-            "content_signature": "477c02874920",
+            "content_signature": "bbbb847332f1",
             "sensitivity": null
           },
           {
-            "solution_id": 5,
+            "solution_id": 6,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Medical Components",
+              "Connectors",
+              "Pump Assemblies",
+              "Valve Bodies"
+            ],
+            "objective_values": {
+              "Margin": 40.0776,
+              "Throughput": 17.8522,
+              "Sustainability": 7.4117
+            },
+            "allocations": {
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
+              "Optics Housings": 0,
+              "Fasteners": 0,
+              "Brackets": 0,
+              "Connectors": 10,
+              "Stamped Housings": 0,
+              "Pump Assemblies": 15,
+              "Valve Bodies": 25,
+              "Gear Sets": 0
+            },
+            "content_signature": "bbbb847332f1",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 7,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Optics Housings",
+              "Connectors",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Valve Bodies"
+            ],
+            "objective_values": {
+              "Margin": 39.8309,
+              "Throughput": 16.1956,
+              "Sustainability": 7.7235
+            },
+            "allocations": {
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
+              "Brackets": 0,
+              "Connectors": 1,
+              "Stamped Housings": 1,
+              "Pump Assemblies": 23,
+              "Valve Bodies": 25,
+              "Gear Sets": 0
+            },
+            "content_signature": "d4b4587abc89",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 8,
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
@@ -12454,113 +12545,23 @@
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.6305,
-              "Throughput": 22.7328,
-              "Sustainability": 7.1674
+              "Margin": 39.5233,
+              "Throughput": 18.7737,
+              "Sustainability": 7.3247
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 24,
+              "Medical Components": 24,
               "Optics Housings": 0,
               "Fasteners": 0,
-              "Brackets": 1,
-              "Connectors": 20,
+              "Brackets": 4,
+              "Connectors": 9,
               "Stamped Housings": 0,
-              "Pump Assemblies": 19,
-              "Valve Bodies": 20,
+              "Pump Assemblies": 15,
+              "Valve Bodies": 24,
               "Gear Sets": 0
             },
-            "content_signature": "5b8020de7254",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 6,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Valve Bodies"
-            ],
-            "objective_values": {
-              "Margin": 36.4958,
-              "Throughput": 23.0152,
-              "Sustainability": 7.171
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 2,
-              "Brackets": 0,
-              "Connectors": 18,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
-            },
-            "content_signature": "2cee88414a37",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 7,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Valve Bodies"
-            ],
-            "objective_values": {
-              "Margin": 36.347,
-              "Throughput": 23.2864,
-              "Sustainability": 7.1775
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 2,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 18,
-              "Gear Sets": 0
-            },
-            "content_signature": "0b2264b4184b",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 8,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Valve Bodies"
-            ],
-            "objective_values": {
-              "Margin": 36.2154,
-              "Throughput": 23.7653,
-              "Sustainability": 7.1282
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 4,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 16,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
-            },
-            "content_signature": "3b6de1a83bfd",
+            "content_signature": "9ba61c6a0e65",
             "sensitivity": null
           },
           {
@@ -12574,23 +12575,23 @@
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.1894,
-              "Throughput": 23.4689,
-              "Sustainability": 7.1507
+              "Margin": 39.3931,
+              "Throughput": 19.0859,
+              "Sustainability": 7.3508
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 19,
+              "Aerospace Fittings": 24,
+              "Medical Components": 24,
               "Optics Housings": 0,
               "Fasteners": 4,
               "Brackets": 0,
-              "Connectors": 19,
+              "Connectors": 9,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 19,
+              "Pump Assemblies": 15,
+              "Valve Bodies": 24,
               "Gear Sets": 0
             },
-            "content_signature": "8be0d8103eaa",
+            "content_signature": "df8fd4204500",
             "sensitivity": null
           },
           {
@@ -12604,23 +12605,23 @@
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 36.0873,
-              "Throughput": 24.0491,
-              "Sustainability": 7.1119
+              "Margin": 39.2108,
+              "Throughput": 19.2785,
+              "Sustainability": 7.3256
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 23,
+              "Medical Components": 24,
               "Optics Housings": 0,
-              "Fasteners": 5,
+              "Fasteners": 4,
               "Brackets": 0,
-              "Connectors": 20,
+              "Connectors": 9,
               "Stamped Housings": 0,
               "Pump Assemblies": 15,
-              "Valve Bodies": 20,
+              "Valve Bodies": 25,
               "Gear Sets": 0
             },
-            "content_signature": "6f356db2ef0b",
+            "content_signature": "325b5b4f0f4b",
             "sensitivity": null
           },
           {
@@ -12629,294 +12630,291 @@
               "Aerospace Fittings",
               "Medical Components",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Valve Bodies"
             ],
             "objective_values": {
-              "Margin": 35.924,
-              "Throughput": 24.865,
-              "Sustainability": 7.0697
+              "Margin": 38.7669,
+              "Throughput": 20.7768,
+              "Sustainability": 7.3862
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 25,
               "Optics Housings": 0,
-              "Fasteners": 14,
+              "Fasteners": 10,
               "Brackets": 0,
-              "Connectors": 7,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 19,
+              "Connectors": 0,
+              "Stamped Housings": 1,
+              "Pump Assemblies": 25,
+              "Valve Bodies": 14,
               "Gear Sets": 0
             },
-            "content_signature": "894ac5d12ff5",
+            "content_signature": "8a161989d02e",
             "sensitivity": null
           },
           {
             "solution_id": 12,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.6298,
-              "Throughput": 25.7699,
-              "Sustainability": 7.005
+              "Margin": 38.25,
+              "Throughput": 18.25,
+              "Sustainability": 8.25
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
               "Brackets": 0,
               "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
+              "Pump Assemblies": 25,
+              "Valve Bodies": 0,
+              "Gear Sets": 25
             },
-            "content_signature": "1bb3d4b56a08",
+            "content_signature": "e6b555496705",
             "sensitivity": null
           },
           {
             "solution_id": 13,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.576,
-              "Throughput": 25.851,
-              "Sustainability": 6.9973
+              "Margin": 38.25,
+              "Throughput": 18.25,
+              "Sustainability": 8.25
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
               "Brackets": 0,
               "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
+              "Pump Assemblies": 25,
+              "Valve Bodies": 0,
+              "Gear Sets": 25
             },
-            "content_signature": "1bb3d4b56a08",
+            "content_signature": "e6b555496705",
             "sensitivity": null
           },
           {
             "solution_id": 14,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
+              "Brackets",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.4237,
-              "Throughput": 26.0216,
-              "Sustainability": 6.9972
+              "Margin": 37.8053,
+              "Throughput": 19.3012,
+              "Sustainability": 8.0966
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
-              "Brackets": 0,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
+              "Brackets": 4,
               "Connectors": 0,
               "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
+              "Pump Assemblies": 23,
+              "Valve Bodies": 0,
+              "Gear Sets": 23
             },
-            "content_signature": "1bb3d4b56a08",
+            "content_signature": "bf759e9d2a38",
             "sensitivity": null
           },
           {
             "solution_id": 15,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Connectors",
+              "Optics Housings",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.3703,
-              "Throughput": 24.4469,
-              "Sustainability": 7.5979
+              "Margin": 37.6673,
+              "Throughput": 19.5816,
+              "Sustainability": 8.1656
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 4,
+              "Pump Assemblies": 21,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "805970b9c13d",
+            "content_signature": "c13cef0c280f",
             "sensitivity": null
           },
           {
             "solution_id": 16,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Connectors",
               "Stamped Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.0942,
-              "Throughput": 26.147,
-              "Sustainability": 6.9392
+              "Margin": 37.4966,
+              "Throughput": 19.8906,
+              "Sustainability": 8.1364
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 19,
-              "Optics Housings": 0,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 24,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 6,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 18,
-              "Valve Bodies": 19,
-              "Gear Sets": 0
+              "Connectors": 2,
+              "Stamped Housings": 4,
+              "Pump Assemblies": 21,
+              "Valve Bodies": 0,
+              "Gear Sets": 24
             },
-            "content_signature": "9afa64dca606",
+            "content_signature": "4bcbe2158931",
             "sensitivity": null
           },
           {
             "solution_id": 17,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 35.0239,
-              "Throughput": 25.0785,
-              "Sustainability": 7.5576
+              "Margin": 37.3024,
+              "Throughput": 20.1708,
+              "Sustainability": 8.1222
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 19,
-              "Optics Housings": 0,
-              "Fasteners": 1,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 24,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 1,
+              "Stamped Housings": 4,
+              "Pump Assemblies": 21,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e360b5c5096e",
+            "content_signature": "3098cb27e65e",
             "sensitivity": null
           },
           {
             "solution_id": 18,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Connectors",
               "Stamped Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.9397,
-              "Throughput": 26.3769,
-              "Sustainability": 6.9287
+              "Margin": 37.1513,
+              "Throughput": 20.317,
+              "Sustainability": 8.0904
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 18,
-              "Optics Housings": 0,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 23,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 7,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 18,
-              "Valve Bodies": 19,
-              "Gear Sets": 0
+              "Connectors": 2,
+              "Stamped Housings": 4,
+              "Pump Assemblies": 23,
+              "Valve Bodies": 0,
+              "Gear Sets": 24
             },
-            "content_signature": "f3e2b72af280",
+            "content_signature": "43c441241ea9",
             "sensitivity": null
           },
           {
             "solution_id": 19,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
+              "Optics Housings",
+              "Stamped Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.8916,
-              "Throughput": 26.8335,
-              "Sustainability": 6.9631
+              "Margin": 36.9415,
+              "Throughput": 20.7841,
+              "Sustainability": 8.0538
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 13,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 23,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 8,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
+              "Connectors": 0,
+              "Stamped Housings": 6,
+              "Pump Assemblies": 23,
+              "Valve Bodies": 0,
+              "Gear Sets": 24
             },
-            "content_signature": "ff5a52280a8f",
+            "content_signature": "10fed647cacc",
             "sensitivity": null
           },
           {
             "solution_id": 20,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.7377,
-              "Throughput": 27.0374,
-              "Sustainability": 6.9545
+              "Margin": 36.6637,
+              "Throughput": 21.7193,
+              "Sustainability": 8.0284
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 19,
-              "Optics Housings": 0,
-              "Fasteners": 12,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 9,
-              "Valve Bodies": 20,
-              "Gear Sets": 0
+              "Connectors": 1,
+              "Stamped Housings": 9,
+              "Pump Assemblies": 15,
+              "Valve Bodies": 0,
+              "Gear Sets": 25
             },
-            "content_signature": "6746aa22a259",
+            "content_signature": "d4236cde3c7e",
             "sensitivity": null
           },
           {
@@ -12925,27 +12923,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.6811,
-              "Throughput": 24.1174,
-              "Sustainability": 7.8035
+              "Margin": 36.6435,
+              "Throughput": 21.7567,
+              "Sustainability": 8.0254
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 25,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 1,
+              "Stamped Housings": 10,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e20012e8caa2",
+            "content_signature": "d97ea001cb11",
             "sensitivity": null
           },
           {
@@ -12953,28 +12952,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Connectors",
+              "Brackets",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.6134,
-              "Throughput": 24.182,
-              "Sustainability": 7.8006
+              "Margin": 36.5622,
+              "Throughput": 22.0367,
+              "Sustainability": 7.8711
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 25,
               "Fasteners": 0,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Brackets": 11,
+              "Connectors": 0,
+              "Stamped Housings": 2,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e20012e8caa2",
+            "content_signature": "abd3730d4535",
             "sensitivity": null
           },
           {
@@ -12983,27 +12983,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.6,
-              "Throughput": 24.2,
-              "Sustainability": 7.8
+              "Margin": 36.5486,
+              "Throughput": 21.0908,
+              "Sustainability": 8.0763
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 22,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 25,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 10,
+              "Stamped Housings": 1,
+              "Pump Assemblies": 17,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e20012e8caa2",
+            "content_signature": "dddc2f1aeec2",
             "sensitivity": null
           },
           {
@@ -13011,29 +13012,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Fasteners",
-              "Connectors",
+              "Brackets",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.5791,
-              "Throughput": 24.3881,
-              "Sustainability": 7.7707
+              "Margin": 36.3208,
+              "Throughput": 22.3525,
+              "Sustainability": 7.8347
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 1,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Optics Housings": 25,
+              "Fasteners": 0,
+              "Brackets": 11,
+              "Connectors": 0,
+              "Stamped Housings": 3,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 25
             },
-            "content_signature": "760098a9c935",
+            "content_signature": "e1de8a7f0bdf",
             "sensitivity": null
           },
           {
@@ -13041,29 +13042,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Brackets",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.4775,
-              "Throughput": 24.619,
-              "Sustainability": 7.6898
+              "Margin": 36.1961,
+              "Throughput": 22.2622,
+              "Sustainability": 7.988
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 25,
               "Fasteners": 0,
-              "Brackets": 6,
-              "Connectors": 14,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Brackets": 0,
+              "Connectors": 1,
+              "Stamped Housings": 10,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "10d2daf553df",
+            "content_signature": "3f6be8b99249",
             "sensitivity": null
           },
           {
@@ -13071,58 +13072,58 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.4124,
-              "Throughput": 24.4809,
-              "Sustainability": 7.7788
+              "Margin": 36.1516,
+              "Throughput": 22.9103,
+              "Sustainability": 7.9495
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 24,
               "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 14,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e20012e8caa2",
+            "content_signature": "f779fe1bb64d",
             "sensitivity": null
           },
           {
             "solution_id": 27,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.3857,
-              "Throughput": 27.3406,
-              "Sustainability": 7.427
+              "Margin": 35.9401,
+              "Throughput": 23.2391,
+              "Sustainability": 7.9239
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 18,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 24,
+              "Fasteners": 0,
               "Brackets": 0,
               "Connectors": 2,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 14,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 24
             },
-            "content_signature": "6ef050b66b3d",
+            "content_signature": "857578fb9eff",
             "sensitivity": null
           },
           {
@@ -13130,59 +13131,57 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.3588,
-              "Throughput": 24.6288,
-              "Sustainability": 7.7677
+              "Margin": 35.8409,
+              "Throughput": 23.495,
+              "Sustainability": 7.9073
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 1,
+              "Optics Housings": 24,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 15,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 24
             },
-            "content_signature": "d5c0f3234f05",
+            "content_signature": "6711a61e52b5",
             "sensitivity": null
           },
           {
             "solution_id": 29,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
+              "Optics Housings",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.3289,
-              "Throughput": 27.4536,
-              "Sustainability": 7.4193
+              "Margin": 35.7656,
+              "Throughput": 23.9057,
+              "Sustainability": 7.895
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 18,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 2,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 18,
+              "Pump Assemblies": 8,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "6ef050b66b3d",
+            "content_signature": "fd6396d4ff5a",
             "sensitivity": null
           },
           {
@@ -13190,29 +13189,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Brackets",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.2686,
-              "Throughput": 25.0124,
-              "Sustainability": 7.6445
+              "Margin": 35.5579,
+              "Throughput": 24.0814,
+              "Sustainability": 7.8542
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 20,
+              "Optics Housings": 25,
               "Fasteners": 0,
-              "Brackets": 6,
-              "Connectors": 14,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Brackets": 0,
+              "Connectors": 6,
+              "Stamped Housings": 14,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "10d2daf553df",
+            "content_signature": "54fdafa39ee6",
             "sensitivity": null
           },
           {
@@ -13220,88 +13219,86 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.2313,
-              "Throughput": 24.914,
-              "Sustainability": 7.7496
+              "Margin": 35.5023,
+              "Throughput": 24.381,
+              "Sustainability": 7.8219
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 1,
+              "Optics Housings": 24,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 19,
+              "Pump Assemblies": 11,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "d5e6e576a19d",
+            "content_signature": "62127729c48e",
             "sensitivity": null
           },
           {
             "solution_id": 32,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
+              "Optics Housings",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.1533,
-              "Throughput": 27.7986,
-              "Sustainability": 7.4002
+              "Margin": 35.231,
+              "Throughput": 25.0325,
+              "Sustainability": 7.7658
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 25,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 1,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 21,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "1a337ef588a6",
+            "content_signature": "5f8ada44c164",
             "sensitivity": null
           },
           {
             "solution_id": 33,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
+              "Optics Housings",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.1264,
-              "Throughput": 27.9568,
-              "Sustainability": 7.3915
+              "Margin": 35.1565,
+              "Throughput": 24.6296,
+              "Sustainability": 7.7857
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 23,
+              "Fasteners": 0,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 18,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "2b04b294ff85",
+            "content_signature": "2090a523c381",
             "sensitivity": null
           },
           {
@@ -13309,29 +13306,28 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.0517,
-              "Throughput": 25.2578,
-              "Sustainability": 7.7261
+              "Margin": 35.0698,
+              "Throughput": 25.1451,
+              "Sustainability": 7.7422
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 18,
-              "Fasteners": 2,
+              "Optics Housings": 24,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
               "Gear Sets": 20
             },
-            "content_signature": "dd18f2350023",
+            "content_signature": "f426aed6399f",
             "sensitivity": null
           },
           {
@@ -13340,28 +13336,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 34.0515,
-              "Throughput": 25.2583,
-              "Sustainability": 7.7262
+              "Margin": 34.7675,
+              "Throughput": 25.7586,
+              "Sustainability": 7.7457
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 18,
-              "Fasteners": 2,
+              "Optics Housings": 23,
+              "Fasteners": 13,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 7,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "dd18f2350023",
+            "content_signature": "6fa750d7f48d",
             "sensitivity": null
           },
           {
@@ -13375,23 +13371,23 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.9444,
-              "Throughput": 28.2634,
-              "Sustainability": 7.353
+              "Margin": 34.4181,
+              "Throughput": 27.5643,
+              "Sustainability": 7.3811
             },
             "allocations": {
               "Aerospace Fittings": 20,
               "Medical Components": 20,
               "Optics Housings": 0,
-              "Fasteners": 20,
+              "Fasteners": 18,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 1,
+              "Stamped Housings": 4,
               "Pump Assemblies": 20,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 18
             },
-            "content_signature": "97a84078073b",
+            "content_signature": "a1685ba3b4c3",
             "sensitivity": null
           },
           {
@@ -13399,29 +13395,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Brackets",
-              "Connectors",
+              "Fasteners",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.8165,
-              "Throughput": 25.7256,
-              "Sustainability": 7.6067
+              "Margin": 34.3824,
+              "Throughput": 26.499,
+              "Sustainability": 7.6382
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 0,
-              "Brackets": 5,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 19,
+              "Optics Housings": 20,
+              "Fasteners": 2,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 21,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 21
             },
-            "content_signature": "433e5d773796",
+            "content_signature": "e47cb125d061",
             "sensitivity": null
           },
           {
@@ -13429,29 +13425,29 @@
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
-              "Fasteners",
               "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.7782,
-              "Throughput": 26.53,
-              "Sustainability": 7.6625
+              "Margin": 34.335,
+              "Throughput": 26.0617,
+              "Sustainability": 7.686
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 22,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 14,
+              "Optics Housings": 22,
+              "Fasteners": 0,
               "Brackets": 0,
-              "Connectors": 6,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 1,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "4adcc895aab7",
+            "content_signature": "1337ce5f7c9c",
             "sensitivity": null
           },
           {
@@ -13460,92 +13456,150 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.6836,
-              "Throughput": 27.0389,
-              "Sustainability": 7.6165
+              "Margin": 34.2436,
+              "Throughput": 26.8471,
+              "Sustainability": 7.7068
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 15,
+              "Optics Housings": 23,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 5,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 0,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "db186121c25b",
+            "content_signature": "d512b280f171",
             "sensitivity": null
           },
           {
             "solution_id": 40,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.5724,
-              "Throughput": 28.8083,
-              "Sustainability": 7.3432
+              "Margin": 33.9358,
+              "Throughput": 27.0179,
+              "Sustainability": 7.6034
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 18,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 20,
+              "Fasteners": 2,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 2,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 22,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "fa8bc51fc767",
+            "content_signature": "cc4c2896614c",
             "sensitivity": null
           },
           {
             "solution_id": 41,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
-              "Connectors",
+              "Optics Housings",
+              "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
-              "Valve Bodies"
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.3897,
-              "Throughput": 29.6479,
-              "Sustainability": 6.9999
+              "Margin": 33.9344,
+              "Throughput": 27.2566,
+              "Sustainability": 7.6793
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 0,
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 22,
+              "Fasteners": 19,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 1,
-              "Gear Sets": 0
+              "Connectors": 0,
+              "Stamped Housings": 4,
+              "Pump Assemblies": 11,
+              "Valve Bodies": 0,
+              "Gear Sets": 22
             },
-            "content_signature": "77ec024414e1",
+            "content_signature": "ed35a458cea6",
             "sensitivity": null
           },
           {
             "solution_id": 42,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Medical Components",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 33.7248,
+              "Throughput": 28.3134,
+              "Sustainability": 7.334
+            },
+            "allocations": {
+              "Aerospace Fittings": 24,
+              "Medical Components": 13,
+              "Optics Housings": 0,
+              "Fasteners": 0,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 22,
+              "Pump Assemblies": 22,
+              "Valve Bodies": 0,
+              "Gear Sets": 19
+            },
+            "content_signature": "8dcdcc4dd1b3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 43,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Optics Housings",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 33.5726,
+              "Throughput": 27.3274,
+              "Sustainability": 7.6103
+            },
+            "allocations": {
+              "Aerospace Fittings": 20,
+              "Medical Components": 0,
+              "Optics Housings": 20,
+              "Fasteners": 18,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 3,
+              "Pump Assemblies": 19,
+              "Valve Bodies": 0,
+              "Gear Sets": 20
+            },
+            "content_signature": "49d160753331",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 44,
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
@@ -13554,9 +13608,9 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.3178,
-              "Throughput": 27.7541,
-              "Sustainability": 7.588
+              "Margin": 33.3701,
+              "Throughput": 27.651,
+              "Sustainability": 7.5956
             },
             "allocations": {
               "Aerospace Fittings": 20,
@@ -13574,66 +13628,6 @@
             "sensitivity": null
           },
           {
-            "solution_id": 43,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 33.3033,
-              "Throughput": 29.2618,
-              "Sustainability": 7.3033
-            },
-            "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 19,
-              "Optics Housings": 0,
-              "Fasteners": 19,
-              "Brackets": 0,
-              "Connectors": 7,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 17,
-              "Valve Bodies": 0,
-              "Gear Sets": 19
-            },
-            "content_signature": "830b2b2b1dff",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 44,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
-              "Fasteners",
-              "Stamped Housings",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 33.2131,
-              "Throughput": 28.0187,
-              "Sustainability": 7.5725
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 20,
-              "Brackets": 0,
-              "Connectors": 0,
-              "Stamped Housings": 1,
-              "Pump Assemblies": 19,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "cb4b846a6b53",
-            "sensitivity": null
-          },
-          {
             "solution_id": 45,
             "selected_options": [
               "Aerospace Fittings",
@@ -13644,57 +13638,27 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 33.1271,
-              "Throughput": 28.1571,
-              "Sustainability": 7.5614
+              "Margin": 33.2785,
+              "Throughput": 28.512,
+              "Sustainability": 7.5902
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 21,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 22,
+              "Fasteners": 22,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 2,
-              "Pump Assemblies": 19,
+              "Stamped Housings": 3,
+              "Pump Assemblies": 10,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "5eda09ea3807",
+            "content_signature": "3278626c7222",
             "sensitivity": null
           },
           {
             "solution_id": 46,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Valve Bodies"
-            ],
-            "objective_values": {
-              "Margin": 32.9629,
-              "Throughput": 30.6355,
-              "Sustainability": 7.0062
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 19,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 1,
-              "Gear Sets": 0
-            },
-            "content_signature": "630175de854f",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 47,
             "selected_options": [
               "Aerospace Fittings",
               "Optics Housings",
@@ -13704,53 +13668,83 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.9098,
-              "Throughput": 28.5321,
-              "Sustainability": 7.5138
+              "Margin": 33.041,
+              "Throughput": 28.6978,
+              "Sustainability": 7.5422
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 20,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 19,
+              "Optics Housings": 21,
+              "Fasteners": 17,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 5,
-              "Pump Assemblies": 19,
+              "Stamped Housings": 8,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 21
             },
-            "content_signature": "8f4f89136b57",
+            "content_signature": "6f55a05ff9b2",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 47,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Medical Components",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 32.7255,
+              "Throughput": 30.5348,
+              "Sustainability": 7.2439
+            },
+            "allocations": {
+              "Aerospace Fittings": 20,
+              "Medical Components": 18,
+              "Optics Housings": 0,
+              "Fasteners": 15,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 12,
+              "Pump Assemblies": 13,
+              "Valve Bodies": 0,
+              "Gear Sets": 22
+            },
+            "content_signature": "d06fb68b8ee0",
             "sensitivity": null
           },
           {
             "solution_id": 48,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Connectors",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.8152,
-              "Throughput": 30.0994,
-              "Sustainability": 7.2749
+              "Margin": 32.5485,
+              "Throughput": 28.6089,
+              "Sustainability": 7.5483
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 16,
+              "Aerospace Fittings": 17,
+              "Medical Components": 0,
+              "Optics Housings": 21,
+              "Fasteners": 17,
               "Brackets": 0,
-              "Connectors": 17,
+              "Connectors": 9,
               "Stamped Housings": 0,
-              "Pump Assemblies": 9,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 21
             },
-            "content_signature": "86952f53ee4f",
+            "content_signature": "937dafe407a3",
             "sensitivity": null
           },
           {
@@ -13759,62 +13753,32 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 32.6893,
-              "Throughput": 28.5025,
-              "Sustainability": 7.5291
-            },
-            "allocations": {
-              "Aerospace Fittings": 18,
-              "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 18,
-              "Brackets": 0,
-              "Connectors": 7,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 17,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "fe15a387f162",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 50,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
-              "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.5846,
-              "Throughput": 29.5312,
-              "Sustainability": 7.4718
+              "Margin": 32.4341,
+              "Throughput": 29.3119,
+              "Sustainability": 7.5019
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 19,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 20,
+              "Optics Housings": 19,
+              "Fasteners": 15,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 7,
-              "Pump Assemblies": 13,
+              "Stamped Housings": 9,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "b8dae91d0bd7",
+            "content_signature": "82ba3bf6692b",
             "sensitivity": null
           },
           {
-            "solution_id": 51,
+            "solution_id": 50,
             "selected_options": [
               "Aerospace Fittings",
               "Medical Components",
@@ -13824,53 +13788,83 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.5619,
-              "Throughput": 30.4528,
-              "Sustainability": 7.2453
+              "Margin": 32.265,
+              "Throughput": 31.087,
+              "Sustainability": 7.2133
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 15,
+              "Aerospace Fittings": 18,
+              "Medical Components": 18,
               "Optics Housings": 0,
-              "Fasteners": 20,
+              "Fasteners": 15,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 5,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 13,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "9b4a61489760",
+            "content_signature": "f8241b8004b5",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 51,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Optics Housings",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 32.0663,
+              "Throughput": 30.9216,
+              "Sustainability": 7.3678
+            },
+            "allocations": {
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 18,
+              "Fasteners": 19,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 11,
+              "Pump Assemblies": 11,
+              "Valve Bodies": 0,
+              "Gear Sets": 19
+            },
+            "content_signature": "fc6445ba39dd",
             "sensitivity": null
           },
           {
             "solution_id": 52,
             "selected_options": [
               "Aerospace Fittings",
-              "Optics Housings",
+              "Medical Components",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.5557,
-              "Throughput": 28.9886,
-              "Sustainability": 7.5023
+              "Margin": 31.9825,
+              "Throughput": 31.4854,
+              "Sustainability": 7.1767
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 19,
+              "Aerospace Fittings": 17,
+              "Medical Components": 18,
+              "Optics Housings": 0,
+              "Fasteners": 16,
               "Brackets": 0,
-              "Connectors": 7,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 17,
+              "Connectors": 0,
+              "Stamped Housings": 13,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 23
             },
-            "content_signature": "e498e05901b6",
+            "content_signature": "63315877ecb7",
             "sensitivity": null
           },
           {
@@ -13879,88 +13873,88 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.4182,
-              "Throughput": 29.0762,
-              "Sustainability": 7.4811
+              "Margin": 31.9587,
+              "Throughput": 29.9998,
+              "Sustainability": 7.4572
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 16,
               "Medical Components": 0,
-              "Optics Housings": 18,
-              "Fasteners": 19,
+              "Optics Housings": 22,
+              "Fasteners": 18,
               "Brackets": 0,
-              "Connectors": 6,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 19,
+              "Connectors": 0,
+              "Stamped Housings": 9,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 22
             },
-            "content_signature": "b627edd238ff",
+            "content_signature": "78f968ee77b9",
             "sensitivity": null
           },
           {
             "solution_id": 54,
             "selected_options": [
               "Aerospace Fittings",
-              "Optics Housings",
+              "Medical Components",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.2583,
-              "Throughput": 29.9206,
-              "Sustainability": 7.4838
+              "Margin": 31.7209,
+              "Throughput": 32.5887,
+              "Sustainability": 7.0016
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 20,
+              "Aerospace Fittings": 17,
+              "Medical Components": 18,
+              "Optics Housings": 0,
+              "Fasteners": 18,
               "Brackets": 0,
-              "Connectors": 12,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 8,
+              "Connectors": 0,
+              "Stamped Housings": 16,
+              "Pump Assemblies": 17,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 14
             },
-            "content_signature": "c15d9a4e5c05",
+            "content_signature": "c44d1a57864e",
             "sensitivity": null
           },
           {
             "solution_id": 55,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.1914,
-              "Throughput": 31.0748,
-              "Sustainability": 7.2191
+              "Margin": 31.5571,
+              "Throughput": 31.4744,
+              "Sustainability": 7.296
             },
             "allocations": {
-              "Aerospace Fittings": 18,
-              "Medical Components": 18,
-              "Optics Housings": 0,
-              "Fasteners": 17,
+              "Aerospace Fittings": 20,
+              "Medical Components": 0,
+              "Optics Housings": 17,
+              "Fasteners": 19,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 9,
+              "Connectors": 0,
+              "Stamped Housings": 10,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 18
             },
-            "content_signature": "c491ad7e67f0",
+            "content_signature": "0bdfe8f1b745",
             "sensitivity": null
           },
           {
@@ -13974,52 +13968,53 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.0836,
-              "Throughput": 30.2482,
-              "Sustainability": 7.4591
+              "Margin": 31.3654,
+              "Throughput": 31.914,
+              "Sustainability": 7.3446
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 6,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 13,
+              "Connectors": 2,
               "Stamped Housings": 0,
-              "Pump Assemblies": 8,
+              "Pump Assemblies": 18,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "a3fed985d58b",
+            "content_signature": "a843620d4d98",
             "sensitivity": null
           },
           {
             "solution_id": 57,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
-              "Pump Assemblies"
+              "Pump Assemblies",
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 32.0378,
-              "Throughput": 33.3144,
-              "Sustainability": 6.8065
+              "Margin": 31.3567,
+              "Throughput": 33.4414,
+              "Sustainability": 7.0534
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 23,
+              "Medical Components": 0,
+              "Optics Housings": 19,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
               "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 0
+              "Gear Sets": 5
             },
-            "content_signature": "73dd16a124ea",
+            "content_signature": "8dd1399fbcff",
             "sensitivity": null
           },
           {
@@ -14028,87 +14023,88 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.9657,
-              "Throughput": 30.3925,
-              "Sustainability": 7.4484
+              "Margin": 30.8218,
+              "Throughput": 32.7356,
+              "Sustainability": 7.2458
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 1,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 13,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 8,
+              "Connectors": 0,
+              "Stamped Housings": 1,
+              "Pump Assemblies": 24,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 24
             },
-            "content_signature": "a3fed985d58b",
+            "content_signature": "14638b8dc56f",
             "sensitivity": null
           },
           {
             "solution_id": 59,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.899,
-              "Throughput": 32.985,
-              "Sustainability": 7.074
+              "Margin": 30.7949,
+              "Throughput": 32.4099,
+              "Sustainability": 7.2595
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 18,
+              "Medical Components": 0,
+              "Optics Housings": 16,
+              "Fasteners": 17,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 17,
-              "Pump Assemblies": 4,
+              "Stamped Housings": 14,
+              "Pump Assemblies": 14,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "c99359c68b6e",
+            "content_signature": "667461733b66",
             "sensitivity": null
           },
           {
             "solution_id": 60,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
-              "Pump Assemblies"
+              "Pump Assemblies",
+              "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.8626,
-              "Throughput": 33.5377,
-              "Sustainability": 6.7888
+              "Margin": 30.5503,
+              "Throughput": 33.1272,
+              "Sustainability": 7.1953
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 23,
+              "Medical Components": 0,
+              "Optics Housings": 3,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 2,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 0
+              "Gear Sets": 22
             },
-            "content_signature": "73dd16a124ea",
+            "content_signature": "2db8c9400252",
             "sensitivity": null
           },
           {
@@ -14117,28 +14113,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.6491,
-              "Throughput": 30.4969,
-              "Sustainability": 7.3657
+              "Margin": 30.4582,
+              "Throughput": 33.7256,
+              "Sustainability": 7.1572
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 17,
-              "Fasteners": 16,
+              "Optics Housings": 7,
+              "Fasteners": 23,
               "Brackets": 0,
-              "Connectors": 16,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 16,
+              "Connectors": 0,
+              "Stamped Housings": 10,
+              "Pump Assemblies": 17,
               "Valve Bodies": 0,
-              "Gear Sets": 16
+              "Gear Sets": 20
             },
-            "content_signature": "37f6769697e0",
+            "content_signature": "7149613cf80d",
             "sensitivity": null
           },
           {
@@ -14152,23 +14148,23 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.5355,
-              "Throughput": 31.4022,
-              "Sustainability": 7.2825
+              "Margin": 30.2739,
+              "Throughput": 34.3416,
+              "Sustainability": 6.9559
             },
             "allocations": {
-              "Aerospace Fittings": 18,
+              "Aerospace Fittings": 17,
               "Medical Components": 0,
-              "Optics Housings": 17,
-              "Fasteners": 17,
+              "Optics Housings": 19,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 14,
-              "Pump Assemblies": 17,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 19,
               "Valve Bodies": 0,
-              "Gear Sets": 17
+              "Gear Sets": 4
             },
-            "content_signature": "a770ffdb5e04",
+            "content_signature": "a392075e4d5b",
             "sensitivity": null
           },
           {
@@ -14177,28 +14173,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.4551,
-              "Throughput": 30.9888,
-              "Sustainability": 7.393
+              "Margin": 30.0173,
+              "Throughput": 34.7241,
+              "Sustainability": 7.1158
             },
             "allocations": {
-              "Aerospace Fittings": 18,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 18,
-              "Fasteners": 19,
+              "Optics Housings": 3,
+              "Fasteners": 22,
               "Brackets": 0,
-              "Connectors": 16,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 10,
+              "Connectors": 0,
+              "Stamped Housings": 11,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 23
             },
-            "content_signature": "ba75208dec74",
+            "content_signature": "3744b33b3b23",
             "sensitivity": null
           },
           {
@@ -14207,28 +14203,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.338,
-              "Throughput": 31.6111,
-              "Sustainability": 7.3771
+              "Margin": 29.9893,
+              "Throughput": 34.3203,
+              "Sustainability": 7.1277
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 18,
               "Medical Components": 0,
-              "Optics Housings": 18,
-              "Fasteners": 20,
+              "Optics Housings": 16,
+              "Fasteners": 17,
               "Brackets": 0,
-              "Connectors": 18,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 4,
+              "Connectors": 0,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
               "Gear Sets": 20
             },
-            "content_signature": "06bfd57d3df0",
+            "content_signature": "efd86a14ca7b",
             "sensitivity": null
           },
           {
@@ -14237,28 +14233,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.3267,
-              "Throughput": 31.2102,
-              "Sustainability": 7.3771
+              "Margin": 29.917,
+              "Throughput": 34.5557,
+              "Sustainability": 7.1201
             },
             "allocations": {
               "Aerospace Fittings": 18,
               "Medical Components": 0,
-              "Optics Housings": 19,
+              "Optics Housings": 16,
               "Fasteners": 18,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 7,
+              "Connectors": 0,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 8,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 20
             },
-            "content_signature": "645ebe86d3e5",
+            "content_signature": "89d8dc402205",
             "sensitivity": null
           },
           {
@@ -14272,53 +14268,53 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.2112,
-              "Throughput": 32.591,
-              "Sustainability": 7.2781
+              "Margin": 29.6561,
+              "Throughput": 35.4497,
+              "Sustainability": 7.0902
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 19,
+              "Optics Housings": 2,
+              "Fasteners": 24,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 16,
-              "Pump Assemblies": 6,
+              "Stamped Housings": 11,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "3f2168e97d59",
+            "content_signature": "96fa24c0c7e6",
             "sensitivity": null
           },
           {
             "solution_id": 67,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 31.0744,
-              "Throughput": 33.285,
-              "Sustainability": 6.9938
+              "Margin": 29.5399,
+              "Throughput": 35.8173,
+              "Sustainability": 7.0624
             },
             "allocations": {
-              "Aerospace Fittings": 16,
-              "Medical Components": 16,
-              "Optics Housings": 0,
-              "Fasteners": 17,
+              "Aerospace Fittings": 25,
+              "Medical Components": 0,
+              "Optics Housings": 3,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 17,
-              "Pump Assemblies": 17,
+              "Stamped Housings": 11,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 17
+              "Gear Sets": 24
             },
-            "content_signature": "e15d92b8dc4c",
+            "content_signature": "ef7408352661",
             "sensitivity": null
           },
           {
@@ -14327,58 +14323,57 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.8688,
-              "Throughput": 32.424,
-              "Sustainability": 7.3219
+              "Margin": 29.4053,
+              "Throughput": 35.9791,
+              "Sustainability": 7.0277
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 16,
-              "Fasteners": 20,
+              "Optics Housings": 1,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 4,
+              "Connectors": 0,
+              "Stamped Housings": 11,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "0f1202a8f593",
+            "content_signature": "6c0118f957d2",
             "sensitivity": null
           },
           {
             "solution_id": 69,
             "selected_options": [
               "Aerospace Fittings",
-              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.6939,
-              "Throughput": 33.7153,
-              "Sustainability": 7.2127
+              "Margin": 29.2345,
+              "Throughput": 36.3208,
+              "Sustainability": 7.0026
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 0,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 2,
+              "Stamped Housings": 12,
+              "Pump Assemblies": 15,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "946e496df853",
+            "content_signature": "416c8875ce05",
             "sensitivity": null
           },
           {
@@ -14387,58 +14382,58 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Stamped Housings",
+              "Connectors",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.534,
-              "Throughput": 33.9948,
-              "Sustainability": 7.1668
+              "Margin": 28.9336,
+              "Throughput": 32.8111,
+              "Sustainability": 7.2784
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 2,
               "Medical Components": 0,
-              "Optics Housings": 19,
+              "Optics Housings": 25,
               "Fasteners": 20,
               "Brackets": 0,
-              "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 4,
+              "Connectors": 10,
+              "Stamped Housings": 0,
+              "Pump Assemblies": 18,
               "Valve Bodies": 0,
-              "Gear Sets": 18
+              "Gear Sets": 25
             },
-            "content_signature": "c17d8bf457e6",
+            "content_signature": "8997447d1303",
             "sensitivity": null
           },
           {
             "solution_id": 71,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.4247,
-              "Throughput": 34.1624,
-              "Sustainability": 6.9658
+              "Margin": 28.7989,
+              "Throughput": 36.7182,
+              "Sustainability": 6.9126
             },
             "allocations": {
-              "Aerospace Fittings": 15,
-              "Medical Components": 15,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 19,
+              "Medical Components": 0,
+              "Optics Housings": 7,
+              "Fasteners": 20,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 16,
+              "Stamped Housings": 20,
               "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 18
             },
-            "content_signature": "fd9e3215947b",
+            "content_signature": "2d3d628608db",
             "sensitivity": null
           },
           {
@@ -14447,28 +14442,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.3749,
-              "Throughput": 33.1174,
-              "Sustainability": 7.2545
+              "Margin": 28.7958,
+              "Throughput": 37.1238,
+              "Sustainability": 6.9405
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 13,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 21,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 7,
+              "Connectors": 0,
+              "Stamped Housings": 19,
+              "Pump Assemblies": 11,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "649cef693f75",
+            "content_signature": "88e637e59743",
             "sensitivity": null
           },
           {
@@ -14482,23 +14477,23 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.1744,
-              "Throughput": 34.415,
-              "Sustainability": 7.1399
+              "Margin": 28.6322,
+              "Throughput": 37.5838,
+              "Sustainability": 6.8893
             },
             "allocations": {
-              "Aerospace Fittings": 18,
+              "Aerospace Fittings": 24,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 4,
+              "Stamped Housings": 21,
+              "Pump Assemblies": 11,
               "Valve Bodies": 0,
-              "Gear Sets": 18
+              "Gear Sets": 21
             },
-            "content_signature": "dac3c7f8bd11",
+            "content_signature": "2d0032bebf47",
             "sensitivity": null
           },
           {
@@ -14512,143 +14507,140 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 30.1693,
-              "Throughput": 34.3584,
-              "Sustainability": 7.1567
+              "Margin": 28.4601,
+              "Throughput": 37.8468,
+              "Sustainability": 6.907
             },
             "allocations": {
-              "Aerospace Fittings": 18,
+              "Aerospace Fittings": 23,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 4,
+              "Fasteners": 23,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 3,
+              "Stamped Housings": 19,
+              "Pump Assemblies": 8,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "7da692797e66",
+            "content_signature": "087ee099e81b",
             "sensitivity": null
           },
           {
             "solution_id": 75,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.9901,
-              "Throughput": 34.616,
-              "Sustainability": 6.9104
+              "Margin": 28.4117,
+              "Throughput": 38.7298,
+              "Sustainability": 6.5889
             },
             "allocations": {
-              "Aerospace Fittings": 11,
-              "Medical Components": 19,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 24,
+              "Medical Components": 0,
+              "Optics Housings": 2,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 16,
-              "Pump Assemblies": 16,
+              "Stamped Housings": 22,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 2
             },
-            "content_signature": "bb04f683cf3c",
+            "content_signature": "50fb60674c9b",
             "sensitivity": null
           },
           {
             "solution_id": 76,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.8511,
-              "Throughput": 34.6902,
-              "Sustainability": 6.8922
+              "Margin": 28.2851,
+              "Throughput": 37.173,
+              "Sustainability": 6.9323
             },
             "allocations": {
-              "Aerospace Fittings": 11,
-              "Medical Components": 18,
+              "Aerospace Fittings": 21,
+              "Medical Components": 0,
               "Optics Housings": 0,
-              "Fasteners": 18,
+              "Fasteners": 20,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 16,
-              "Pump Assemblies": 18,
+              "Stamped Housings": 17,
+              "Pump Assemblies": 17,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 25
             },
-            "content_signature": "ec0585739fe9",
+            "content_signature": "d5080c6b7716",
             "sensitivity": null
           },
           {
             "solution_id": 77,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.6913,
-              "Throughput": 36.0983,
-              "Sustainability": 6.9051
+              "Margin": 28.0678,
+              "Throughput": 38.3935,
+              "Sustainability": 6.7709
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 11,
-              "Optics Housings": 0,
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 2,
               "Fasteners": 20,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 9,
+              "Stamped Housings": 23,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 17
             },
-            "content_signature": "42f142ee4b1d",
+            "content_signature": "6ccd4639f858",
             "sensitivity": null
           },
           {
             "solution_id": 78,
             "selected_options": [
               "Aerospace Fittings",
-              "Optics Housings",
               "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Gear Sets"
+              "Stamped Housings",
+              "Pump Assemblies"
             ],
             "objective_values": {
-              "Margin": 29.404,
-              "Throughput": 34.4459,
-              "Sustainability": 7.0986
+              "Margin": 28.027,
+              "Throughput": 39.7123,
+              "Sustainability": 6.5061
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 25,
               "Medical Components": 0,
-              "Optics Housings": 4,
-              "Fasteners": 20,
+              "Optics Housings": 0,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 16,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 0
             },
-            "content_signature": "00143021a64d",
+            "content_signature": "a28b8fa0e9fb",
             "sensitivity": null
           },
           {
@@ -14657,28 +14649,28 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.2694,
-              "Throughput": 34.682,
-              "Sustainability": 7.0838
+              "Margin": 27.843,
+              "Throughput": 38.8893,
+              "Sustainability": 6.8072
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 22,
               "Medical Components": 0,
-              "Optics Housings": 3,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 21,
               "Brackets": 0,
-              "Connectors": 18,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 19,
+              "Connectors": 0,
+              "Stamped Housings": 23,
+              "Pump Assemblies": 10,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "f85749cd410d",
+            "content_signature": "364e3d4820c2",
             "sensitivity": null
           },
           {
@@ -14687,118 +14679,117 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.1461,
-              "Throughput": 34.9091,
-              "Sustainability": 7.071
+              "Margin": 27.6404,
+              "Throughput": 40.0006,
+              "Sustainability": 6.4889
             },
             "allocations": {
-              "Aerospace Fittings": 19,
+              "Aerospace Fittings": 22,
               "Medical Components": 0,
-              "Optics Housings": 3,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 18,
+              "Connectors": 0,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 1
             },
-            "content_signature": "a3b91944ebd4",
+            "content_signature": "9d6ab9a9025d",
             "sensitivity": null
           },
           {
             "solution_id": 81,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 29.0938,
-              "Throughput": 35.0793,
-              "Sustainability": 7.0153
+              "Margin": 27.5984,
+              "Throughput": 39.3413,
+              "Sustainability": 6.7677
             },
             "allocations": {
-              "Aerospace Fittings": 18,
-              "Medical Components": 6,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 22,
+              "Medical Components": 0,
+              "Optics Housings": 2,
+              "Fasteners": 23,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 19,
+              "Connectors": 0,
+              "Stamped Housings": 23,
+              "Pump Assemblies": 10,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 20
             },
-            "content_signature": "606b6948ceb9",
+            "content_signature": "284b7e7ec4f9",
             "sensitivity": null
           },
           {
             "solution_id": 82,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.9248,
-              "Throughput": 36.4604,
-              "Sustainability": 6.8755
+              "Margin": 27.1408,
+              "Throughput": 39.6406,
+              "Sustainability": 6.7363
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 5,
+              "Aerospace Fittings": 20,
+              "Medical Components": 0,
               "Optics Housings": 0,
-              "Fasteners": 19,
+              "Fasteners": 22,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 19,
+              "Stamped Housings": 22,
+              "Pump Assemblies": 14,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 22
             },
-            "content_signature": "cc2ae18299e9",
+            "content_signature": "0077f798e202",
             "sensitivity": null
           },
           {
             "solution_id": 83,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.8558,
-              "Throughput": 36.5953,
-              "Sustainability": 6.8658
+              "Margin": 26.8617,
+              "Throughput": 39.4996,
+              "Sustainability": 6.79
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 5,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 16,
+              "Medical Components": 0,
+              "Optics Housings": 4,
+              "Fasteners": 22,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 19,
+              "Stamped Housings": 21,
+              "Pump Assemblies": 12,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 25
             },
-            "content_signature": "cc2ae18299e9",
+            "content_signature": "880ba474f9f4",
             "sensitivity": null
           },
           {
@@ -14807,63 +14798,34 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.8376,
-              "Throughput": 35.3531,
-              "Sustainability": 7.0295
+              "Margin": 26.5686,
+              "Throughput": 38.2,
+              "Sustainability": 6.8643
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 2,
               "Medical Components": 0,
-              "Optics Housings": 1,
-              "Fasteners": 19,
+              "Optics Housings": 21,
+              "Fasteners": 22,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 20,
+              "Pump Assemblies": 13,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "d139083152a5",
+            "content_signature": "95bccade3bd8",
             "sensitivity": null
           },
           {
             "solution_id": 85,
             "selected_options": [
               "Aerospace Fittings",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 28.7231,
-              "Throughput": 35.5616,
-              "Sustainability": 7.0155
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 0,
-              "Optics Housings": 0,
-              "Fasteners": 20,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "97b43e9dd265",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 86,
-            "selected_options": [
-              "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
               "Stamped Housings",
@@ -14871,296 +14833,235 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.6866,
-              "Throughput": 35.9073,
-              "Sustainability": 7.0241
+              "Margin": 26.2279,
+              "Throughput": 40.2569,
+              "Sustainability": 6.662
             },
             "allocations": {
-              "Aerospace Fittings": 11,
+              "Aerospace Fittings": 14,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 22,
               "Brackets": 0,
               "Connectors": 0,
               "Stamped Housings": 20,
-              "Pump Assemblies": 9,
+              "Pump Assemblies": 21,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 21
             },
-            "content_signature": "bf341662cc12",
+            "content_signature": "ad0be8945be1",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 86,
+            "selected_options": [
+              "Medical Components",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 26.0694,
+              "Throughput": 40.276,
+              "Sustainability": 6.5709
+            },
+            "allocations": {
+              "Aerospace Fittings": 0,
+              "Medical Components": 18,
+              "Optics Housings": 0,
+              "Fasteners": 25,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 18,
+              "Pump Assemblies": 14,
+              "Valve Bodies": 0,
+              "Gear Sets": 25
+            },
+            "content_signature": "2fed1fd5d7ff",
             "sensitivity": null
           },
           {
             "solution_id": 87,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.6702,
-              "Throughput": 37.0107,
-              "Sustainability": 6.8329
+              "Margin": 26.0438,
+              "Throughput": 41.127,
+              "Sustainability": 6.635
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 6,
+              "Aerospace Fittings": 16,
+              "Medical Components": 0,
               "Optics Housings": 0,
-              "Fasteners": 19,
+              "Fasteners": 23,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 19,
+              "Stamped Housings": 23,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 18
+              "Gear Sets": 22
             },
-            "content_signature": "323b96578030",
+            "content_signature": "2d135d72219d",
             "sensitivity": null
           },
           {
             "solution_id": 88,
             "selected_options": [
               "Aerospace Fittings",
+              "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.4455,
-              "Throughput": 36.0105,
-              "Sustainability": 6.9826
+              "Margin": 25.6028,
+              "Throughput": 41.915,
+              "Sustainability": 6.6073
             },
             "allocations": {
-              "Aerospace Fittings": 20,
+              "Aerospace Fittings": 15,
               "Medical Components": 0,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Optics Housings": 2,
+              "Fasteners": 23,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 11,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 24
             },
-            "content_signature": "97b43e9dd265",
+            "content_signature": "6abfe2d6e3ab",
             "sensitivity": null
           },
           {
             "solution_id": 89,
             "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.4398,
-              "Throughput": 37.1925,
-              "Sustainability": 6.8432
+              "Margin": 25.2741,
+              "Throughput": 40.4424,
+              "Sustainability": 6.734
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 3,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 0,
+              "Medical Components": 0,
+              "Optics Housings": 20,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "3cee0148eaf0",
+            "content_signature": "8f897cae8bdd",
             "sensitivity": null
           },
           {
             "solution_id": 90,
             "selected_options": [
-              "Aerospace Fittings",
               "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.2266,
-              "Throughput": 37.4928,
-              "Sustainability": 6.8386
+              "Margin": 25.2349,
+              "Throughput": 40.5686,
+              "Sustainability": 6.7165
             },
             "allocations": {
-              "Aerospace Fittings": 19,
-              "Medical Components": 2,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 0,
+              "Medical Components": 1,
+              "Optics Housings": 19,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "eb408687dab1",
+            "content_signature": "cfd291b668b8",
             "sensitivity": null
           },
           {
             "solution_id": 91,
             "selected_options": [
-              "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.1437,
-              "Throughput": 37.6413,
-              "Sustainability": 6.8322
+              "Margin": 25.0272,
+              "Throughput": 40.884,
+              "Sustainability": 6.7033
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 1,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 0,
+              "Medical Components": 0,
+              "Optics Housings": 19,
+              "Fasteners": 21,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 19,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 10,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "5b7c88b028b0",
+            "content_signature": "533623bff8c9",
             "sensitivity": null
           },
           {
             "solution_id": 92,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 28.0179,
-              "Throughput": 37.8223,
-              "Sustainability": 6.8182
+              "Margin": 25.0247,
+              "Throughput": 41.0076,
+              "Sustainability": 6.6946
             },
             "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 1,
-              "Optics Housings": 0,
-              "Fasteners": 19,
+              "Aerospace Fittings": 1,
+              "Medical Components": 0,
+              "Optics Housings": 19,
+              "Fasteners": 22,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 24,
+              "Pump Assemblies": 9,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "59eb6c70d3fd",
+            "content_signature": "c1c8719982d1",
             "sensitivity": null
           },
           {
             "solution_id": 93,
             "selected_options": [
               "Aerospace Fittings",
-              "Fasteners",
-              "Stamped Housings",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 27.9291,
-              "Throughput": 38.0135,
-              "Sustainability": 6.8035
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 0,
-              "Optics Housings": 0,
-              "Fasteners": 20,
-              "Brackets": 0,
-              "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "9884db5aa1d0",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 94,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Fasteners",
-              "Stamped Housings",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 27.8198,
-              "Throughput": 38.166,
-              "Sustainability": 6.8022
-            },
-            "allocations": {
-              "Aerospace Fittings": 20,
-              "Medical Components": 0,
-              "Optics Housings": 0,
-              "Fasteners": 20,
-              "Brackets": 0,
-              "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "9884db5aa1d0",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 95,
-            "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
-              "Fasteners",
-              "Connectors",
-              "Pump Assemblies",
-              "Gear Sets"
-            ],
-            "objective_values": {
-              "Margin": 27.7502,
-              "Throughput": 34.8137,
-              "Sustainability": 7.076
-            },
-            "allocations": {
-              "Aerospace Fittings": 2,
-              "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 18,
-              "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
-              "Valve Bodies": 0,
-              "Gear Sets": 20
-            },
-            "content_signature": "d97830402e51",
-            "sensitivity": null
-          },
-          {
-            "solution_id": 96,
-            "selected_options": [
-              "Aerospace Fittings",
               "Medical Components",
               "Fasteners",
               "Stamped Housings",
@@ -15168,23 +15069,111 @@
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.6445,
-              "Throughput": 38.2833,
-              "Sustainability": 6.7624
+              "Margin": 24.8396,
+              "Throughput": 42.1494,
+              "Sustainability": 6.3966
             },
             "allocations": {
-              "Aerospace Fittings": 16,
-              "Medical Components": 4,
+              "Aerospace Fittings": 2,
+              "Medical Components": 12,
               "Optics Housings": 0,
-              "Fasteners": 20,
+              "Fasteners": 24,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 22,
+              "Pump Assemblies": 22,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 18
             },
-            "content_signature": "7c929d829430",
+            "content_signature": "48cc0e1e555d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 94,
+            "selected_options": [
+              "Optics Housings",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 24.8053,
+              "Throughput": 41.4697,
+              "Sustainability": 6.6658
+            },
+            "allocations": {
+              "Aerospace Fittings": 0,
+              "Medical Components": 0,
+              "Optics Housings": 20,
+              "Fasteners": 24,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 24,
+              "Pump Assemblies": 8,
+              "Valve Bodies": 0,
+              "Gear Sets": 24
+            },
+            "content_signature": "000a80211e77",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 95,
+            "selected_options": [
+              "Medical Components",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 24.4671,
+              "Throughput": 42.7214,
+              "Sustainability": 6.3568
+            },
+            "allocations": {
+              "Aerospace Fittings": 0,
+              "Medical Components": 12,
+              "Optics Housings": 0,
+              "Fasteners": 24,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 23,
+              "Pump Assemblies": 22,
+              "Valve Bodies": 0,
+              "Gear Sets": 19
+            },
+            "content_signature": "377a47ddbf16",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 96,
+            "selected_options": [
+              "Aerospace Fittings",
+              "Optics Housings",
+              "Fasteners",
+              "Stamped Housings",
+              "Pump Assemblies",
+              "Gear Sets"
+            ],
+            "objective_values": {
+              "Margin": 24.0026,
+              "Throughput": 43.2858,
+              "Sustainability": 6.5293
+            },
+            "allocations": {
+              "Aerospace Fittings": 4,
+              "Medical Components": 0,
+              "Optics Housings": 10,
+              "Fasteners": 25,
+              "Brackets": 0,
+              "Connectors": 0,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 11,
+              "Valve Bodies": 0,
+              "Gear Sets": 25
+            },
+            "content_signature": "71adaed80231",
             "sensitivity": null
           },
           {
@@ -15193,330 +15182,328 @@
               "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.6401,
-              "Throughput": 35.0657,
-              "Sustainability": 7.0572
+              "Margin": 23.5768,
+              "Throughput": 43.6363,
+              "Sustainability": 6.4436
             },
             "allocations": {
               "Aerospace Fittings": 2,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 19,
+              "Optics Housings": 8,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 19,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 24,
+              "Pump Assemblies": 19,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 22
             },
-            "content_signature": "97d385865a9c",
+            "content_signature": "4e249fc04df2",
             "sensitivity": null
           },
           {
             "solution_id": 98,
             "selected_options": [
               "Aerospace Fittings",
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.5149,
-              "Throughput": 38.4396,
-              "Sustainability": 6.7399
+              "Margin": 23.3686,
+              "Throughput": 43.9468,
+              "Sustainability": 6.4552
             },
             "allocations": {
-              "Aerospace Fittings": 15,
-              "Medical Components": 5,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 3,
+              "Medical Components": 0,
+              "Optics Housings": 7,
+              "Fasteners": 24,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 16,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "c59fa10e401d",
+            "content_signature": "fea6103afa45",
             "sensitivity": null
           },
           {
             "solution_id": 99,
             "selected_options": [
-              "Medical Components",
+              "Aerospace Fittings",
               "Optics Housings",
               "Fasteners",
-              "Connectors",
+              "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.3238,
-              "Throughput": 35.4979,
-              "Sustainability": 7.0268
+              "Margin": 23.0907,
+              "Throughput": 44.4904,
+              "Sustainability": 6.4068
             },
             "allocations": {
-              "Aerospace Fittings": 0,
-              "Medical Components": 1,
-              "Optics Housings": 20,
-              "Fasteners": 19,
+              "Aerospace Fittings": 3,
+              "Medical Components": 0,
+              "Optics Housings": 4,
+              "Fasteners": 25,
               "Brackets": 0,
-              "Connectors": 20,
-              "Stamped Housings": 0,
-              "Pump Assemblies": 20,
+              "Connectors": 0,
+              "Stamped Housings": 24,
+              "Pump Assemblies": 19,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "ab0f7ece8804",
+            "content_signature": "28867d42b32d",
             "sensitivity": null
           },
           {
             "solution_id": 100,
             "selected_options": [
-              "Medical Components",
+              "Aerospace Fittings",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.0829,
-              "Throughput": 38.4788,
-              "Sustainability": 6.6047
+              "Margin": 23.031,
+              "Throughput": 44.6724,
+              "Sustainability": 6.394
             },
             "allocations": {
-              "Aerospace Fittings": 0,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 4,
+              "Medical Components": 0,
+              "Optics Housings": 4,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 17,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e4dcaa10a593",
+            "content_signature": "d5e5c2763646",
             "sensitivity": null
           },
           {
             "solution_id": 101,
             "selected_options": [
-              "Medical Components",
+              "Aerospace Fittings",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 27.0,
-              "Throughput": 38.6,
-              "Sustainability": 6.6
+              "Margin": 22.8503,
+              "Throughput": 44.9474,
+              "Sustainability": 6.3633
             },
             "allocations": {
-              "Aerospace Fittings": 0,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 3,
+              "Medical Components": 0,
+              "Optics Housings": 2,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
+              "Stamped Housings": 25,
               "Pump Assemblies": 20,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e4dcaa10a593",
+            "content_signature": "333d18814ea5",
             "sensitivity": null
           },
           {
             "solution_id": 102,
             "selected_options": [
-              "Medical Components",
+              "Aerospace Fittings",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.9552,
-              "Throughput": 38.6348,
-              "Sustainability": 6.6014
+              "Margin": 22.5672,
+              "Throughput": 45.2177,
+              "Sustainability": 6.3476
             },
             "allocations": {
-              "Aerospace Fittings": 0,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 2,
+              "Medical Components": 0,
+              "Optics Housings": 3,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
+              "Stamped Housings": 25,
               "Pump Assemblies": 20,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e4dcaa10a593",
+            "content_signature": "974e177afcce",
             "sensitivity": null
           },
           {
             "solution_id": 103,
             "selected_options": [
-              "Medical Components",
+              "Aerospace Fittings",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.9014,
-              "Throughput": 38.7409,
-              "Sustainability": 6.5929
+              "Margin": 22.2705,
+              "Throughput": 45.5454,
+              "Sustainability": 6.3146
             },
             "allocations": {
-              "Aerospace Fittings": 0,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Aerospace Fittings": 1,
+              "Medical Components": 0,
+              "Optics Housings": 2,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 22,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "e4dcaa10a593",
+            "content_signature": "42e6384f3994",
             "sensitivity": null
           },
           {
             "solution_id": 104,
             "selected_options": [
-              "Medical Components",
+              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.8548,
-              "Throughput": 38.7809,
-              "Sustainability": 6.5947
+              "Margin": 22.0668,
+              "Throughput": 45.8411,
+              "Sustainability": 6.2583
             },
             "allocations": {
               "Aerospace Fittings": 0,
-              "Medical Components": 20,
-              "Optics Housings": 0,
-              "Fasteners": 20,
+              "Medical Components": 0,
+              "Optics Housings": 2,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 23
             },
-            "content_signature": "e4dcaa10a593",
+            "content_signature": "5183540680fd",
             "sensitivity": null
           },
           {
             "solution_id": 105,
             "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.6354,
-              "Throughput": 37.9169,
-              "Sustainability": 6.8227
+              "Margin": 21.8103,
+              "Throughput": 46.1765,
+              "Sustainability": 6.2568
             },
             "allocations": {
-              "Aerospace Fittings": 2,
+              "Aerospace Fittings": 0,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 0,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 19
+              "Gear Sets": 25
             },
-            "content_signature": "aed5dfb2945c",
+            "content_signature": "68a85fa900e9",
             "sensitivity": null
           },
           {
             "solution_id": 106,
             "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.5411,
-              "Throughput": 37.8953,
-              "Sustainability": 6.8243
+              "Margin": 21.75,
+              "Throughput": 46.25,
+              "Sustainability": 6.25
             },
             "allocations": {
-              "Aerospace Fittings": 1,
+              "Aerospace Fittings": 0,
               "Medical Components": 0,
-              "Optics Housings": 20,
-              "Fasteners": 19,
+              "Optics Housings": 0,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "22c6fca82d26",
+            "content_signature": "68a85fa900e9",
             "sensitivity": null
           },
           {
             "solution_id": 107,
             "selected_options": [
-              "Aerospace Fittings",
-              "Optics Housings",
               "Fasteners",
               "Stamped Housings",
               "Pump Assemblies",
               "Gear Sets"
             ],
             "objective_values": {
-              "Margin": 26.2796,
-              "Throughput": 38.4037,
-              "Sustainability": 6.7948
+              "Margin": 21.7462,
+              "Throughput": 46.2788,
+              "Sustainability": 6.2429
             },
             "allocations": {
-              "Aerospace Fittings": 1,
+              "Aerospace Fittings": 0,
               "Medical Components": 0,
-              "Optics Housings": 19,
-              "Fasteners": 20,
+              "Optics Housings": 0,
+              "Fasteners": 25,
               "Brackets": 0,
               "Connectors": 0,
-              "Stamped Housings": 20,
-              "Pump Assemblies": 20,
+              "Stamped Housings": 25,
+              "Pump Assemblies": 25,
               "Valve Bodies": 0,
-              "Gear Sets": 20
+              "Gear Sets": 25
             },
-            "content_signature": "baad95aee520",
+            "content_signature": "68a85fa900e9",
             "sensitivity": null
           }
         ],
         "total_pareto_found": 107,
         "quality": {
-          "hypervolume_normalized": 0.4963,
-          "spacing_cv": 0.6577
+          "hypervolume_normalized": 0.4438,
+          "spacing_cv": 0.6897
         },
         "constraints_snapshot": [],
         "seed_used": 805743726,
@@ -15526,6 +15513,6 @@
         "time_limited": false
       }
     },
-    "created_at": "2026-06-09T23:40:17.075790Z"
+    "created_at": "2026-07-04T16:53:40.255225Z"
   }
 }
