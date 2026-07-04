@@ -200,6 +200,9 @@ class Scenario(BaseModel):
     name: str
     probability: FiniteFloat | None = None  # optional; only needed for expected-value weighting
     description: str = ""
+    # Provenance of the scenario when seeded from an analysis lever (e.g. a sensitivity
+    # suggestion's `motivated_by`) — echoed by scenario_results so the reading cites its motive.
+    motivated_by: str = ""
     score_overrides: list[Score] = []  # only changed scores; base matrix fills rest
     score_adjustments: list[ScoreAdjustment] = []  # bulk adjustments by objective
     constraint_overrides: list[Constraint] = []  # replaces base constraints when non-empty

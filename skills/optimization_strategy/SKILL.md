@@ -154,6 +154,12 @@ These stress-test a decision in different ways — keep them distinct, and never
 
 Pick by the question: marginal "what's this lever worth right here?" → sensitivity (then use it to drive a formulation tweak and re-run). Structural "what if the world were different?" → a scenario — run via `solve run_scenarios`, then read robustness (robust vs scenario-specific options, regret, CVaR) via `frontier://skills/solution_interpreter` → *Scenario Results Presentation*.
 
+**The handoff — duals rank, scenarios quantify.** `explore sensitivity` ends with `suggested_scenarios` seeded from its top-ranked levers. A dual is an instantaneous rate at today's optimum; the suggested scenario is the finite-change re-solve that confirms what a real move actually buys. When you create a scenario from a suggestion, copy its `motivated_by` value onto the scenario, so `explore scenario_results` cites which marginal motivated it.
+
+**Sweep discipline (constructing scenarios):**
+- **Vary exactly what the scenario names — hold every other anchor fixed.** One lever per scenario keeps the reading causal; bundled changes are fine only when the bundle *is* the named state of the world. When the swept parameter sits inside a larger definition (a score that feeds an aggregate, a cap inside a group), re-derive the dependent quantities from the current question rather than inheriting stale constants. Remember `constraint_overrides` replace the *whole* base constraint set — restate the unchanged constraints, or the sweep silently varies more than it names. The engine restates each scenario's `varies` / `held_fixed` in `scenario_results`; check it matches your intent.
+- **A discontinuity is a finding about your assumptions until verified.** When one sweep point flips feasibility or steps an objective sharply, first identify the modeling choice that creates the break (a replace-all override, a threshold crossing, an integer cliff). If a plausible alternative reading of the parameter removes the break, report both readings and let the user pick — not just the dramatic one.
+
 ## Iterate
 
 ### Stale Results

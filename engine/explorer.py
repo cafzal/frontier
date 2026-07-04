@@ -1394,6 +1394,35 @@ def compare_curated(problem: Problem, signatures: list[str], detail: bool = Fals
     return result
 
 
+def _scenario_changes(sc) -> dict:
+    """Deterministic restatement of what a scenario varies vs. inherits — the 'held fixed' line.
+    Sweep discipline: a scenario varies exactly what it names; everything else anchors to the
+    base model, and the reader sees that restated rather than assuming it."""
+    varies = []
+    if sc.score_overrides:
+        by_obj: dict[str, set] = {}
+        for s in sc.score_overrides:
+            by_obj.setdefault(s.objective, set()).add(s.option)
+        for obj, opts in sorted(by_obj.items()):
+            varies.append(f"scores: '{obj}' for {len(opts)} option(s)")
+    for adj in sc.score_adjustments:
+        parts = []
+        if adj.multiply is not None:
+            parts.append(f"×{adj.multiply:g}")
+        if adj.add is not None:
+            parts.append(f"{adj.add:+g}")
+        varies.append(f"scores: all '{adj.objective}' {' '.join(parts)}")
+    if sc.constraint_overrides:
+        varies.append(f"constraints: REPLACED wholesale by {len(sc.constraint_overrides)} "
+                      "override(s) — base constraints do not carry over")
+    if sc.interaction_matrix_overrides:
+        varies.append(f"interactions: {len(sc.interaction_matrix_overrides)} matrix override(s)")
+    return {
+        "varies": varies or ["nothing — identical to the base model"],
+        "held_fixed": "every parameter not listed in `varies` inherits the base model unchanged",
+    }
+
+
 def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> dict:
     """Analyze per-scenario results: robust options, scenario-specific options, expected value.
 
@@ -1420,10 +1449,16 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
             vals = [s.objective_values.get(obj, 0) for s in run.solutions]
             if vals:
                 ranges[obj] = {"min": min(vals), "max": max(vals)}
-        per_scenario[name] = {
+        entry = {
             "solution_count": len(run.solutions),
             "objective_ranges": ranges,
         }
+        sc = scenarios.get(name)
+        if sc is not None:
+            entry.update(_scenario_changes(sc))     # what varies + the held-fixed line
+            if sc.motivated_by:
+                entry["motivated_by"] = sc.motivated_by   # cite the lever that seeded this scenario
+        per_scenario[name] = entry
 
     # Robust options: frequency + allocation-weighted across scenarios
     from collections import Counter
@@ -2544,6 +2579,24 @@ def _binding_group_limit(c, solutions, objectives) -> dict | None:
     }
 
 
+def _suggested_scenarios_from_binding(binding: list[dict]) -> list[dict]:
+    """Scenario seeds from the frontier-inferred binding analysis — the same duals-rank /
+    scenarios-quantify handoff on runs without solver duals. Deterministic seeds only: the
+    engine names the lever and the discipline; the increment is the user's call."""
+    suggested = []
+    for b in sorted(binding, key=lambda x: -x.get("binding_fraction", 0))[:2]:
+        suggested.append({
+            "motivated_by": f"binding_constraint:{b['constraint']}",
+            "vary": (f"only '{b['constraint']}' — note a scenario's constraint_overrides replace "
+                     "the WHOLE base constraint set, so restate the unchanged constraints in it"),
+            "why": (f"binding on {b['binding_fraction']:.0%} of the frontier — the tightest lever; "
+                    "a scenario re-solve quantifies a finite relaxation, not just the local rate"),
+            "how": ("model update → scenarios (copy this `motivated_by` onto the scenario so "
+                    "scenario_results cites it) → solve run_scenarios → explore scenario_results"),
+        })
+    return suggested
+
+
 # --------------------------------------------------------------------------- #
 # Sensitivity analysis from exact-solver duals (explainability)
 # --------------------------------------------------------------------------- #
@@ -2570,7 +2623,8 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
              if getattr(s, "sensitivity", None) and s.sensitivity.source == "solver_exact"]
 
     if not exact:
-        return {
+        binding = _binding_analysis(problem, solutions)
+        out = {
             "source": "frontier_inferred",
             "solver": run.solver,
             "frontier_source": _frontier_provenance(problem, run, scenario),
@@ -2578,10 +2632,14 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
             "note": ("Run solve(solver='highs' or 'cuopt') on a continuous/proportional (QP) "
                      "problem for exact shadow prices + reduced costs. Integer/MILP solutions "
                      "have no exact duals. Showing the frontier-inferred binding analysis below."),
-            "binding_analysis": _binding_analysis(problem, solutions),
+            "binding_analysis": binding,
             "next_steps": ("Present this as a frontier-inferred estimate, not a solver dual — read it "
                            "with the `solution_interpreter` skill ('Binding Analysis')."),
         }
+        suggested = _suggested_scenarios_from_binding(binding)
+        if suggested:
+            out["suggested_scenarios"] = suggested
+        return out
 
     if solution_id is not None:
         ref = next((s for s in exact if s.solution_id == solution_id), None)
@@ -2600,10 +2658,38 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
     if optimized:
         scope += (f" The optimized objective here is '{optimized}' — the ε-constraint primary; "
                   "the other objectives enter as floors.")
+    # The sensitivity→scenario handoff: duals RANK the levers (instantaneous rates at this
+    # optimum); the suggested scenarios QUANTIFY the top ones with a finite-change re-solve.
+    suggested = []
+    for w in where:
+        if w["role"] in ("return_floor", "linear_floor") and len(suggested) < 2:
+            suggested.append({
+                "motivated_by": f"shadow_price:{w['lever']}",
+                "rate": w["shadow_price"],
+                "vary": f"'{w['lever']}' score estimates only (e.g. a ±10% score_adjustment) — "
+                        "hold every other anchor fixed",
+                "why": (f"'{w['lever']}' is the highest-|rate| lever at this optimum, so the mix is "
+                        "most sensitive to its estimates; the dual is a marginal rate, and only a "
+                        "scenario re-solve gives the realized effect of a finite change"),
+                "how": ("model update → scenarios (copy this `motivated_by` onto the scenario so "
+                        "scenario_results cites it) → solve run_scenarios → explore scenario_results"),
+            })
+    if capped and len(suggested) < 2:
+        capped_names = ", ".join(c["option"] for c in capped[:3])
+        suggested.append({
+            "motivated_by": "reduced_cost:allocation_cap",
+            "vary": "the max_allocation cap only (constraint_overrides in a scenario)",
+            "why": (f"pinned at the cap: {capped_names} — the cap binds, and a finite raise "
+                    "re-solve shows who takes more and what it buys"),
+            "how": ("model update → scenarios (copy this `motivated_by` onto the scenario) → "
+                    "solve run_scenarios → explore scenario_results"),
+        })
+
     return {
         "source": "solver_exact",
         "solver": run.solver,
         "frontier_source": _frontier_provenance(problem, run, scenario),
+        **({"suggested_scenarios": suggested} if suggested else {}),
         **({"optimized_objective": optimized} if optimized else {}),
         "scope": scope,
         "reference_solution": {
