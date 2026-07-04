@@ -132,7 +132,8 @@ def _inject_skill(result: dict, skill_name: str, reason: str, problem_id: str) -
 
 # Navigation/recording actions (solutions, curated, feedback) intentionally carry no
 # pointer — they list or record rather than present a decision read, so there is no
-# interpretation guidance to cite.
+# interpretation guidance to cite. (The `curated` *export render* is the exception, handled
+# in its own case: the handoff moment points at Stakeholder Writeup & the Why-Triplet.)
 _DECISION_GUIDANCE: dict[str, tuple[str, str]] = {
     "tradeoffs": ("solution_interpreter", "Presentation Order: Extremes → Balanced → Inflection → Risk → Preference"),
     "compare": ("solution_interpreter", "Differentiating Options"),
