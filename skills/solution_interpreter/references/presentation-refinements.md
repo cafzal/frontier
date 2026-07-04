@@ -366,6 +366,8 @@ Curation is how users build a decision set from the raw frontier. Use `explore c
 
 **Curation belongs to the user.** Surface interesting candidates — extremes, balanced, inflection points — then ask which ones resonate and what the user would name them. Present candidates, then pause for the user to decide.
 
+**Relay quality flags verbatim.** Curate/list/export responses carry a `quality` gate per finalist (`GOOD` / `WARNING` / `DEGENERATE`, with the triggering check named in the user's terms — empty plan, single-option concentration, allocations pinned at bounds), and `explore certify` flags degenerate exact points under `quality_gates`. Optimal ≠ actionable: pass the flag and its message to the user; the finalist stays in the set and the keep-or-fix call is theirs.
+
 **Guide users from frontier to shortlist:**
 1. After first solve: present the extremes + balanced with ASCII visualizations, then **stop and ask** which ones the user wants to curate and what they'd name them
 2. After objective ranking: identify 3-5 candidate solutions that span the user's priority space, present them, **ask the user to pick and name** — don't curate automatically

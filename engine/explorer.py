@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .models import Aggregation, CuratedSolution, Direction, Problem, Run, _content_signature
+from .models import Aggregation, Approach, CuratedSolution, Direction, Problem, Run, _content_signature
 from .viz import (
     _dominates_min,
     _marginal_window,
@@ -80,7 +80,7 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
 
     # Inflection-point candidates: solutions where marginal tradeoff cost jumps
     inflection_candidates = []
-    for inf in _find_inflection_solutions(solutions, problem.objectives):
+    for inf in _find_inflection_solutions(solutions, problem.objectives, problem):
         s = inf["solution"]
         if s.solution_id != balanced.solution_id:  # Don't duplicate balanced
             inflection_candidates.append({
@@ -89,6 +89,7 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
                 "selected_options": s.selected_options,
                 "inflection_pair": inf["pair"],
                 "jump_factor": inf["jump_factor"],
+                "rationale": inf["rationale"],
             })
 
     result = {
@@ -979,7 +980,23 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
 
     coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
 
+    # Quality gate over the certified points: an exact optimum can still be a degenerate plan
+    # (empty, pinned, concentrated) — the certificate says "optimal for the model as written",
+    # the gate says whether the model as written asks for something actionable.
+    flagged = []
+    for s in exact_run.solutions:
+        q = solution_quality(problem, s.selected_options, s.allocations)
+        if q["status"] != "GOOD":
+            flagged.append({"solution_id": s.solution_id, "status": q["status"],
+                            "checks": [f["check"] for f in q["flags"]]})
+
     return {
+        "quality_gates": {
+            "flagged": flagged,
+            "note": ("optimal ≠ actionable: these certified points are degenerate or pinned plans — "
+                     "usually a missing or mis-scaled constraint; surfaced for the user, never dropped"
+                     if flagged else "no degenerate plans among the certified points"),
+        },
         "nsga_run_id": nsga_run.run_id,
         "exact_run_id": exact_run.run_id,
         "exact_solver": exact_run.solver,
@@ -1084,6 +1101,60 @@ def _constraint_key(c: dict) -> str:
     return str(c)
 
 
+_QUALITY_SEVERITY = {"GOOD": 0, "WARNING": 1, "DEGENERATE": 2}
+
+
+def solution_quality(problem: Problem, selected_options: list[str], allocations: dict | None) -> dict:
+    """Deterministic degenerate-plan checks over one solution/finalist. An OPTIMAL solver status
+    certifies optimality for the model as written, not that the plan is actionable — an empty or
+    pinned plan usually signals a missing or mis-scaled constraint. Flags travel WITH the finalist,
+    never drop it: selection stays the user's call.
+
+    Returns ``{"status": GOOD | WARNING | DEGENERATE, "flags": [{check, severity, message}]}``,
+    each message naming the triggering check in the user's terms."""
+    flags = []
+    alloc = {k: v for k, v in (allocations or {}).items() if v}
+
+    if not alloc and not selected_options:
+        flags.append({
+            "check": "empty_selection", "severity": "DEGENERATE",
+            "message": "this plan selects nothing — an optimal empty plan usually means a missing "
+                       "must-cover requirement (e.g. a cardinality minimum or an objective floor)",
+        })
+
+    # Distribution checks apply where the shape implies a spread (proportional allocations);
+    # a one-option binary selection is often a legitimate answer, so it is not flagged.
+    if problem.approach == Approach.proportional and alloc:
+        n = len(problem.options)
+        total = sum(alloc.values())
+        top_name, top_val = max(alloc.items(), key=lambda kv: kv[1])
+        if n > 1 and top_val >= 0.9 * total:
+            flags.append({
+                "check": "single_option_concentration", "severity": "WARNING",
+                "message": f"'{top_name}' takes {round(100 * top_val / total)}% of the allocation — "
+                           "if you expected a spread, add a max_allocation cap or revisit the "
+                           "scores/interactions that let one option dominate",
+            })
+        cap = next((c.max for c in problem.constraints or []
+                    if getattr(c, "type", "") == "max_allocation"), 100)
+        if n >= 3:
+            at_bounds = sum(1 for o in problem.options if alloc.get(o.name, 0) in (0, cap))
+            if at_bounds >= 0.9 * n:
+                flags.append({
+                    "check": "allocations_at_bounds", "severity": "WARNING",
+                    "message": f"{at_bounds} of {n} allocations sit at a bound (0 or the {cap}% "
+                               "cap) — the optimizer is pinned to the box edges, so the interior "
+                               "tradeoff space is unused; check whether the cap is tighter than "
+                               "intended",
+                })
+
+    status = "GOOD"
+    for f in flags:
+        if _QUALITY_SEVERITY[f["severity"]] > _QUALITY_SEVERITY[status]:
+            status = f["severity"]
+    return {"status": status, "flags": flags}
+
+
 def curate_solution(problem: Problem, solution_id: int, custom_name: str = "", notes: str = "", scenario: str | None = None, source: str | None = None) -> dict:
     """Add a solution from the current frontier to the curated set."""
     run = _require_run(problem, scenario, source)
@@ -1123,6 +1194,8 @@ def curate_solution(problem: Problem, solution_id: int, custom_name: str = "", n
         "content_signature": sig,
         "custom_name": custom_name,
         "total_curated": len(problem.curated_solutions),
+        # Quality gate rides along, never blocks: a flagged finalist is curated with its flag.
+        "quality": solution_quality(problem, sol.selected_options, sol.allocations),
     }
 
 
@@ -1164,8 +1237,9 @@ def export_curated(problem: Problem, format: str = "markdown") -> dict:
     opt_names = [o.name for o in problem.options]
     use_allocations = any(cs.allocations for cs in curated)
 
-    # Column layout: name, signature, objective values, then either selected options or allocations
-    headers = ["name", "content_signature", *obj_names]
+    # Column layout: name, signature, quality gate, objective values, then either selected
+    # options or allocations. Quality travels into the handoff so a flagged finalist stays flagged.
+    headers = ["name", "content_signature", "quality", *obj_names]
     if use_allocations:
         headers += [f"alloc:{opt}" for opt in opt_names]
     else:
@@ -1173,7 +1247,8 @@ def export_curated(problem: Problem, format: str = "markdown") -> dict:
 
     rows: list[list[str]] = []
     for cs in curated:
-        row = [cs.custom_name or "", cs.content_signature]
+        q = solution_quality(problem, cs.selected_options, cs.allocations)
+        row = [cs.custom_name or "", cs.content_signature, q["status"]]
         for obj in obj_names:
             val = cs.objective_values.get(obj)
             row.append("" if val is None else f"{val}")
@@ -1225,6 +1300,7 @@ def list_curated(problem: Problem) -> dict:
     for cs in problem.curated_solutions:
         entry = cs.model_dump()
         entry["in_current_frontier"] = cs.content_signature in current_sigs
+        entry["quality"] = solution_quality(problem, cs.selected_options, cs.allocations)
         entry["feedback_count"] = len(cs.feedback)
         if cs.feedback:
             ratings = [fb.rating for fb in cs.feedback if fb.rating is not None]
@@ -1563,16 +1639,19 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
         obj_a = objectives[i]
         obj_b = objectives[j]
 
-        # Sort solutions by objective A (in "better" direction)
-        reverse_a = obj_a.direction.value == "maximize"
+        # Traverse in A's IMPROVING direction (worst-A first), so "beyond this point each unit
+        # of A costs more B" reads forward and a convex elbow shows as a rate jump the detector
+        # can fire on. (Best-A-first traversal shows the same elbow as a rate *drop*, which the
+        # up-jump detector misses entirely.)
+        reverse_a = obj_a.direction.value == "minimize"
         sorted_sols = sorted(
             solutions,
             key=lambda s: s.objective_values[obj_a.name],
             reverse=reverse_a,
         )
 
-        # Compute marginal rates between adjacent solutions
-        raw_rates = _compute_pair_rates(sorted_sols, obj_a, obj_b)
+        # Marginal rates between adjacent solutions — solver-exact duals where available
+        raw_rates, rate_basis = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
         rates = [
             {
                 "from_id": rr["from_sol"].solution_id,
@@ -1593,11 +1672,13 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 "solution_id": raw_rates[detected["position"]]["from_sol"].solution_id,
                 "position": detected["position"],
                 "jump_factor": detected["jump_factor"],
+                "rationale": _knee_rationale(obj_a, obj_b, detected["jump_factor"]),
             }
 
         pair_result = {
             "objectives": [obj_a.name, obj_b.name],
             "correlation": round(r, 2),
+            "rate_basis": rate_basis,
             "inflection": inflection,
         }
 
@@ -2639,6 +2720,46 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
     return rates
 
 
+def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
+    """Solver-exact slopes for one objective pair: |shadow price| of the ``obj_a`` floor at each
+    frontier point — valid when every point carries that dual and ``obj_b`` is the one objective
+    the scalarization optimized (then the dual IS d(obj_b)/d(obj_a) at that point). Returns None
+    when the exact basis isn't available; callers fall back to secants rather than guessing."""
+    if problem is None:
+        return None
+    vals = []
+    for s in sorted_sols:
+        sens = s.sensitivity
+        if sens is None or _optimized_objective(problem, sens) != obj_b.name:
+            return None
+        sp = next((x for x in sens.shadow_prices
+                   if x.role in ("return_floor", "linear_floor") and x.name == obj_a.name), None)
+        if sp is None:
+            return None
+        vals.append(abs(sp.shadow_price))
+    return vals
+
+
+def _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem=None):
+    """Marginal rates for one conflicting pair, on the sharpest basis available: solver-exact
+    duals (the slope AT each transition's left endpoint) when the exact path attached them,
+    else secants between adjacent points. Returns ``(rates, basis)`` with basis ∈
+    'solver_exact_duals' | 'secant' so the payload states its epistemic footing."""
+    rates = _compute_pair_rates(sorted_sols, obj_a, obj_b)
+    duals = _pair_dual_rates(sorted_sols, obj_a, obj_b, problem)
+    if duals is None:
+        return rates, "secant"
+    for k, rr in enumerate(rates):
+        rr["rate"] = duals[k]
+    return rates, "solver_exact_duals"
+
+
+def _knee_rationale(obj_a, obj_b, jump_factor: float) -> str:
+    """One-line, number-anchored knee framing in the user's objective names."""
+    return (f"the defensible default for this pair: beyond this point each extra unit of "
+            f"{obj_a.name} costs ~{jump_factor}× more {obj_b.name} per unit than before")
+
+
 def _detect_inflection(rate_values: list[float], threshold: float = 2.0) -> dict | None:
     """Find the largest jump in marginal rate across adjacent rates.
 
@@ -2691,24 +2812,26 @@ def _conflicting_pair_indices(solutions, objectives) -> list[tuple[int, int, flo
     return pairs
 
 
-def _find_inflection_solutions(solutions, objectives) -> list[dict]:
+def _find_inflection_solutions(solutions, objectives, problem=None) -> list[dict]:
     """Find inflection-point solutions from marginal rate analysis.
 
-    Returns a list of {solution, pair, jump_factor} for each conflicting
+    Returns a list of {solution, pair, jump_factor, rationale} for each conflicting
     objective pair that has a detected inflection. Shares rate computation
-    and inflection detection with marginal_analysis.
+    and inflection detection with marginal_analysis; passing ``problem`` upgrades
+    the slopes to solver-exact duals where the exact path attached them.
     """
     knees = []
     seen_ids = set()
     for i, j, _r in _conflicting_pair_indices(solutions, objectives):
         obj_a, obj_b = objectives[i], objectives[j]
-        reverse_a = obj_a.direction.value == "maximize"
+        # Improving-A traversal — see marginal_analysis for why the sort direction matters.
+        reverse_a = obj_a.direction.value == "minimize"
         sorted_sols = sorted(
             solutions,
             key=lambda s: s.objective_values[obj_a.name],
             reverse=reverse_a,
         )
-        rates = _compute_pair_rates(sorted_sols, obj_a, obj_b)
+        rates, _basis = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
         inflection = _detect_inflection([r["rate"] for r in rates])
         if inflection is None:
             continue
@@ -2720,6 +2843,7 @@ def _find_inflection_solutions(solutions, objectives) -> list[dict]:
             "solution": inflection_sol,
             "pair": f"{obj_a.name} vs {obj_b.name}",
             "jump_factor": inflection["jump_factor"],
+            "rationale": _knee_rationale(obj_a, obj_b, inflection["jump_factor"]),
         })
     return knees
 
