@@ -1,0 +1,59 @@
+option,kind,zone,net_value_musd,capex_musd,reliability_risk,requires,mutually_exclusive_with
+R01,request,Zone 1,60.6,37.2,14.7,U1,
+R02,request,Zone 2,112.6,33.9,7.7,U2,
+R03,request,Zone 3,61.7,20.6,8.8,U3,
+R04,request,Zone 4,97.8,23.1,10.4,U4,
+R05,request,Zone 1,24.2,36.1,11.8,U1,
+R06,request,Zone 2,52.4,41.0,15.6,U2,
+R07,request,Zone 3,36.9,23.9,10.8,U3,
+R08,request,Zone 4,84.3,33.3,9.3,U4,
+R09,request,Zone 1,53.9,24.0,6.6,U1,
+R10,request,Zone 2,64.1,15.7,7.3,U2,
+R11,request,Zone 3,98.8,31.8,8.6,U3,
+R12,request,Zone 4,96.1,21.2,12.7,U4,
+R13,request,Zone 1,31.6,14.8,9.5,U1,
+R14,request,Zone 2,82.5,32.0,15.2,U2,
+R15,request,Zone 3,73.2,12.8,7.7,U3,
+R16,request,Zone 4,63.7,27.2,13.8,U5,
+R17,request,Zone 1,71.7,27.0,10.6,U6,
+R18,request,Zone 2,60.4,15.3,4.7,U2,
+R19,request,Zone 3,40.7,10.0,12.9,U7,
+R20,request,Zone 4,82.2,26.9,9.7,U5,
+R21,request,Zone 1,57.4,35.7,10.3,U8,
+R22,request,Zone 2,26.7,32.6,4.8,U9,
+R23,request,Zone 3,66.6,13.2,7.9,U10,
+R24,request,Zone 4,55.0,18.3,10.5,U11,
+R25,request,Zone 1,26.5,12.0,11.5,U11,
+R26,request,Zone 2,85.9,17.0,17.6,U11,
+R27,request,Zone 3,87.5,23.3,12.1,U12,
+R28,request,Zone 4,105.6,23.5,4.2,U12,
+R29,request,Zone 1,74.2,14.0,10.4,U13,
+R30,request,Zone 2,87.8,22.7,14.0,U14,
+R31,request,Zone 3,81.0,10.9,10.7,,R32
+R32,request,Zone 4,65.9,19.2,3.1,,R31
+R33,request,Zone 1,75.0,13.8,8.6,,R34
+R34,request,Zone 2,51.6,28.1,8.4,,R33
+R35,request,Zone 3,64.8,34.6,13.0,,R36
+R36,request,Zone 4,65.6,39.9,10.7,,R35
+R37,request,Zone 1,43.9,19.3,10.1,,R38
+R38,request,Zone 2,20.1,36.1,12.1,,R37
+R39,request,Zone 3,71.7,11.7,7.5,,R40
+R40,request,Zone 4,82.0,32.7,9.6,,R39
+R41,request,Zone 1,106.9,15.8,3.2,,
+R42,request,Zone 2,54.0,36.2,12.8,,
+U1,upgrade,,0.0,28.4,-13.5,,
+U2,upgrade,,0.0,27.3,-9.2,,
+U3,upgrade,,0.0,26.0,-13.4,,
+U4,upgrade,,0.0,22.4,-4.4,,
+U5,upgrade,,0.0,33.0,-13.9,,
+U6,upgrade,,0.0,50.8,-11.5,,
+U7,upgrade,,0.0,50.7,-12.9,,
+U8,upgrade,,0.0,36.2,-7.2,,
+U9,upgrade,,0.0,46.1,-10.6,,
+U10,upgrade,,0.0,30.6,-4.9,,
+U11,upgrade,,0.0,45.1,-6.6,,
+U12,upgrade,,0.0,52.5,-6.4,U11,
+U13,upgrade,,0.0,20.8,-12.3,,
+U14,upgrade,,0.0,22.0,-5.8,,
+U15,upgrade,,0.0,39.4,0.0,,
+U16,upgrade,,0.0,50.1,0.0,,

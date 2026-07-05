@@ -10,6 +10,7 @@ Load with `model load source="interconnection_approvals"`, then drive it the way
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“Which requests should we approve this cycle at the $400M envelope? Show me the real value/capex/reliability choices.”*
    `solve run` → `explore tradeoffs`: the base approval frontier over 2^58 portfolios.
 2. *“Run all four budget levels: which approvals survive every envelope, and what does each step up to $560M actually buy?”*

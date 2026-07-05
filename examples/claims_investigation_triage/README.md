@@ -10,6 +10,7 @@ Load with `model load source="claims_investigation_triage"`, then drive it the w
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“Which claims should we work this month? Show me my real choices across recovery, hours, and how much we'd annoy legitimate customers — and how the picture changes if the CAT event pulls one of my seniors.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs`: the frontier over 2^180 plans (at the recovery target, friction spans 313 to ~430 — the axis a recovery-per-hour ranking can't see) plus the `capacity_cut` scenario frontier; the hours capacity and the Auto line cap bind.
 2. *“Keep the balanced plan and the gentlest one that still hits the target. How much should I trust these?”*

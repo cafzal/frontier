@@ -10,6 +10,7 @@ Load with `model load source="supplier_selection"`, then drive it the way a user
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) + [concentration_interactions.csv](concentration_interactions.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“How should we split the order across these 25 suppliers, keeping regional concentration in check? Show me the real cost/reliability/lead-time/ESG choices — and how they hold up if China goes offline or demand surges.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs`: the five-objective sourcing frontier plus per-scenario frontiers for `china_disruption` (those suppliers offline) and `demand_surge` (per-supplier capacity tightens to 10%).
 2. *“Keep the balanced mix and the most reliable one. Are these actually optimal?”*

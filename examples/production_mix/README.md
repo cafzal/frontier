@@ -10,6 +10,7 @@ Load with `model load source="production_mix"`, then drive it the way a user wou
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“How should we load the plant across these ten products? Show me the margin/throughput/sustainability tradeoffs — and how they hold up under the stress scenarios.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs`: the frontier plus `input_cost_spike` and `capacity_crunch` scenarios — the knees where the exchange rate jumps, and how the achievable frontier *shrinks* under the crunch.
 2. *“Keep the balanced plan and the max-margin one. Are these actually optimal?”*

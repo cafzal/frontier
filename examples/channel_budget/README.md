@@ -10,6 +10,7 @@ Load with `model load source="channel_budget"`, then drive it the way a user wou
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) + [reach_overlap.csv](reach_overlap.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“How should we split the marketing budget across these 22 channels? Show me the real tradeoffs — remembering that channels sharing an audience overlap rather than add — and what happens if measurement signal degrades or demand pulls back.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs`: the Conversions/Reach/ROAS/Brand-Lift frontier (Reach combining sub-additively via the overlap matrix) plus the `signal_loss` and `demand_pullback` scenario frontiers.
 2. *“Where do diminishing returns kick in, and which limit is holding the mix back?”*

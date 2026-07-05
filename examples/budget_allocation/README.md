@@ -10,6 +10,7 @@ Load with `model load source="budget_allocation"`, then drive it the way a user 
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“How should we split the growth budget across these eight initiatives? Show me the real ROI-versus-reach choices.”*
    `solve run` → `explore tradeoffs`: the ROI/reach frontier — extremes, a balanced plan, and the knees.
 2. *“Keep the balanced split and the ROI-max one. Are these actually optimal?”*

@@ -10,6 +10,7 @@ Load with `model load source="charging_network_siting"`, then drive it the way a
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) + [catchment_overlap.csv](catchment_overlap.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“Which of these 72 sites should we build? Show me the real choices between coverage, overlap, and cost under the $34M budget — and how the picks shift if corridor adoption surges or metro grid quotes come back 30% over.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs`: the reach/overlap/cost frontier plus the `adoption_surge` and `grid_cost_inflation` scenario frontiers — the overlap axis is where clustered high-reach programs pay, the correction a ranking can't see.
 2. *“Before this goes public: is every metro guaranteed a site, and the North-corridor flagship built, whichever program we pick?”*

@@ -1,0 +1,11 @@
+product,line,margin_usd_unit,throughput_kunits_wk,sustainability,margin_under_input_cost_spike
+Aerospace Fittings,Line 1,52.0,6.0,9.0,
+Medical Components,Line 1,48.0,8.0,8.0,
+Optics Housings,Line 1,44.0,7.0,9.0,
+Fasteners,Line 2,14.0,65.0,5.0,9.0
+Brackets,Line 2,18.0,55.0,4.0,12.0
+Connectors,Line 2,20.0,48.0,6.0,13.0
+Stamped Housings,Line 2,16.0,60.0,5.0,10.0
+Pump Assemblies,Line 3,30.0,28.0,7.0,
+Valve Bodies,Line 3,34.0,22.0,6.0,
+Gear Sets,Line 3,27.0,32.0,8.0,

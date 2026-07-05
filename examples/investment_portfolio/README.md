@@ -10,6 +10,7 @@ Load with `model load source="investment_portfolio"`, then drive it the way a us
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) + [covariance.csv](covariance.csv) + [covariance_recession.csv](covariance_recession.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“How should we allocate? Show me the return/risk/yield tradeoffs, and how the picture changes in a recession, an inflation run, or rate cuts.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs` + `explore scenario_frontiers`: the covariance-based frontier (sector caps binding) plus one frontier per macro regime.
 2. *“Keep the balanced portfolio and the calmest one. Are these optimal, or just decent?”*

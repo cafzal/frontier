@@ -10,6 +10,7 @@ Load with `model load source="research_cohort_selection"`, then drive it the way
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw inputs a decision owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the kit reconstructs `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load` is the shortcut that skips this step.
 1. *“Help me pick the strongest 24-person cohort from these 144 volunteers — signal against dropout risk against cost.”*
    `solve run` → `explore tradeoffs`: the frontier of exact-24 cohorts — it reaches ~99% of a top-24-by-signal ranking's signal at lower risk *and* cost, because the floors leave real choice inside each stratum.
 2. *“Keep the balanced cohort and the max-signal one. Are these actually optimal?”*
