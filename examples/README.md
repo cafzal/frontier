@@ -1,6 +1,6 @@
 # Examples
 
-Loadable Frontier problems: combinatorial, multi-objective decisions beyond a spreadsheet. Each ships a `problem.json` (objectives, approach, constraints, scenarios), a `scores.json` (options, scores, interaction matrices), a pre-solved `solutions.json` (results restored on load), and a workflow walkthrough in its own README — one natural user ask per phase, with the tools that fire and the response shape to expect. Each is pre-framed and pre-scored, so its walkthrough picks up the [main workflow](../README.md#workflow) at **Solve** (steps 1–2, Frame and Score, are already done).
+Loadable Frontier problems: combinatorial, multi-objective decisions beyond a spreadsheet. Each ships a `problem.json` (objectives, approach, constraints, scenarios), a `scores.json` (options, scores, interaction matrices), a pre-solved `solutions.json` (results restored on load), and a workflow walkthrough in its own README — one natural user ask per phase, with the tools that fire and the response shape to expect. Each is pre-framed and pre-scored, so its walkthrough picks up the [main workflow](../README.md#workflow) at **Solve** (steps 1–2, Frame and Score, are already done). Two examples also ship the **upstream kit** — a user-voiced `BRIEF.md` + raw `data.csv` whose framing reconstructs the canonical model verbatim, so you can start at Frame the way a real user would: [capital project selection](capital_project_selection_120/) and [scarce supply rationing](scarce_supply_rationing/).
 
 | Example | Decision & objectives | Files |
 |---|---|---|

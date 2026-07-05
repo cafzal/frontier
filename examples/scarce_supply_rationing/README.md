@@ -10,6 +10,7 @@ Load with `model load source="scarce_supply_rationing"`, then drive it the way a
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the account list an allocation owner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the brief + CSV reconstruct `problem.json` and `scores.json` verbatim (proportional approach, the 8% cap, all five contract floors + two credit caps, the StrategicValue ≥ 4.8 mandate, and both scenarios — including the outage's full constraint restatement with raised floors). `model load` is the shortcut that skips this step.
 1. *“How could we split this quarter's supply? Show me the real tradeoffs between revenue, the strategic accounts, and demand we can't count on — and what happens if the fab outage hits or spot prices spike.”*
    `solve run` + `solve run_scenarios` → `explore tradeoffs` + `explore scenario_frontiers`: the rationing frontier plus both shocks — `fab_outage` restates the whole constraint set with *raised* floors (6/5/4/4/3 → 8/7/5/5/4: same commitments, less supply), and the distributor segment absorbs it (average share 13.9% → 13.2%).
 2. *“Keep the balanced split and the one that maximizes revenue. Are these optimal, or just plausible?”*

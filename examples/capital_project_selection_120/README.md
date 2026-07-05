@@ -10,6 +10,7 @@ Load with `model load source="capital_project_selection_120"`, then drive it the
 
 ## The workflow
 
+0. **Start upstream (the real step 1):** paste [BRIEF.md](BRIEF.md)'s ask together with [data.csv](data.csv) — the raw project list a planner would actually have. Framing that input (`model create` + `model update`) lands on exactly this problem: the brief + CSV reconstruct `problem.json` and `scores.json` verbatim (binary approach, the budget bound, cardinality 18–40, the four category caps, all dependencies/exclusions/force-includes, every score). `model load` is the shortcut that skips this step.
 1. *“Which projects should we fund? Show me the real choices — where we can push value, where risk bites, and where the budget pinches.”*
    `solve run` → `explore tradeoffs`: the NPV/cost/risk/strategic-fit frontier — extremes, a balanced plan, inflection points, and the binding read (the budget and category caps).
 2. *“Keep the balanced plan and the safest one as finalists. How much should I trust these?”*
