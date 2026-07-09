@@ -107,6 +107,42 @@ class TestDetection:
         assert set(box) == {"value", "cost", "risk"}
 
 
+class TestDetectionEdges:
+    def test_empty_runs_do_not_crash(self):
+        # Direct engine use can hand in empty runs; the guard must fire before any
+        # broadcast against the sign vector.
+        p = _problem()
+        empty, full = _run([], []), _run([{"value": 10, "cost": 8}], [["P0", "P1"]])
+        assert gap_witness_solutions(p, empty, full) == []
+        assert [w.solution_id for w in gap_witness_solutions(p, full, empty)] == [0]
+
+    def test_below_noise_witness_means_complete_and_noop_fill(self, monkeypatch):
+        # ONE criterion decides verdict and work-list: a witness whose reclaim sits under
+        # the noise floor reads "complete" AND yields an empty fill work-list — the fill
+        # can never mutate an overlay the certificate called complete.
+        p = _problem()
+        exact = _run([{"value": 10, "cost": 8}, {"value": 4, "cost": 2}],
+                     [["P0", "P1"], ["P2"]])
+        exact.solver = "highs"
+        nsga = _run([{"value": 10.0001, "cost": 8}, {"value": 4, "cost": 2}],
+                    [["P0", "P1"], ["P2"]])  # epsilon-better on one axis: witness, negligible HV
+        cert = certify_against_exact(p, nsga, exact)
+        assert cert["completeness"]["verdict"] == "complete"
+        assert gap_witness_solutions(p, nsga, exact) == []
+        monkeypatch.setattr(optimizer, "certify_curated",
+                            lambda *a, **k: (_ for _ in ()).throw(AssertionError("no solve on a complete overlay")))
+        merged, report = fill_gaps(p, nsga, exact, solver="highs")
+        assert merged.run_id == exact.run_id and report["gap_witnesses"] == 0
+
+    def test_relative_tolerance_on_large_magnitude_objectives(self):
+        # Solver-noise-scale differences on million-scale values must not mint witnesses.
+        p = _problem()
+        exact = _run([{"value": 1_000_000.0, "cost": 8}, {"value": 400_000.0, "cost": 2}],
+                     [["P0", "P1"], ["P2"]])
+        nsga = _run([{"value": 1_000_000.1, "cost": 8}], [["P0", "P1"]])  # ~1e-7 relative
+        assert gap_witness_solutions(p, nsga, exact) == []
+
+
 class TestFillEngine:
     def test_unfilled_gaps_discarded_and_reported(self, monkeypatch):
         # An inner solve that produces nothing must surface in the report, and the merge
@@ -126,6 +162,49 @@ class TestFillEngine:
         assert report["unfilled_witness_ids"] == [1]
         assert "discarded and reported" in report["note"]
         assert len(merged.solutions) == len(exact.solutions)  # base overlay intact
+
+    def test_mismatched_backend_raises(self):
+        p = _problem()
+        exact = _run([{"value": 10, "cost": 8}], [["P0", "P1"]])
+        exact.solver = "cuopt"
+        nsga = _run([{"value": 7, "cost": 4}], [["P1"]])
+        with pytest.raises(ValueError, match="cuopt"):
+            fill_gaps(p, nsga, exact, solver="highs")
+
+    def test_inputs_not_mutated_and_provenance_inherited(self, monkeypatch):
+        # The merge must copy solutions (re-indexing restamps solution_id) and inherit the
+        # base overlay's partial-sweep flags; certification is never silently demoted.
+        p = _problem()
+        exact = _run([{"value": 10, "cost": 8}, {"value": 4, "cost": 2}],
+                     [["P0", "P1"], ["P2"]])
+        exact.solver, exact.exact = "highs", True
+        exact.time_limit, exact.time_limited = 60.0, True
+        base_ids = [s.solution_id for s in exact.solutions]
+        nsga = _run([{"value": 7, "cost": 4}], [["P1"]])
+        fill = _run([{"value": 7, "cost": 4}], [["P1"]])
+        fill.solver, fill.exact = "highs", True
+        seen_exact = {}
+        monkeypatch.setattr(optimizer, "certify_curated",
+                            lambda *a, **k: seen_exact.setdefault("exact", k.get("exact")) and fill or fill)
+        merged, report = fill_gaps(p, nsga, exact, solver="highs")  # exact NOT passed
+        assert seen_exact["exact"] is True          # inherited from the certified overlay
+        assert merged.exact is True and merged.solver == "highs"
+        assert (merged.time_limit, merged.time_limited) == (60.0, True)
+        assert merged.run_id != exact.run_id
+        assert [s.solution_id for s in exact.solutions] == base_ids  # caller's overlay untouched
+        assert report["filled"] == 1
+
+    def test_user_max_solutions_never_shrinks_the_overlay(self, monkeypatch):
+        p = _problem()
+        exact = _run([{"value": 10, "cost": 8}, {"value": 7, "cost": 5}, {"value": 4, "cost": 2}],
+                     [["P0", "P1"], ["P0"], ["P2"]])
+        exact.solver = "highs"
+        nsga = _run([{"value": 9, "cost": 6}], [["P1"]])
+        fill = _run([{"value": 9, "cost": 6}], [["P1"]])
+        fill.solver = "highs"
+        monkeypatch.setattr(optimizer, "certify_curated", lambda *a, **k: fill)
+        merged, _ = fill_gaps(p, nsga, exact, solver="highs", max_solutions=2)
+        assert len(merged.solutions) == 4  # base 3 + fill 1; the caller cap bounds the fill pass only
 
     def test_noop_on_complete_overlay(self):
         p = _problem()
@@ -207,6 +286,32 @@ class TestToolSurface:
         pid = self._tool_problem()
         res = srv.solve(action="run", problem_id=pid, solver="highs", scope="gaps")
         assert "error" in res and "Unknown scope" in res["error"]
+
+    def test_scope_spelling_is_normalized(self):
+        # 'Full' must run the FULL pass — the raw-string comparison once sent it to curated.
+        pid = self._tool_problem()
+        srv.solve(action="run", problem_id=pid, seed=5)
+        res = srv.solve(action="run", problem_id=pid, solver="highs", scope="Full")
+        assert res.get("overlay_scope") == "full"
+
+    def test_fill_requires_fresh_results(self):
+        pid = self._tool_problem()
+        srv.solve(action="run", problem_id=pid, seed=5)
+        srv.solve(action="run", problem_id=pid, solver="highs")
+        srv.model(action="update", problem_id=pid,
+                  scores=[{"option": "A", "objective": "Rev", "value": 99.0}])  # stales results
+        res = srv.solve(action="run", problem_id=pid, solver="highs", scope="fill_gaps")
+        assert "error" in res and "stale" in res["error"]
+
+    def test_fill_requires_matching_backend(self):
+        pid = self._tool_problem()
+        srv.solve(action="run", problem_id=pid, seed=5)
+        srv.solve(action="run", problem_id=pid, solver="highs")
+        p = srv.store.load(pid)
+        p.exact_run.solver = "cuopt"  # simulate an overlay from the other backend
+        srv.store.save(p)
+        res = srv.solve(action="run", problem_id=pid, solver="highs", scope="fill_gaps")
+        assert "error" in res and "cuopt" in res["error"]
 
     def test_fill_after_certify_returns_report(self):
         pid = self._tool_problem()

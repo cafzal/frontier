@@ -1101,10 +1101,13 @@ def solve(
             run exists yet. "fill_gaps": targeted completion of an EXISTING exact overlay —
             `explore certify`'s `completeness` block detects frontier regions the heuristic run
             covers but the overlay never sampled; this re-solves only those witness points and
-            merges them in (needs both a prior NSGA `run` and an `exact_run`; a gap whose inner
-            solve hits its budget is discarded and reported in `fill.unfilled`, never merged as
-            an uncertified incumbent; a fill on a complete overlay is a no-op). The mode that ran
-            is echoed as `overlay_scope`, and a fill also returns a `fill` report.
+            merges them in. Needs a prior NSGA `run` + an `exact_run`, fresh results, and the
+            overlay's own backend (a mismatched solver errors rather than mixing provenance);
+            `exact` is inherited from the overlay, so a fill never demotes its certification.
+            A gap whose inner solve hits its budget is discarded and reported — counted in
+            `fill.unfilled`, ids in `fill.unfilled_witness_ids` — never merged as an
+            uncertified incumbent; a fill on a complete overlay is a no-op. The mode that ran
+            is echoed as `overlay_scope`, and a fill also returns the `fill` report.
       time_limit: Optional wall-clock cap in seconds for a `run`/`run_scenarios`. The search
             stops at the generation/scalarization budget OR this cap, whichever fires first; a
             capped run returns its best-so-far frontier flagged `time_limited` (on an exact run
@@ -1273,6 +1276,16 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
         if p.run is None or not p.run.solutions:
             return {"error": "scope='fill_gaps' uses the exploratory NSGA run as its gap detector, "
                              "but this problem has none — run solve first, then fill."}
+        if p.results_stale:
+            # The fill keeps base overlay points VERBATIM (unlike curated/full, which re-solve
+            # everything), so merging over an edited model would mix two objective spaces.
+            return {"error": "results are stale (the model changed since these runs) — re-run "
+                             "solve and the exact overlay first, then fill the fresh overlay."}
+        if p.exact_run.solver != solver:
+            return {"error": f"scope='fill_gaps' extends the existing '{p.exact_run.solver}' "
+                             f"overlay, so the fill must use the same backend — pass "
+                             f"solver='{p.exact_run.solver}', or rebuild the overlay with "
+                             f"'{solver}' (scope='curated' or 'full') and fill that."}
 
     fingerprint = _solve_fingerprint(p)
     label = _solve_label("run", mode, solver, exact, time_limit)
@@ -1300,9 +1313,11 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     # proportional QP/LP); falls back to a full pass only when there's no NSGA `run` to certify.
     overlay_scope = None
     fill_report = None
-    scope_key = (scope or "").strip().lower() or None
+    # One normalized key drives every scope branch — comparing the raw string here once
+    # let a validated "Full"/" full " silently run a curated pass.
+    scope_key = (scope or "").strip().lower() or "curated"
     use_fill = is_exact_solver(solver) and scope_key == "fill_gaps"
-    use_curated = (is_exact_solver(solver) and not use_fill and (scope or "curated") != "full"
+    use_curated = (is_exact_solver(solver) and scope_key == "curated"
                    and p.run is not None and bool(p.run.solutions))
     if use_curated or use_fill:
         # A source frontier missing a current objective would be "certified" with epsilon
