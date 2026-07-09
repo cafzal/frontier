@@ -1285,6 +1285,93 @@ def certify_curated(
     return run
 
 
+def fill_gaps(
+    problem: Problem,
+    nsga_run: Run,
+    exact_run: Run,
+    *,
+    solver: str,
+    exact: bool = False,
+    mode: OptimizeMode | None = None,
+    max_solutions: int | None = None,
+) -> tuple[Run, dict]:
+    """Targeted completion of an exact overlay: exact-solve **only the gap-region witnesses**
+    (NSGA points the overlay neither dominates nor matches — ``explore certify``'s
+    ``completeness`` block) and merge the results into the existing overlay. Returns
+    ``(merged overlay Run, fill report)``.
+
+    The certify auditor framing's missing half made actionable: the heuristic explores, the
+    exact solver certifies, and each audits the other — a scalarization sweep on a non-convex
+    shape returns supported points plus whatever ε-targets its walker sampled, so the regions
+    between can hold hypervolume the NSGA run already covers. Mechanism is a reuse, not a new
+    engine: ``certify_curated`` re-solves an arbitrary set of source points for their own
+    supports + ε-targets; the fill hands it exactly the witnesses. Each gap target solves
+    independently (warm-starting neighboring scalarizations measured as a null — solver
+    heuristics find incumbents immediately; proof time dominates).
+
+    Per-gap budget and provenance discipline: the per-gap solve budget is the inner solve's
+    existing safety deadline, and a witness whose re-solve fails or times out is
+    **discarded and reported** (``unfilled`` in the report), never absorbed as an
+    uncertified incumbent — every merged point comes from the same inner solves as any
+    exact point, so run-level provenance (``Run.solver``/``exact``) stays sound. A fill on
+    an already-complete overlay is a no-op returning the overlay unchanged (confirm
+    semantics — idempotent)."""
+    from engine.explorer import gap_witness_solutions
+
+    obj_list = problem.objectives
+    witnesses = gap_witness_solutions(problem, nsga_run, exact_run)
+    if not witnesses:
+        return exact_run, {
+            "gap_witnesses": 0, "filled": 0, "unfilled": 0,
+            "note": "overlay already complete — nothing to fill (no-op; confirm semantics)",
+        }
+
+    source = Run(solutions=witnesses, mode=mode or nsga_run.mode,
+                 seed_used=nsga_run.seed_used, solver=nsga_run.solver)
+    fill_run = certify_curated(problem, source, solver=solver, exact=exact,
+                               mode=mode, max_solutions=max_solutions)
+
+    # Merge fill points into the overlay: dedupe by content, non-dominated filter, prune,
+    # re-index — the same postprocessing every scalarization Run gets.
+    from engine.models import _content_signature
+    from solvers._scalarization import _nondominated
+
+    union, seen = [], set()
+    for s in list(exact_run.solutions) + list(fill_run.solutions):
+        sig = _content_signature(s.selected_options, s.allocations)
+        if sig in seen:
+            continue
+        seen.add(sig)
+        union.append(s)
+    merged = _nondominated(union, obj_list)
+    max_n = max_solutions or MAX_PARETO_SOLUTIONS
+    merged, total = _prune_pareto(merged, obj_list, max_n=max_n)
+    merged = _sort_and_reindex(merged, obj_list)
+    merged_run = Run(
+        solutions=merged, total_pareto_found=total, quality=exact_run.quality,
+        mode=mode or exact_run.mode, seed_used=exact_run.seed_used,
+    )
+    # Every merged point is exact-solver produced; the zero-gap claim only survives when
+    # both the base overlay and the fill were certified.
+    merged_run.solver = fill_run.solver
+    merged_run.exact = bool(exact_run.exact and fill_run.exact)
+
+    still_open = gap_witness_solutions(problem, nsga_run, merged_run)
+    unfilled_ids = [s.solution_id for s in still_open]
+    report = {
+        "gap_witnesses": len(witnesses),
+        "filled": len(witnesses) - len(still_open),
+        "unfilled": len(still_open),
+        **({"unfilled_witness_ids": unfilled_ids[:10]} if still_open else {}),
+        "note": ("every detected gap closed — re-run explore certify for the updated certificate"
+                 if not still_open else
+                 f"{len(still_open)} witness(es) stayed unfilled (inner solve declined or hit its "
+                 "per-gap budget) — discarded and reported rather than merged as uncertified "
+                 "incumbents; the NSGA points remain the best known there"),
+    }
+    return merged_run, report
+
+
 def _apply_matrix_override(base: "InteractionMatrix | None", override: "InteractionMatrix") -> "InteractionMatrix":
     """Apply a scenario override to a base interaction matrix.
 

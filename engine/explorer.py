@@ -910,6 +910,120 @@ def _coverage_gain(N: np.ndarray, E: np.ndarray, seed: int = 42) -> dict | None:
     }
 
 
+_COMPLETENESS_NOISE = 0.005  # normalized-HV tolerance for "complete": the shared-seed MC trick
+                             # makes combined ≥ exact exact (never a sampling artifact), so this
+                             # floor only absorbs rounding/display-precision noise. Stated openly
+                             # on the payload so the verdict is auditable.
+
+
+def _gap_witness_indices(N: np.ndarray, Eref: np.ndarray) -> list[int]:
+    """Indices of NSGA points the exact overlay neither dominates nor matches (minimize-space).
+
+    The self-certifying core of the completeness audit: each witness is a concrete heuristic
+    point holding ground the exact overlay never sampled. Weak coverage counts — an exact
+    point equal-or-better on every objective (within tolerance) covers the NSGA point, so
+    duplicates of exact points are never witnesses."""
+    return [i for i in range(len(N))
+            if not any(bool(np.all(e <= N[i] + 1e-9)) for e in Eref)]
+
+
+def gap_witness_solutions(problem: Problem, nsga_run: Run, exact_run: Run) -> list:
+    """The NSGA solutions inside detected coverage gaps of the exact overlay.
+
+    The read side of ``completeness`` and the work-list for the targeted fill
+    (``solve scope="fill_gaps"`` → ``optimizer.fill_gaps``): re-solving exactly these
+    points' scalarizations closes the gaps the certificate names. Pure detection —
+    no solver touched."""
+    objs = problem.objectives
+    names = [o.name for o in objs]
+    sign = np.array([-1.0 if o.direction == Direction.maximize else 1.0 for o in objs])
+    N = np.array([[s.objective_values.get(n, 0.0) for n in names] for s in nsga_run.solutions],
+                 dtype=float) * sign
+    E = np.array([[s.objective_values.get(n, 0.0) for n in names] for s in exact_run.solutions],
+                 dtype=float) * sign
+    if len(N) == 0 or len(E) == 0:
+        return list(nsga_run.solutions)
+    Eref = E[[i for i in range(len(E))
+              if not any(_dominates_min(E[j], E[i]) for j in range(len(E)) if j != i)]]
+    return [nsga_run.solutions[i] for i in _gap_witness_indices(N, Eref)]
+
+
+def _completeness_block(nat_N: np.ndarray, N: np.ndarray, Eref: np.ndarray,
+                        nsga_run: Run, names: list[str], seed: int = 42) -> dict | None:
+    """The mirror of ``_coverage_gain``: the exact overlay audited for completeness by NSGA.
+
+    ``coverage`` measures what exact reclaims over the heuristic; this measures the inverse —
+    hypervolume the heuristic run already covers that the exact scalarization sweep never
+    sampled (supported-points-only gaps on non-convex shapes). Same joint normalization and
+    shared-seed Monte-Carlo, roles swapped. ``gap_regions`` localizes the reclaim: witnesses
+    (NSGA points no exact point covers) clustered by nearest exact point in the normalized
+    box — boxes from nondominated witnesses, not ordered chords, so any objective count
+    works. Each region names its witness solution ids (self-certifying) and its approximate
+    share of the reclaimed volume. Returns ``None`` when the combined front is degenerate."""
+    from engine.optimizer import _approx_hypervolume
+
+    P = np.vstack([N, Eref])
+    f_min = P.min(axis=0)
+    spread = P.max(axis=0) - f_min
+    if not np.all(spread > 0):
+        return None
+    ref = np.ones(P.shape[1]) * 1.1
+    hv_box = float(np.prod(ref))
+
+    def _hv(M: np.ndarray) -> float:
+        return _approx_hypervolume((M - f_min) / spread, ref, seed=seed) / hv_box
+
+    hv_exact = _hv(Eref)
+    hv_comb = _hv(P)
+    reclaims = max(0.0, hv_comb - hv_exact)
+    witness_idx = _gap_witness_indices(N, Eref)
+    under = bool(witness_idx) and reclaims > _COMPLETENESS_NOISE
+    block: dict = {
+        "exact_hypervolume": round(hv_exact, 4),
+        "combined_hypervolume": round(hv_comb, 4),
+        "heuristic_reclaims": round(reclaims, 4),
+        "reclaimed_fraction_over_exact": round(reclaims / hv_comb, 4) if hv_comb > 0 else 0.0,
+        "noise_floor": _COMPLETENESS_NOISE,
+        "verdict": "under_covered" if under else "complete",
+        "mirror": "coverage",
+        "note": ("the heuristic holds hypervolume the exact sweep never sampled — fill the "
+                 "named regions with solve scope='fill_gaps'" if under else
+                 "the exact overlay covers everything the heuristic reached (reclaim at or "
+                 "below the noise floor)"),
+    }
+    if not under:
+        return block
+
+    # Localize: cluster witnesses by nearest exact point in the shared normalized box.
+    Nn = (N - f_min) / spread
+    En = (Eref - f_min) / spread
+    clusters: dict[int, list[int]] = {}
+    for i in witness_idx:
+        a = int(np.argmin(((En - Nn[i]) ** 2).sum(axis=1)))
+        clusters.setdefault(a, []).append(i)
+    # Approximate per-region reclaim in the SAME box/seed; shares normalized over the sum
+    # (regions can overlap in dominated volume, so shares are indicative, not additive-exact).
+    gains = {a: max(0.0, _hv(np.vstack([Eref, N[m]])) - hv_exact) for a, m in clusters.items()}
+    total = sum(gains.values()) or 1.0
+    regions = []
+    for a, members in sorted(clusters.items(), key=lambda kv: -gains[kv[0]]):
+        box = {names[j]: [round(float(nat_N[members, j].min()), 4),
+                          round(float(nat_N[members, j].max()), 4)]
+               for j in range(len(names))}
+        ids = [nsga_run.solutions[i].solution_id for i in members]
+        regions.append({
+            "witness_solution_ids": ids[:10],
+            "size": len(members),
+            "bounding_box": box,
+            "reclaimed_share": round(gains[a] / total, 3),
+        })
+    if len(regions) > 8:  # payload compactness; the fill consumes ALL witnesses regardless
+        block["regions_truncated"] = len(regions) - 8
+        regions = regions[:8]
+    block["gap_regions"] = regions
+    return block
+
+
 def _objective_bound_dips(problem: Problem, run: Run) -> list[dict]:
     """Points whose objective values sit a hair outside a stated ``objective_bound``.
 
@@ -958,6 +1072,11 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
       convex risk/variance corner (a flat bowl where heuristics wobble and a QP is exact); where
       exact looks *short* of NSGA on a corner, that's the same budget artifact (a targeted exact
       solve would match it), flagged ``under-sampled``, not a capability limit.
+    - **Completeness (the mirror audit)** — the exact overlay audited *by* NSGA: hypervolume the
+      heuristic already covers that the scalarization sweep never sampled, localized as
+      ``gap_regions`` with witness solution ids. The auditor framing's missing half — each engine
+      audits the other; an under-covered verdict routes to the targeted fill
+      (``solve scope="fill_gaps"``), which re-solves only the witnesses and merges.
 
     Returns a JSON-friendly dict (the MCP ``explore certify`` payload).
     """
@@ -1027,6 +1146,8 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
     else:
         headline = None
 
+    completeness = _completeness_block(nat_N, N, Eref, nsga_run, names)
+
     parts = []
     if dominated_idx:
         parts.append(f"exact audits {len(dominated_idx)}/{len(N)} NSGA points as dominated (heuristic slack)")
@@ -1041,6 +1162,11 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         parts.append(f"under-samples {', '.join(under)} (this run's sweep sampling, not a "
                      "capability limit — a re-run with a higher budget or a targeted exact "
                      "solve closes it)")
+    if completeness and completeness["verdict"] == "under_covered":
+        share = completeness["reclaimed_fraction_over_exact"]
+        parts.append(f"the overlay under-covers {len(completeness['gap_regions'])} region(s) the "
+                     f"heuristic reached ({share:.1%} of combined hypervolume; see "
+                     "completeness.gap_regions) — close them with solve scope='fill_gaps'")
     recommendation = "; ".join(parts) + "."
 
     from solvers import run_is_certified   # local, matching _frontier_provenance's pattern
@@ -1075,6 +1201,8 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         )
 
     coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
+    if coverage is not None:
+        coverage["mirror"] = "completeness"  # the inverse audit rides the same certificate
 
     # Quality gate over the certified points: an exact optimum can still be a degenerate plan
     # (empty, pinned, concentrated) — the certificate says "optimal for the model as written",
@@ -1113,6 +1241,7 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "examples": examples,
         },
         "coverage": coverage,
+        "completeness": completeness,
         "invariant": {
             "holds": exact_dominated == 0,
             "exact_dominated_by_nsga": exact_dominated,
