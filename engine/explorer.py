@@ -992,7 +992,7 @@ def _completeness_analysis(problem: Problem, nsga_run: Run, exact_run: Run) -> d
         return {"witness_idx": witness_idx, "under": bool(witness_idx), "reclaims": None,
                 "hv_exact": None, "hv_comb": None, "nat_N": nat_N, "N": N, "Eref": Eref,
                 "box": None}
-    _, _, mask = box
+    f_min, spread_box, mask = box
     mask_e = mask(Eref)
     hv_exact = float(mask_e.mean())
     hv_comb = float((mask_e | mask(N)).mean())
@@ -1000,7 +1000,7 @@ def _completeness_analysis(problem: Problem, nsga_run: Run, exact_run: Run) -> d
     return {"witness_idx": witness_idx,
             "under": bool(witness_idx) and reclaims > _COMPLETENESS_NOISE,
             "reclaims": reclaims, "hv_exact": hv_exact, "hv_comb": hv_comb,
-            "nat_N": nat_N, "N": N, "Eref": Eref, "box": (box[0], box[1], mask, mask_e)}
+            "nat_N": nat_N, "N": N, "Eref": Eref, "box": (f_min, spread_box)}
 
 
 def gap_witness_solutions(problem: Problem, nsga_run: Run, exact_run: Run) -> list:
@@ -1026,9 +1026,9 @@ def _completeness_block(problem: Problem, nsga_run: Run, exact_run: Run) -> dict
     sampled (supported-points-only gaps on non-convex shapes). Same joint normalization and
     shared-seed Monte-Carlo, roles swapped. ``gap_regions`` localizes the reclaim: witnesses
     clustered by nearest exact point in the normalized box — boxes from nondominated
-    witnesses, not ordered chords, so any objective count works. Each region names its
-    witness solution ids (self-certifying) and its approximate share of the reclaimed
-    volume. Returns ``None`` when the joint front is degenerate (hypervolume undefined)."""
+    witnesses, not ordered chords, so any objective count works — each region naming its
+    witness solution ids (self-certifying), largest first. Returns ``None`` when the joint
+    front is degenerate (hypervolume undefined)."""
     a = _completeness_analysis(problem, nsga_run, exact_run)
     if a["reclaims"] is None:
         return None
@@ -1050,23 +1050,21 @@ def _completeness_block(problem: Problem, nsga_run: Run, exact_run: Run) -> dict
     if not under:
         return block
 
-    # Localize: cluster witnesses by nearest exact point in the shared normalized box.
+    # Localize: cluster witnesses by nearest exact point in the shared normalized box,
+    # largest region first. Witness count ranks the regions — a per-region hypervolume
+    # share would cost a Monte-Carlo pass per cluster for a number that is only
+    # indicative anyway (regions overlap in dominated volume), and the fill consumes
+    # ALL witnesses regardless.
     nat_N, N, Eref = a["nat_N"], a["N"], a["Eref"]
-    f_min, spread, mask, mask_e = a["box"]
+    f_min, spread = a["box"]
     Nn = (N - f_min) / spread
     En = (Eref - f_min) / spread
     clusters: dict[int, list[int]] = {}
     for i in a["witness_idx"]:
         anchor = int(np.argmin(((En - Nn[i]) ** 2).sum(axis=1)))
         clusters.setdefault(anchor, []).append(i)
-    # Per-region reclaim from the SAME samples (mask OR against the cached exact mask, so
-    # each cluster costs O(|members| × samples)); shares normalized over the sum — regions
-    # can overlap in dominated volume, so shares are indicative, not additive-exact.
-    gains = {anchor: max(0.0, float((mask_e | mask(N[m])).mean()) - a["hv_exact"])
-             for anchor, m in clusters.items()}
-    total = sum(gains.values()) or 1.0
     regions = []
-    for anchor, members in sorted(clusters.items(), key=lambda kv: -gains[kv[0]]):
+    for _, members in sorted(clusters.items(), key=lambda kv: -len(kv[1])):
         bbox = {names[j]: [round(float(nat_N[members, j].min()), 4),
                            round(float(nat_N[members, j].max()), 4)]
                 for j in range(len(names))}
@@ -1075,7 +1073,6 @@ def _completeness_block(problem: Problem, nsga_run: Run, exact_run: Run) -> dict
             "witness_solution_ids": ids[:10],
             "size": len(members),
             "bounding_box": bbox,
-            "reclaimed_share": round(gains[anchor] / total, 3),
         })
     if len(regions) > 8:  # payload compactness; the fill consumes ALL witnesses regardless
         block["regions_truncated"] = len(regions) - 8

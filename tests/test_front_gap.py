@@ -72,7 +72,6 @@ class TestDetection:
         region = comp["gap_regions"][0]
         assert region["witness_solution_ids"] == [1]  # self-certifying: names the middle point
         assert region["bounding_box"]["value"] == [7, 7]
-        assert region["reclaimed_share"] == 1.0
         assert "fill_gaps" in cert["recommendation"]
         assert cert["coverage"]["mirror"] == "completeness"  # cross-referenced both ways
         assert comp["mirror"] == "coverage"

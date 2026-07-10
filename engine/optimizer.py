@@ -1301,16 +1301,9 @@ def fill_gaps(
     (NSGA points the overlay neither dominates nor matches — ``explore certify``'s
     ``completeness`` block) and merge the results into the existing overlay. Returns
     ``(merged overlay Run, fill report)``; inputs are never mutated (merged solutions are
-    copies), so a rejected persist can't scramble the caller's overlay.
-
-    The certify auditor framing's missing half made actionable: the heuristic explores, the
-    exact solver certifies, and each audits the other — a scalarization sweep on a non-convex
-    shape returns supported points plus whatever ε-targets its walker sampled, so the regions
-    between can hold hypervolume the NSGA run already covers. Mechanism is a reuse, not a new
-    engine: ``certify_curated`` re-solves an arbitrary set of source points for their own
-    supports + ε-targets; the fill hands it exactly the witnesses. Each gap target solves
-    independently (warm-starting neighboring scalarizations measured as a null — solver
-    heuristics find incumbents immediately; proof time dominates).
+    copies), so a rejected persist can't scramble the caller's overlay. Mechanism is a
+    ``certify_curated`` reuse with the witnesses as the source points; design rationale
+    lives in architecture.md ("Three ways to produce the `exact_run` overlay").
 
     Contract with the overlay being extended:
 

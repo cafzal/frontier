@@ -1260,10 +1260,12 @@ def _solve_run(p: Problem, mode: OptimizeMode | None = None, max_solutions: int 
     if solver_err:
         return solver_err
 
-    # Scope pre-flight, inline for fast actionable errors (the body only sees valid combos).
-    scope_key = (scope or "").strip().lower() or None
-    if scope_key is not None and scope_key not in ("curated", "full", "fill_gaps"):
+    # Scope pre-flight, inline for fast actionable errors; the normalized key is what the
+    # body receives (mirrors _resolve_solver — one place owns the vocabulary).
+    scope_key = (scope or "curated").strip().lower()
+    if scope_key not in ("curated", "full", "fill_gaps"):
         return {"error": f"Unknown scope '{scope}'. Use 'curated' (default), 'full', or 'fill_gaps'."}
+    scope = scope_key
     if scope_key == "fill_gaps":
         from solvers import is_exact_solver
         if not is_exact_solver(solver):
@@ -1313,11 +1315,11 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     # proportional QP/LP); falls back to a full pass only when there's no NSGA `run` to certify.
     overlay_scope = None
     fill_report = None
-    # One normalized key drives every scope branch — comparing the raw string here once
-    # let a validated "Full"/" full " silently run a curated pass.
-    scope_key = (scope or "").strip().lower() or "curated"
-    use_fill = is_exact_solver(solver) and scope_key == "fill_gaps"
-    use_curated = (is_exact_solver(solver) and scope_key == "curated"
+    # ``scope`` arrives pre-normalized from _solve_run's pre-flight (one place owns the
+    # vocabulary); default the direct-call path the same way.
+    scope = (scope or "curated").strip().lower()
+    use_fill = is_exact_solver(solver) and scope == "fill_gaps"
+    use_curated = (is_exact_solver(solver) and scope == "curated"
                    and p.run is not None and bool(p.run.solutions))
     if use_curated or use_fill:
         # A source frontier missing a current objective would be "certified" with epsilon
