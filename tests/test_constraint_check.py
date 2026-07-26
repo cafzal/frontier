@@ -126,7 +126,7 @@ def test_binary_violation_is_named(constraint, bad, label_fragment):
     hit = [v for v in r["violations"] if label_fragment in v["constraint"]]
     assert hit, r["violations"]
     assert hit[0]["solution_id"] == 7
-    assert hit[0]["severity"] == "violation"
+    assert hit[0]["kind"] == "violation"
     assert hit[0]["margin"] > 0
 
 
@@ -169,7 +169,7 @@ def test_proportional_objective_bound_is_rounding_not_violation():
                  [ObjectiveBoundConstraint(objective="Cost", operator="max", value=1.5)])
     r = verify_run(p, _run(_sol(3, ["C", "D"], {"C": 50, "D": 50})))
     assert r["status"] == "verified", "a rounding row must not fail the check"
-    assert [v["severity"] for v in r["violations"]] == ["rounding"]
+    assert [v["kind"] for v in r["violations"]] == ["rounding"]
     assert "rounding" in r["note"]
 
 
@@ -179,7 +179,7 @@ def test_proportional_non_bound_breach_is_a_real_violation():
     p = _problem(Approach.proportional, [MaxAllocationConstraint(max=40)])
     r = verify_run(p, _run(_sol(2, ["A", "B"], {"A": 90, "B": 10})))
     assert r["status"] == "violations_found"
-    assert all(v["severity"] == "violation" for v in r["violations"])
+    assert all(v["kind"] == "violation" for v in r["violations"])
 
 
 def test_violation_list_is_capped_with_a_total():
@@ -221,7 +221,7 @@ def test_bundled_examples_verify():
         if not p.run:
             continue
         r = verify_run(p, p.run)
-        breaches = [v for v in r["violations"] if v["severity"] == "violation"]
+        breaches = [v for v in r["violations"] if v["kind"] == "violation"]
         assert not breaches, f"{name}: {breaches}"
         assert r["status"] == "verified", name
 
@@ -245,6 +245,65 @@ def test_legacy_constraint_payload_still_parses():
         "constraints": [{"type": "cardinality", "min": 1, "max": 1}],
     })
     assert p.constraints[0].motivated_by == ""
+
+
+def test_annotating_a_rule_is_not_a_model_change():
+    """`compare_runs` diffs runs by `_constraint_key`. Recording *why* a rule exists must not
+    read as adding or removing the rule — otherwise the provenance feature would make every
+    annotated constraint look edited, and a run diff would attribute a frontier change to a
+    cause that never happened. The two proportional types are the ones at risk: they had no
+    typed branch and fell through to `str(dict)`."""
+    from engine.explorer import _constraint_key
+    for annotated, plain in [
+        (MaxAllocationConstraint(max=30, motivated_by="board policy"),
+         MaxAllocationConstraint(max=30)),
+        (AllocationBoundConstraint(option="A", min=5, max=40, motivated_by="contract floor"),
+         AllocationBoundConstraint(option="A", min=5, max=40)),
+        (CardinalityConstraint(min=1, max=3, motivated_by="team bandwidth"),
+         CardinalityConstraint(min=1, max=3)),
+    ]:
+        assert _constraint_key(annotated.model_dump()) == _constraint_key(plain.model_dump()), (
+            f"{annotated.type}: motive changed the identity key")
+
+
+def test_pre_provenance_snapshot_keys_match_current():
+    """A `constraints_snapshot` written before the field existed carries no `motivated_by`.
+    It must key identically to one written after, or the first compare_runs on any existing
+    proportional problem reports a phantom criteria change."""
+    from engine.explorer import _constraint_key
+    legacy_and_current = [
+        ({"type": "max_allocation", "max": 30},
+         MaxAllocationConstraint(max=30).model_dump()),
+        ({"type": "allocation_bound", "option": "A", "min": 5, "max": 40},
+         AllocationBoundConstraint(option="A", min=5, max=40).model_dump()),
+        ({"type": "cardinality", "min": 1, "max": 3},
+         CardinalityConstraint(min=1, max=3).model_dump()),
+    ]
+    for legacy, current in legacy_and_current:
+        assert _constraint_key(legacy) == _constraint_key(current), legacy["type"]
+
+
+def test_unknown_constraint_type_ignores_the_motive_too():
+    """The fallback strips the annotation, so a future type inherits the property."""
+    from engine.explorer import _constraint_key
+    a = {"type": "future_thing", "bound": 7, "motivated_by": "because"}
+    b = {"type": "future_thing", "bound": 7}
+    assert _constraint_key(a) == _constraint_key(b)
+
+
+def test_compare_runs_sees_no_criteria_change_when_only_a_motive_is_added():
+    """End-to-end at the surface the agent actually reads."""
+    from engine.explorer import compare_runs
+    p = _problem(Approach.proportional, [MaxAllocationConstraint(max=30)])
+    before = Run(solutions=[_sol(0, ["A"], {"A": 100})],
+                 constraints_snapshot=[{"type": "max_allocation", "max": 30}])
+    after = Run(solutions=[_sol(0, ["A"], {"A": 100})],
+                constraints_snapshot=[
+                    MaxAllocationConstraint(max=30, motivated_by="board policy").model_dump()])
+    p.runs = [before]
+    p.run = after
+    diff = compare_runs(p, [before.run_id, after.run_id])["criteria_diffs"][0]
+    assert diff["added"] == [] and diff["removed"] == [], diff
 
 
 def test_binding_analysis_echoes_motivated_by():

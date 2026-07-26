@@ -1658,8 +1658,10 @@ def verify_run(problem: Problem, run: Run, scenario: "Scenario | None" = None) -
     Stating that boundary is the point: a check whose blind spot is documented is usable, one
     that implies totality is not.
 
-    Severity separates the two causes, and the split follows from *which* stored field each
-    constraint is judged against. On the proportional path a solution records
+    ``kind`` separates the two causes — deliberately not ``severity``, which the same solve
+    response already spends on ``metrics.diagnostics`` with an info/warning/error vocabulary; a
+    second meaning under one field name taxes every read. The split follows from *which* stored
+    field each constraint is judged against. On the proportional path a solution records
     ``objective_values`` computed from the search's **continuous** x, alongside ``allocations``
     **rounded** to integer percents — so an objective re-derived from the recorded allocations
     sits a rounding delta away from the recorded value, and only ``objective_bound`` rows can
@@ -1689,11 +1691,11 @@ def verify_run(problem: Problem, run: Run, scenario: "Scenario | None" = None) -
                 "constraint": lab["constraint"] if lab else f"unlabeled constraint row {idx}",
                 "constraint_type": ctype,
                 "margin": round(margin, 6),
-                "severity": ("rounding" if proportional and ctype == "objective_bound"
-                             else "violation"),
+                "kind": ("rounding" if proportional and ctype == "objective_bound"
+                         else "violation"),
             })
 
-    breaches = [r for r in rows if r["severity"] == "violation"]
+    breaches = [r for r in rows if r["kind"] == "violation"]
     result = {
         "status": "violations_found" if breaches else "verified",
         "plans_checked": len(run.solutions),
@@ -1701,7 +1703,7 @@ def verify_run(problem: Problem, run: Run, scenario: "Scenario | None" = None) -
     }
     if len(rows) > _VERIFY_MAX_ROWS:
         result["violations_total"] = len(rows)
-    if any(r["severity"] == "rounding" for r in rows):
+    if any(r["kind"] == "rounding" for r in rows):
         result["note"] = ("rounding rows re-derive the objective from whole-percent allocations "
                           "and land a rounding delta off the recorded value — not infeasible plans")
     if labels is None and rows:

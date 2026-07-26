@@ -1474,7 +1474,12 @@ def audit_property(problem: Problem, property_dict: dict | list | None) -> dict:
 
 
 def _constraint_key(c: dict) -> str:
-    """Stable string key for a constraint dict, for comparison."""
+    """Stable string key for a constraint dict, for comparison.
+
+    Keys the *rule*, never its annotations: `motivated_by` documents why a constraint exists
+    and changing it must not read as a model change. The typed branches below already ignore
+    unlisted fields; the unknown-type fallback strips the annotation explicitly so a future
+    constraint type inherits that property instead of re-acquiring the bug."""
     ctype = c.get("type", "")
     if ctype == "cardinality":
         return f"cardinality:{c.get('min')}:{c.get('max')}"
@@ -1488,7 +1493,11 @@ def _constraint_key(c: dict) -> str:
         return f"dependency:{c.get('if_option')}:{c.get('then_option')}"
     elif ctype == "group_limit":
         return f"group_limit:{','.join(c.get('options', []))}:{c.get('min', 0)}:{c.get('max')}"
-    return str(c)
+    elif ctype == "max_allocation":
+        return f"max_allocation:{c.get('max')}"
+    elif ctype == "allocation_bound":
+        return f"allocation_bound:{c.get('option')}:{c.get('min', 0)}:{c.get('max')}"
+    return str({k: v for k, v in sorted(c.items()) if k != "motivated_by"})
 
 
 _QUALITY_SEVERITY = {"GOOD": 0, "WARNING": 1, "DEGENERATE": 2}

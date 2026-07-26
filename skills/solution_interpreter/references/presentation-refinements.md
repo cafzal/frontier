@@ -13,6 +13,8 @@ Every solve returns two pre-computed signals — read them first, before scannin
 - **`frontier_quality.status`** — `GOOD` / `WARNING` / `POOR`. Combines a `gates` block (`frontier_returned`, `non_trivial`, `diverse`) with `issues[]` describing any failure. The classifier already incorporates spacing CV and allocation concentration; you don't need to reinterpret those raw numbers.
 - **`frontier_complete`** — `True` when the returned set is the full feasible Pareto frontier; `False` when pruning truncated it (`total_pareto_found > solutions_found`).
 
+Both describe how *useful* the frontier is, and they presume a *sound* one. The sibling `constraint_check` block answers that prior question — whether the returned plans honor the model's own rules — and its `violations_found` is a correctness failure that outranks any quality reading here. Read it first; the solve-health playbook is `get_skill('optimization_strategy', section='Constraint Verification')`.
+
 **Acting on `frontier_quality.status`:**
 
 | Status | Meaning | What to do |
