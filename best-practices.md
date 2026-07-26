@@ -5,9 +5,9 @@ A living reference for designing skills, tool descriptions, and agent instructio
 **Related docs:** [`architecture.md`](architecture.md) — system architecture, tool/skill reference, data flow | [`README.md`](README.md) — user setup and usage guide
 
 **Using this guide (by lifecycle phase)** — pull up the part that applies at each phase instead of re-reading the whole file:
-- **Designing** a new skill or MCP tool → §1 (Skill File Design), §3 (MCP Tool Description Design), §4 (Context Engineering), §5 (Division of Labor — which side of the code↔LLM boundary each piece belongs on)
-- **Developing** prompts, tool descriptions, or skill content → §2 (Prompt Best Practices), §5 payload-English cap
-- **Reviewing** a skill or prompt change → §1 agent-usability criteria + conciseness; verify cross-references and MECE boundaries; §5 gate rule (every scaffold ships with its regression gate)
+- **Designing** a new skill or MCP tool → §1 (Skill File Design), §3 (MCP Tool Description Design), §4 (Context Engineering — start with the **model floor**, which sets the guidance budget), §5 (Division of Labor — which side of the code↔LLM boundary each piece belongs on)
+- **Developing** prompts, tool descriptions, or skill content → §2 (Prompt Best Practices), §3 schema-expressiveness rule, §5 payload-English cap
+- **Reviewing** a skill or prompt change → §1 agent-usability criteria + conciseness; §4 model floor ("does this survive a weak model?") and the one-teaching-one-layer rule; verify cross-references and MECE boundaries; §5 gate rule (every scaffold ships with its regression gate)
 - **Testing** a new feature → §1 safety patterns (confirmation gates, validation loops)
 
 ---
@@ -112,6 +112,8 @@ The LLM's reasoning frequently exceeds what a hand-written step-by-step plan wou
 
 (Source: [Anthropic — Thinking and reasoning](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices#leverage-thinking--interleaved-thinking-capabilities))
 
+**Scope: this holds for judgment calls, not for workflow obligations.** A model's reasoning reliably fills in *how* to do something it has decided to do; a step it never considered stays missing. When server.py's CERTIFY line omitted linear-allocation LP, a weak model skipped certify entirely on that shape while capable models certified unprompted. When a beat is something the workflow *owes the user* rather than a choice about execution, name it explicitly and name every shape it applies to — see §4, model floor.
+
 ### Avoid keyword matching and lookup tables
 
 LLMs can classify intent from natural language. Teaching keyword triggers ("user says X → do Y") is fragile and narrows generalization. Instead, teach the *classification principle*:
@@ -150,6 +152,12 @@ Tool descriptions are the primary interface between the agent and the system. Th
 
 ### Principles
 
+**Let the schema carry the instruction.** Before writing prose about how to use a parameter, ask whether a parameter name, an enum, or a required field could carry it instead. An enum of `"sum"|"avg"|"min"|"max"|"quadratic"` plus one line per value at the point of use teaches more reliably than a paragraph elsewhere explaining when to pick each — the enum is attached to the field the model is filling in at the moment it fills it, and it binds structurally rather than by persuasion. This is the highest-leverage portability lever the surface has: schema constrains the weakest model and costs the strongest nothing.
+
+The input-side twin of §5's structured classification, applied to what the agent sends rather than what it reads.
+
+Open instance: the aggregation guidance in server.py's pre-create checklist teaches when to pick `sum` vs `avg` vs `quadratic` from the instruction block, far from the `objectives` payload it governs. It belongs in the `objectives` Field description, on the parameter at construction time. Relocating across always-visible layers still touches the block every model reads, so it ships with the §4 behavioral gate — the answer-key eval before vs after, covering the rate-like-objective-as-`sum` trap.
+
 **Be explicit about parameter semantics.** Don't assume the LLM knows that `scores` uses merge semantics while `objectives` uses full replacement. State it.
 
 **Document side effects.** If an action marks results stale, clears cached data, or archives a run, say so in the tool description. The agent can't reason about what it doesn't know.
@@ -170,9 +178,36 @@ How skills, tool descriptions, and server instructions work together as a system
 2. **Tool descriptions** (per-tool docstrings): parameter documentation, API semantics, side effects.
 3. **Skills** (MCP resources): contextual judgment, principles, guardrails. Read on-demand by the agent.
 
+### The model floor
+
+Token budget answers *how much*. The model floor answers *how much for whom*.
+
+Guidance a strong model would have supplied on its own is dead weight to it — a sound case for cutting hard, given a known reader. Frontier has no such guarantee: the agent layer runs on whatever model the user brought, so **the weakest model that must succeed sets the guidance floor, whatever the strongest manages on its own.** A capable model doing the right thing tells you about that model; the surface earns its verdict from the weakest reader.
+
+The resolution is placement, not volume — **relocation** over deletion, moving guidance out of what every model reads on every call and into the layer a strong model skips and a weak one gets *pointed at*:
+
+| Content | Where it belongs | Why |
+|---|---|---|
+| A workflow obligation, and every shape it applies to | Always-visible: server instructions, tool docstrings, **the schema itself** (§3) | Binds every model; a weak one won't infer the beat |
+| A fact the engine can decide | Deterministic code (§5) | Redundant for strong models, load-bearing for weak ones |
+| The reasoning behind a rule, and its situational depth | Skill `references/`, fetched by `get_skill(name, section=)` | Strong models skip it; weak ones arrive via `guidance_pointer` |
+| Anything derivable from the code or the response itself | Nowhere — cut it | Costs every model, teaches none |
+
+The machinery for the third row already exists: per-section `get_skill`, the injection throttle, `guidance_pointer`. Relocation is what lets the floor rise without the ceiling paying for it.
+
+### One teaching, one layer
+
+Duplication across always-visible layers is the failure a rising floor invites. A weak model reading the same teaching twice acts on it once, while the second copy doubles the surface where terminology drifts. The rule:
+
+**The always-visible layer states the rule in one line, at the point of use. The skill carries the reasoning and the how. Never the same teaching at paragraph length in both.**
+
+Live instances to hold to this: "never say 'best'" (server instructions + `solution_interpreter`) is correct — a one-line rule up top, the reasoning in the skill. The pre-create approach/aggregation checklist (server instructions + `problem_framing` §Approach Selection and §Aggregation) still owes the fix: it carries a paragraph of the same teaching in both layers, and §3 names the remedy.
+
 ### Design principles
 
 **Minimize total token budget.** Every token of instruction competes for attention. Be concise. If something can be derived from the code, don't document it in a skill. If something is said once in a tool description, don't repeat it in a skill.
+
+**Point at the artifact, don't describe it.** Prefer a reference to real code, a test, an `examples/` bundle, or a schema over prose restating what it contains — the artifact can't drift from itself, and the prose always will. Frontier's strongest instance already exists: an example's runbook *is* its user-test script, so the bundle is simultaneously the spec, the demo, and the eval. When a skill section teaches a pattern a bundle demonstrates, point at the bundle and say when to open it.
 
 **Put critical instructions in the layer that's always visible.** Server instructions and tool descriptions are always in context. Skills are read on-demand. The most important guardrails should be in the always-visible layer, with skills providing depth.
 
@@ -189,7 +224,7 @@ Frontier scaffolds a probabilistic agent with deterministic Python. The strategy
 **Deterministic code earns its place in exactly three areas:**
 
 1. **Math** — compute what the LLM can't: the solve itself, hypervolume, regret, duals, dominance. Never ask the model to estimate what the engine can prove.
-2. **Structured classification** — compress raw results into a stable vocabulary of enums and verdicts (`linear_redundant`, `under_covered`, `frontier_inferred`, scale bands, certificate blocks). This vocabulary is what skills teach against ("when you see X, say Y"), what answer-key evals assert on, and what makes claims traceable. It also makes behavior portable across models — classification in code is redundancy for strong models and load-bearing for weak ones.
+2. **Structured classification** — compress raw results into a stable vocabulary of enums and verdicts (`linear_redundant`, `under_covered`, `frontier_inferred`, scale bands, certificate blocks). This vocabulary is what skills teach against ("when you see X, say Y"), what answer-key evals assert on, and what makes claims traceable. It also makes behavior portable across models — classification in code is redundancy for strong models and load-bearing for weak ones. (This is the read-side half of the model floor, §4; §3's schema-expressiveness rule is the write-side half.)
 3. **Guidance routing** — the injection throttle, `guidance_pointer`s, and section resolver. *When* to deliver skill content is a state-machine problem (once per phase, re-arm on shape change, point at the section governing this payload), not a judgment call.
 
 **The boundary rule: code decides what is true; skills decide how to say it and when it matters; the model decides what the user meant.** Semantic mapping of user intent stays with the model (see §2 — no keyword tables); narration and judgment stay in skills; facts, labels, and state stay in code.
@@ -218,11 +253,16 @@ Patterns discovered during skill file auditing and refactoring:
 | Domain-specific examples | "SSO, Mobile App, Analytics Dashboard" | "[Option A], [Option B]" or pattern description |
 | Redundancy across files | Aggregation explained in 3 files | Canonical in `problem_framing`, cross-referenced |
 | Flat priority | All sections at same heading level | "Core Judgment" (critical) vs "Presentation Refinements" |
+| Prose where schema would bind | A paragraph on when to pick each aggregation | Enum + one line per value on the parameter (§3) |
+| Depth in the always-visible layer | Situational guidance in server instructions | `references/` + a `guidance_pointer` to the section (§4) |
+| Same teaching in two visible layers | Approach/aggregation in instructions *and* skill | One-line rule up top, reasoning in the skill (§4) |
+| Prose describing an artifact | Skill section restating a bundle's shape | Point at the `examples/` bundle, say when to open it |
 
 ---
 
 ## Sources
 
+- [Anthropic — The new rules of context engineering for Claude 5 generation models](https://claude.com/blog/the-new-rules-of-context-engineering-for-claude-5-generation-models)
 - [Anthropic — Prompting best practices](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices)
 - [Anthropic — System prompts](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/system-prompts)
 - [Anthropic — Long context prompting tips](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/long-context-tips)
