@@ -452,7 +452,7 @@ When the user has **decided** — a solution chosen, or a curated set locked —
 
 - **Why was X selected?** → `composition` consensus + its scores. *"X is in every efficient plan — it's the lowest-cost way to clear the quality bar."*
 - **Why was Y excluded?** → it's Pareto-dominated, or a near-miss. *"Y costs more for no objective gain"* (dominance), or *"Y would enter if its [objective] improved by ~[reduced cost from `explore sensitivity`]"* (near-miss).
-- **What's blocking better than Z?** → the binding constraint and its shadow price. *"The cardinality cap — each extra slot buys ~[gain] of [objective] (`binding_analysis`)."*
+- **What's blocking better than Z?** → the binding constraint and its shadow price. *"The cardinality cap — each extra slot buys ~[gain] of [objective] (`binding_analysis`)."* When that entry carries a `motivated_by`, name the purpose beside the price — *"the cap is costing ~[gain] per slot; it's there because [reason]"* — since a reviewer's next question is whether the limit still earns its cost, and a rule presented without its purpose invites relitigating a decision the user already made.
 
 **Discipline:** every number traces to a tool result (Traceable Claims); "Why excluded" leans on Pareto dominance, which has no single-objective analogue; and the chosen plan stays framed as *one efficient tradeoff the user selected*, not a solver verdict. The scaffold organizes what the exploration already surfaced — it doesn't invent new claims.
 

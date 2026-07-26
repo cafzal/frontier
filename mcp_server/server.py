@@ -295,7 +295,9 @@ def model(
                     "changes.")] = None,
     constraints: Annotated[list[dict] | None, Field(
         description="On update: FULL REPLACEMENT — always send the COMPLETE constraint "
-                    "set; a partial list silently drops every constraint it omits.")] = None,
+                    "set; a partial list silently drops every constraint it omits. Every "
+                    "type accepts an optional \"motivated_by\" string recording why the rule "
+                    "exists; it is echoed beside the rule's cost in binding_analysis.")] = None,
     approach: str | None = None,
     reference_points: Annotated[list[dict] | None, Field(
         description="On update: FULL REPLACEMENT — send the complete list.")] = None,
@@ -1512,6 +1514,9 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     # pulling the whole payload into context. Path is returned in the response.
     frontier_complete = run.total_pareto_found <= len(run.solutions)
     frontier_quality = metrics.frontier_quality(run.solutions, p.objectives, run.quality.spacing_cv)
+    # Sibling of frontier_quality, not a fourth gate inside it: those gates ladder usefulness,
+    # a breached hard constraint is correctness.
+    constraint_check = optimizer.verify_run(p, run)
 
     full_payload = {
         "run_id": run.run_id,
@@ -1520,6 +1525,7 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
         "total_pareto_found": run.total_pareto_found,
         "frontier_complete": frontier_complete,
         "frontier_quality": frontier_quality,
+        "constraint_check": constraint_check,
         "solutions": [json.loads(s.model_dump_json()) for s in run.solutions],
         "quality": json.loads(run.quality.model_dump_json()),
         "constraints_snapshot": run.constraints_snapshot,
@@ -1538,6 +1544,7 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
         "total_pareto_found": run.total_pareto_found,
         "frontier_complete": frontier_complete,
         "frontier_quality": frontier_quality,
+        "constraint_check": constraint_check,
         "seed_used": run.seed_used,
         "solver_used": run.solver,
         "exact": run.exact,
@@ -1680,9 +1687,13 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
 
     summary = {}
     result_paths: dict[str, str] = {}
+    scenarios_by_name = {s.name: s for s in (p.scenario_config.scenarios if p.scenario_config else [])}
     for name, run in scenario_results.items():
         frontier_complete = run.total_pareto_found <= len(run.solutions)
         frontier_quality = metrics.frontier_quality(run.solutions, p.objectives, run.quality.spacing_cv)
+        # Verified against THIS scenario's overrides — a scenario replaces the whole base
+        # constraint set, so checking it against the base rules would be the wrong model.
+        constraint_check = optimizer.verify_run(p, run, scenario=scenarios_by_name.get(name))
 
         full_payload = {
             "run_id": run.run_id,
@@ -1692,6 +1703,7 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
             "total_pareto_found": run.total_pareto_found,
             "frontier_complete": frontier_complete,
             "frontier_quality": frontier_quality,
+            "constraint_check": constraint_check,
             "solutions": [json.loads(s.model_dump_json()) for s in run.solutions],
             "quality": json.loads(run.quality.model_dump_json()),
             "mode": run.mode.value if run.mode else None,
@@ -1709,6 +1721,7 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
             "total_pareto_found": run.total_pareto_found,
             "frontier_complete": frontier_complete,
             "frontier_quality": frontier_quality,
+            "constraint_check": constraint_check,
             "quality": json.loads(run.quality.model_dump_json()),
             "seed_used": run.seed_used,
             "solver_used": run.solver,

@@ -1128,12 +1128,18 @@ def _completeness_block(problem: Problem, nsga_run: Run, exact_run: Run) -> dict
 
 
 def _objective_bound_dips(problem: Problem, run: Run) -> list[dict]:
-    """Points whose objective values sit a hair outside a stated ``objective_bound``.
+    """Points whose *recorded* objective values sit a hair outside a stated ``objective_bound``.
 
     Whole-percent rounding of a continuous (proportional) optimum can dip a point just
     under a floor the LP/QP itself honors — name those points instead of letting the
     certified table silently contradict the model. Display artifact, not an infeasible
-    plan; binary selections are integer by construction and never dip."""
+    plan; binary selections are integer by construction and never dip.
+
+    Reads the value the solution **stores**, which is what the certified table prints. Its
+    sibling ``optimizer.verify_run`` re-derives the value from the stored *allocations* and so
+    catches the complementary case — a recorded value that honors the bound while the recorded
+    plan, re-aggregated, does not. Both are rounding effects on the same proportional path;
+    keeping them separate keeps each one's claim exact."""
     if problem.approach != Approach.proportional:
         return []
     dips = []
@@ -2883,7 +2889,13 @@ def _binding_analysis(problem: Problem, solutions: list) -> list[dict]:
         else:
             entry = None
         if entry is not None:
-            out.extend(entry) if isinstance(entry, list) else out.append(entry)
+            entries = entry if isinstance(entry, list) else [entry]
+            # Echo the constraint's own motive beside its price — "this cap costs X per unit"
+            # is a stronger prompt when it can also say what the cap was protecting.
+            if getattr(c, "motivated_by", ""):
+                for e in entries:
+                    e["motivated_by"] = c.motivated_by
+            out.extend(entries)
     return out
 
 

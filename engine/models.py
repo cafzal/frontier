@@ -106,54 +106,70 @@ class InteractionMatrix(BaseModel):
 # --- Constraints ---
 
 
-class CardinalityConstraint(BaseModel):
+class _Motivated(BaseModel):
+    """Provenance shared by every constraint type: why this rule exists.
+
+    A constraint shapes the feasible region silently — `binding_analysis` can price a cap
+    exactly and still not say what it is protecting, and the curated handoff renders finalists
+    whose option space was cut by rules that reach review anonymous. The field is the user's own
+    words, carried and echoed, never reasoned over. Same name and role as `Scenario.motivated_by`
+    (one term per concept), and the natural moment to fill it is the one `problem_framing` →
+    *Post-Solve Constraint Discovery* already teaches: a rejected-but-valid solution reveals a
+    latent constraint, and the rejection IS the motive.
+
+    Optional and defaulted, so existing bundles, saved problems, and tool calls parse unchanged.
+    """
+    motivated_by: str = ""
+
+
+class CardinalityConstraint(_Motivated):
     type: Literal["cardinality"] = "cardinality"
     min: int
     max: int
 
 
-class ForceIncludeConstraint(BaseModel):
+class ForceIncludeConstraint(_Motivated):
     type: Literal["force_include"] = "force_include"
     option: str
 
 
-class ForceExcludeConstraint(BaseModel):
+class ForceExcludeConstraint(_Motivated):
     type: Literal["force_exclude"] = "force_exclude"
     option: str
 
 
-class ObjectiveBoundConstraint(BaseModel):
+class ObjectiveBoundConstraint(_Motivated):
     type: Literal["objective_bound"] = "objective_bound"
     objective: str
     operator: BoundOperator
     value: FiniteFloat
 
 
-class ExclusionPairConstraint(BaseModel):
+class ExclusionPairConstraint(_Motivated):
     type: Literal["exclusion_pair"] = "exclusion_pair"
     option_a: str
     option_b: str
 
 
-class DependencyConstraint(BaseModel):
+class DependencyConstraint(_Motivated):
     type: Literal["dependency"] = "dependency"
     if_option: str
     then_option: str
 
 
-class GroupLimitConstraint(BaseModel):
+class GroupLimitConstraint(_Motivated):
     type: Literal["group_limit"] = "group_limit"
     options: list[str]
     min: int = 0  # minimum selected/active options from the group (0 = no floor)
     max: int
 
 
-class MaxAllocationConstraint(BaseModel):
+class MaxAllocationConstraint(_Motivated):
     type: Literal["max_allocation"] = "max_allocation"
     max: int  # maximum allocation percentage for any single option (1-100)
 
 
-class AllocationBoundConstraint(BaseModel):
+class AllocationBoundConstraint(_Motivated):
     """Per-option allocation floor/cap in percent (proportional only) — contractual minimums,
     service floors, per-channel caps. The effective cap is min(global max_allocation, max);
     a floor > 0 force-activates the option."""
