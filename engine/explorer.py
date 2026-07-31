@@ -1128,12 +1128,18 @@ def _completeness_block(problem: Problem, nsga_run: Run, exact_run: Run) -> dict
 
 
 def _objective_bound_dips(problem: Problem, run: Run) -> list[dict]:
-    """Points whose objective values sit a hair outside a stated ``objective_bound``.
+    """Points whose *recorded* objective values sit a hair outside a stated ``objective_bound``.
 
     Whole-percent rounding of a continuous (proportional) optimum can dip a point just
     under a floor the LP/QP itself honors — name those points instead of letting the
     certified table silently contradict the model. Display artifact, not an infeasible
-    plan; binary selections are integer by construction and never dip."""
+    plan; binary selections are integer by construction and never dip.
+
+    Reads the value the solution **stores**, which is what the certified table prints. Its
+    sibling ``optimizer.verify_run`` re-derives the value from the stored *allocations* and so
+    catches the complementary case — a recorded value that honors the bound while the recorded
+    plan, re-aggregated, does not. Both are rounding effects on the same proportional path;
+    keeping them separate keeps each one's claim exact."""
     if problem.approach != Approach.proportional:
         return []
     dips = []
@@ -1468,7 +1474,12 @@ def audit_property(problem: Problem, property_dict: dict | list | None) -> dict:
 
 
 def _constraint_key(c: dict) -> str:
-    """Stable string key for a constraint dict, for comparison."""
+    """Stable string key for a constraint dict, for comparison.
+
+    Keys the *rule*, never its annotations: `motivated_by` documents why a constraint exists
+    and changing it must not read as a model change. The typed branches below already ignore
+    unlisted fields; the unknown-type fallback strips the annotation explicitly so a future
+    constraint type inherits that property instead of re-acquiring the bug."""
     ctype = c.get("type", "")
     if ctype == "cardinality":
         return f"cardinality:{c.get('min')}:{c.get('max')}"
@@ -1482,7 +1493,11 @@ def _constraint_key(c: dict) -> str:
         return f"dependency:{c.get('if_option')}:{c.get('then_option')}"
     elif ctype == "group_limit":
         return f"group_limit:{','.join(c.get('options', []))}:{c.get('min', 0)}:{c.get('max')}"
-    return str(c)
+    elif ctype == "max_allocation":
+        return f"max_allocation:{c.get('max')}"
+    elif ctype == "allocation_bound":
+        return f"allocation_bound:{c.get('option')}:{c.get('min', 0)}:{c.get('max')}"
+    return str({k: v for k, v in sorted(c.items()) if k != "motivated_by"})
 
 
 _QUALITY_SEVERITY = {"GOOD": 0, "WARNING": 1, "DEGENERATE": 2}
@@ -2883,7 +2898,13 @@ def _binding_analysis(problem: Problem, solutions: list) -> list[dict]:
         else:
             entry = None
         if entry is not None:
-            out.extend(entry) if isinstance(entry, list) else out.append(entry)
+            entries = entry if isinstance(entry, list) else [entry]
+            # Echo the constraint's own motive beside its price — "this cap costs X per unit"
+            # is a stronger prompt when it can also say what the cap was protecting.
+            if getattr(c, "motivated_by", ""):
+                for e in entries:
+                    e["motivated_by"] = c.motivated_by
+            out.extend(entries)
     return out
 
 

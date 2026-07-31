@@ -18,6 +18,8 @@ Pass to the `constraints` param as a list of dicts:
 {"type": "allocation_bound", "option": "<name>", "min": <int>, "max": <int>}  (proportional only: per-option floor/cap in percent — contractual minimums, service floors, per-channel caps; effective cap = min(global, per-option); a floor > 0 force-activates the option and carries a dual on the exact LP/QP path)
 ```
 
+Every type also accepts an optional `"motivated_by": "<why this rule exists>"` — the user's own words, carried and echoed beside the constraint's cost in `binding_analysis` and in the stakeholder writeup. Fill it whenever the reason isn't recoverable from the rule itself, which is most of the time (see *Post-Solve Constraint Discovery* in the core).
+
 ## Interaction matrix schema
 
 For objectives with `aggregation="quadratic"`:

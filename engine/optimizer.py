@@ -778,6 +778,62 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
     }
 
 
+def _constraint_row_labels(problem: Problem, cp: dict) -> list[dict]:
+    """User-facing labels for the ``G`` columns of the pymoo problem built from ``cp``, in the
+    SAME order the ``_evaluate`` methods append them.
+
+    The problem classes carry indices, not names, so the labels are assembled here from the
+    parsed constraints rather than inside the class. That mirroring is the drift risk, and it is
+    guarded two ways: ``verify_run`` compares this list's length against the actual ``G`` width
+    and degrades to unlabeled rather than mislabel a row (an unlabeled violation is recoverable,
+    a misattributed one is not), and ``tests/test_constraint_check.py`` pins the count against a
+    problem carrying every constraint type on both approaches. Edit an ``_evaluate`` G block and
+    this list in the same commit."""
+    names = [o.name for o in problem.options]
+    obj_names = [o.name for o in problem.objectives]
+    proportional = problem.approach == Approach.proportional
+
+    def row(label: str, ctype: str) -> dict:
+        return {"constraint": label, "constraint_type": ctype}
+
+    rows: list[dict] = []
+    if proportional:
+        rows.append(row("allocations sum to 100", "allocation_total"))
+        rows.append(row("allocations sum to 100", "allocation_total"))
+    rows.append(row(f"cardinality ≥ {cp['cardinality_min']}", "cardinality"))
+    rows.append(row(f"cardinality ≤ {cp['cardinality_max']}", "cardinality"))
+    for i in cp["forced_in"]:
+        rows.append(row(f"force_include '{names[i]}'", "force_include"))
+    for i in cp["forced_out"]:
+        rows.append(row(f"force_exclude '{names[i]}'", "force_exclude"))
+    for obj_idx, operator, value in cp["obj_bounds"]:
+        op = "≤" if operator == BoundOperator.max else "≥"
+        rows.append(row(f"{obj_names[obj_idx]} {op} {value}", "objective_bound"))
+    for a, b in cp["exclusion_pairs"]:
+        rows.append(row(f"exclusion_pair '{names[a]}' / '{names[b]}'", "exclusion_pair"))
+    for if_idx, then_idx in cp["dependencies"]:
+        rows.append(row(f"dependency '{names[if_idx]}' → '{names[then_idx]}'", "dependency"))
+    for group_indices, g_min, g_max in cp["group_limits"]:
+        label = f"group ({len(group_indices)} options)"
+        rows.append(row(f"{label} ≤ {g_max}", "group_limit"))
+        if g_min > 0:
+            rows.append(row(f"{label} ≥ {g_min}", "group_limit"))
+    if proportional:
+        # Two vectorized appends, each contributing one column per bounded option in dict order.
+        bounded = list(cp["allocation_bounds"])
+        for i in bounded:
+            rows.append(row(f"'{names[i]}' allocation ≥ {cp['allocation_bounds'][i][0]}%",
+                            "allocation_bound"))
+        for i in bounded:
+            rows.append(row(f"'{names[i]}' allocation ≤ {cp['allocation_bounds'][i][1]}%",
+                            "allocation_bound"))
+        if cp["max_allocation"] is not None:
+            for name in names:
+                rows.append(row(f"'{name}' allocation ≤ {cp['max_allocation']}% (global cap)",
+                                "max_allocation"))
+    return rows
+
+
 def _round_weights_to_pct(w_frac: np.ndarray, n_options: int, max_allocation: int | None,
                           bounds_pct: "tuple[np.ndarray, np.ndarray] | None" = None) -> np.ndarray:
     """Round continuous fractional weights → integer percentages summing to 100, matching the
@@ -1535,9 +1591,21 @@ def make_slate_scorer(problem: Problem, scenario: "Scenario | None" = None):
         out: dict = {}
         prob._evaluate(x.copy(), out)
         g = out.get("G")
-        feasible = bool(g is None or np.asarray(g).size == 0 or np.all(np.asarray(g) <= 1e-6))
-        return {"values": values, "feasible": feasible}
+        gv = np.asarray(g).reshape(-1) if g is not None else np.zeros(0)
+        feasible = bool(gv.size == 0 or np.all(gv <= 1e-6))
+        result = {"values": values, "feasible": feasible}
+        if not feasible:
+            # Only on the rare infeasible path, so the common case pays nothing. Row indices
+            # address `score.constraint_labels`; margins are in each row's own units.
+            result["violation_rows"] = [(int(k), float(gv[k])) for k in np.where(gv > 1e-6)[0]]
+        return result
 
+    # Labels for the G columns, derived from the SAME `cp` that built `prob` — so a label can
+    # never describe a constraint the problem didn't encode. None when the mirror has drifted
+    # out of sync with the _evaluate blocks, which downgrades verify_run to unlabeled rows
+    # instead of misattributing them.
+    _labels = _constraint_row_labels(p, cp)
+    score.constraint_labels = _labels if len(_labels) == prob.n_ieq_constr else None
     return score
 
 
@@ -1568,6 +1636,79 @@ def evaluate_slate(
     """Objective vector for one slate under the base case or a scenario.
     Thin wrapper over ``score_slate`` (which also returns feasibility)."""
     return score_slate(problem, selected_options, allocations, scenario)["values"]
+
+
+_VERIFY_MAX_ROWS = 20   # payload cap; `violations_total` carries the true count (data_metrics convention)
+
+
+def verify_run(problem: Problem, run: Run, scenario: "Scenario | None" = None) -> dict:
+    """Re-check every plan a run returned against the problem's constraints, naming any that
+    breach one.
+
+    The engine enforces hard constraints during the search, and several mechanisms move a plan
+    *after* that enforcement: whole-percent rounding of a continuous optimum
+    (``_round_weights_to_pct``), the repair operator, and an exact backend's own solver
+    tolerance. This re-reads the returned artifact rather than trusting the search that produced
+    it, so the "respected by every plan the search returns" guarantee is tested rather than
+    asserted.
+
+    **What it does and does not cover.** It reuses the optimizer's own constraint encoding
+    (via ``make_slate_scorer``), so it catches *search-side* drift — the rounding, repair, and
+    tolerance effects above — and cannot catch an error in the encoding itself, which it shares.
+    Stating that boundary is the point: a check whose blind spot is documented is usable, one
+    that implies totality is not.
+
+    ``kind`` separates the two causes — deliberately not ``severity``, which the same solve
+    response already spends on ``metrics.diagnostics`` with an info/warning/error vocabulary; a
+    second meaning under one field name taxes every read. The split follows from *which* stored
+    field each constraint is judged against. On the proportional path a solution records
+    ``objective_values`` computed from the search's **continuous** x, alongside ``allocations``
+    **rounded** to integer percents — so an objective re-derived from the recorded allocations
+    sits a rounding delta away from the recorded value, and only ``objective_bound`` rows can
+    trip on that gap. Every other constraint type is judged on the allocations themselves,
+    which both the writer and this check read identically, so a breach there is a real property
+    of the recorded plan. Hence: proportional ``objective_bound`` → ``rounding`` (the reading
+    ``explorer._objective_bound_dips`` established), everything else → ``violation``. Only
+    violations move the status, and the margin rides every row so an implausibly large rounding
+    gap stays visible as the finding it would be.
+
+    Returns ``{"status": verified|violations_found, "plans_checked": N, "violations": [...]}``.
+    """
+    score = make_slate_scorer(problem, scenario)
+    labels = score.constraint_labels
+    proportional = problem.approach == Approach.proportional
+
+    rows: list[dict] = []
+    for s in run.solutions:
+        r = score(s.selected_options, s.allocations)
+        if r["feasible"]:
+            continue
+        for idx, margin in r.get("violation_rows", []):
+            lab = labels[idx] if labels is not None and idx < len(labels) else None
+            ctype = lab["constraint_type"] if lab else "unknown"
+            rows.append({
+                "solution_id": s.solution_id,
+                "constraint": lab["constraint"] if lab else f"unlabeled constraint row {idx}",
+                "constraint_type": ctype,
+                "margin": round(margin, 6),
+                "kind": ("rounding" if proportional and ctype == "objective_bound"
+                         else "violation"),
+            })
+
+    breaches = [r for r in rows if r["kind"] == "violation"]
+    result = {
+        "status": "violations_found" if breaches else "verified",
+        "plans_checked": len(run.solutions),
+        "violations": rows[:_VERIFY_MAX_ROWS],
+    }
+    if len(rows) > _VERIFY_MAX_ROWS:
+        result["violations_total"] = len(rows)
+    if any(r["kind"] == "rounding" for r in rows):
+        result["note"] = ("rounding rows re-derive the objective from whole-percent allocations "
+                          "and land a rounding delta off the recorded value — not infeasible plans")
+    if labels is None and rows:
+        result["labels_unavailable"] = True
+    return result
 
 
 def _negate_property(problem: Problem, prop) -> list[list[tuple]]:

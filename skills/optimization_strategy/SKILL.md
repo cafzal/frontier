@@ -113,6 +113,17 @@ When the solver returns no solutions:
 - To confirm infeasibility **exactly** before (or without) a full solve — or get a concrete feasible *witness* plan when the constraints ARE satisfiable — use `explore audit` with no property: the binary feasibility probe, the exact counterpart to `validate`'s pre-solve conflict check. With a property (any constraint shape), `explore audit` also proves whether a guardrail holds across the *entire* feasible space (verdict `holds`) or returns a counterexample plan — the governance read, presented via `frontier://skills/solution_interpreter` → *Reading the Audit (explore audit)*.
 - Relaxing the tightest constraint often just exposes the *next* one binding underneath — so relax and re-solve incrementally rather than all at once.
 
+### Constraint Verification
+
+Every solve re-reads the plans it returns against the problem's constraints and reports a `constraint_check` block. Read it before anything else on the response: the quality gates below all presume a sound frontier, so a breach outranks them.
+
+- **`verified`** — every returned plan satisfies every stated rule. This is the normal result, and it licenses a specific claim the user cares about: the plans on this frontier respect the limits they set. Say it plainly when the guarantee is what's being questioned; don't narrate it on every solve. It says the plans are *legal*, not that they're *optimal* or that the frontier is *complete* — `frontier_complete` and the exact overlay answer those, and they can disagree with a `verified` reading. Never let a green here stand in for the other two.
+- **`violations_found`** — a returned plan breaches a rule. Treat it as a defect, not a tradeoff: stop, name the constraint and the solution, and don't present the frontier as a choice set until it's understood. This is the one solve signal that isn't a decision finding.
+
+A row whose `kind` is `rounding` is a different animal and never moves the status. On proportional problems an objective is recorded from the search's continuous allocation while the plan is recorded as whole percentages, so re-deriving the objective from those percentages lands a fraction off the recorded value — enough to sit just outside a tight bound. That is a display effect of the percentage grid, not an infeasible plan, and the honest framing to the user is that the bound holds and the printed value carries rounding. The `margin` rides every row: a rounding gap large enough to change the decision is itself the finding, so read the number rather than waving the label through.
+
+The check re-reads what the search returned, which is where post-search adjustment happens (percentage rounding, repair, solver tolerance). It shares the constraint encoding with the search, so it confirms the returned artifact rather than independently re-deriving what the rules mean — worth stating if a user asks how strong the guarantee is.
+
 ### Status Literacy
 
 A thin frontier is a diagnosis, not a result to hand over quietly. "Few solutions" has several distinct causes, and the solve response already carries the fields that separate them — read them and name the cause instead of returning a sparse set without comment.

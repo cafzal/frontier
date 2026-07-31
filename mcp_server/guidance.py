@@ -218,6 +218,15 @@ def _attach_solve_guidance_pointer(result: dict) -> dict:
     status = fq.get("status") if isinstance(fq, dict) else None
     diagnostics = (result.get("metrics") or {}).get("diagnostics") or []
     actionable = any(d.get("severity") in ("warning", "error") for d in diagnostics)
+    cc = result.get("constraint_check")
+    if isinstance(cc, dict) and cc.get("status") == "violations_found":
+        # Outranks every other signal: a returned plan breaching a stated hard rule is a
+        # correctness failure, and the quality gates below all presume a sound frontier.
+        # The read is solve-health, so this is the one branch pointing outside
+        # solution_interpreter.
+        result["guidance_pointer"] = _make_guidance_pointer(
+            "optimization_strategy", "Constraint Verification")
+        return result
     if status in ("POOR", "WARNING"):
         section = "Frontier Quality and Completeness Signals"
     elif actionable:

@@ -84,8 +84,21 @@ _SOLVE_INPUT_FIELDS = {
 }
 
 
+def _strip_motives(node):
+    """Drop `motivated_by` keys (constraints, scenario overrides, scenarios) from a dumped
+    payload. Provenance records why a rule exists; it never determines a solve's result — the
+    membership criterion stated above — so annotating a rule after a solve must not read as
+    editing the model. The sibling rule at `explorer._constraint_key` keeps the same field out
+    of run-diff identity."""
+    if isinstance(node, dict):
+        return {k: _strip_motives(v) for k, v in node.items() if k != "motivated_by"}
+    if isinstance(node, list):
+        return [_strip_motives(v) for v in node]
+    return node
+
+
 def _solve_fingerprint(p: Problem) -> str:
-    payload = p.model_dump(mode="json", include=_SOLVE_INPUT_FIELDS)
+    payload = _strip_motives(p.model_dump(mode="json", include=_SOLVE_INPUT_FIELDS))
     return hashlib.md5(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
 
 

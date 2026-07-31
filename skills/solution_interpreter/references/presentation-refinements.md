@@ -13,6 +13,8 @@ Every solve returns two pre-computed signals — read them first, before scannin
 - **`frontier_quality.status`** — `GOOD` / `WARNING` / `POOR`. Combines a `gates` block (`frontier_returned`, `non_trivial`, `diverse`) with `issues[]` describing any failure. The classifier already incorporates spacing CV and allocation concentration; you don't need to reinterpret those raw numbers.
 - **`frontier_complete`** — `True` when the returned set is the full feasible Pareto frontier; `False` when pruning truncated it (`total_pareto_found > solutions_found`).
 
+Both describe how *useful* the frontier is, and they presume a *sound* one. The sibling `constraint_check` block answers that prior question — whether the returned plans honor the model's own rules — and its `violations_found` is a correctness failure that outranks any quality reading here. Read it first; the solve-health playbook is `get_skill('optimization_strategy', section='Constraint Verification')`.
+
 **Acting on `frontier_quality.status`:**
 
 | Status | Meaning | What to do |
@@ -452,7 +454,7 @@ When the user has **decided** — a solution chosen, or a curated set locked —
 
 - **Why was X selected?** → `composition` consensus + its scores. *"X is in every efficient plan — it's the lowest-cost way to clear the quality bar."*
 - **Why was Y excluded?** → it's Pareto-dominated, or a near-miss. *"Y costs more for no objective gain"* (dominance), or *"Y would enter if its [objective] improved by ~[reduced cost from `explore sensitivity`]"* (near-miss).
-- **What's blocking better than Z?** → the binding constraint and its shadow price. *"The cardinality cap — each extra slot buys ~[gain] of [objective] (`binding_analysis`)."*
+- **What's blocking better than Z?** → the binding constraint and its shadow price. *"The cardinality cap — each extra slot buys ~[gain] of [objective] (`binding_analysis`)."* When that entry carries a `motivated_by`, name the purpose beside the price — *"the cap is costing ~[gain] per slot; it's there because [reason]"* — since a reviewer's next question is whether the limit still earns its cost, and a rule presented without its purpose invites relitigating a decision the user already made.
 
 **Discipline:** every number traces to a tool result (Traceable Claims); "Why excluded" leans on Pareto dominance, which has no single-objective analogue; and the chosen plan stays framed as *one efficient tradeoff the user selected*, not a solver verdict. The scaffold organizes what the exploration already surfaced — it doesn't invent new claims.
 

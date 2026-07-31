@@ -137,6 +137,8 @@ Users cannot always articulate preferences until they see a result that violates
 - **Hard constraint vs soft preference** — test with: "If violating this saved [meaningful amount], would that change your answer?"
 - **Specific vs vague** — if the rejection is vague ("too aggressive"), probe which dimension
 
+Record the reaction that produced the rule in the constraint's `motivated_by` field. A constraint added this way carries reasoning that lives nowhere else in the model — it came from a judgment the user made about a specific result — and a cap arriving at stakeholder review with a price but no purpose is the hardest kind to defend. `binding_analysis` echoes it beside the constraint's cost, so "this limit is costing you X per unit" can also say what the limit was protecting.
+
 See `frontier://skills/solution_interpreter` for guidance on presenting results to surface these reactions.
 
 ### Objective Quality
