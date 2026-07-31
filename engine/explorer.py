@@ -1263,10 +1263,12 @@ def _frontier_resolution_block(problem: Problem, front_sols: list) -> dict | Non
                   f"certified points by more than {gap:.4g} ({frac:.1%} of the frontier's "
                   f"{primary_name} span)"),
         "note": ("bounds the true continuous frontier, not just the sampled points — chords "
-                 "above (convexity), floor-dual tangents below (envelope theorem), a "
-                 "monotonicity floor where a dual is absent; exact to solver tolerance and "
-                 "the whole-percent rounding of reported values. Widest gap named in "
-                 "widest_segment — a targeted exact solve there tightens it."),
+                 "above (convexity) and floor-dual tangents below (envelope theorem) are "
+                 "model-class facts of the continuous LP/QP, independent of how the sampled "
+                 "frontier_shape heuristic reads; a monotonicity floor covers segments "
+                 "without a dual. Exact to solver tolerance and the whole-percent rounding "
+                 "of reported values; the widest gap is named in widest_segment — a targeted "
+                 "exact solve there tightens it."),
     }
 
 
