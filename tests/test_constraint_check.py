@@ -218,12 +218,18 @@ def test_bundled_examples_verify():
     assert names, "no bundled examples found"
     for name in names:
         p = problem_io.load_problem(name)
-        if not p.run:
-            continue
-        r = verify_run(p, p.run)
-        breaches = [v for v in r["violations"] if v["kind"] == "violation"]
-        assert not breaches, f"{name}: {breaches}"
-        assert r["status"] == "verified", name
+        runs = [("run", p.run, None), ("exact_run", p.exact_run, None)]
+        if p.scenario_run:
+            scens = {s.name: s for s in (p.scenario_config.scenarios if p.scenario_config else [])}
+            runs += [(f"scenario[{n}]", r, scens.get(n))
+                     for n, r in p.scenario_run.scenario_runs.items()]
+        for label, run, scenario in runs:
+            if not run:
+                continue
+            r = verify_run(p, run, scenario=scenario)
+            breaches = [v for v in r["violations"] if v["kind"] == "violation"]
+            assert not breaches, f"{name} {label}: {breaches}"
+            assert r["status"] == "verified", f"{name} {label}"
 
 
 # --- Provenance -----------------------------------------------------------------------
@@ -304,6 +310,21 @@ def test_compare_runs_sees_no_criteria_change_when_only_a_motive_is_added():
     p.run = after
     diff = compare_runs(p, [before.run_id, after.run_id])["criteria_diffs"][0]
     assert diff["added"] == [] and diff["removed"] == [], diff
+
+
+def test_annotating_a_rule_does_not_mark_results_stale():
+    """The solve fingerprint's membership rule is 'fields that determine a solve's result'.
+    `motivated_by` doesn't, so adding a motive to an already-solved model must not flip
+    `results_stale` — the skill flow this PR teaches (backfill the motive at Post-Solve
+    Constraint Discovery / writeup time) happens exactly when a stale flag would mislead."""
+    from mcp_server.jobs import _solve_fingerprint
+    plain = _problem(Approach.binary, [CardinalityConstraint(min=1, max=3)])
+    annotated = _problem(Approach.binary, [
+        CardinalityConstraint(min=1, max=3, motivated_by="board caps active bets at 3")])
+    assert _solve_fingerprint(plain) == _solve_fingerprint(annotated)
+    # The rule itself still fingerprints as a change.
+    tightened = _problem(Approach.binary, [CardinalityConstraint(min=1, max=2)])
+    assert _solve_fingerprint(plain) != _solve_fingerprint(tightened)
 
 
 def test_binding_analysis_echoes_motivated_by():
