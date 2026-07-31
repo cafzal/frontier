@@ -1852,7 +1852,10 @@ def explore(
                    last solve?"). Optional: run_ids (2+) for explicit historical runs.
       certify    — Check the NSGA frontier against the exact overlay: dominance check,
                    hypervolume coverage reclaimed, soundness invariant, per-objective corner
-                   sharpening. Frontier-level — it certifies the WHOLE frontier at once (your
+                   sharpening; on 2-objective continuous shapes, `frontier_resolution` bounds
+                   the TRUE frontier between the certified points' chords and their own dual
+                   tangents (a between-the-samples guarantee, with the widest gap named).
+                   Frontier-level — it certifies the WHOLE frontier at once (your
                    curated finalists are covered by that same certificate), so it takes no solution
                    scope: don't pass signatures/solution_ids (use `compare signatures=` for a
                    finalist head-to-head). No params (checks `run` vs `exact_run`; flow: solve →

@@ -364,3 +364,137 @@ def test_exact_certified_on_binary_requires_zero_gap():
     zero_gap = _run([(6.0, 2.0)], _OBJS, solver="highs", exact=True)
     assert certify_against_exact(p, nsga, bounded)["exact_certified"] is False
     assert certify_against_exact(p, nsga, zero_gap)["exact_certified"] is True
+
+
+# ─── frontier resolution (the sandwich bound) ───
+
+
+def _dual_run(points, prices, objectives, solver="highs"):
+    """An exact Run whose solutions carry return_floor duals for the swept objective.
+    ``prices[i]`` is the cost-sense |λ| at point i (None = no sensitivity attached)."""
+    from engine.models import ShadowPrice, SolutionSensitivity
+    sols = []
+    for i, p in enumerate(points):
+        sens = None
+        if prices[i] is not None:
+            sens = SolutionSensitivity(shadow_prices=[
+                ShadowPrice(name="Return", role="return_floor", shadow_price=prices[i])])
+        sols.append(Solution(solution_id=i, selected_options=["A"], sensitivity=sens,
+                             objective_values=dict(zip([o.name for o in objectives], p))))
+    return Run(solutions=sols, solver=solver)
+
+
+def test_frontier_resolution_none_without_duals():
+    """No solver-exact duals on the overlay (MILP / hand-built) → no resolution claim.
+    The block is None-and-omitted, matching coverage/completeness on shapes that can't
+    carry it — never a guessed bound."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _run([(0.0, 0.0), (1.0, 1.0), (2.0, 4.0)], _OBJS, solver="highs")
+    assert certify_against_exact(p, nsga, exact)["frontier_resolution"] is None
+
+
+def test_frontier_resolution_sandwich_geometry_exact_values():
+    """Hand-checkable parabola: Risk = Return² at Return 0, 1, 2, duals = |dv/du| = 0, 2, 4.
+    Each segment's chord-to-tangent gap is 0.5 (tangent-intersection midpoints), so the
+    certified resolution is 0.5 Risk = 12.5% of the frontier's Risk span."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _dual_run([(0.0, 0.0), (1.0, 1.0), (2.0, 4.0)], [0.0, 2.0, 4.0], _OBJS)
+    fr = certify_against_exact(p, nsga, exact)["frontier_resolution"]
+
+    assert fr is not None
+    assert fr["points_used"] == 3 and fr["segments_dual_tightened"] == 2
+    assert fr["span"] == {"Return": [0.0, 2.0]}
+    assert fr["max_gap"]["Risk"] == pytest.approx(0.5)
+    assert fr["max_gap"]["fraction_of_frontier_range"] == pytest.approx(0.125)
+    assert "Risk" in fr["claim"] and fr["basis"] == "solver_exact_duals"
+
+
+def test_frontier_resolution_monotonicity_floor_survives_missing_dual():
+    """An unpriced point (no sensitivity — an anchor or degenerate corner) loosens the
+    bound but never voids it: the monotonicity floor still bounds every segment. Same
+    parabola with the middle point unpriced → max gap grows 0.5 → 1.0."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _dual_run([(0.0, 0.0), (1.0, 1.0), (2.0, 4.0)], [0.0, None, 4.0], _OBJS)
+    fr = certify_against_exact(p, nsga, exact)["frontier_resolution"]
+
+    assert fr is not None
+    assert fr["max_gap"]["Risk"] == pytest.approx(1.0)
+    # Both segments still carry at least one dual tangent from their priced endpoint.
+    assert fr["segments_dual_tightened"] == 2
+
+
+def test_frontier_resolution_names_widest_segment():
+    """The widest gap is localized with its endpoint solution ids — self-certifying, and a
+    future targeted-solve handle. Asymmetric duals put the widest gap on the flat side."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _dual_run([(0.0, 0.0), (1.0, 1.0), (2.0, 4.0)], [0.0, None, 4.0], _OBJS)
+    fr = certify_against_exact(p, nsga, exact)["frontier_resolution"]
+
+    seg = fr["widest_segment"]
+    assert seg["Return"] == [0.0, 1.0] and seg["solution_ids"] == [1, 0]
+    assert fr["max_gap"]["Risk"] == pytest.approx(1.0)  # the widest segment IS max_gap
+
+
+def test_frontier_resolution_none_on_three_objectives():
+    """The sandwich is a 2-objective read (one swept axis, one primary) — a 3-objective
+    overlay returns None rather than a bound over a surface it didn't measure."""
+    objs = _OBJS + [Objective(name="Effort", direction="minimize")]
+    p = _problem(objs)
+    nsga = _run([(1.0, 1.0, 1.0)], objs)
+    exact = _run([(0.0, 0.0, 0.0), (2.0, 4.0, 1.0)], objs, solver="highs")
+    assert certify_against_exact(p, nsga, exact)["frontier_resolution"] is None
+
+
+def test_frontier_resolution_none_when_objectives_not_in_tension():
+    """A flat primary axis (no tradeoff) has no resolution to certify."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _dual_run([(0.0, 2.0), (2.0, 2.0)], [0.0, 0.0], _OBJS)
+    assert certify_against_exact(p, nsga, exact)["frontier_resolution"] is None
+
+
+def test_frontier_resolution_rides_the_recommendation():
+    """A present bound earns one recommendation clause pointing at the claim."""
+    p = _problem(_OBJS)
+    nsga = _run([(1.0, 1.0)], _OBJS)
+    exact = _dual_run([(0.0, 0.0), (1.0, 1.0), (2.0, 4.0)], [0.0, 2.0, 4.0], _OBJS)
+    cert = certify_against_exact(p, nsga, exact)
+    assert "resolution-certified" in cert["recommendation"]
+
+
+def test_frontier_resolution_end_to_end_qp():
+    """Real explore-then-certify on a tiny 2-objective mean-variance QP: NSGA run, lean
+    exact overlay (duals attached by the continuous path), certificate carries a sane
+    bound. Inline fixture — every bundled example is 3+ objectives, and the sandwich is
+    deliberately a 2-objective read (see `_frontier_resolution_block`)."""
+    from engine.optimizer import certify_curated, optimize
+
+    from engine.models import InteractionMatrix
+
+    names = ["A", "B", "C", "D", "E"]
+    table = {"Return": [8.0, 6.5, 5.0, 7.2, 4.0], "Risk": [9.0, 5.0, 2.0, 7.0, 1.5]}
+    var = {"A": 9.0, "B": 5.0, "C": 2.0, "D": 7.0, "E": 1.5}
+    cov = {a: {b: (var[a] if a == b else 0.6 * min(var[a], var[b]))
+               for b in names} for a in names}
+    p = Problem(
+        name="mv", approach="proportional",
+        objectives=[Objective(name="Return", direction="maximize", aggregation="avg"),
+                    Objective(name="Risk", direction="minimize", aggregation="quadratic")],
+        options=[Option(name=n) for n in names],
+        scores=[Score(option=n, objective=o, value=table[o][i])
+                for i, n in enumerate(names) for o in table],
+        interaction_matrices=[InteractionMatrix(objective="Risk", entries=cov)],
+    )
+    nsga = optimize(p, seed=42)
+    exact = certify_curated(p, nsga, solver="highs")
+    fr = certify_against_exact(p, nsga, exact)["frontier_resolution"]
+
+    assert fr is not None and fr["points_used"] >= 2
+    frac = fr["max_gap"]["fraction_of_frontier_range"]
+    assert 0.0 <= frac < 1.0
+    assert fr["segments_dual_tightened"] >= 1
+    assert "no feasible plan improves" in fr["claim"]
