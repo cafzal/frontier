@@ -346,8 +346,11 @@ def model(
                 approach ("binary" or "proportional"),
                 reference_points (list of {type, name?, objective_values, selected_options?}),
                 interaction_matrices (list of {objective, entries} for quadratic aggregation).
-                Scores and interaction_matrices merge (upsert); objectives, options,
-                constraints, and reference_points are full replacement.
+                Scores merge per-cell. interaction_matrices merge BY OBJECTIVE: within one
+                objective the default mode replaces its entries map, and cell-level merging
+                needs mode="upsert" — a chunked build must say it on every chunk (the
+                response echoes interaction_matrix_cells so a wipe is visible). objectives,
+                options, constraints, and reference_points are full replacement.
                 Side effects: score and structural edits both mark the latest run stale.
                 Only structural edits (objectives/options/constraints/approach/matrices/scenarios)
                 re-arm solution_interpreter — and, on an objectives/options shape change,
@@ -626,13 +629,35 @@ def _model_update(params: dict) -> dict:
     # problems unframable through the tools at all (the caller's partial call gets
     # dropped and every retry hits the same ceiling). Sharing apply_matrix_override
     # means "build it across several calls" works the same way everywhere.
+    matrix_cells_echo: dict[str, dict] = {}
     if "interaction_matrices" in params:
         from engine.optimizer import apply_matrix_override
+
+        def _cells(m):
+            return sum(len(row) for row in (m.entries or {}).values())
+
         im_map = {m.objective: m for m in p.interaction_matrices}
+        cells_before = {obj: _cells(m) for obj, m in im_map.items()}
         for im_dict in params["interaction_matrices"]:
             im = InteractionMatrix(**im_dict) if isinstance(im_dict, dict) else im_dict
             im_map[im.objective] = apply_matrix_override(im_map.get(im.objective), im)
         p.interaction_matrices = list(im_map.values())
+        # Cell-count echo for every touched objective — the matrix twin of constraints_note.
+        # Default mode replaces the objective's entries map, so a chunked build that omits
+        # mode="upsert" silently wipes the earlier chunks; a falling count is the wipe's
+        # signature, and echoing it makes the response self-certifying instead of leaving
+        # discovery to a later validation error.
+        for im_dict in params["interaction_matrices"]:
+            obj = (im_dict.get("objective") if isinstance(im_dict, dict)
+                   else im_dict.objective)
+            if obj in im_map:
+                entry = {"cells": _cells(im_map[obj])}
+                if obj in cells_before and entry["cells"] < cells_before[obj]:
+                    entry["note"] = (
+                        f"cell count fell: now {entry['cells']} (was {cells_before[obj]}) — "
+                        "the default mode replaces this objective's entries; chunked builds "
+                        "need mode=\"upsert\" on every chunk")
+                matrix_cells_echo[obj] = entry
         structural_change = True
         interpreter_rearm = True
 
@@ -690,6 +715,9 @@ def _model_update(params: dict) -> dict:
                if "constraints" in params else
                "rules referencing removed options/objectives were dropped")
             + f". Dropped: {listed}.")
+
+    if matrix_cells_echo:
+        result["interaction_matrix_cells"] = matrix_cells_echo
 
     # Include metrics on structural changes so the LLM can coach the user
     if structural_change:
