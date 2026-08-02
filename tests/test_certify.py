@@ -14,7 +14,17 @@ import pytest
 
 import mcp_server.server as srv
 from engine.explorer import _dominates_min, certify_against_exact
-from engine.models import Approach, CardinalityConstraint, Objective, Option, Problem, Run, Score, Solution
+from engine.models import (
+    Approach,
+    CardinalityConstraint,
+    CuratedSolution,
+    Objective,
+    Option,
+    Problem,
+    Run,
+    Score,
+    Solution,
+)
 from engine.store import Store
 
 
@@ -100,6 +110,123 @@ def test_invariant_violation_is_flagged_not_celebrated():
     assert c["invariant"]["holds"] is False
     assert c["invariant"]["exact_dominated_by_nsga"] == 1
     assert "not a heuristic" in c["invariant"]["note"]
+
+
+# ─── per-pick verdicts (the curated finalists) ───
+
+def _curated_fixture():
+    """A certificate whose curated set spans every verdict the block can return.
+
+    Minimize-space (Return negated): NSGA [(-8,3), (-11,2.2), (-9,4.5)], exact [(-10,2), (-12,4)],
+    every exact point non-dominated. Joint spread = (4, 2.5), so the gaps below are hand-checkable.
+    """
+    p = _problem(_OBJS)
+    nsga = _run([(8.0, 3.0), (11.0, 2.2), (9.0, 4.5)], _OBJS)
+    exact = _run([(10.0, 2.0), (12.0, 4.0)], _OBJS, solver="highs")
+    for s, sig in zip(exact.solutions, ["exact-a", "exact-b"]):
+        s.content_signature = sig
+    p.curated_solutions = [
+        # An NSGA pick one exact point beats: gap max(2/4, 1/2.5) = 0.5 against exact-a.
+        CuratedSolution(content_signature="pick-beaten", custom_name="Balanced",
+                        objective_values={"Return": 8.0, "Risk": 3.0}),
+        # A pick pinned off the exact overlay itself — nothing certified beats it.
+        CuratedSolution(content_signature="pick-safe", custom_name="Aggressive",
+                        objective_values={"Return": 12.0, "Risk": 4.0}),
+        # Beaten by BOTH exact points: exact-a by max(1/4, 2.5/2.5) = 1.0, exact-b by
+        # max(3/4, 0.5/2.5) = 0.75 — the nearer certifying point is the one reported.
+        CuratedSolution(content_signature="pick-two-beaters", custom_name="Hedge",
+                        objective_values={"Return": 9.0, "Risk": 4.5}),
+        # An NSGA pick the exact overlay does NOT beat — the audit leaves it alone too.
+        CuratedSolution(content_signature="pick-survivor", custom_name="Lean",
+                        objective_values={"Return": 11.0, "Risk": 2.2}),
+    ]
+    return certify_against_exact(p, nsga, exact)
+
+
+def test_per_pick_names_the_gap_and_the_certifying_point():
+    """A dominated finalist reports how far it sits from the certified frontier and which
+    certified point proves it — the answer that previously needed the exact-run JSON on disk."""
+    pp = _curated_fixture()["per_pick"]
+    assert pp["pick-beaten"] == {"verdict": "dominated", "custom_name": "Balanced",
+                                 "gap": 0.5, "dominated_by": "exact-a"}
+
+
+def test_per_pick_reports_the_nearest_certifying_point():
+    """When several certified points beat a pick, the gap is the distance to the NEAREST one —
+    the smallest move that reaches a plan better on every objective."""
+    assert _curated_fixture()["per_pick"]["pick-two-beaters"] == {
+        "verdict": "dominated", "custom_name": "Hedge", "gap": 0.75, "dominated_by": "exact-b"}
+
+
+def test_per_pick_marks_an_undominated_finalist_optimal():
+    """No certified point above it → optimal at its own tradeoff, nothing to close (gap 0), and
+    no `dominated_by` to name."""
+    assert _curated_fixture()["per_pick"]["pick-safe"] == {
+        "verdict": "optimal", "custom_name": "Aggressive", "gap": 0.0}
+
+
+def test_per_pick_agrees_with_the_dominance_audit():
+    """Same criterion, two readings: a pin sitting on an NSGA point is `dominated` exactly when
+    the frontier-level audit counts that point. The two can never tell different stories."""
+    c = _curated_fixture()
+    beaten = {sig for sig, v in c["per_pick"].items() if v["verdict"] == "dominated"}
+    assert beaten == {"pick-beaten", "pick-two-beaters"}          # the two beaten NSGA pins
+    assert c["per_pick"]["pick-survivor"]["verdict"] == "optimal"  # the NSGA pin the audit spares
+    assert c["dominance_audit"]["nsga_dominated_by_exact"] == 2    # (8,3) and (9,4.5) of the three
+    assert c["invariant"]["holds"] is True
+
+
+def test_per_pick_absent_when_nothing_is_curated():
+    """Absent, not empty — the same way `regret.curated` behaves. Nothing curated, no noise."""
+    c = certify_against_exact(_problem(_OBJS), _run([(8.0, 3.0)], _OBJS),
+                              _run([(10.0, 2.0)], _OBJS, solver="highs"))
+    assert "per_pick" not in c
+
+
+def test_per_pick_declines_a_pin_that_predates_a_current_objective():
+    """A pin curated before an objective existed can't be placed in this objective space. Report
+    it inconclusive and name what it lacks — scoring it against a fabricated 0.0 would read as a
+    spurious `optimal`, the exact misreport this block exists to prevent."""
+    p = _problem(_OBJS)
+    p.curated_solutions = [CuratedSolution(content_signature="pick-stale", custom_name="Old pin",
+                                           objective_values={"Return": 9.0})]
+    entry = certify_against_exact(p, _run([(8.0, 3.0)], _OBJS),
+                                  _run([(10.0, 2.0)], _OBJS, solver="highs"))["per_pick"]["pick-stale"]
+    assert entry["verdict"] == "inconclusive" and entry["missing_objectives"] == ["Risk"]
+    assert "gap" not in entry
+
+
+def test_certificate_prose_leads_with_the_curated_verdict():
+    """The tally rides the headline `recommendation`, and a dominated finalist routes the agent to
+    re-curate before anything is presented — the certificate's own next move."""
+    c = _curated_fixture()
+    assert c["recommendation"].startswith("curated picks: 2 of 4 optimal")
+    assert "2 dominated" in c["recommendation"]
+    assert c["next_steps"].startswith("Re-curate first:") and 'source="exact"' in c["next_steps"]
+
+
+def test_per_pick_rides_the_explore_certify_wire(srv_tmp_store):
+    """Contract gate: the verdicts must reach the agent through `explore certify` itself. The
+    defect this fixes was exactly a per-finalist answer that existed only in the exact-run JSON
+    on disk, so an engine-level assertion alone wouldn't have caught it."""
+    p = _problem(_OBJS)
+    p.run = _run([(8.0, 3.0)], _OBJS)
+    p.exact_run = _run([(10.0, 2.0)], _OBJS, solver="highs")
+    p.exact_run.solutions[0].content_signature = "exact-a"
+    p.curated_solutions = [CuratedSolution(content_signature="pick-beaten", custom_name="Balanced",
+                                           objective_values={"Return": 8.0, "Risk": 3.0})]
+    srv.store.save(p)
+    out = srv.explore(action="certify", problem_id=p.problem_id)
+    assert out["per_pick"]["pick-beaten"]["verdict"] == "dominated"
+    assert out["per_pick"]["pick-beaten"]["dominated_by"] == "exact-a"
+
+
+def test_certificate_prose_stays_quiet_without_curation():
+    """No curated set → no per-pick clause anywhere; the certificate reads exactly as before."""
+    c = certify_against_exact(_problem(_OBJS), _run([(8.0, 3.0)], _OBJS),
+                              _run([(10.0, 2.0)], _OBJS, solver="highs"))
+    assert "curated picks" not in c["recommendation"]
+    assert "Re-curate" not in c["next_steps"]
 
 
 # ─── corner sharpening ───

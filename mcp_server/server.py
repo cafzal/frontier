@@ -1863,11 +1863,14 @@ def explore(
                    last solve?"). Optional: run_ids (2+) for explicit historical runs.
       certify    — Check the NSGA frontier against the exact overlay: dominance check,
                    hypervolume coverage reclaimed, soundness invariant, per-objective corner
-                   sharpening; on 2-objective continuous shapes, `frontier_resolution` bounds
-                   the TRUE frontier between the certified points' chords and their own dual
-                   tangents (a between-the-samples guarantee, with the widest gap named).
-                   Frontier-level — it certifies the WHOLE frontier at once (your
-                   curated finalists are covered by that same certificate), so it takes no solution
+                   sharpening, plus `per_pick` — a verdict per curated finalist (optimal /
+                   dominated, with the gap and the certified point that beats it). Present those
+                   verdicts and re-curate any dominated pick before handing the shortlist over.
+                   On 2-objective continuous shapes, `frontier_resolution` also bounds the TRUE
+                   frontier between the certified points' chords and their own dual tangents (a
+                   between-the-samples guarantee, with the widest gap named).
+                   Frontier-level — it certifies the WHOLE frontier at once (the per-pick verdicts
+                   read off that same certificate), so it takes no solution
                    scope: don't pass signatures/solution_ids (use `compare signatures=` for a
                    finalist head-to-head). No params (checks `run` vs `exact_run`; flow: solve →
                    solve(solver="highs"|"cuopt") → certify). Optional: run_ids (exactly 2,
@@ -2042,7 +2045,8 @@ def explore(
                     "(dominance, hypervolume reclaimed, corner sharpening) — it is frontier-"
                     "level, not per-solution, so it can't be scoped to signatures/solution_ids. "
                     "Your curated finalists are already covered by that whole-frontier "
-                    "certificate. Drop them here; for a head-to-head of specific finalists use "
+                    "certificate — it carries a `per_pick` verdict for each of them. Drop the "
+                    "scope here; for a head-to-head of specific finalists use "
                     "`explore compare signatures=[...]`, or `explore solutions solution_id=<id>` "
                     "for one solution's detail.")}
             from solvers import is_exact_solver
