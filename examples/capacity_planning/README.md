@@ -6,14 +6,14 @@
 
 **What ships here** — the raw inputs (step 1), the canonical model they frame into, and pre-solved results:
 
-- **`data.csv` + `variability_interactions.csv` + `variability_low_renewables.csv`**: the raw inputs a decision owner would actually have — everything step 1 pastes.
+- **`data.csv` + `variability_interactions.csv`**: the raw inputs a decision owner would actually have — everything step 1 pastes.
 - **`problem.json`**: 5 objectives (LCOE / CO2 / VariabilityRisk / LandUse minimize, Firmness maximize; VariabilityRisk is quadratic), proportional approach, constraints (no project >25%, CO2 ≤0.20 t/MWh, Firmness ≥50), and three scenarios (`carbon_price`, `low_renewables_year`, `demand_surge`).
 - **`scores.json`**: 22 projects across 9 technologies with LCOE/CO2/Firmness/LandUse/VariabilityRisk scores, plus the VariabilityRisk covariance matrix (stacking correlated renewables raises portfolio risk super-linearly).
 - **`solutions.json`**: the exploratory NSGA `run`, the exact mean-variance QP `exact_run` overlay (HiGHS) with solver-exact duals per point, and the per-scenario `scenario_run`.
 
 ## The runbook
 
-1. **Frame it from the raw inputs** — paste this ask, together with `data.csv` + `variability_interactions.csv` + `variability_low_renewables.csv`, into a fresh session:
+1. **Frame it from the raw inputs** — paste this ask, together with `data.csv` + `variability_interactions.csv`, into a fresh session:
 
    > We're choosing a generation capacity mix across 22 candidate projects (`data.csv`):
    > LCOE ($/MWh), CO2 (t/MWh), a firmness rating, a variability-risk rating, and land use,
@@ -32,8 +32,9 @@
    >
    > Three futures to stress-test:
    > - **Carbon price** — LCOE reads 15% higher across the board.
-   > - **Low renewables year** — resource correlation worsens: swap in the
-   >   `variability_low_renewables.csv` covariance; everything else unchanged.
+   > - **Low renewables year** — a poor solar+wind year: output swings harder and
+   >   co-moves more, so variability co-movement among the renewables rises 1.4x;
+   >   everything else unchanged.
    > - **Demand surge** — electrification-driven load growth raises the firmness floor
    >   from 50 to 60; everything else unchanged.
 
