@@ -451,6 +451,11 @@ const openAICompatibleAdapter: AgentRuntime = {
 
             let textBlockIdx: number | null = null;
             let textAccum = "";
+            // Some reasoning models (Kimi K3 on Together, observed 2026-08-01) stream the
+            // user-facing answer in `reasoning_content` and leave `content` empty. Buffer it
+            // so a turn that produces only reasoning can still be shown rather than rendering
+            // blank; flushed at end-of-stream only when no content arrived.
+            let reasoningAccum = "";
             // tool calls accumulate by chunk index → {id, name, args}
             const toolAccum = new Map<
               number,
@@ -493,6 +498,9 @@ const openAICompatibleAdapter: AgentRuntime = {
                     index: textBlockIdx,
                     delta: { type: "text_delta", text: delta.content },
                   });
+                }
+                if (typeof delta.reasoning_content === "string" && delta.reasoning_content.length) {
+                  reasoningAccum += delta.reasoning_content;
                 }
                 if (Array.isArray(delta.tool_calls)) {
                   for (const tc of delta.tool_calls) {
@@ -541,6 +549,24 @@ const openAICompatibleAdapter: AgentRuntime = {
                 }
                 if (choice.finish_reason) finishReason = choice.finish_reason;
               }
+            }
+
+            // No content but reasoning arrived: surface the reasoning as the turn's text.
+            // Without this the user sees an empty assistant turn even though the model
+            // answered — the answer just came down the other channel.
+            if (!textAccum && reasoningAccum) {
+              textBlockIdx = blockIndex++;
+              emit({
+                type: "content_block_start",
+                index: textBlockIdx,
+                content_block: { type: "text", text: "" },
+              });
+              textAccum = reasoningAccum;
+              emit({
+                type: "content_block_delta",
+                index: textBlockIdx,
+                delta: { type: "text_delta", text: reasoningAccum },
+              });
             }
 
             // Flush any tool_use blocks whose start was deferred (rare — only if
