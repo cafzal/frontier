@@ -309,8 +309,11 @@ def model(
                     "that still applies), while empty/omitted inherits the base set "
                     "unchanged.")] = None,
     interaction_matrices: Annotated[list[dict] | None, Field(
-        description="Merge semantics: upserts by objective — send only what "
-                    "changes.")] = None,
+        description="Merge semantics: upserts by objective, and within a matrix "
+                    "mode=\"upsert\" merges cells (symmetry auto-enforced) while the "
+                    "default replaces them. A matrix too large for one call can be "
+                    "built across several upserts. scale_groups apply after the "
+                    "merge — same semantics as scenario overrides.")] = None,
     section: str | None = None,
     source: Annotated[str | None, Field(
         description="action=\"load\" only: the bundle name to restore; omit to list "

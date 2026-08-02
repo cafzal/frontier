@@ -71,6 +71,15 @@ class TestReplaceVsMergeContract:
         assert "FULL REPLACEMENT" in _param_desc("model", "reference_points").upper()
 
     def test_interaction_matrices_declare_upsert(self):
+        """The description must say upsert — and the behavior must actually upsert.
+
+        These schema guards assert what a description CLAIMS, which is only half a
+        contract: this one passed for a long stretch while the update path replaced
+        the whole matrix per objective, so the docs promised incremental writes the
+        code didn't do. A claim test needs a behavior test behind it — here
+        tests/test_server.py::TestInteractionMatrixIncrementalWrite. Pair them for
+        any new guard, or the guard just pins the wording of something untrue.
+        """
         assert "upsert" in _param_desc("model", "interaction_matrices").lower()
 
     def test_interaction_matrices_docstring_agrees(self):
