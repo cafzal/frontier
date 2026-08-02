@@ -625,3 +625,67 @@ def test_frontier_resolution_end_to_end_qp():
     assert 0.0 <= frac < 1.0
     assert fr["segments_dual_tightened"] >= 1
     assert "no feasible plan improves" in fr["claim"]
+
+
+# ─── signature resolution: closing the certificate's own routing loop ───
+
+
+def _sig_fixture(srv_tmp_store):
+    """A problem whose exact overlay beats its one NSGA pin — the per_pick re-curation case."""
+    p = _problem(_OBJS)
+    p.run = _run([(8.0, 3.0)], _OBJS)
+    p.exact_run = _run([(10.0, 2.0)], _OBJS, solver="highs")
+    p.exact_run.solutions[0].content_signature = "exact-a"
+    p.curated_solutions = [CuratedSolution(content_signature="pick-beaten", custom_name="Balanced",
+                                           objective_values={"Return": 8.0, "Risk": 3.0})]
+    srv.store.save(p)
+    return p
+
+
+def test_solutions_resolves_a_signature_against_the_named_run(srv_tmp_store):
+    """`per_pick.dominated_by` is a signature, so reading that point must take one — otherwise
+    the only route is listing the whole exact frontier and scanning, which overflows the
+    response cap at a few hundred points."""
+    p = _sig_fixture(srv_tmp_store)
+    out = srv.explore(action="solutions", problem_id=p.problem_id,
+                      content_signature="exact-a", source="exact")
+    assert out["objective_values"] == {"Return": 10.0, "Risk": 2.0}
+
+
+def test_curate_accepts_a_signature(srv_tmp_store):
+    """Pinning by signature — `remove`/`rename` already key on it; pinning was the odd one out,
+    which is what made the certificate's 'curate the point in its place' unreachable."""
+    p = _sig_fixture(srv_tmp_store)
+    out = srv.explore(action="curate", problem_id=p.problem_id,
+                      content_signature="exact-a", source="exact", custom_name="Certified")
+    assert out["curated"] is True and out["content_signature"] == "exact-a"
+
+
+def test_certify_routing_round_trips(srv_tmp_store):
+    """The loop the certificate prescribes, executed verbatim: certify names a replacement by
+    signature, curate takes that signature, the beaten pin is removed, and the next certificate
+    reports every remaining finalist optimal. A per-pick verdict the user cannot act on without
+    reading files off disk is the defect this closes."""
+    p = _sig_fixture(srv_tmp_store)
+    cert = srv.explore(action="certify", problem_id=p.problem_id)
+    beaten = cert["per_pick"]["pick-beaten"]
+    assert beaten["verdict"] == "dominated"
+
+    srv.explore(action="curate", problem_id=p.problem_id,
+                content_signature=beaten["dominated_by"], source="exact", custom_name="Certified")
+    srv.explore(action="curate", problem_id=p.problem_id,
+                content_signature="pick-beaten", remove=True)
+
+    again = srv.explore(action="certify", problem_id=p.problem_id)
+    assert [v["verdict"] for v in again["per_pick"].values()] == ["optimal"]
+    assert "Re-curate first" not in again["next_steps"]
+
+
+def test_unknown_signature_is_a_tool_error_naming_the_scope(srv_tmp_store):
+    """A signature that resolves nowhere gets the surface's standard error — and says which run
+    it searched, since the same plan carries the same signature in both runs and picking the
+    wrong `source` is the likely mistake."""
+    p = _sig_fixture(srv_tmp_store)
+    out = srv.explore(action="solutions", problem_id=p.problem_id,
+                      content_signature="nope", source="exact")
+    assert "error" in out and "nope" in out["error"] and "exact" in out["error"]
