@@ -1851,9 +1851,11 @@ def explore(
                    content_signatures) to compare the curated set. Optional: scenario, detail.
       solutions  — Pareto frontier listing — or one solution's detail.
                    Default: compact list (solution_id + objective_values + content_signature).
-                   Pass solution_id for single-solution detail (incl. reference-point analysis);
-                   detail=true for the full list dump (selected_options, allocations).
-                   Optional: solution_id, detail, scenario.
+                   Pass solution_id — or content_signature — for single-solution detail
+                   (incl. reference-point analysis); detail=true for the full list dump
+                   (selected_options, allocations). A signature from `certify`'s per_pick
+                   resolves against the run you name: source="exact" for a certified point.
+                   Optional: solution_id, content_signature, detail, scenario, source.
       feedback   — Record user feedback. Feedback links to content_signature (stable across runs)
                    and attaches to curated solutions.
                    Requires: solution_id OR content_signature.
@@ -1899,7 +1901,10 @@ def explore(
       scenario_frontiers — Per-scenario Pareto frontiers overlaid: viz_data for the chart
                    surface's colored parallel-coordinates overlay; ASCII range table. No params.
       curate     — Pin a solution to the curated set — and manage existing pins.
-                   Pin: solution_id (optional custom_name, notes, scenario).
+                   Pin: solution_id — or content_signature, which is what `certify`'s
+                   per_pick names as the certified replacement for a dominated finalist
+                   (pass source="exact" to pin it from the overlay). Optional custom_name,
+                   notes, scenario.
                    Manage: remove=true unpins; rename="<name>" renames — both by
                    content_signature (stable across re-solves).
       curated    — List curated solutions (each with in_current_frontier survival flag,
@@ -1996,9 +2001,18 @@ def explore(
             return _attach_guidance_pointer(result, action)
         case "solutions":
             # solution_id narrows to single-solution detail (absorbs the old `solution` action).
-            if solution_id is not None:
+            # content_signature does the same by the identifier the certificate hands out,
+            # so `per_pick.dominated_by` can be looked up without scanning the frontier.
+            sid = solution_id
+            if sid is None and content_signature:
                 try:
-                    return explorer.get_solution(p, solution_id, scenario=scenario, source=source)
+                    sid = explorer.resolve_signature(p, content_signature,
+                                                     scenario=scenario, source=source)
+                except ValueError as e:
+                    return {"error": str(e)}
+            if sid is not None:
+                try:
+                    return explorer.get_solution(p, sid, scenario=scenario, source=source)
                 except ValueError as e:
                     return {"error": str(e)}
             try:
@@ -2125,14 +2139,23 @@ def explore(
                     return result
                 except ValueError as e:
                     return {"error": str(e)}
-            if solution_id is None:
+            # remove/rename already key on content_signature; pinning accepts it too, so a
+            # certified replacement named by `per_pick.dominated_by` can be curated directly.
+            sid = solution_id
+            if sid is None and content_signature:
+                try:
+                    sid = explorer.resolve_signature(p, content_signature,
+                                                     scenario=scenario, source=source)
+                except ValueError as e:
+                    return {"error": str(e)}
+            if sid is None:
                 if solution_ids:
                     return {"error": "curate pins one solution per call — call it once per "
                             "finalist with a singular `solution_id` (optionally custom_name, "
                             "notes). `solution_ids` (plural) is for compare, not curate."}
-                return {"error": "solution_id required to curate a solution."}
+                return {"error": "solution_id or content_signature required to curate a solution."}
             try:
-                result = explorer.curate_solution(p, solution_id, custom_name or "", notes or "", scenario=scenario, source=source)
+                result = explorer.curate_solution(p, sid, custom_name or "", notes or "", scenario=scenario, source=source)
                 store.save(p)
                 return _attach_guidance_pointer(result, action)
             except ValueError as e:

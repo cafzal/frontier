@@ -262,6 +262,35 @@ def get_solution(problem: Problem, solution_id: int, scenario: str | None = None
     raise ValueError(f"Solution {solution_id} not found in current run.")
 
 
+def resolve_signature(problem: Problem, content_signature: str,
+                      scenario: str | None = None, source: str | None = None) -> int:
+    """``content_signature`` -> ``solution_id`` within the run a read would select.
+
+    The certificate hands out signatures, not ids: ``per_pick.dominated_by`` names the
+    certified plan that beats a finalist, and `certify`'s own ``next_steps`` says to go
+    match it and curate it in its place. Without this, doing that means listing the whole
+    exact frontier and scanning by eye — which overflows the response cap on a few hundred
+    points, so the answer the certificate produced ends up back on disk. That is precisely
+    the round trip per-pick verdicts exist to remove.
+
+    Signatures are the identifier that survives a re-solve (ids get reassigned), so they
+    are also the right thing to hold across the curate/certify loop. Resolution is scoped
+    to the selected run: the same plan carries the same signature in the heuristic run and
+    the exact overlay, and the caller's ``source``/``scenario`` says which one it means.
+    """
+    run = _require_run(problem, scenario, source)
+    for s in run.solutions:
+        sig = s.content_signature or _content_signature(s.selected_options, s.allocations)
+        if sig == content_signature:
+            return s.solution_id
+    where = f'source="{source}"' if source else "the current run"
+    raise ValueError(
+        f"No solution with content_signature '{content_signature}' in {where}"
+        + (f' (scenario "{scenario}")' if scenario else "")
+        + ". Signatures are scoped to a run — a certified point's signature resolves "
+          'against source="exact".')
+
+
 # ─── Solution composition & pattern analysis (knowledge-discovery pillar) ───
 
 
@@ -1516,8 +1545,10 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         # `per_pick` names it by the signature `explore solutions` echoes.
         next_steps = (
             "Re-curate first: per_pick names a certifying replacement for each dominated pick "
-            f"({len(dominated_picks)} of {len(per_pick)}) — match that signature in `explore "
-            "solutions source=\"exact\"` and curate the point in its place. " + next_steps)
+            f"({len(dominated_picks)} of {len(per_pick)}) — pass its `dominated_by` signature "
+            "straight to `explore curate content_signature=<sig> source=\"exact\"` (and "
+            "`explore solutions content_signature=<sig> source=\"exact\"` to read it first), "
+            "then unpin the dominated one with `remove=true`. " + next_steps)
 
     coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
     if coverage is not None:
