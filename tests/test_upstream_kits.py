@@ -83,7 +83,14 @@ def _coerce_matrix(entries):
 
 
 def _assert_matrix(example, fname, canonical_entries):
-    assert _matrix_from_csv(example, fname) == _coerce_matrix(canonical_entries)
+    parsed = _matrix_from_csv(example, fname)
+    # An empty CSV compared against empty canonical entries passes while proving
+    # nothing — and it hides the real defect: a kit file shipping headers with no
+    # data, which the runbook still tells the user to paste. Fail loudly instead.
+    assert parsed, (
+        f"{example}/{fname} parsed to an empty matrix — a kit CSV must carry values, "
+        "or the bundle should not claim that file reconstructs the matrix")
+    assert parsed == _coerce_matrix(canonical_entries)
 
 
 def _groups(rows, option_key, group_key):
@@ -274,7 +281,12 @@ def test_capacity_planning_kit():
            _norm_adjustments([{"objective": "LCOE", "multiply": 1.15}])
     mo = _scenario(p, "low_renewables_year")["interaction_matrix_overrides"][0]
     assert mo["objective"] == "VariabilityRisk"
-    _assert_matrix("capacity_planning", "variability_low_renewables.csv", mo["entries"])
+    # The poor-renewable-year regime shift is a scale factor on the renewable block,
+    # not a replacement matrix: co-movement rises 1.4x within solar+wind and nothing
+    # else changes. Assert that mechanism directly — there is no kit CSV for it.
+    assert mo["mode"] == "upsert" and not mo["entries"]
+    assert [g["factor"] for g in mo["scale_groups"]] == [1.4]
+    assert all(o.startswith(("Solar_", "Wind_")) for o in mo["scale_groups"][0]["options"])
     surge = [dict(c) for c in built]
     surge[2] = {"type": "objective_bound", "objective": "Firmness", "operator": "min", "value": 60.0}
     assert _canon(_scenario(p, "demand_surge")["constraint_overrides"]) == _canon(surge)
@@ -299,7 +311,11 @@ def test_investment_portfolio_kit():
                               {"objective": "Yield", "multiply": 1.15}])
     mo = _scenario(p, "recession")["interaction_matrix_overrides"][0]
     assert mo["objective"] == "Volatility"
-    _assert_matrix("investment_portfolio", "covariance_recession.csv", mo["entries"])
+    # Recession is a regime shift expressed as a scale factor on the US-equity block
+    # (they co-move 1.5x more), not a replacement covariance matrix — so there is no
+    # kit CSV for it. Assert the mechanism itself.
+    assert mo["mode"] == "upsert" and not mo["entries"]
+    assert [g["factor"] for g in mo["scale_groups"]] == [1.5]
 
 
 def test_claims_triage_kit():
@@ -467,7 +483,7 @@ KIT_COVERED = [
 ASK_LITERALS = {
     "budget_allocation": ["20%", "at most 3", "9 months", "roi_under_downturn"],
     "capacity_planning": ["25%", "0.20", "at or above 50", "15% higher",
-                          "variability_low_renewables.csv", "from 50 to 60"],
+                          "1.4x", "from 50 to 60"],
     "capital_project_selection_300": ["$1550M", "between 45 and 100", "20 Growth",
                                       "15 Digital", "15 R&D", "18 Maintenance",
                                       "12% over", "at most 70"],
@@ -479,8 +495,7 @@ ASK_LITERALS = {
                                     "26 Workers", "1140 hours"],
     "interconnection_approvals": ["$400M", "$320M", "$480M", "$560M",
                                   "9 approvals per zone"],
-    "investment_portfolio": ["30%", "at most 3", "20%", "15% lower",
-                             "covariance_recession.csv"],
+    "investment_portfolio": ["30%", "at most 3", "20%", "15% lower", "1.5x"],
     "production_mix": ["30%", "25%", "at most 2 active"],
     "research_cohort_selection": ["exactly 24", "at least 4", "at least 3",
                                   "at least 2", "no more than 8", "at most 4", "V-118"],

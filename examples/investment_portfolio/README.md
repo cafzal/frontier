@@ -6,14 +6,14 @@
 
 **What ships here** — the raw inputs (step 1), the canonical model they frame into, and pre-solved results:
 
-- **`data.csv` + `covariance.csv` + `covariance_recession.csv`**: the raw inputs a decision owner would actually have — everything step 1 pastes.
+- **`data.csv` + `covariance.csv`**: the raw inputs a decision owner would actually have — everything step 1 pastes.
 - **`problem.json`**: 3 objectives (Return / Volatility / Yield), proportional approach, constraints (single-fund ≤30%, ≤3 per sector, volatility ≤20%), and three macro scenarios (`recession`, `inflation`, `rate_cuts`).
 - **`scores.json`**: the 30 funds, their per-objective scores, and the covariance matrix (the `Volatility` interaction matrix).
 - **`solutions.json`**: the exploratory NSGA `run`, the exact mean-variance QP `exact_run` overlay (HiGHS) with solver-exact duals per point, and the per-scenario `scenario_run`.
 
 ## The runbook
 
-1. **Frame it from the raw inputs** — paste this ask, together with `data.csv` + `covariance.csv` + `covariance_recession.csv`, into a fresh session:
+1. **Frame it from the raw inputs** — paste this ask, together with `data.csv` + `covariance.csv`, into a fresh session:
 
    > We're allocating a portfolio across 30 ETFs (`data.csv`): expected return, volatility,
    > and dividend yield per fund, plus each fund's asset-class group. Portfolio risk is
@@ -30,7 +30,7 @@
    > Three macro futures to stress-test:
    > - **Rate cuts** — yields read 15% lower across the board.
    > - **Inflation** — returns −10% and yields +15% across the board.
-   > - **Recession** — co-movement changes: swap in `covariance_recession.csv`;
+   > - **Recession** — co-movement changes: US equities move together 1.5x more than baseline;
    >   everything else unchanged.
 
    Framing that input (`model create` + `model update`) lands on exactly this problem — the ask plus the data reconstruct `problem.json` and `scores.json` verbatim (guarded by `tests/test_upstream_kits.py`). `model load source="investment_portfolio"` is the shortcut: it skips framing and restores the pre-solved runs too.
