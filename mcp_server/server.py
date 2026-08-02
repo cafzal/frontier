@@ -615,12 +615,20 @@ def _model_update(params: dict) -> dict:
         structural_change = True
         interpreter_rearm = True
 
-    # Interaction matrices — upsert by objective name
+    # Interaction matrices — upsert by objective name, and within a matrix honor the
+    # same mode/scale_groups semantics scenario overrides use. Previously the whole
+    # matrix object was swapped in, so `mode="upsert"` was silently ignored on the base
+    # matrix: a large matrix could only ever arrive as one payload. A dense matrix over
+    # ~70 options is past what a model can emit in a single tool call, which made those
+    # problems unframable through the tools at all (the caller's partial call gets
+    # dropped and every retry hits the same ceiling). Sharing apply_matrix_override
+    # means "build it across several calls" works the same way everywhere.
     if "interaction_matrices" in params:
+        from engine.optimizer import apply_matrix_override
         im_map = {m.objective: m for m in p.interaction_matrices}
         for im_dict in params["interaction_matrices"]:
             im = InteractionMatrix(**im_dict) if isinstance(im_dict, dict) else im_dict
-            im_map[im.objective] = im
+            im_map[im.objective] = apply_matrix_override(im_map.get(im.objective), im)
         p.interaction_matrices = list(im_map.values())
         structural_change = True
         interpreter_rearm = True

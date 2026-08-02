@@ -1458,8 +1458,13 @@ def fill_gaps(
     return merged_run, report
 
 
-def _apply_matrix_override(base: "InteractionMatrix | None", override: "InteractionMatrix") -> "InteractionMatrix":
-    """Apply a scenario override to a base interaction matrix.
+def apply_matrix_override(base: "InteractionMatrix | None", override: "InteractionMatrix") -> "InteractionMatrix":
+    """Merge one interaction matrix into another.
+
+    Shared by two callers so the semantics are identical wherever a matrix is
+    written: scenario overrides, and incremental base-matrix updates from the
+    model tool. A matrix too large for one tool call can therefore be built
+    across several `mode="upsert"` calls.
 
     Modes:
     - "replace" (default): discard the base, use override.entries directly.
@@ -1506,6 +1511,10 @@ def _apply_matrix_override(base: "InteractionMatrix | None", override: "Interact
     )
 
 
+# Kept for callers that used the private name before this became a shared helper.
+_apply_matrix_override = apply_matrix_override
+
+
 def build_scenario_problem(problem: Problem, scenario: "Scenario") -> Problem:
     """Apply a scenario's overrides to a deep copy of ``problem`` and return a
     base-case problem (``scenario_config`` cleared) ready to optimize or evaluate.
@@ -1548,7 +1557,7 @@ def build_scenario_problem(problem: Problem, scenario: "Scenario") -> Problem:
         base_by_obj = {m.objective: m for m in sp.interaction_matrices}
         for override in scenario.interaction_matrix_overrides:
             base = base_by_obj.get(override.objective)
-            base_by_obj[override.objective] = _apply_matrix_override(base, override)
+            base_by_obj[override.objective] = apply_matrix_override(base, override)
         sp.interaction_matrices = list(base_by_obj.values())
 
     sp.scenario_config = None

@@ -73,6 +73,61 @@ class TestModelCreate:
         assert "problem_id" not in result
 
 
+class TestInteractionMatrixIncrementalWrite:
+    """A matrix too large for one tool call must be buildable across several.
+
+    Regression for a silent ceiling: the update path swapped the whole matrix
+    object in, so mode="upsert" was ignored on the base matrix and the only way
+    to supply one was a single payload. A dense matrix over dozens of options
+    exceeds what a model can emit in one call, so those problems could not be
+    framed through the tools at all — the partial call is dropped and every
+    retry hits the same wall.
+    """
+
+    def _setup(self):
+        pid = srv.model(action="create", name="Matrix")["problem_id"]
+        srv.model(action="update", problem_id=pid, objectives=[
+            {"name": "Risk", "direction": "minimize", "aggregation": "quadratic"},
+        ], options=[{"name": n} for n in ("A", "B", "C")])
+        return pid
+
+    def _matrix(self, pid):
+        # Read the stored problem directly: `model get` returns a summary view
+        # rather than the raw matrix payload.
+        ims = srv.store.load(pid).interaction_matrices
+        return ims[0].entries if ims else {}
+
+    def test_upsert_accumulates_across_calls(self):
+        pid = self._setup()
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"B": 0.5}}}])
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"C": 0.25}}}])
+        entries = self._matrix(pid)
+        # Both chunks survive, and symmetry is enforced on each.
+        assert entries["A"]["B"] == 0.5 and entries["B"]["A"] == 0.5
+        assert entries["A"]["C"] == 0.25 and entries["C"]["A"] == 0.25
+
+    def test_replace_still_discards_prior_cells(self):
+        pid = self._setup()
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"B": 0.5}}}])
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "entries": {"A": {"C": 0.25}}}])  # default: replace
+        entries = self._matrix(pid)
+        assert "B" not in entries.get("A", {})
+        assert entries["A"]["C"] == 0.25
+
+    def test_scale_groups_apply_to_the_base_matrix(self):
+        pid = self._setup()
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"B": 0.4}}}])
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {},
+             "scale_groups": [{"options": ["A", "B"], "factor": 1.5}]}])
+        assert self._matrix(pid)["A"]["B"] == pytest.approx(0.6)
+
+
 class TestModelUpdate:
     def test_update_metadata(self):
         created = srv.model(action="create", name="Old")

@@ -86,11 +86,12 @@ class InteractionMatrix(BaseModel):
     entries[option_a][option_b] = interaction value (must be symmetric).
     For portfolio volatility, this is the covariance matrix.
 
-    Modes (meaningful primarily in scenario overrides; base matrix uses default):
-    - "replace": full matrix replacement (default). Base case always uses this.
-    - "upsert": sparse cell upsert — merge ``entries`` into the base matrix,
+    Modes (apply identically to the base matrix and to scenario overrides):
+    - "replace": full matrix replacement (default).
+    - "upsert": sparse cell upsert — merge ``entries`` into the existing matrix,
       preserving cells not mentioned. Symmetry auto-enforced (writing (a,b)
-      also writes (b,a)).
+      also writes (b,a)). This is how a matrix larger than one tool call gets
+      built: send it across several upserts.
 
     ``scale_groups`` (optional): applied AFTER replace/upsert. For each group,
     multiply off-diagonal entries where both endpoints are in the group by
