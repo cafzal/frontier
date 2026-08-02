@@ -129,6 +129,71 @@ class TestDataMetrics:
         m = data_metrics(p)
         assert "D" in m["dominated_options"]
 
+    @staticmethod
+    def _twin_problem(scores_by_option):
+        """2-objective problem from {option: (revenue, effort)} — the twin-detection rig."""
+        return Problem(
+            objectives=[Objective(name="Revenue", direction="maximize"),
+                        Objective(name="Effort", direction="minimize")],
+            options=[Option(name=n) for n in scores_by_option],
+            scores=[Score(option=n, objective=o, value=v)
+                    for n, (r, e) in scores_by_option.items()
+                    for o, v in (("Revenue", r), ("Effort", e))],
+        )
+
+    def test_exact_twins_flagged_not_dominated(self):
+        """The catch strict dominance can't make: an exact tie dominates nothing, yet A
+        and B are the same bet entered twice."""
+        m = data_metrics(self._twin_problem(
+            {"A": (6, 3), "B": (6, 3), "C": (10, 9), "D": (1, 1)}))
+        assert {"options": ["A", "B"], "max_gap_fraction": 0.0} in m["near_duplicate_options"]
+        assert "A" not in m["dominated_options"] and "B" not in m["dominated_options"]
+
+    def test_near_twins_within_tolerance_flagged(self):
+        """Within 2% of each objective's spread on every objective → twins, closest first."""
+        m = data_metrics(self._twin_problem(
+            {"A": (6.0, 3.0), "B": (6.1, 3.05), "C": (16.0, 9.0), "D": (1.0, 1.0)}))
+        pairs = [d["options"] for d in m["near_duplicate_options"]]
+        assert ["A", "B"] in pairs
+        gap = next(d["max_gap_fraction"] for d in m["near_duplicate_options"]
+                   if d["options"] == ["A", "B"])
+        assert 0.0 < gap <= 0.02
+
+    def test_distinct_options_not_flagged(self):
+        m = data_metrics(self._twin_problem(
+            {"A": (6, 3), "B": (8, 5), "C": (10, 9), "D": (1, 1)}))
+        assert m["near_duplicate_options"] == []
+
+    def test_dominated_by_a_hair_twin_rides_both_lists(self):
+        """A twin edged out on every objective is dominated AND a near-duplicate — both
+        flags stand; the twin read ('pick either') is the truthful framing."""
+        m = data_metrics(self._twin_problem(
+            {"A": (6.0, 3.0), "B": (6.05, 2.95), "C": (16.0, 9.0), "D": (1.0, 1.0)}))
+        assert "A" in m["dominated_options"]
+        assert ["A", "B"] in [d["options"] for d in m["near_duplicate_options"]]
+
+    def test_flat_axis_distinguishes_nothing(self):
+        """A zero-spread objective ties every option; twins are decided on the live axes."""
+        m = data_metrics(self._twin_problem(
+            {"A": (6.0, 3.0), "B": (6.0, 3.0), "C": (16.0, 3.0)}))
+        assert ["A", "B"] in [d["options"] for d in m["near_duplicate_options"]]
+        assert ["A", "C"] not in [d["options"] for d in m["near_duplicate_options"]]
+
+    def test_near_duplicates_capped_with_total(self):
+        """Twelve identical options → 66 pairs, capped at 10 with the total echoed —
+        the data_metrics cap convention."""
+        names = [f"O{i}" for i in range(12)]
+        m = data_metrics(self._twin_problem(
+            {**{n: (5.0, 5.0) for n in names}, "far": (50.0, 50.0)}))
+        assert len(m["near_duplicate_options"]) == 10
+        assert m["near_duplicate_options_total"] == 66
+
+    def test_incomplete_scores_excluded_from_twin_check(self):
+        """Only complete-scored options can be compared on every objective."""
+        p = self._twin_problem({"A": (6, 3), "B": (6, 3), "C": (16, 9)})
+        p.scores = [s for s in p.scores if not (s.option == "B" and s.objective == "Effort")]
+        assert data_metrics(p)["near_duplicate_options"] == []
+
 
 class TestSolveMetrics:
     def test_no_run(self, scored_problem):

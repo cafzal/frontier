@@ -30,6 +30,8 @@ from .models import (
 
 _MAX_MISSING_SCORES_RETURNED = 20
 _MAX_DOMINATED_RETURNED = 20  # echoed on every structural model update — cap like missing_scores
+_MAX_NEAR_DUPLICATES_RETURNED = 10  # pairs; same every-update echo, so capped like dominated_options
+_NEAR_DUPLICATE_REL_TOL = 0.02  # twins = "pick either" — well under the 5%-of-range solution-clustering convention
 _MAX_COVERAGE_RETURNED = 60   # option_coverage rides every solve response — ranked head at portfolio scale
 _MAX_NEVER_SELECTED_LISTED = 20  # beyond this, per-option diagnostics collapse to one summary entry
 
@@ -72,6 +74,7 @@ def data_metrics(problem: Problem) -> dict:
             "missing_scores": [],
             "score_variance_by_objective": {},
             "dominated_options": [],
+            "near_duplicate_options": [],
         }
 
     # Single pass over scores: build filled set, per-objective values, and score map
@@ -105,6 +108,7 @@ def data_metrics(problem: Problem) -> dict:
 
     # Dominated options (reuse score_map built above)
     dominated = _find_dominated_options(problem, score_map)
+    near_duplicates = _find_near_duplicate_options(problem, score_map)
 
     missing_total = max_scores - len(filled)
     result = {
@@ -112,11 +116,14 @@ def data_metrics(problem: Problem) -> dict:
         "missing_scores": missing,
         "score_variance_by_objective": variance_by_obj,
         "dominated_options": dominated[:_MAX_DOMINATED_RETURNED],
+        "near_duplicate_options": near_duplicates[:_MAX_NEAR_DUPLICATES_RETURNED],
     }
     if missing_total > _MAX_MISSING_SCORES_RETURNED:
         result["missing_scores_total"] = missing_total
     if len(dominated) > _MAX_DOMINATED_RETURNED:
         result["dominated_options_total"] = len(dominated)
+    if len(near_duplicates) > _MAX_NEAR_DUPLICATES_RETURNED:
+        result["near_duplicate_options_total"] = len(near_duplicates)
 
     return result
 
@@ -634,11 +641,7 @@ def _find_dominated_options(
         for s in problem.scores:
             score_map.setdefault(s.option, {})[s.objective] = s.value
 
-    # Only consider options with complete scores
-    complete_opts = [
-        opt for opt in opt_names
-        if all(obj in score_map.get(opt, {}) for obj in obj_names)
-    ]
+    complete_opts = _complete_options(obj_names, opt_names, score_map)
 
     dominated = []
     for opt_a in complete_opts:
@@ -667,3 +670,57 @@ def _find_dominated_options(
                 break
 
     return dominated
+
+
+def _complete_options(obj_names: list, opt_names: list, score_map: dict) -> list[str]:
+    """Options scored on every objective — the only ones the dominance and twin checks
+    can compare (one definition, two detectors)."""
+    return [opt for opt in opt_names
+            if all(obj in score_map.get(opt, {}) for obj in obj_names)]
+
+
+def _find_near_duplicate_options(
+    problem: Problem,
+    score_map: dict[str, dict[str, float]],
+) -> list[dict]:
+    """Pairs of complete-scored options within ``_NEAR_DUPLICATE_REL_TOL`` of each
+    objective's score spread on EVERY objective — the same bet entered twice.
+
+    Strict dominance misses these (an exact tie dominates nothing), yet twins cost real
+    search budget: NSGA spreads coverage across interchangeable options, and post-solve
+    stats (option_coverage, substitution principles) split between them. Pairs, not
+    transitive groups — a chain A≈B≈C can put A and C outside tolerance. Advisory only:
+    the engine flags, the user merges or confirms the options are genuinely distinct.
+    A dominated-by-a-hair twin appears in both lists; the twin read ("pick either") is
+    the truthful framing there. Sorted closest-first; capped by the caller."""
+    obj_names = [o.name for o in problem.objectives]
+    complete_opts = _complete_options(obj_names, [o.name for o in problem.options], score_map)
+    if not obj_names or len(complete_opts) < 2:
+        return []
+
+    # Per-objective spread over complete options; a flat axis distinguishes nothing.
+    spread_by_obj = {}
+    for obj in obj_names:
+        vals = [score_map[opt][obj] for opt in complete_opts]
+        spread_by_obj[obj] = max(vals) - min(vals)
+
+    pairs = []
+    for i, opt_a in enumerate(complete_opts):
+        for opt_b in complete_opts[i + 1:]:
+            max_gap_fraction = 0.0
+            twin = True
+            for obj in obj_names:
+                spread = spread_by_obj[obj]
+                if spread <= 0:
+                    continue  # flat axis — every option ties on it
+                gap = abs(score_map[opt_a][obj] - score_map[opt_b][obj])
+                if gap > spread * _NEAR_DUPLICATE_REL_TOL:
+                    twin = False
+                    break
+                max_gap_fraction = max(max_gap_fraction, gap / spread)
+            if twin:
+                pairs.append({"options": sorted([opt_a, opt_b]),
+                              "max_gap_fraction": round(max_gap_fraction, 4)})
+
+    pairs.sort(key=lambda p: (p["max_gap_fraction"], p["options"]))
+    return pairs

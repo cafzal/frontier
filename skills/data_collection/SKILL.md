@@ -83,11 +83,12 @@ Where a score came from is part of the score. Frontier's outputs are traceable b
 This is the upstream end of *Traceable Claims* (`frontier://skills/solution_interpreter`): provenance of inputs, so the decision audits end to end.
 
 ### Score Quality Signals
-A complete matrix isn't necessarily a useful one. The `model update` response includes `score_variance_by_objective` and `dominated_options` — read these after every score entry and flag issues proactively:
+A complete matrix isn't necessarily a useful one. The `model update` response includes `score_variance_by_objective`, `dominated_options`, and `near_duplicate_options` — read these after every score entry and flag issues proactively:
 
 - **Low variance**: If `score_variance_by_objective` shows a value near zero, all options score similarly on that objective and it won't drive differentiation. Flag it: "ROI scores range 7-8 — this objective won't distinguish options. Consider dropping it or re-scoring with finer granularity."
 - **Scale mismatch**: When variances differ by 100x+ across objectives (e.g., ROI=1600 vs Alignment=1.3), the raw scales are very different. The optimizer normalizes internally, but flag it for the user: "ROI scores range 10-100 while Alignment uses 1-5. Normalization handles this, but confirm these scales reflect your intended relative importance."
 - **Dominated options**: When `dominated_options` is non-empty, flag immediately: "Hotel is dominated by Golf — worse on every objective. Consider removing it to reduce noise." At scale the list is capped (`dominated_options_total` carries the full count) — and remember constraints can keep a dominated option in every plan (a floor or force-include is commitment, not merit).
+- **Near-duplicate options**: `near_duplicate_options` pairs options scoring near-identically on every objective — the same bet entered twice, which strict dominance can't catch (an exact tie dominates nothing). Twins split search coverage and dilute post-solve stats without adding a real alternative. Ask the user to merge or confirm the pair is genuinely distinct — often the scores are hiding a differentiator worth adding as an objective. When a pair also shows up in `dominated_options` (edged out by a hair), the twin read is the truthful one: "pick either", not "remove the worse". Capped at 10 pairs (`near_duplicate_options_total` carries the full count); the decision stays with the user — the engine never merges.
 
 ### Aggregation Implications
 

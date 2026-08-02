@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from itertools import combinations
+
 import numpy as np
 
 from .models import Aggregation, Approach, CuratedSolution, Direction, Problem, Run, _content_signature
@@ -1158,6 +1160,118 @@ def _objective_bound_dips(problem: Problem, run: Run) -> list[dict]:
     return dips
 
 
+def _frontier_resolution_block(problem: Problem, front_sols: list) -> dict | None:
+    """Resolution bound on the TRUE frontier, from the exact points' own duals — the
+    sandwich read of the overlay.
+
+    ``coverage``/``completeness`` audit the two runs against *each other*; this block bounds
+    the reported frontier against the frontier itself. On a 2-objective continuous LP/QP
+    overlay the tradeoff curve is convex in minimize-space, so it is sandwiched between two
+    piecewise-linear envelopes built from data already on board (no extra solves):
+
+    - **above** — the chords between adjacent certified points (convexity: the curve lies
+      below its chords);
+    - **below** — each point's supporting tangent, whose slope is the ε-floor's own
+      ``shadow_price`` (envelope theorem: the dual IS the local frontier slope), plus a
+      monotonicity floor (between adjacent points the curve can never beat the better
+      endpoint) that holds even where a dual is absent — an unpriced anchor or a
+      degenerate corner loosens the bound, never voids it.
+
+    The widest chord-to-envelope gap is the certified resolution: between the anchors, no
+    feasible plan improves the primary over straight-line interpolation of the certified
+    points by more than that gap. The frontier-side sibling of ``explore audit``'s
+    whole-region guarantee — a claim about every feasible plan at every swept level in the
+    span, not about the sampled points. Present as ``null`` (matching ``completeness``)
+    when the shape can't carry the claim: 3+ objectives, an integer overlay (no duals), an
+    ambiguous ε-primary, or objectives not in tension."""
+    objs = problem.objectives
+    if len(objs) != 2 or len(front_sols) < 2:
+        return None
+
+    # The ε-constraint primary, named by the duals themselves — one consistent answer or
+    # nothing (an explainability payload never guesses; same rule as `explore sensitivity`).
+    sol_primary = [_optimized_objective(problem, s.sensitivity) if s.sensitivity else None
+                   for s in front_sols]
+    primaries = {p for p in sol_primary if p}
+    if len(primaries) != 1:
+        return None
+    primary_name = primaries.pop()
+    swept = next(o for o in objs if o.name != primary_name)
+    sign = {o.name: -1.0 if o.direction == Direction.maximize else 1.0 for o in objs}
+
+    # Minimize-space points (u = swept, v = primary) with the tangent slope where priced.
+    # Cost-sense dual (tightening the floor hurts) → dv/du = −|λ|; same lever read as
+    # `_pair_dual_rates`, but per-point tolerant (the monotonicity floor covers gaps).
+    pts = []
+    for s, prim in zip(front_sols, sol_primary):
+        lam = _floor_dual(s.sensitivity, swept.name) if prim == primary_name else None
+        pts.append((sign[swept.name] * s.objective_values.get(swept.name, 0.0),
+                    sign[primary_name] * s.objective_values.get(primary_name, 0.0),
+                    None if lam is None else -lam, s.solution_id))
+    pts.sort(key=lambda t: (t[0], t[1]))
+    dd = [p for k, p in enumerate(pts) if k == 0 or p[0] - pts[k - 1][0] > 1e-9]
+    if len(dd) < 2:
+        return None
+    v_spread = max(p[1] for p in dd) - min(p[1] for p in dd)
+    if v_spread <= 1e-12:
+        return None  # objectives not in tension — no resolution to certify
+
+    # Per segment: gap = max over [u1,u2] of chord(u) − envelope(u). Every line is affine,
+    # so chord − max(lines) is concave piecewise-linear — its max sits at an endpoint or a
+    # pairwise intersection of envelope lines. Clamped ≥ 0: whole-percent rounding and
+    # solver tolerance can nudge a tangent a hair above the chord.
+    worst = None
+    tightened = 0
+    for k in range(len(dd) - 1):
+        (u1, v1, m1, _), (u2, v2, m2, _) = dd[k], dd[k + 1]
+        lines = [(0.0, v2)]  # monotonicity floor: v(u) ≥ v2 for u ≤ u2, dual-free
+        if m1 is not None:
+            lines.append((m1, v1 - m1 * u1))
+        if m2 is not None:
+            lines.append((m2, v2 - m2 * u2))
+        if len(lines) > 1:
+            tightened += 1
+        chord_m = (v2 - v1) / (u2 - u1)
+        chord_b = v1 - chord_m * u1
+        cands = [u1, u2]
+        for (ma, ba), (mb, bb) in combinations(lines, 2):
+            if abs(ma - mb) > 1e-15:
+                ux = (bb - ba) / (ma - mb)
+                if u1 < ux < u2:
+                    cands.append(ux)
+        gap = max(0.0, max((chord_m * u + chord_b) - max(m * u + b for m, b in lines)
+                           for u in cands))
+        if worst is None or gap > worst[0]:
+            worst = (gap, k)
+
+    gap, k = worst
+    s_sign = sign[swept.name]
+    seg = sorted([s_sign * dd[k][0], s_sign * dd[k + 1][0]])
+    span = sorted([s_sign * dd[0][0], s_sign * dd[-1][0]])
+    frac = gap / v_spread
+    return {
+        "basis": "solver_exact_duals",
+        "points_used": len(dd),
+        "segments_dual_tightened": tightened,  # of points_used − 1 segments
+        "span": {swept.name: [round(span[0], 4), round(span[1], 4)]},
+        "max_gap": {primary_name: round(gap, 6),
+                    "fraction_of_frontier_range": round(frac, 4)},
+        "widest_segment": {swept.name: [round(seg[0], 4), round(seg[1], 4)],
+                           "solution_ids": [dd[k][3], dd[k + 1][3]]},
+        "claim": (f"between {swept.name} {span[0]:g} and {span[1]:g}, no feasible plan "
+                  f"improves {primary_name} over straight-line interpolation of the "
+                  f"certified points by more than {gap:.4g} ({frac:.1%} of the frontier's "
+                  f"{primary_name} span)"),
+        "note": ("bounds the true continuous frontier, not just the sampled points — chords "
+                 "above (convexity) and floor-dual tangents below (envelope theorem) are "
+                 "model-class facts of the continuous LP/QP, independent of how the sampled "
+                 "frontier_shape heuristic reads; a monotonicity floor covers segments "
+                 "without a dual. Exact to solver tolerance and the whole-percent rounding "
+                 "of reported values; the widest gap is named in widest_segment — a targeted "
+                 "exact solve there tightens it."),
+    }
+
+
 def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> dict:
     """Audit an approximate (NSGA) frontier against an exact-solver frontier — the
     explore-then-certify workflow made measurable. **Solver-agnostic:** the exact run can come
@@ -1186,6 +1300,13 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
       ``gap_regions`` with witness solution ids. The auditor framing's missing half — each engine
       audits the other; an under-covered verdict routes to the targeted fill
       (``solve scope="fill_gaps"``), which re-solves only the witnesses and merges.
+    - **Frontier resolution (the sandwich bound)** — where coverage/completeness audit the two
+      runs against each other, this bounds the reported frontier against the TRUE frontier: on a
+      2-objective continuous overlay, the certified points' chords (above) and their floor-dual
+      tangents (below) sandwich the convex tradeoff curve, and the widest gap is a guarantee —
+      between the anchors, no feasible plan improves the primary over interpolation of the
+      certified points by more than that gap. None on shapes that can't carry the claim
+      (see ``_frontier_resolution_block``).
 
     Returns a JSON-friendly dict (the MCP ``explore certify`` payload).
     """
@@ -1255,6 +1376,8 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         headline = None
 
     completeness = _completeness_block(problem, nsga_run, exact_run)
+    frontier_resolution = _frontier_resolution_block(
+        problem, [exact_run.solutions[i] for i in exact_front])
 
     parts = []
     if dominated_idx:
@@ -1275,6 +1398,12 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         parts.append(f"the overlay under-covers {len(completeness['gap_regions'])} region(s) the "
                      f"heuristic reached ({share:.1%} of combined hypervolume; see "
                      "completeness.gap_regions) — close them with solve scope='fill_gaps'")
+    if frontier_resolution:
+        sw, (lo, hi) = next(iter(frontier_resolution["span"].items()))
+        frac = frontier_resolution["max_gap"]["fraction_of_frontier_range"]
+        parts.append(f"resolution-certified across {sw} {lo:g}–{hi:g}: no feasible plan "
+                     f"beats the reported frontier by more than {frac:.1%} of its span "
+                     "(frontier_resolution.claim)")
     recommendation = "; ".join(parts) + "."
 
     from solvers import run_is_certified   # local, matching _frontier_provenance's pattern
@@ -1350,6 +1479,7 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         },
         "coverage": coverage,
         "completeness": completeness,
+        "frontier_resolution": frontier_resolution,
         "invariant": {
             "holds": exact_dominated == 0,
             "exact_dominated_by_nsga": exact_dominated,
@@ -3180,7 +3310,7 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
     # below then carry the handoff instead.
     suggested = []
     for w in where:
-        if (w["role"] in ("return_floor", "linear_floor") and len(suggested) < 2
+        if (w["role"] in _FLOOR_ROLES and len(suggested) < 2
                 and abs(w["shadow_price"]) > _DUAL_EPS):
             suggested.append({
                 "motivated_by": f"shadow_price:{w['lever']}",
@@ -3241,6 +3371,9 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
     }
 
 
+_FLOOR_ROLES = ("return_floor", "linear_floor")  # the ε-floor lever roles, QP and LP paths
+
+
 def _optimized_objective(problem: Problem, sens) -> str | None:
     """Name the ε-constraint primary: the one objective the duals don't floor.
 
@@ -3248,10 +3381,20 @@ def _optimized_objective(problem: Problem, sens) -> str | None:
     the LP first objective) and floors the rest — so the floor levers name every
     objective except the optimized one. Returns None when that inference isn't
     unambiguous: an explainability payload should never guess."""
-    floored = {sp.name for sp in sens.shadow_prices
-               if sp.role in ("return_floor", "linear_floor")}
+    floored = {sp.name for sp in sens.shadow_prices if sp.role in _FLOOR_ROLES}
     free = [o.name for o in problem.objectives if o.name not in floored]
     return free[0] if len(free) == 1 else None
+
+
+def _floor_dual(sens, floor_name: str) -> float | None:
+    """|shadow_price| of the ``floor_name`` ε-floor lever on one solution's duals — the
+    per-point read shared by the marginal-rate basis and the resolution sandwich. Callers
+    keep their own policy for a missing lever (all-or-nothing vs monotonicity fallback)."""
+    if sens is None:
+        return None
+    sp = next((x for x in sens.shadow_prices
+               if x.role in _FLOOR_ROLES and x.name == floor_name), None)
+    return None if sp is None else abs(sp.shadow_price)
 
 
 def _shadow_interpretation(sp, objective: str | None) -> str:
@@ -3262,7 +3405,7 @@ def _shadow_interpretation(sp, objective: str | None) -> str:
     if sp.role == "budget":
         return (f"price of the total-budget row on {target} "
                 "(allocations are normalized to 100%; cost sense — positive means tighter hurts)")
-    if sp.role in ("return_floor", "linear_floor"):
+    if sp.role in _FLOOR_ROLES:
         # Fold the sign into the verb — "worsens by ~-1.3" reads backwards next to the
         # cost-sense convention, so a (rare) negative price renders as an improvement.
         verb = "worsens" if sp.shadow_price >= 0 else "improves"
@@ -3339,7 +3482,7 @@ def _shadow_price_trend(solutions) -> tuple[list[dict], dict | None]:
     trend = []
     for s in sorted(solutions, key=lambda x: x.solution_id):
         sp = next((x for x in s.sensitivity.shadow_prices
-                   if x.role in ("return_floor", "linear_floor")), None)
+                   if x.role in _FLOOR_ROLES), None)
         if sp is not None:
             trend.append({"solution_id": s.solution_id, "lever": sp.name,
                           "shadow_price": sp.shadow_price + 0.0})
@@ -3392,14 +3535,12 @@ def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
         return None
     vals = []
     for s in sorted_sols:
-        sens = s.sensitivity
-        if sens is None or _optimized_objective(problem, sens) != obj_b.name:
+        if s.sensitivity is None or _optimized_objective(problem, s.sensitivity) != obj_b.name:
             return None
-        sp = next((x for x in sens.shadow_prices
-                   if x.role in ("return_floor", "linear_floor") and x.name == obj_a.name), None)
-        if sp is None:
+        lam = _floor_dual(s.sensitivity, obj_a.name)
+        if lam is None:
             return None
-        vals.append(abs(sp.shadow_price))
+        vals.append(lam)
     return vals
 
 
