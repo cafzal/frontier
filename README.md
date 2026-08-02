@@ -61,11 +61,11 @@ Spreadsheets hit a complexity wall once options and constraints in a decision mu
 
 **What it adds beyond an LLM alone** (its design principles):
 - **The full frontier**: every Pareto-optimal plan, yours to weigh.
-- **Explore broadly, certify selectively**: the heuristic maps the whole space; an exact solver then proves the finalists you'd commit to on supported shapes, catching dominated points the heuristic showed as efficient. Each finalist you shortlisted gets its own verdict — optimal, or dominated with the certified plan that beats it. It can only confirm or improve them — and on two-objective continuous problems the certificate also bounds how much better anything *between* the certified points could possibly be.
+- **Explore broadly, certify selectively**: the heuristic maps the whole space; an exact solver then proves the finalists you'd commit to on supported shapes, catching dominated points the heuristic showed as efficient. Each finalist you shortlisted gets its own verdict — optimal, or dominated with the certified plan that beats it. It can only confirm or improve them — and on two-objective continuous problems the certificate also bounds how much better anything *between* the certified points could possibly be. The check runs both ways: it also flags frontier regions the heuristic reached that the exact pass missed, and a targeted fill closes just those gaps.
 - **Constraints enforced, then checked**: nine hard types (cardinality, force include, force exclude, objective bounds, exclusion pairs, dependencies, group limits with per-group floors and caps, a global allocation cap, per-option allocation floors/caps), respected by every plan the search returns — and every solve re-reads its own returned plans against them, so that guarantee is reported rather than assumed. Each rule can carry the reason it exists, echoed wherever its cost is priced.
 - **Governance guarantees**: on selection problems, a proof that a guardrail holds for *every* feasible plan, or a concrete counterexample.
 - **Grounded and reproducible**: every number traces to a score, an objective value, a dual, or a binding constraint, and the same inputs + seed reproduce the exact frontier.
-- **Scenarios & risk**: independent frontiers per scenario, plus CVaR / worst-case / expected / minimax-regret per objective.
+- **Scenarios & risk**: independent frontiers per scenario, plus CVaR / worst-case / expected / minimax-regret per objective — with your curated finalists ranked on the same regret scale as the frontier's own plans.
 - **Knowledge discovery**: mine the frontier for selection rates, recurring rules, and strategy families.
 - **Durable decisions**: problems persist across sessions; curated picks and feedback attach to the decision and survive re-runs.
 
@@ -177,7 +177,7 @@ Both pieces are plain web services – host them anywhere (Render, Fly, Railway,
 | Provider | `AGENT_BACKEND` | Credentials |
 |---|---|---|
 | **Anthropic** (default) | `messages-api` (public-https engine) or `anthropic-local` (localhost engine) | `ANTHROPIC_API_KEY`, optional `ANTHROPIC_MODEL` (default `claude-opus-4-8`) |
-| **OpenAI** | `openai-compatible` | `OPENAI_API_KEY`, `OPENAI_MODEL`; reasoning models (GPT-5.x) also set `OPENAI_WIRE=responses` |
+| **OpenAI** | `openai-compatible` | `OPENAI_API_KEY`, `OPENAI_MODEL`; models that gate tools behind the Responses API (the GPT-5.6 family) also set `OPENAI_WIRE=responses` |
 | **Any OpenAI-compatible endpoint** (NVIDIA NIM / [build.nvidia.com](https://build.nvidia.com), Groq, Together, a local server, …) | `openai-compatible` | `OPENAI_BASE_URL` (the provider's URL), `OPENAI_API_KEY`, `OPENAI_MODEL` |
 
 Any OpenAI-compatible endpoint drops in by pointing `OPENAI_BASE_URL` at it — e.g. NVIDIA NIM at `https://integrate.api.nvidia.com/v1` with `OPENAI_MODEL=nvidia/nemotron-3-super-120b-a12b`. [`ui/.env.example`](ui/.env.example) has a copy-paste block per backend; keep real keys there (it's gitignored), never in the repo.
