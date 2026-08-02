@@ -123,3 +123,24 @@ def test_headings_resolve_html_escaped():
         for h in _headings(skill):
             assert _resolves(skill, html.escape(h, quote=True)), (
                 f"{skill}: {h!r} unreachable when HTML-escaped")
+
+
+def test_false_invariant_guidance_covers_lp_not_just_qp():
+    """The read side must be as wide as the behavior it explains.
+
+    `invariant.holds = false` comes from rounding a CONTINUOUS optimum to whole percents,
+    so it appears on a linear allocation LP for exactly the reason it appears on a
+    mean-variance QP — the engine's own note says "LP/QP". The skill said "the QP's
+    integer rounding", so a model reading it literally would treat a false invariant on an
+    LP as unexplained and reach for the wrong story (the EA beating the exact solve), which
+    is the one reading this section exists to prevent. Observed on budget_allocation's LP.
+    """
+    txt = (_REPO / "skills/solution_interpreter/references/presentation-refinements.md").read_text()
+    section = guidance._extract_section(txt, "Reading the Certificate (explore certify)")
+    assert section, "the certificate section must resolve"
+    invariant = [ln for ln in section.splitlines() if "false invariant" in ln]
+    assert invariant, "the false-invariant guidance must still be present"
+    line = invariant[0]
+    assert "LP" in line, (
+        "false-invariant guidance must name LP as well as QP — the cause is the "
+        "continuous-to-whole-percent step, not the aggregation")
