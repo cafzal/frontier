@@ -2345,6 +2345,23 @@ class TestCertify:
     """The explore `certify` action: audit an NSGA frontier against an exact-solver run through
     the full MCP path (build → solve NSGA → solve HiGHS → certify)."""
 
+    @staticmethod
+    def _run(**kw):
+        """solve run → run_id, tolerating a backgrounded solve.
+
+        `solve run` returns the result inline when it finishes inside the wait budget and a
+        {status:"running", job_id} handle otherwise, so which branch you get depends on how
+        fast the machine is. Subscripting ["run_id"] therefore passes locally and fails on a
+        slower CI runner with KeyError — a race, not a behavior change. These exact HiGHS
+        solves sit right at the boundary (~10s of the inline budget in CI timings), so poll
+        when handed a handle instead of assuming the fast path.
+        """
+        r = srv.solve(action="run", **kw)
+        while r.get("status") == "running" and r.get("job_id"):
+            r = srv.solve(action="status", job_id=r["job_id"], wait_seconds=10)
+        assert "run_id" in r, f"solve produced no run: {r}"
+        return r["run_id"]
+
     def _binary_pid(self):
         created = srv.model(action="create", name="Certify")
         pid = created["problem_id"]
@@ -2386,8 +2403,8 @@ class TestCertify:
         """run_ids overrides the default, pulling the NSGA run and the exact overlay by id."""
         pytest.importorskip("highspy")
         pid = self._binary_pid()
-        nsga = srv.solve(action="run", problem_id=pid, seed=42)["run_id"]
-        exact = srv.solve(action="run", problem_id=pid, seed=42, solver="highs")["run_id"]
+        nsga = self._run(problem_id=pid, seed=42)
+        exact = self._run(problem_id=pid, seed=42, solver="highs")
         cert = srv.explore(action="certify", problem_id=pid, run_ids=[nsga, exact])
         assert "error" not in cert and cert["exact_solver"] == "highs"
         assert set(cert["corner_sharpening"]) == {"NPV", "Cost", "Fit"}
@@ -2396,23 +2413,23 @@ class TestCertify:
         """The exact run is detected by its solver, so run_ids order does not matter."""
         pytest.importorskip("highspy")
         pid = self._binary_pid()
-        nsga = srv.solve(action="run", problem_id=pid, seed=1)["run_id"]
-        exact = srv.solve(action="run", problem_id=pid, seed=1, solver="highs")["run_id"]
+        nsga = self._run(problem_id=pid, seed=1)
+        exact = self._run(problem_id=pid, seed=1, solver="highs")
         a = srv.explore(action="certify", problem_id=pid, run_ids=[nsga, exact])
         b = srv.explore(action="certify", problem_id=pid, run_ids=[exact, nsga])
         assert a["dominance_audit"] == b["dominance_audit"]
 
     def test_certify_requires_two_runs(self):
         pid = self._binary_pid()
-        one = srv.solve(action="run", problem_id=pid, seed=1)["run_id"]
+        one = self._run(problem_id=pid, seed=1)
         r = srv.explore(action="certify", problem_id=pid, run_ids=[one])
         assert "error" in r and "exactly 2" in r["error"]
 
     def test_certify_needs_one_exact_one_nsga(self):
         """Two NSGA runs (no exact) is rejected — certify is an exact-vs-heuristic audit."""
         pid = self._binary_pid()
-        r1 = srv.solve(action="run", problem_id=pid, seed=1)["run_id"]
-        r2 = srv.solve(action="run", problem_id=pid, seed=2)["run_id"]
+        r1 = self._run(problem_id=pid, seed=1)
+        r2 = self._run(problem_id=pid, seed=2)
         r = srv.explore(action="certify", problem_id=pid, run_ids=[r1, r2])
         assert "error" in r and "one NSGA run and one exact" in r["error"]
 
