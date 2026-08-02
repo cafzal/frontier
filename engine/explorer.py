@@ -1272,6 +1272,64 @@ def _frontier_resolution_block(problem: Problem, front_sols: list) -> dict | Non
     }
 
 
+def _per_pick_verdicts(problem: Problem, names: list[str], sign: np.ndarray, N: np.ndarray,
+                       E: np.ndarray, exact_front: np.ndarray, exact_run: Run) -> dict:
+    """The curated finalists judged one by one against the certified frontier, keyed by
+    ``content_signature`` (the identifier curation already uses).
+
+    ``dominance_audit`` counts how many NSGA points exact beats — a frontier-level fact. The
+    user's question at CERTIFY is narrower and personal (*are the finalists **I** curated
+    optimal?*), and answering it from the aggregate meant reading the persisted exact-run JSON
+    off disk. Same criterion as the audit (``_dominates_min`` against the cleaned exact front),
+    applied per pick, so the two readings can never disagree.
+
+    ``gap`` is the distance to the nearest certified point that beats the pick on every
+    objective: the worst per-objective shortfall, normalized by that objective's spread across
+    both fronts (the box the certificate already reasons in), so it reads on the same 0–1 scale
+    as ``regret``. An ``optimal`` pick has no certifying point above it — nothing to close, so
+    its gap is 0. A pin whose stored values predate a current objective can't be placed in this
+    objective space at all: it is reported ``inconclusive`` with the objectives it lacks, rather
+    than scored against a fabricated 0.0. Absent (not empty) when nothing is curated, matching
+    ``regret.curated``.
+    """
+    if not problem.curated_solutions:
+        return {}
+    joint = np.vstack([N, E[exact_front]])
+    spread = joint.max(axis=0) - joint.min(axis=0)
+    spread = np.where(spread > 1e-12, spread, 1.0)  # a flat axis can carry no shortfall
+
+    def _sig(s) -> str:
+        return s.content_signature or _content_signature(s.selected_options, s.allocations)
+
+    per_pick = {}
+    for cs in problem.curated_solutions:
+        missing = [n for n in names if n not in cs.objective_values]
+        if missing:
+            per_pick[cs.content_signature] = {
+                "verdict": "inconclusive", "custom_name": cs.custom_name,
+                "missing_objectives": missing,   # self-certifying: names why it can't be judged
+            }
+            continue
+        pick = np.array([cs.objective_values[n] for n in names], dtype=float) * sign
+        nearest = None
+        for k in exact_front:
+            if not _dominates_min(E[k], pick):
+                continue
+            d = float(np.max(np.maximum(pick - E[k], 0.0) / spread))
+            if nearest is None or d < nearest[0]:
+                nearest = (d, int(k))
+        if nearest is None:
+            per_pick[cs.content_signature] = {
+                "verdict": "optimal", "custom_name": cs.custom_name, "gap": 0.0}
+        else:
+            gap, k = nearest
+            per_pick[cs.content_signature] = {
+                "verdict": "dominated", "custom_name": cs.custom_name, "gap": round(gap, 4),
+                "dominated_by": _sig(exact_run.solutions[k]),
+            }
+    return per_pick
+
+
 def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> dict:
     """Audit an approximate (NSGA) frontier against an exact-solver frontier — the
     explore-then-certify workflow made measurable. **Solver-agnostic:** the exact run can come
@@ -1285,6 +1343,9 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
 
     - **Dominance audit** — how many NSGA points the exact frontier strictly dominates: heuristic
       slack, points presented as efficient that an exact solver beats at their own cost.
+    - **Per-pick verdicts** — the same dominance criterion applied to the *curated* finalists
+      (``per_pick``), so the phase's own question — are the picks the user kept optimal? — is
+      answered on the certificate instead of in the persisted exact-run JSON.
     - **Coverage** — the hypervolume the exact overlay reclaims over the NSGA frontier alone: the
       *magnitude* behind the dominance count, and the coverage value that grows with problem size
       (near-zero on a small instance the heuristic already covers — exact confirms, doesn't expand).
@@ -1379,7 +1440,21 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
     frontier_resolution = _frontier_resolution_block(
         problem, [exact_run.solutions[i] for i in exact_front])
 
+    # The curated finalists, judged individually against the same certified front.
+    per_pick = _per_pick_verdicts(problem, names, sign, N, E, exact_front, exact_run)
+    dominated_picks = [sig for sig, v in per_pick.items() if v["verdict"] == "dominated"]
+    inconclusive_picks = [sig for sig, v in per_pick.items() if v["verdict"] == "inconclusive"]
+
     parts = []
+    if per_pick:
+        # Lead with it: "are my finalists optimal?" is the question the phase exists to answer.
+        n_opt = len(per_pick) - len(dominated_picks) - len(inconclusive_picks)
+        tally = f"curated picks: {n_opt} of {len(per_pick)} optimal at their own tradeoff"
+        if dominated_picks:
+            tally += f", {len(dominated_picks)} dominated"
+        if inconclusive_picks:
+            tally += f", {len(inconclusive_picks)} inconclusive"
+        parts.append(tally + " (see per_pick)")
     if dominated_idx:
         parts.append(f"exact certifies {len(dominated_idx)}/{len(N)} NSGA points as dominated (heuristic slack)")
     if headline:
@@ -1436,6 +1511,13 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "adds solver-exact shadow prices + reduced costs (the explainability layer). Read this "
             "certificate with the `solution_interpreter` skill ('Reading the Certificate')."
         )
+    if dominated_picks:
+        # Routing, not teaching: a dominated finalist has a certified replacement waiting, and
+        # `per_pick` names it by the signature `explore solutions` echoes.
+        next_steps = (
+            "Re-curate first: per_pick names a certifying replacement for each dominated pick "
+            f"({len(dominated_picks)} of {len(per_pick)}) — match that signature in `explore "
+            "solutions source=\"exact\"` and curate the point in its place. " + next_steps)
 
     coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
     if coverage is not None:
@@ -1477,6 +1559,9 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "nsga_dominated_fraction": round(len(dominated_idx) / len(N), 4) if len(N) else 0.0,
             "examples": examples,
         },
+        # The curated lens on that audit — keyed by content_signature, absent (not empty)
+        # when nothing is curated, the same way `regret.curated` behaves.
+        **({"per_pick": per_pick} if per_pick else {}),
         "coverage": coverage,
         "completeness": completeness,
         "frontier_resolution": frontier_resolution,
