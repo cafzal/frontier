@@ -28,7 +28,9 @@ For objectives with `aggregation="quadratic"`:
 {"objective": "<name>", "entries": {"opt_a": {"opt_a": <float>, "opt_b": <float>, ...}, ...}}
 ```
 
-Entries must be symmetric. For portfolio volatility, entries = covariance matrix. Base-matrix uploads always use default `mode="replace"` with the full matrix.
+Entries must be symmetric — send the upper triangle and the mirror is filled for you. For portfolio volatility, entries = covariance matrix.
+
+A base matrix takes the same `mode` as an override below: default `"replace"` sends the full matrix in one call, and **`mode="upsert"` merges the listed cells into the existing base matrix**. Chunk with upsert whenever the full matrix would not fit one tool call — a 72-option matrix is 5,184 cells (2,628 sent as the upper triangle), which lands as roughly 8 calls of one option-block each. This is not an optimization: a write that overruns the output cap is dropped whole, and every retry hits the same wall, so a large matrix entered in one call never lands at all.
 
 ## Interaction matrix override schema
 

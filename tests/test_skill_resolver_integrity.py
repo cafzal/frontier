@@ -91,6 +91,28 @@ def test_prose_and_code_referenced_sections_resolve():
     assert not unresolved, f"referenced sections that don't resolve: {unresolved}"
 
 
+def test_base_matrix_guidance_offers_upsert():
+    """The read side of the incremental-write contract must agree with the write side.
+
+    `mode="upsert"` on a base interaction matrix is the *only* way a matrix larger than
+    one tool call ever lands (a write that overruns the output cap is dropped whole, and
+    the retry hits the same wall). The engine has honored upsert since the incremental-
+    write fix, and `tests/test_server.py::TestInteractionMatrixIncrementalWrite` proves
+    the behavior — but this reference kept telling models the opposite ("base-matrix
+    uploads always use default mode=replace with the full matrix"), which steers them
+    straight back into the ceiling. A behavior test on its own can't catch that: the code
+    was right and the guidance was wrong, and the guidance is what the model reads.
+    """
+    txt = (_REPO / "skills/problem_framing/references/schemas.md").read_text()
+    section = guidance._extract_section(txt, "Interaction matrix schema")
+    assert section and "upsert" in section, (
+        "the base interaction-matrix schema must offer mode=\"upsert\"; without it a "
+        "large matrix has no landable path")
+    assert "always use default" not in section, (
+        "stale replace-only claim is back — it contradicts the engine and the "
+        "TestInteractionMatrixIncrementalWrite behavior test")
+
+
 def test_headings_resolve_html_escaped():
     """MCP clients HTML-escape tool-call strings, so 'Shadow Prices & Reduced Costs'
     arrives as '...&amp;...' — every heading must resolve in escaped form too (a live
