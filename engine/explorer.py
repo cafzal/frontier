@@ -566,12 +566,14 @@ def _feedback_rules(problem: Problem, run_solutions: list, proportional: bool) -
     thin = [side for side, n in (("liked", len(liked)), ("disliked", len(disliked)))
             if n < _THIN_EVIDENCE_FLOOR]
     if thin:
+        # Self-contained: appending the confident "candidate latent constraints, route to
+        # problem_framing" tail would read straight against the point being made here.
         note = (f"Thin evidence: {len(liked)} liked, {len(disliked)} disliked "
                 f"({' and '.join(thin)} under {_THIN_EVIDENCE_FLOOR}). A rule induced from "
                 "so few rated solutions separates them perfectly by arithmetic, so its "
-                "separation and coverage carry no weight yet — a hypothesis to confirm "
-                "(rate more solutions, or check it against design_principles region_bound), "
-                "not a constraint to apply. " + note)
+                "separation and coverage carry no weight yet — treat it as a hypothesis to "
+                "confirm (rate more solutions, or corroborate against design_principles "
+                "region_bound) before routing anything to problem_framing.")
     return {"available": True, "rules": rules, **evidence, "note": note}
 
 

@@ -381,12 +381,11 @@ How confidently you recommend depends on how much you know about what the user w
 | **Strong** (2+ signals) | User stated preferences + gravitates toward specific solutions + gave constraints reflecting priorities | Confident: "Based on your priorities, Solution 3 fits well because..." |
 | **Moderate** (1 signal) | User mentioned one priority, or selected one solution to look at | Recommend with caveats: "This aligns with what you've told me, but I'd like to confirm — do you care more about X or Y?" |
 | **Weak** (no signal) | User hasn't expressed preferences | Don't recommend. Instead: "All 8 solutions are valid tradeoffs. What matters most to you: revenue or effort?" |
+| **Learned rule** (`explore composition` → `feedback_rules`) | A rule induced from rated solutions — weigh it by `n_liked`/`n_disliked`, since separation and coverage both read 1.0 off a single liked solution by arithmetic | Below three per side, present it as a hypothesis to confirm and corroborate it first (a matching `region_bound` in `design_principles` is independent support; a `certify` pass that contradicts it settles the matter) — a rule to raise as a question, not a constraint to apply |
 
 Never recommend without signal. When in doubt, present a concrete tradeoff between two solutions to draw out preferences.
 
 ### Preference Learning
-
-Weigh a learned `feedback_rules` rule by its evidence size (`n_liked`/`n_disliked`) and corroborate it before acting on it — a matching `region_bound` in `design_principles` is independent support, and its absence (or a `certify` pass that contradicts the rule) keeps the rule a question for the user rather than a constraint to apply.
 
 Behavioral signals often reveal preferences more reliably than stated priorities. When you notice a pattern — gravitating toward certain solutions, repeatedly asking about a specific option, avoiding extremes — surface it rather than silently inferring: *"I notice you keep returning to the lower-cost options. Should we focus there?"* Let the user confirm before treating it as a signal.
 

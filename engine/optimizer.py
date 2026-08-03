@@ -289,7 +289,7 @@ def merged_allocation_bounds(constraints) -> dict[str, tuple[int, int]]:
         if getattr(c, "type", "") != "allocation_bound":
             continue
         merged[c.option] = _intersect_bounds(
-            merged.get(c.option), int(c.min or 0), int(c.max))
+            merged.get(c.option), int(c.min), int(c.max))
     return merged
 
 
@@ -826,7 +826,7 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
             # into the dict would keep only the last one and drop the rest in silence.
             idx = _opt_idx(c.option, c)
             allocation_bounds[idx] = _intersect_bounds(
-                allocation_bounds.get(idx), int(c.min or 0), int(c.max))
+                allocation_bounds.get(idx), int(c.min), int(c.max))
 
     return {
         "forced_in": forced_in_idx,

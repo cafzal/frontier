@@ -220,10 +220,20 @@ class TestModelUpdate:
         assert "'A' (2 rows) → min 20%, max 40%" in note
         assert any("2 allocation_bound rows" in i["message"] and i["severity"] == "warning"
                    for i in r["validation_issues"])
-        # A single-row model says nothing — the note is for the merged case only.
+        # The formulation reads the APPLIED box back, once, on both surfaces — the raw
+        # rows ("A allocation 20–100%" and "A allocation 0–40%") describe neither.
+        card = srv.model(action="get", problem_id=pid, section="summary")
+        assert card["viz_data"]["constraints"] == ["A allocation 20–40% (2 rows merged)"]
+        assert "A allocation 20–40% (2 rows merged)" in card["visualization"]
+        assert "20–100%" not in card["visualization"]
+
+        # A single-row model says nothing — the note and the merge caption are for the
+        # merged case only.
         clean = srv.model(action="update", problem_id=pid, constraints=[
             {"type": "allocation_bound", "option": "A", "min": 20, "max": 40}])
         assert "constraints_merged_note" not in clean
+        clean_card = srv.model(action="get", problem_id=pid, section="summary")
+        assert clean_card["viz_data"]["constraints"] == ["A allocation 20–40%"]
 
     def test_option_removal_cascade_carries_constraints_note(self):
         """An options replacement that cascade-drops referencing constraints is

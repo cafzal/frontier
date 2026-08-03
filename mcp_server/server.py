@@ -940,10 +940,41 @@ def _format_constraint(c, units: dict | None = None) -> str:
     return t or "constraint"
 
 
+def _formatted_constraints(p: Problem) -> list[str]:
+    """Constraint lines for the formulation card and its ASCII twin.
+
+    Several ``allocation_bound`` rows on one option apply INTERSECTED, so the formulation
+    states the applied box once per option (naming how many rows produced it) instead of
+    the raw rows: the card's job is to describe the problem the solver will run, and two
+    raw lines — "A allocation 20–100%" and "A allocation 0–40%" — describe neither. Every
+    other type renders row for row; none of them carries a per-option merge.
+    """
+    units = {o.name: o.unit for o in p.objectives}
+    merged = optimizer.merged_allocation_bounds(p.constraints)
+    counts: dict[str, int] = {}
+    for c in p.constraints:
+        if c.type == "allocation_bound":
+            counts[c.option] = counts.get(c.option, 0) + 1
+    lines: list[str] = []
+    shown: set[str] = set()
+    for c in p.constraints:
+        if c.type != "allocation_bound":
+            lines.append(_format_constraint(c, units))
+            continue
+        if c.option in shown:
+            continue
+        shown.add(c.option)
+        lo, hi = merged[c.option]
+        line = _format_constraint(
+            {"type": "allocation_bound", "option": c.option, "min": lo, "max": hi}, units)
+        lines.append(line + (f" ({counts[c.option]} rows merged)"
+                             if counts[c.option] > 1 else ""))
+    return lines
+
+
 def _viz_data_formulation(p: Problem) -> dict:
     """Structured formulation card for the web UI: typed objectives, constraints, scenarios."""
     total = len(p.objectives) * len(p.options)
-    units = {o.name: o.unit for o in p.objectives}
     return {
         "type": "formulation",
         "name": p.name,
@@ -960,7 +991,7 @@ def _viz_data_formulation(p: Problem) -> dict:
             }
             for o in p.objectives
         ],
-        "constraints": [_format_constraint(c, units) for c in p.constraints],
+        "constraints": _formatted_constraints(p),
         "scenarios": [s.name for s in p.scenario_config.scenarios] if p.scenario_config else [],
     }
 
@@ -974,11 +1005,10 @@ def _render_formulation(p: Problem) -> str:
         unit = f" {o.unit}" if o.unit else ""
         lines.append(f"  • {o.name}: {arrow}, {o.aggregation.value}{unit}")
     if p.constraints:
-        units = {o.name: o.unit for o in p.objectives}
         lines.append("")
         lines.append("Constraints:")
-        for c in p.constraints:
-            lines.append(f"  • {_format_constraint(c, units)}")
+        for line in _formatted_constraints(p):
+            lines.append(f"  • {line}")
     scens = [s.name for s in p.scenario_config.scenarios] if p.scenario_config else []
     if scens:
         lines.append("")
