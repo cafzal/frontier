@@ -17,6 +17,8 @@ export function MarginalRates({ data }: Props) {
   // Scale to the trustworthy rates only. A `degenerate` row is a near-tie divided by ~0, so
   // letting it set the domain flattens every real bar to invisibility — the same defect the
   // engine's guard fixes on the payload side. Such bars are drawn faded and can overflow.
+  // A `flat` row (the mirror case: the numerator tied) has a ~0 rate, so it can't distort the
+  // domain — it is labelled rather than rescaled, so a near-empty bar isn't read as a price.
   const xScale = useMemo(() => {
     const trusted = data.rates.filter((r) => !r.degenerate);
     const scored = (trusted.length ? trusted : data.rates).map((r) => Math.abs(r.rate));
@@ -94,11 +96,12 @@ export function MarginalRates({ data }: Props) {
                   x={w + 4}
                   y={y + ROW_H / 2}
                   fontSize={9}
-                  fill={r.degenerate ? "#a8a29e" : "#292524"}
+                  fill={r.degenerate || r.flat ? "#a8a29e" : "#292524"}
                   dominantBaseline="middle"
                 >
                   {r.rate.toFixed(3)}
                   {r.degenerate && ` · tie on ${data.from_objective.name}`}
+                  {r.flat && ` · flat on ${data.to_objective.name}`}
                   {r.co_improvement && ` · ${data.to_objective.name} gained, not paid`}
                 </text>
               </g>

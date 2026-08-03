@@ -369,3 +369,127 @@ def test_the_ascii_marks_both_caveats_where_the_number_is_read():
     pair = next(x for x in marginal_analysis(p, detail=True)["pairs"]
                 if x["objectives"] == ["Value", "Cost"])
     assert "↑ Cost gained, not paid" in pair["visualization"]
+
+
+# ─── Flatness guard: a near-tie NUMERATOR is a flat stretch, not a cliff ───
+#
+# The mirror of the degeneracy guard, and the live defect it reconstructs (channel_budget,
+# Conversions vs BrandLift): the marker sat at the END of an anomalously flat stretch — the
+# numerator objective moved 0.15 over a perfectly healthy 1.74 denominator step, so the rate
+# was ~0 and the jump measured against the even flatter step before it read as a 25.5x cliff.
+# It is the opposite of a cliff: nothing was bought there. The bundled example carries the
+# same shape at 1e-4 scale (BrandLift moves 0.0002 across a 1.301 Conversions step, for a
+# headline jump of 17038x).
+
+
+def _steps(dv, dc):
+    """Frontier points from per-transition (Value, Cost) steps — deltas are what's under test."""
+    v, c, pts = 0.0, 0.0, [(0.0, 0.0)]
+    for a, b in zip(dv, dc):
+        v, c = round(v + a, 6), round(c + b, 6)
+        pts.append((v, c))
+    return pts
+
+
+# The live receipt, reconstructed: a flat stretch (Cost moves 0.005, then 0.15) inside a
+# frontier whose steps otherwise run 4-6. Without the guard the largest jump in the whole
+# sequence is the 0.15 step landing on the 0.00507 one — exactly 25.5x, on a step that
+# bought 0.15 of Cost.
+FLAT_STRETCH = _steps([1.0, 1.0, 1.5, 1.74, 3.0, 1.0],
+                      [4.0, 4.4, 0.00507, 0.15, 6.0, 5.0])
+
+# The genuine-kink control: the step INTO the marker is small on both sides (3.02 Value buys
+# 0.08 Cost) but this pair's steps run ~0.5, so 0.08 is a real move, not a non-move — and the
+# step OUT of it is a real price (0.29 buys 1.29). The kink survives untouched.
+GENUINE_KINK = _steps([0.5, 0.5, 3.02, 0.29, 0.5, 0.5],
+                      [0.5, 0.6, 0.08, 1.29, 0.55, 0.5])
+
+
+def test_flat_numerator_step_is_flagged_and_loses_the_marker():
+    pair = _pair(FLAT_STRETCH, detail=True)
+    flat = pair["rates"][3]
+    assert flat["delta_Cost"] == -0.15 and flat["delta_Value"] == 1.74   # healthy denominator
+    assert flat["flat"] is True and "degenerate" not in flat
+    # The marker moves off it — to the one real steepening left in the sequence.
+    assert pair["inflection"]["solution_id"] == 5
+    assert pair["inflection"]["jump_factor"] == 2.5
+
+
+def test_the_flat_stretch_is_what_the_unguarded_detector_would_have_led_with():
+    # Both ends of the stretch are ties, so neither can anchor a jump: the 25.5x the raw
+    # quotients offer (0.0862 / 0.00338) is the number the guard exists to keep off the page.
+    def secant(k):     # unrounded, straight off the fixture's points
+        (v0, c0), (v1, c1) = FLAT_STRETCH[k], FLAT_STRETCH[k + 1]
+        return (c1 - c0) / (v1 - v0)
+    assert round(secant(3) / secant(2), 1) == 25.5
+    rows = _pair(FLAT_STRETCH, detail=True)["rates"]
+    assert [i for i, r in enumerate(rows) if r.get("flat")] == [2, 3]
+
+
+def test_a_genuine_kink_over_a_small_but_real_step_still_fires():
+    pair = _pair(GENUINE_KINK, detail=True)
+    assert pair["rate_guard"]["flat_transitions"] == 0
+    assert pair["inflection"]["solution_id"] == 3
+    assert pair["inflection"]["jump_factor"] == 167.9
+
+
+def test_the_numerator_floor_is_that_pair_s_own_scale_not_an_absolute():
+    # Why the two receipts above split: 0.15 is a tie where the typical step is 4.2, while a
+    # SMALLER 0.08 is a real move where the typical step is 0.55. The floor is relative, so
+    # the same absolute step reads differently in two pairs — as it should.
+    flat_guard = _pair(FLAT_STRETCH)["rate_guard"]
+    kink_guard = _pair(GENUINE_KINK)["rate_guard"]
+    assert flat_guard["numerator_floor"] > 0.15 > kink_guard["numerator_floor"]
+    assert kink_guard["numerator_floor"] < 0.08
+
+
+def test_rate_guard_echoes_the_numerator_side_too():
+    guard = _pair(FLAT_STRETCH, detail=True)["rate_guard"]
+    assert guard["numerator"] == "Cost"
+    assert guard["numerator_floor"] == pytest.approx(0.21)   # a twentieth of the 4.2 median
+    assert guard["flat_transitions"] == 2
+    assert "`flat` rows tie on Cost" in guard["note"]
+
+
+def test_flat_transitions_are_kept_in_detail_and_counted_in_summary():
+    detail = _pair(FLAT_STRETCH, detail=True)
+    assert len(detail["rates"]) == len(FLAT_STRETCH) - 1          # flagged, never dropped
+    # Filtering shapes the headline; it never moves the distribution stats. Rates are
+    # [4.0, 4.4, 0.0034, 0.0862, 2.0, 5.0] — median 3.0, unchanged by the guard.
+    summary = _pair(FLAT_STRETCH)["summary"]
+    assert summary["total_transitions"] == 6
+    assert summary["rate_median"] == 3.0
+    assert summary["rate_min"] == 0.0034
+
+
+def test_tradeoffs_candidates_are_pre_filtered_for_flat_steps():
+    p = _problem()
+    p.run = _run(FLAT_STRETCH)
+    candidates = get_tradeoffs(p)["inflection_point_candidates"]
+    assert [c["solution_id"] for c in candidates] == [5]
+
+
+def test_an_elbow_s_own_cheap_side_is_not_a_flat_tie():
+    # The numerator's typical step is the frontier's SHAPE, so a quarter of it (the
+    # denominator's tie fraction) would call every cheap step of an honest elbow a non-move.
+    # ELBOW_LONG's cheap side moves 1.0 against a 5.0 median — real, and the elbow survives.
+    pair = _pair(ELBOW_LONG, detail=True)
+    assert pair["rate_guard"]["flat_transitions"] == 0
+    assert pair["rate_guard"]["numerator_floor"] < 1.0
+    assert pair["inflection"]["solution_id"] == 3
+
+
+def test_a_step_that_ties_on_both_sides_carries_both_flags():
+    # Degeneracy and flatness are separate reads — "the price exploded" vs "nothing was
+    # bought" — and a step that barely moves at all is honestly both.
+    pair = _pair(ELBOW_LONG + [(7.0001, 23.0001)], detail=True)
+    both = pair["rates"][-1]
+    assert both["degenerate"] is True and both["flat"] is True
+    assert pair["rate_guard"]["degenerate_transitions"] == 1
+    assert pair["rate_guard"]["flat_transitions"] == 1
+
+
+def test_the_ascii_marks_the_flat_caveat_where_the_number_is_read():
+    viz = _pair(FLAT_STRETCH, detail=True)["visualization"]
+    assert "≈ flat on Cost" in viz
+    assert "≈ tie on Value" not in viz     # this pair's denominators are all healthy

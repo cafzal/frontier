@@ -374,6 +374,18 @@ def test_certify_next_steps_qp_points_to_sensitivity():
     assert "sensitivity" in c["next_steps"] and 'source="exact"' in c["next_steps"]
 
 
+def test_certify_next_steps_warns_a_pick_signature_may_not_be_on_the_exact_frontier():
+    """Measured gap: an `optimal` per-pick verdict reads as "this plan IS a certified point",
+    so the duals ask goes out under the pick's own signature — which an exact re-solve has
+    often re-allocated away. The engine explains that only AFTER the lookup fails; the routing
+    has to warn before, and name the run whose own solutions do resolve."""
+    prob = _problem(_OBJS)                                      # continuous/QP: duals exist
+    c = certify_against_exact(prob, _run([(8.0, 3.0)], _OBJS),
+                              _run([(10.0, 2.0)], _OBJS, solver="highs"))
+    assert 'explore solutions source="exact"' in c["next_steps"]
+    assert "re-allocates" in c["next_steps"] and "per_pick" in c["next_steps"]
+
+
 def test_certify_next_steps_milp_points_to_binding_analysis():
     """A binary/MILP overlay's certificate points to binding_analysis — integer solutions carry
     no exact duals, so it must NOT send the agent to `explore sensitivity`."""
