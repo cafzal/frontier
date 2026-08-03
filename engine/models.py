@@ -125,6 +125,9 @@ class _Motivated(BaseModel):
 
 
 class CardinalityConstraint(_Motivated):
+    """How many options the plan selects. A whole-plan rule, so ONE row states it: several
+    rows apply intersected (max of the mins, min of the maxes), which `validate` echoes,
+    and an empty intersection is a validation error."""
     type: Literal["cardinality"] = "cardinality"
     min: int
     max: int
@@ -167,6 +170,9 @@ class GroupLimitConstraint(_Motivated):
 
 
 class MaxAllocationConstraint(_Motivated):
+    """One global cap on every option's allocation percentage. A whole-plan rule, so ONE
+    row states it: several rows apply as the tightest cap (the minimum), which `validate`
+    echoes. Per-option floors and caps belong on AllocationBoundConstraint."""
     type: Literal["max_allocation"] = "max_allocation"
     max: int  # maximum allocation percentage for any single option (1-100)
 

@@ -1221,6 +1221,114 @@ class TestDuplicateAllocationBounds:
         assert v.ready is False
 
 
+# ─── Whole-plan (singleton) constraint resolution ───
+
+
+class TestSingletonConstraintMerging:
+    """`max_allocation` and `cardinality` describe the whole plan, so several rows resolve
+    to one applied value. They used to resolve to DIFFERENT values on the two sides:
+    `_parse_constraints` took the last row, the conflict checks took the first."""
+
+    def _props(self, cons, names="ABC"):
+        return Problem(
+            approach="proportional",
+            objectives=[Objective(name="Revenue", direction="maximize"),
+                        Objective(name="Effort", direction="minimize")],
+            options=[Option(name=n) for n in names],
+            scores=[Score(option=n, objective=o, value=5)
+                    for n in names for o in ("Revenue", "Effort")],
+            constraints=cons)
+
+    def test_engine_and_validator_read_the_same_cap(self):
+        """The verified disagreement: rows 30 then 60 — the solver applied 60 while
+        validate reasoned about 30 and hard-errored a model the solver would have run."""
+        from engine.models import MaxAllocationConstraint
+        from engine.optimizer import _parse_constraints, merged_max_allocation
+
+        p = self._props([MaxAllocationConstraint(max=30), MaxAllocationConstraint(max=60)])
+        assert _parse_constraints(p)["max_allocation"] == 30      # the tightest, not the last
+        assert merged_max_allocation(p.constraints) == 30
+        v = validate(p)
+        # Both sides now say 30, and 30 × 3 options = 90% < 100% is a REAL infeasibility.
+        assert any("cap (30%)" in i.message and i.severity == "error" for i in v.issues)
+
+    def test_cap_resolution_is_order_independent(self):
+        from engine.models import MaxAllocationConstraint
+        from engine.optimizer import _parse_constraints
+
+        rows = [MaxAllocationConstraint(max=60), MaxAllocationConstraint(max=30)]
+        assert _parse_constraints(self._props(rows))["max_allocation"] == 30
+        assert _parse_constraints(self._props(rows[::-1]))["max_allocation"] == 30
+
+    def test_engine_and_validator_read_the_same_cardinality(self):
+        """The mirror case: rows (1,3) and (1,5) — the solver applied max 5 while validate
+        rejected 4 force_includes against max 3."""
+        from engine.optimizer import _parse_constraints, merged_cardinality
+
+        p = _make_problem(constraints=[
+            CardinalityConstraint(min=1, max=3), CardinalityConstraint(min=1, max=5),
+            *(ForceIncludeConstraint(option=n) for n in "ABCD")])
+        cp = _parse_constraints(p)
+        assert (cp["cardinality_min"], cp["cardinality_max"]) == (1, 3)
+        assert merged_cardinality(p.constraints) == (1, 3)
+        # Validate's verdict now describes the model the solver runs: 4 forced > max 3.
+        assert any("exceeds cardinality max (3)" in i.message for i in validate(p).issues)
+
+    def test_cardinality_rows_intersect(self):
+        from engine.optimizer import _parse_constraints
+
+        cp = _parse_constraints(_make_problem(constraints=[
+            CardinalityConstraint(min=2, max=4), CardinalityConstraint(min=1, max=3)]))
+        assert (cp["cardinality_min"], cp["cardinality_max"]) == (2, 3)
+
+    def test_empty_cardinality_intersection_is_an_error(self):
+        v = validate(_make_problem(constraints=[
+            CardinalityConstraint(min=2, max=3), CardinalityConstraint(min=4, max=5)]))
+        assert any("intersect to an empty range" in i.message and "min 4 > merged max 3"
+                   in i.message and i.severity == "error" for i in v.issues)
+
+    def test_merges_are_echoed_as_warnings(self):
+        from engine.models import MaxAllocationConstraint
+        from engine.optimizer import singleton_constraint_merges
+
+        p = self._props([MaxAllocationConstraint(max=50), MaxAllocationConstraint(max=40),
+                         CardinalityConstraint(min=1, max=3),
+                         CardinalityConstraint(min=2, max=3)], names="ABC")
+        assert singleton_constraint_merges(p.constraints) == [
+            {"type": "max_allocation", "rows": 2, "max": 40},
+            {"type": "cardinality", "rows": 2, "min": 2, "max": 3}]
+        msgs = [i.message for i in validate(p).issues if i.severity == "warning"]
+        assert any("2 max_allocation rows apply as the tightest cap (≤40% per option)" in m
+                   for m in msgs)
+        assert any("2 cardinality rows apply intersected" in m and "select 2–3" in m
+                   for m in msgs)
+
+    def test_single_rows_resolve_to_themselves(self):
+        """One row of either type keeps its exact pre-merge behavior, warning-free."""
+        from engine.models import MaxAllocationConstraint
+        from engine.optimizer import _parse_constraints
+
+        p = self._props([MaxAllocationConstraint(max=40),
+                         CardinalityConstraint(min=1, max=2)])
+        cp = _parse_constraints(p)
+        assert cp["max_allocation"] == 40
+        assert (cp["cardinality_min"], cp["cardinality_max"]) == (1, 2)
+        assert not any("apply as the tightest" in i.message or "apply intersected" in i.message
+                       for i in validate(p).issues)
+
+    def test_group_floor_check_reads_the_merged_cardinality_max(self):
+        """The group-floor-vs-cardinality check took the FIRST row; with rows (1,5) then
+        (1,2) the applied max is 2, so disjoint floors summing to 3 are a real conflict."""
+        from engine.models import GroupLimitConstraint
+
+        v = validate(_make_problem(constraints=[
+            CardinalityConstraint(min=1, max=5), CardinalityConstraint(min=1, max=2),
+            GroupLimitConstraint(options=["A", "B"], min=2, max=2),
+            GroupLimitConstraint(options=["C", "D"], min=1, max=2)]))
+        assert any("floors sum to 3, above the cardinality max (2)" in i.message
+                   for i in v.issues)
+
+
 # ─── Elite preservation (Fix 5) ───
 
 

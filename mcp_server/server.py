@@ -302,7 +302,10 @@ def model(
                     "Several \"allocation_bound\" rows on ONE option apply intersected — the "
                     "tightest box (max of the mins, min of the maxes), echoed as "
                     "constraints_merged_note; an empty intersection is a validation "
-                    "error.")] = None,
+                    "error. The whole-plan types — \"max_allocation\" (one global per-option "
+                    "cap) and \"cardinality\" (one selection-count range) — take ONE row "
+                    "each the same way: several rows resolve to their tightest combination, "
+                    "echoed in that same note.")] = None,
     approach: str | None = None,
     reference_points: Annotated[list[dict] | None, Field(
         description="On update: FULL REPLACEMENT — send the complete list.")] = None,
@@ -346,6 +349,8 @@ def model(
                 NOT applied at create — passing them errors with a pointer to update.
                 `source` belongs to action='load' (it rebuilds a saved/example bundle),
                 so passing it to create errors with a pointer there.
+                Constraints passed here are checked on the spot, like an update's:
+                the response carries validation_issues and constraints_merged_note.
       update  — Modify problem. Params: problem_id (required), plus any of:
                 name, domain, context, objectives, options, scores, constraints,
                 approach ("binary" or "proportional"),
@@ -489,12 +494,54 @@ def _model_create(params: dict) -> dict:
         "options": len(p.options),
         "constraints": len(p.constraints),
     }
+    # Constraints passed at create get the same self-certifying echo an update gives them
+    # — the merge note plus the non-scoring validation issues. Without it a one-shot
+    # framing call carrying, say, two cardinality rows learned what the model actually
+    # applies only on the next update, or at solve.
+    if "constraints" in params:
+        _attach_constraint_merge_note(result, p)
+        try:
+            issues = [json.loads(i.model_dump_json()) for i in optimizer.validate(p).issues
+                      if "Score matrix incomplete" not in i.message]
+            if issues:
+                result["validation_issues"] = issues
+        except Exception:
+            pass  # advisory, like the update path — never block a create on validation
     # Next step is scoring — inject data_collection guidance (throttled in _inject_skill)
     _inject_skill(result, "data_collection",
         "Problem created. Use this guide when entering scores — "
         "it covers anchoring, batch efficiency, and completeness.",
         p.problem_id)
     return result
+
+
+def _attach_constraint_merge_note(result: dict, p: Problem) -> None:
+    """Name what the model actually applies wherever several rows collapse into one rule.
+
+    Two kinds collapse, and ONE note carries both: several `allocation_bound` rows on one
+    option intersect into a per-option box, and the whole-plan types (`max_allocation`,
+    `cardinality`) resolve to their tightest combination. In each case the applied rule is
+    not any single row the caller sent, so the response names it — the same self-certifying
+    echo `constraints_note` gives a shrinking constraint set, and it beats leaving the
+    difference for the allocations or the frontier to reveal.
+
+    Both kinds route through this one builder deliberately: two writers assigning
+    `constraints_merged_note` independently is exactly how one of them goes silently
+    missing, which is the defect class these notes exist to prevent.
+    """
+    parts = []
+    for m in optimizer.allocation_bound_merges(p.constraints)[:5]:
+        parts.append(f"'{m['option']}' ({m['rows']} allocation_bound rows) → "
+                     f"min {m['min']}%, max {m['max']}%")
+    for m in optimizer.singleton_constraint_merges(p.constraints):
+        applied = (f"≤{m['max']}% per option" if m["type"] == "max_allocation"
+                   else f"select {m['min']}–{m['max']}")
+        parts.append(f"{m['rows']} {m['type']} rows → {applied}")
+    if not parts:
+        return
+    result["constraints_merged_note"] = (
+        "Rules that collapse apply as their tightest combination (max of the mins, min of "
+        "the maxes): " + "; ".join(parts) + ". Send one row each to state that directly.")
 
 
 def _results_stale(p: Problem) -> bool:
@@ -774,18 +821,7 @@ def _model_update(params: dict) -> dict:
                "rules referencing removed options/objectives were dropped")
             + f". Dropped: {listed}.")
 
-    # Several allocation_bound rows on one option apply intersected, so the applied box is
-    # not any single row the caller sent — name it here rather than leaving the difference
-    # for the allocations to reveal.
-    merges = optimizer.allocation_bound_merges(p.constraints)
-    if merges:
-        listed = "; ".join(
-            f"'{m['option']}' ({m['rows']} rows) → min {m['min']}%, max {m['max']}%"
-            for m in merges[:5]) + (" …" if len(merges) > 5 else "")
-        result["constraints_merged_note"] = (
-            "Options carrying several allocation_bound rows apply as the tightest box "
-            f"(max of the mins, min of the maxes): {listed}. Send one merged row per option "
-            "to state that directly.")
+    _attach_constraint_merge_note(result, p)
 
     if matrix_cells_echo:
         result["interaction_matrix_cells"] = matrix_cells_echo
