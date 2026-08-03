@@ -248,14 +248,21 @@ The payload carries a `verdict`, the `audited` echo (the property, or "feasibili
 
 ### Marginal Analysis Interpretation
 
-The `explore marginal_analysis` action returns structured data for each conflicting pair: `rates` (per-step cost ratios) and optionally `inflection` (with `solution_id`, `position`, `jump_factor`). Interpret these:
+The `explore marginal_analysis` action returns structured data for each conflicting pair: `rates` (per-step cost ratios), a `rate_guard`, and optionally `inflection` (with `solution_id`, `position`, `jump_factor`). Interpret these:
 
 - **Rates**: "Moving from Solution 2 to Solution 3 costs [X] units of [B] per unit of [A] gained"
 - **Inflection point**: When `inflection` is present, use the anchored template from Presentation Order: *"[A]-vs-[B] inflection at [A=value, B=value] — jump factor [X]×. Past this point, each extra unit of A costs roughly X× more B than before."* The objective values come from the referenced solution; the jump magnitude comes from `inflection.jump_factor`.
 - **No inflection**: "Marginal costs change gradually — the frontier offers smooth tradeoffs throughout"
 - **Exchange rates**: Anchor tradeoff conversations with concrete numbers: "Each additional $10K revenue costs 2 points of satisfaction"
 
-Inflection points also appear in `tradeoffs` output as `inflection_point_candidates` — these are the same solutions, pre-computed for convenience. Use them in the initial presentation alongside balanced and extremes, without requiring a separate `marginal_analysis` call.
+**A rate is a quotient, and `rate_guard` names the two ways one misleads.** Check both flags before quoting any number as a price:
+
+- **`degenerate`** — the two solutions all but tie on the denominator objective (the step falls below `rate_guard.denominator_floor`), so a real numerator divided by nearly zero yields a spectacular rate that means nothing. These are pre-filtered out of `inflection` and `steepest_transitions`; where you meet one among the detail rows, read it as **a tie, not a cliff** and pass over it. An inflection is a stop-here marker, and two points a user can't tell apart are not two places to stop.
+- **`co_improvement`** — the step improved BOTH objectives, which happens once there are three or more objectives and the pair's conflict is settled on a third. Its rate is a ratio of two gains, so say what happened — *"this step gains on both; the tradeoff is being paid in [the third objective]"* — rather than reading it back as cost-per-unit-gained. An inflection carrying this flag already frames itself as the exchange rate turning; keep that framing rather than restoring a price.
+
+**Lead with the median.** `summary` spans every transition including the guarded ones, so `rate_median` is the honest headline for "what does a unit of [A] typically cost?", while `rate_max` can still be a `degenerate` row's artifact. Quote `steepest_transitions` for the genuinely expensive steps — that list is the filtered one.
+
+Inflection points also appear in `tradeoffs` output as `inflection_point_candidates` — these are the same solutions, pre-computed for convenience, and pre-filtered by the same degeneracy guard. Use them in the initial presentation alongside balanced and extremes, without requiring a separate `marginal_analysis` call.
 
 ### Frontier Visualization
 

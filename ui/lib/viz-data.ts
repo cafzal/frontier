@@ -71,10 +71,17 @@ export type ParallelCoordsVizData = {
   series: ParallelCoordsSeries[];
 };
 
+// `rate` is unsigned, so the engine flags the two shapes that make one misleading
+// (explorer.py `_mark_rate_geometry`): `degenerate` — the two solutions tie on the
+// denominator objective, so the rate is a division artifact rather than a cliff;
+// `co_improvement` — the step gained BOTH objectives, so the rate is a ratio of two
+// gains, not a price.
 export type MarginalRate = {
   from_id: number;
   to_id: number;
   rate: number;
+  degenerate?: boolean;
+  co_improvement?: boolean;
   [k: string]: unknown;
 };
 
@@ -83,7 +90,12 @@ export type MarginalRatesVizData = {
   from_objective: { name: string; direction: "minimize" | "maximize" };
   to_objective: { name: string; direction: "minimize" | "maximize" };
   rates: MarginalRate[];
-  inflection: { solution_id: number; position: number; jump_factor: number } | null;
+  inflection: {
+    solution_id: number;
+    position: number;
+    jump_factor: number;
+    co_improvement?: boolean;
+  } | null;
 };
 
 // Minimax-regret lens from scenario_results (engine: explorer.py `scenario_regret`).

@@ -203,3 +203,169 @@ def test_dual_slopes_fall_back_to_secants_when_any_point_lacks_them():
     p.run = _run(ELBOW, sensitivities=sens)
     pair = marginal_analysis(p, detail=True)["pairs"][0]
     assert pair["rate_basis"] == "secant"
+
+
+# ─── Degeneracy guard: a near-tie denominator is a tie, not a cliff ───
+#
+# The live defect these reconstruct: adjacent frontier points that all but tie on the
+# denominator objective divide a real numerator by ~0, and the resulting rate took the
+# inflection headline away from the genuine elbow (supplier_selection and
+# community_program_funding both led with a jump factor driven by a 1e-3/1e-4-scale step).
+
+# A frontier whose elbow (solution 3) and ideal-closest point (solution 4) are different
+# solutions, so the `tradeoffs` de-duplication doesn't hide the candidate under test.
+ELBOW_LONG = ELBOW + [(6, 18), (7, 23)]
+# ...plus one near-tie step at the end: Value moves 0.0001 while Cost moves 1.5, for a rate
+# of 15000 — the largest jump in the sequence by three orders of magnitude, and pure
+# division artifact. This is the shape of both live receipts.
+TIE_AFTER_ELBOW = ELBOW_LONG + [(7.0001, 24.5)]
+
+
+def _pair(points, **kwargs):
+    p = _problem()
+    p.run = _run(points)
+    return marginal_analysis(p, **kwargs)["pairs"][0]
+
+
+def test_near_tie_denominator_loses_the_inflection_to_the_real_elbow():
+    pair = _pair(TIE_AFTER_ELBOW, detail=True)
+    # The elbow, not the tie: solution 3 at 5x, not solution 5 at ~3000x.
+    assert pair["inflection"]["solution_id"] == 3
+    assert pair["inflection"]["jump_factor"] == 5.0
+
+
+def test_near_tie_transition_is_kept_in_detail_and_flagged():
+    pair = _pair(TIE_AFTER_ELBOW, detail=True)
+    tie = pair["rates"][-1]
+    assert tie["delta_Value"] == 0.0001 and tie["degenerate"] is True
+    assert tie["rate"] == 15000.0
+    assert len(pair["rates"]) == len(TIE_AFTER_ELBOW) - 1      # flagged, never dropped
+    assert [r for r in pair["rates"][:-1] if r.get("degenerate")] == []
+
+
+def test_rate_guard_echoes_the_floor_that_excluded_it():
+    guard = _pair(TIE_AFTER_ELBOW, detail=True)["rate_guard"]
+    assert guard["denominator"] == "Value"
+    assert guard["degenerate_transitions"] == 1
+    # Floor = a quarter of the typical (median) step of 1.0, well above the 0.0001 tie.
+    assert guard["denominator_floor"] == 0.25
+
+
+def test_degenerate_transition_stays_out_of_the_steepest_headline():
+    pair = _pair(TIE_AFTER_ELBOW)                              # summary mode
+    assert all(not r.get("degenerate") for r in pair["steepest_transitions"])
+    assert max(r["rate"] for r in pair["steepest_transitions"]) == 5.0
+
+
+def test_summary_stats_span_every_transition_so_the_median_read_is_untouched():
+    # Filtering shapes the headline lists; it never moves the distribution stats. Rates are
+    # [1, 1, 1, 5, 5, 5, 5, 15000] — median 5.0, and the artifact stays visible as rate_max.
+    summary = _pair(TIE_AFTER_ELBOW)["summary"]
+    assert summary["total_transitions"] == 8
+    assert summary["rate_median"] == 5.0
+    assert summary["rate_max"] == 15000.0
+
+
+def test_tradeoffs_candidates_are_pre_filtered_for_degeneracy():
+    p = _problem()
+    p.run = _run(TIE_AFTER_ELBOW)
+    candidates = get_tradeoffs(p)["inflection_point_candidates"]
+    assert [c["solution_id"] for c in candidates] == [3]
+    assert candidates[0]["jump_factor"] == 5.0
+
+
+def test_genuine_cliff_over_a_healthy_step_still_fires():
+    # No tie anywhere: the guard must stay out of the way of a real elbow.
+    pair = _pair(ELBOW_LONG, detail=True)
+    assert pair["inflection"]["solution_id"] == 3
+    assert pair["rate_guard"]["degenerate_transitions"] == 0
+
+
+def test_floor_tracks_spacing_on_a_densely_sampled_frontier():
+    # The community_program_funding regime: 40 points across a range of 0.39, so EVERY step
+    # is a fraction of a percent of the range and a range-only floor would catch none of
+    # them. The floor follows the typical step instead, so the 1e-4 tie is still the tie.
+    points = [(round(0.01 * k, 4), 0.5 * k) for k in range(40)]
+    points.insert(20, (points[19][0] + 0.0001, points[19][1] + 0.4))
+    pair = _pair(points, detail=True)
+    guard = pair["rate_guard"]
+    assert guard["degenerate_transitions"] == 1
+    assert 0.0001 < guard["denominator_floor"] < 0.01
+    assert pair["rates"][19]["degenerate"] is True
+
+
+def test_exact_ties_are_degenerate_even_when_they_are_the_typical_step():
+    # Majority-tie frontier: the median step is 0, so the spacing term vanishes and the
+    # range term is what keeps the floor above zero.
+    points = [(0, 0), (0, 1), (0, 2), (0, 3), (1, 4), (2, 9)]
+    pair = _pair(points, detail=True)
+    assert pair["rate_guard"]["denominator_floor"] == pytest.approx(0.002)   # 0.1% of a span of 2
+    assert [bool(r.get("degenerate")) for r in pair["rates"]] == [True, True, True, False, False]
+
+
+# ─── Direction honesty: an unsigned rate is not always a price ───
+
+
+def _three_objective_problem():
+    """Three objectives, so a pair can improve together while the conflict is paid on the third."""
+    names = ["A", "B", "C"]
+    scores = [Score(option=o, objective=obj, value=1.0)
+              for o in names for obj in ("Value", "Cost", "Risk")]
+    return Problem(
+        name="co-improve-t", approach="binary",
+        objectives=[Objective(name="Value", direction="maximize"),
+                    Objective(name="Cost", direction="minimize"),
+                    Objective(name="Risk", direction="minimize")],
+        options=[Option(name=o) for o in names], scores=scores, constraints=[],
+    )
+
+
+# Value climbs throughout; the last step also DROPS Cost (Risk pays for it), so that
+# transition's rate is a ratio of two gains and is where the largest rate jump lands.
+CO_IMPROVING = [(0, 0, 9), (1, 1, 8), (2, 2, 7), (3, 3, 6), (4, 4, 5), (5, 0, 40)]
+
+
+def _run3(points):
+    return Run(solutions=[
+        Solution(solution_id=i, selected_options=["A"],
+                 objective_values={"Value": float(v), "Cost": float(c), "Risk": float(k)})
+        for i, (v, c, k) in enumerate(points)
+    ])
+
+
+def test_a_step_that_gains_both_objectives_is_labelled_not_priced():
+    # Value up and Cost DOWN across the last step — the pair improves together (Risk pays for
+    # it), so the rate is a ratio of two gains and must not read as cost-per-unit-gained.
+    p = _three_objective_problem()
+    p.run = _run3(CO_IMPROVING)
+    pair = next(x for x in marginal_analysis(p, detail=True)["pairs"]
+                if x["objectives"] == ["Value", "Cost"])
+    assert pair["rates"][-1]["co_improvement"] is True
+    assert [r for r in pair["rates"][:-1] if r.get("co_improvement")] == []
+    assert pair["rate_guard"]["co_improvement_transitions"] == 1
+
+
+def test_a_co_improving_inflection_says_so_instead_of_naming_a_price():
+    p = _three_objective_problem()
+    p.run = _run3(CO_IMPROVING)
+    pair = next(x for x in marginal_analysis(p, detail=True)["pairs"]
+                if x["objectives"] == ["Value", "Cost"])
+    inflection = pair["inflection"]
+    assert inflection["co_improvement"] is True
+    assert "GAINS Cost" in inflection["rationale"]
+    assert "costs ~" not in inflection["rationale"]
+
+
+def test_an_ordinary_tradeoff_inflection_keeps_the_price_framing():
+    pair = _pair(ELBOW, detail=True)
+    assert "co_improvement" not in pair["inflection"]
+    assert "costs ~5.0× more Cost" in pair["inflection"]["rationale"]
+
+
+def test_the_ascii_marks_both_caveats_where_the_number_is_read():
+    assert "≈ tie on Value" in _pair(TIE_AFTER_ELBOW, detail=True)["visualization"]
+    p = _three_objective_problem()
+    p.run = _run3(CO_IMPROVING)
+    pair = next(x for x in marginal_analysis(p, detail=True)["pairs"]
+                if x["objectives"] == ["Value", "Cost"])
+    assert "↑ Cost gained, not paid" in pair["visualization"]

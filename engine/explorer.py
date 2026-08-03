@@ -91,6 +91,7 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
                 "selected_options": s.selected_options,
                 "inflection_pair": inf["pair"],
                 "jump_factor": inf["jump_factor"],
+                **({"co_improvement": True} if inf["co_improvement"] else {}),
                 "rationale": inf["rationale"],
             })
 
@@ -2448,7 +2449,7 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
         )
 
         # Marginal rates between adjacent solutions — solver-exact duals where available
-        raw_rates, rate_basis = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
+        raw_rates, rate_basis, floor = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
         rates = [
             {
                 "from_id": rr["from_sol"].solution_id,
@@ -2456,26 +2457,33 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 f"delta_{obj_a.name}": round(rr["delta_a"], 4),
                 f"delta_{obj_b.name}": round(rr["delta_b"], 4),
                 "rate": round(rr["rate"], 4),
+                **({"degenerate": True} if rr.get("degenerate") else {}),
+                **({"co_improvement": True} if rr.get("co_improvement") else {}),
             }
             for rr in raw_rates
         ]
+        trustworthy = [not rr.get("degenerate") for rr in raw_rates]
 
-        # Detect inflection: largest jump in marginal rate
-        detected = _detect_inflection([rr["rate"] for rr in raw_rates])
+        # Detect inflection: largest jump in marginal rate, over trustworthy transitions only
+        detected = _detect_inflection([rr["rate"] for rr in raw_rates], eligible=trustworthy)
         if detected is None:
             inflection = None
         else:
+            landing = raw_rates[detected["position"]]
+            co_gain = bool(landing.get("co_improvement"))
             inflection = {
-                "solution_id": raw_rates[detected["position"]]["from_sol"].solution_id,
+                "solution_id": landing["from_sol"].solution_id,
                 "position": detected["position"],
                 "jump_factor": detected["jump_factor"],
-                "rationale": _knee_rationale(obj_a, obj_b, detected["jump_factor"]),
+                **({"co_improvement": True} if co_gain else {}),
+                "rationale": _knee_rationale(obj_a, obj_b, detected["jump_factor"], co_gain),
             }
 
         pair_result = {
             "objectives": [obj_a.name, obj_b.name],
             "correlation": round(r, 2),
             "rate_basis": rate_basis,
+            "rate_guard": _rate_guard(rates, obj_a, obj_b, floor),
             "inflection": inflection,
         }
 
@@ -2487,7 +2495,9 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
             )
             pair_result["viz_data"] = _viz_data_marginal_rates(rates, obj_a, obj_b, inflection)
         else:
-            # Summary: stats + top-5 steepest + truncated viz
+            # Summary: stats + top-5 steepest + truncated viz. Stats span EVERY transition —
+            # they describe how this frontier is sampled, so the median read is the same
+            # number with or without the guard; the headline lists below are the filtered ones.
             rate_values = [r["rate"] for r in rates]
             pair_result["summary"] = {
                 "total_transitions": len(rates),
@@ -2495,8 +2505,12 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 "rate_max": round(max(rate_values), 4) if rate_values else 0,
                 "rate_median": round(float(np.median(rate_values)), 4) if rate_values else 0,
             }
-            # Top-5 steepest transitions (most expensive tradeoff steps)
-            top_rates = sorted(rates, key=lambda r: r["rate"], reverse=True)[:5]
+            # Top-5 steepest transitions (the most expensive tradeoff steps) — over the
+            # trustworthy ones, so the headline is a price and never a near-tie's quotient.
+            top_rates = sorted(
+                (r for r in rates if not r.get("degenerate")),
+                key=lambda r: r["rate"], reverse=True,
+            )[:5]
             pair_result["steepest_transitions"] = top_rates
             # Truncated viz: ~20 rows around inflection
             pair_result["visualization"] = _render_marginal_rates(
@@ -2509,6 +2523,68 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
         pairs.append(pair_result)
 
     return {"pairs": pairs, "frontier_source": _frontier_provenance(problem, run, scenario)}
+
+
+def cap_marginal_detail(problem: Problem, result: dict, max_rows: int) -> dict:
+    """A token-capped view of a ``detail=true`` marginal_analysis payload.
+
+    detail=true returns one row per adjacent-solution transition per pair — O(frontier size),
+    which runs to hundreds of rows and tens of thousands of tokens at portfolio scale. This
+    returns a new payload keeping at most ``max_rows`` transitions per pair, windowed on the
+    inflection exactly as the summary view is, with the visualization and viz_data re-rendered
+    to match. Nothing is mutated: the caller keeps the full payload for the on-disk dump the
+    capped response points at.
+    """
+    by_name = {o.name: o for o in problem.objectives}
+    capped = []
+    for pair in result.get("pairs", []):
+        rates = pair.get("rates") or []
+        if len(rates) <= max_rows or not all(n in by_name for n in pair["objectives"]):
+            capped.append(pair)
+            continue
+        obj_a, obj_b = (by_name[n] for n in pair["objectives"])
+        inflection = pair.get("inflection")
+        start, end = _marginal_window(len(rates), inflection, max_rows)
+        capped.append({
+            **pair,
+            "rates": rates[start:end],
+            # `position` on the inflection indexes the FULL list, which is what the on-disk
+            # dump holds; the window says which slice of it is inline.
+            "truncated": {"total_transitions": len(rates), "shown": end - start,
+                          "window": [start, end]},
+            "visualization": _render_marginal_rates(rates, obj_a, obj_b, inflection,
+                                                    max_rows=max_rows),
+            "viz_data": _viz_data_marginal_rates(rates, obj_a, obj_b, inflection,
+                                                 max_rows=max_rows),
+        })
+    return {**result, "pairs": capped}
+
+
+def _rate_guard(rates: list[dict], obj_a, obj_b, floor: float) -> dict:
+    """What the unsigned `rate` column hides, echoed so the pair's inflection is auditable.
+
+    Both counts are per-response facts (this frontier's sampling), and both name a way a
+    rate misleads: a tie's quotient reads as a cliff, a mutual gain reads as a price. The
+    reading is in `solution_interpreter` → Marginal Analysis Interpretation.
+    """
+    degenerate = sum(1 for r in rates if r.get("degenerate"))
+    co_improving = sum(1 for r in rates if r.get("co_improvement"))
+    notes = []
+    if degenerate:
+        notes.append(f"`degenerate` rows tie on {obj_a.name} (step below denominator_floor), so "
+                     f"their rate is a division artifact — excluded from inflection and "
+                     f"steepest_transitions, still counted in summary")
+    if co_improving:
+        notes.append(f"`co_improvement` rows GAINED {obj_b.name} rather than paying it, so "
+                     f"their rate is a ratio of two gains, not a price")
+    return {
+        "denominator": obj_a.name,
+        "denominator_floor": round(floor, 6),
+        "degenerate_transitions": degenerate,
+        "co_improvement_transitions": co_improving,
+        # Caption only where there is something to caption — a clean pair says so by its counts.
+        **({"note": "; ".join(notes)} if notes else {}),
+    }
 
 
 def _render_marginal_rates(rates: list[dict], obj_a, obj_b, inflection: dict | None,
@@ -2524,7 +2600,11 @@ def _render_marginal_rates(rates: list[dict], obj_a, obj_b, inflection: dict | N
     lines.append(f"─── Marginal Rates: {obj_b.name} cost per unit {obj_a.name} ───")
     lines.append("")
 
-    rate_values = [r["rate"] for r in rates]
+    # Scale the bars to the trustworthy rates: a near-tie's quotient can be orders of
+    # magnitude above every real rate, and letting it set full scale flattens the rest to
+    # nothing. Degenerate bars then peg at full width, which is the honest picture of them.
+    trusted = [r["rate"] for r in rates if not r.get("degenerate")]
+    rate_values = trusted or [r["rate"] for r in rates]
     max_rate = max(rate_values) if rate_values else 1.0
     if max_rate == 0:
         max_rate = 1.0
@@ -2545,6 +2625,11 @@ def _render_marginal_rates(rates: list[dict], obj_a, obj_b, inflection: dict | N
         filled = max(0, min(BAR_W, round(rate / max_rate * BAR_W)))
         bar = "█" * filled + "░" * (BAR_W - filled)
         marker = " ◀ INFLECTION" if inflection and idx == inflection["position"] else ""
+        # Same two caveats the payload flags, inline where the number is read.
+        if r.get("degenerate"):
+            marker += f"  ≈ tie on {obj_a.name}"
+        if r.get("co_improvement"):
+            marker += f"  ↑ {obj_b.name} gained, not paid"
         lines.append(f"  [{from_id}]→[{to_id}]  |{bar}| {_fmt(rate)}{marker}")
     if truncated and show_range.stop < len(rates):
         lines.append(f"  ... {len(rates) - show_range.stop} later transitions omitted")
@@ -3690,6 +3775,11 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
 
     Returns list of dicts with from_sol, to_sol, delta_a, delta_b, rate — rich
     enough for both marginal_analysis display and inflection detection.
+
+    ``rate`` is unsigned (|delta_b| per unit delta_a), so the signs stay on the deltas:
+    a step where ``delta_b`` is also positive gained B rather than paying it, and
+    ``_mark_rate_geometry`` labels that (and near-tie denominators) before the payload
+    presents any rate as a cost.
     """
     rates = []
     for k in range(len(sorted_sols) - 1):
@@ -3709,6 +3799,44 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
             "rate": rate,
         })
     return rates
+
+
+# A marginal rate is a quotient, so it inflates without bound as its denominator step goes
+# to zero. Two scales set the floor below which a step is a tie rather than a move, and the
+# larger wins: a fixed slice of the objective's range across the analyzed frontier, and a
+# fraction of the typical step between adjacent points. The range term is the backstop that
+# survives a frontier of mostly-ties; the spacing term is the one that binds on a densely
+# sampled frontier, where every step is a small slice of the range and only the steps far
+# below the typical one are artifacts.
+_DEGENERACY_RANGE_FRACTION = 0.001
+_DEGENERACY_SPACING_FRACTION = 0.25
+
+
+def _degeneracy_floor(rates: list[dict], sorted_sols, obj_a) -> float:
+    """Smallest denominator step on which a marginal rate for this pair is trustworthy."""
+    vals = [s.objective_values[obj_a.name] for s in sorted_sols]
+    span = (max(vals) - min(vals)) if vals else 0.0
+    steps = [abs(rr["delta_a"]) for rr in rates]
+    typical = float(np.median(steps)) if steps else 0.0
+    return max(_DEGENERACY_RANGE_FRACTION * span, _DEGENERACY_SPACING_FRACTION * typical)
+
+
+def _mark_rate_geometry(rates: list[dict], sorted_sols, obj_a) -> float:
+    """Tag each transition with the two things an unsigned rate hides, and return the floor.
+
+    ``degenerate`` — the two points effectively tie on the denominator objective (step below
+    ``_degeneracy_floor``), so the rate is a division artifact, not a cliff.
+    ``co_improvement`` — the step improved BOTH objectives (possible on a frontier of three or
+    more objectives, where the pair's conflict is paid elsewhere), so its rate is a ratio of
+    two gains, not a price. Both are set only when true, so a plain row is the ordinary case.
+    """
+    floor = _degeneracy_floor(rates, sorted_sols, obj_a)
+    for rr in rates:
+        if abs(rr["delta_a"]) <= max(floor, 1e-9):
+            rr["degenerate"] = True
+        if rr["delta_b"] > 0:
+            rr["co_improvement"] = True
+    return floor
 
 
 def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
@@ -3732,42 +3860,65 @@ def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
 def _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem=None):
     """Marginal rates for one conflicting pair, on the sharpest basis available: solver-exact
     duals (the slope AT each transition's left endpoint) when the exact path attached them,
-    else secants between adjacent points. Returns ``(rates, basis)`` with basis ∈
-    'solver_exact_duals' | 'secant' so the payload states its epistemic footing."""
+    else secants between adjacent points. Returns ``(rates, basis, floor)`` with basis ∈
+    'solver_exact_duals' | 'secant' so the payload states its epistemic footing, and ``floor``
+    the denominator step below which a transition is a tie (see ``_mark_rate_geometry``).
+
+    The tie test rides on the deltas, so it holds on both bases: a dual is an exact slope, but
+    an inflection is a marker telling the user where to stop, and two points that tie on the
+    denominator objective are not two stopping places to choose between.
+    """
     rates = _compute_pair_rates(sorted_sols, obj_a, obj_b)
+    floor = _mark_rate_geometry(rates, sorted_sols, obj_a)
     duals = _pair_dual_rates(sorted_sols, obj_a, obj_b, problem)
     if duals is None:
-        return rates, "secant"
+        return rates, "secant", floor
     for k, rr in enumerate(rates):
         rr["rate"] = duals[k]
-    return rates, "solver_exact_duals"
+    return rates, "solver_exact_duals", floor
 
 
-def _knee_rationale(obj_a, obj_b, jump_factor: float) -> str:
-    """One-line, number-anchored knee framing in the user's objective names."""
+def _knee_rationale(obj_a, obj_b, jump_factor: float, co_improvement: bool = False) -> str:
+    """One-line, number-anchored knee framing in the user's objective names.
+
+    The price framing holds where the step pays {obj_b} for {obj_a}. Where the step gained
+    both (the pair's conflict is settled in some third objective), the jump is in the
+    exchange rate's magnitude and the sentence says so instead of naming a price.
+    """
+    if co_improvement:
+        return (f"the exchange rate between {obj_a.name} and {obj_b.name} steepens ~{jump_factor}× "
+                f"here — read it as where the pair's relationship turns, not as a price: this step "
+                f"GAINS {obj_b.name} alongside {obj_a.name}, so the tradeoff is being paid elsewhere")
     return (f"the defensible default for this pair: beyond this point each extra unit of "
             f"{obj_a.name} costs ~{jump_factor}× more {obj_b.name} per unit than before")
 
 
-def _detect_inflection(rate_values: list[float], threshold: float = 2.0) -> dict | None:
+def _detect_inflection(rate_values: list[float], threshold: float = 2.0,
+                       eligible: list[bool] | None = None) -> dict | None:
     """Find the largest jump in marginal rate across adjacent rates.
 
     Returns {position, jump_factor} if max jump >= threshold, else None.
     Position is the index into the rate list where the jump lands (i.e. k+1).
+
+    ``eligible`` (default: all) drops transitions whose rate is a near-tie artifact from BOTH
+    roles — the jump's baseline and its landing point — so the detector compares the nearest
+    trustworthy neighbours instead and an inflection marks a real cliff. Positions still index
+    the full rate list, so callers keep their alignment.
     """
-    if len(rate_values) < 2:
+    idxs = [k for k in range(len(rate_values)) if eligible is None or eligible[k]]
+    if len(idxs) < 2:
         return None
-    max_jump, inflection_idx = 0.0, 0
-    for k in range(len(rate_values) - 1):
-        prev_rate = rate_values[k]
-        next_rate = rate_values[k + 1]
+    max_jump, inflection_idx = 0.0, idxs[0]
+    for prev_k, next_k in zip(idxs, idxs[1:]):
+        prev_rate = rate_values[prev_k]
+        next_rate = rate_values[next_k]
         if prev_rate > 1e-9:
             jump = next_rate / prev_rate
         else:
             jump = next_rate if next_rate > 0 else 0.0
         if jump > max_jump:
             max_jump = jump
-            inflection_idx = k + 1
+            inflection_idx = next_k
     if max_jump >= threshold:
         return {"position": inflection_idx, "jump_factor": round(max_jump, 1)}
     return None
@@ -3820,19 +3971,23 @@ def _find_inflection_solutions(solutions, objectives, problem=None) -> list[dict
             key=lambda s: s.objective_values[obj_a.name],
             reverse=reverse_a,
         )
-        rates, _basis = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
-        inflection = _detect_inflection([r["rate"] for r in rates])
+        rates, _basis, _floor = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
+        inflection = _detect_inflection(
+            [r["rate"] for r in rates], eligible=[not r.get("degenerate") for r in rates])
         if inflection is None:
             continue
-        inflection_sol = rates[inflection["position"]]["from_sol"]
+        landing = rates[inflection["position"]]
+        inflection_sol = landing["from_sol"]
         if inflection_sol.solution_id in seen_ids:
             continue
         seen_ids.add(inflection_sol.solution_id)
+        co_gain = bool(landing.get("co_improvement"))
         knees.append({
             "solution": inflection_sol,
             "pair": f"{obj_a.name} vs {obj_b.name}",
             "jump_factor": inflection["jump_factor"],
-            "rationale": _knee_rationale(obj_a, obj_b, inflection["jump_factor"]),
+            "co_improvement": co_gain,
+            "rationale": _knee_rationale(obj_a, obj_b, inflection["jump_factor"], co_gain),
         })
     return knees
 
