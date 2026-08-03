@@ -1,0 +1,2191 @@
+{
+  "options": [
+    {
+      "name": "TX-01 Q1",
+      "description": "Ashfield 230kV conductor replacement (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-01 Q2",
+      "description": "Ashfield 230kV conductor replacement (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-01 Q3",
+      "description": "Ashfield 230kV conductor replacement (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-01 Q4",
+      "description": "Ashfield 230kV conductor replacement (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-02 Q1",
+      "description": "Bellrun river crossing refit (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-02 Q2",
+      "description": "Bellrun river crossing refit (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-02 Q3",
+      "description": "Bellrun river crossing refit (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-02 Q4",
+      "description": "Bellrun river crossing refit (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-03 Q1",
+      "description": "Corvane 115kV insulator campaign (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-03 Q2",
+      "description": "Corvane 115kV insulator campaign (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-03 Q3",
+      "description": "Corvane 115kV insulator campaign (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-03 Q4",
+      "description": "Corvane 115kV insulator campaign (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-04 Q1",
+      "description": "Dunmere tower foundation repair (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-04 Q2",
+      "description": "Dunmere tower foundation repair (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-04 Q3",
+      "description": "Dunmere tower foundation repair (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-04 Q4",
+      "description": "Dunmere tower foundation repair (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-05 Q1",
+      "description": "Elstow line relay retrofit (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-05 Q2",
+      "description": "Elstow line relay retrofit (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-05 Q3",
+      "description": "Elstow line relay retrofit (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-05 Q4",
+      "description": "Elstow line relay retrofit (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-06 Q1",
+      "description": "Fenwick series capacitor overhaul (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-06 Q2",
+      "description": "Fenwick series capacitor overhaul (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-06 Q3",
+      "description": "Fenwick series capacitor overhaul (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-06 Q4",
+      "description": "Fenwick series capacitor overhaul (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "TX-07 Q1",
+      "description": "Garrow shield wire replacement (Transmission) \u2014 Q1 outage window"
+    },
+    {
+      "name": "TX-07 Q2",
+      "description": "Garrow shield wire replacement (Transmission) \u2014 Q2 outage window"
+    },
+    {
+      "name": "TX-07 Q3",
+      "description": "Garrow shield wire replacement (Transmission) \u2014 Q3 outage window"
+    },
+    {
+      "name": "TX-07 Q4",
+      "description": "Garrow shield wire replacement (Transmission) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-01 Q1",
+      "description": "Halverton breaker replacement (Substation) \u2014 Q1 outage window"
+    },
+    {
+      "name": "SB-01 Q2",
+      "description": "Halverton breaker replacement (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-01 Q3",
+      "description": "Halverton breaker replacement (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-01 Q4",
+      "description": "Halverton breaker replacement (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-02 Q1",
+      "description": "Ivyloch bus rebuild phase 1 (Substation) \u2014 Q1 outage window"
+    },
+    {
+      "name": "SB-02 Q2",
+      "description": "Ivyloch bus rebuild phase 1 (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-02 Q3",
+      "description": "Ivyloch bus rebuild phase 1 (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-02 Q4",
+      "description": "Ivyloch bus rebuild phase 1 (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-03 Q2",
+      "description": "Ivyloch bus rebuild phase 2 (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-03 Q3",
+      "description": "Ivyloch bus rebuild phase 2 (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-03 Q4",
+      "description": "Ivyloch bus rebuild phase 2 (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-04 Q1",
+      "description": "Jarrow Bend transformer overhaul (Substation) \u2014 Q1 outage window"
+    },
+    {
+      "name": "SB-04 Q2",
+      "description": "Jarrow Bend transformer overhaul (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-04 Q3",
+      "description": "Jarrow Bend transformer overhaul (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-04 Q4",
+      "description": "Jarrow Bend transformer overhaul (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-05 Q1",
+      "description": "Kestrel Ridge protection upgrade phase 1 (Substation) \u2014 Q1 outage window"
+    },
+    {
+      "name": "SB-05 Q2",
+      "description": "Kestrel Ridge protection upgrade phase 1 (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-05 Q3",
+      "description": "Kestrel Ridge protection upgrade phase 1 (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-05 Q4",
+      "description": "Kestrel Ridge protection upgrade phase 1 (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-06 Q2",
+      "description": "Kestrel Ridge protection upgrade phase 2 (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-06 Q3",
+      "description": "Kestrel Ridge protection upgrade phase 2 (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-06 Q4",
+      "description": "Kestrel Ridge protection upgrade phase 2 (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "SB-07 Q1",
+      "description": "Lyndhurst switchgear refurbishment (Substation) \u2014 Q1 outage window"
+    },
+    {
+      "name": "SB-07 Q2",
+      "description": "Lyndhurst switchgear refurbishment (Substation) \u2014 Q2 outage window"
+    },
+    {
+      "name": "SB-07 Q3",
+      "description": "Lyndhurst switchgear refurbishment (Substation) \u2014 Q3 outage window"
+    },
+    {
+      "name": "SB-07 Q4",
+      "description": "Lyndhurst switchgear refurbishment (Substation) \u2014 Q4 outage window"
+    },
+    {
+      "name": "GT-01 Q1",
+      "description": "Oakfell unit 2 major inspection (Thermal) \u2014 Q1 outage window"
+    },
+    {
+      "name": "GT-01 Q2",
+      "description": "Oakfell unit 2 major inspection (Thermal) \u2014 Q2 outage window"
+    },
+    {
+      "name": "GT-01 Q3",
+      "description": "Oakfell unit 2 major inspection (Thermal) \u2014 Q3 outage window"
+    },
+    {
+      "name": "GT-01 Q4",
+      "description": "Oakfell unit 2 major inspection (Thermal) \u2014 Q4 outage window"
+    },
+    {
+      "name": "GT-02 Q1",
+      "description": "Pikewater turbine rotor swap phase 1 (Thermal) \u2014 Q1 outage window"
+    },
+    {
+      "name": "GT-02 Q2",
+      "description": "Pikewater turbine rotor swap phase 1 (Thermal) \u2014 Q2 outage window"
+    },
+    {
+      "name": "GT-02 Q3",
+      "description": "Pikewater turbine rotor swap phase 1 (Thermal) \u2014 Q3 outage window"
+    },
+    {
+      "name": "GT-02 Q4",
+      "description": "Pikewater turbine rotor swap phase 1 (Thermal) \u2014 Q4 outage window"
+    },
+    {
+      "name": "GT-03 Q2",
+      "description": "Pikewater turbine rotor swap phase 2 (Thermal) \u2014 Q2 outage window"
+    },
+    {
+      "name": "GT-03 Q3",
+      "description": "Pikewater turbine rotor swap phase 2 (Thermal) \u2014 Q3 outage window"
+    },
+    {
+      "name": "GT-03 Q4",
+      "description": "Pikewater turbine rotor swap phase 2 (Thermal) \u2014 Q4 outage window"
+    },
+    {
+      "name": "GT-04 Q1",
+      "description": "Quarrow boiler tube campaign (Thermal) \u2014 Q1 outage window"
+    },
+    {
+      "name": "GT-04 Q2",
+      "description": "Quarrow boiler tube campaign (Thermal) \u2014 Q2 outage window"
+    },
+    {
+      "name": "GT-04 Q3",
+      "description": "Quarrow boiler tube campaign (Thermal) \u2014 Q3 outage window"
+    },
+    {
+      "name": "GT-04 Q4",
+      "description": "Quarrow boiler tube campaign (Thermal) \u2014 Q4 outage window"
+    },
+    {
+      "name": "GT-05 Q1",
+      "description": "Redlin emissions controls tie-in (Thermal) \u2014 Q1 outage window"
+    },
+    {
+      "name": "GT-05 Q2",
+      "description": "Redlin emissions controls tie-in (Thermal) \u2014 Q2 outage window"
+    },
+    {
+      "name": "GT-05 Q3",
+      "description": "Redlin emissions controls tie-in (Thermal) \u2014 Q3 outage window"
+    },
+    {
+      "name": "GT-05 Q4",
+      "description": "Redlin emissions controls tie-in (Thermal) \u2014 Q4 outage window"
+    },
+    {
+      "name": "HY-01 Q1",
+      "description": "Thackray penstock inspection (Hydro) \u2014 Q1 outage window"
+    },
+    {
+      "name": "HY-01 Q2",
+      "description": "Thackray penstock inspection (Hydro) \u2014 Q2 outage window"
+    },
+    {
+      "name": "HY-01 Q3",
+      "description": "Thackray penstock inspection (Hydro) \u2014 Q3 outage window"
+    },
+    {
+      "name": "HY-01 Q4",
+      "description": "Thackray penstock inspection (Hydro) \u2014 Q4 outage window"
+    },
+    {
+      "name": "HY-02 Q1",
+      "description": "Ullswick gate seal replacement (Hydro) \u2014 Q1 outage window"
+    },
+    {
+      "name": "HY-02 Q2",
+      "description": "Ullswick gate seal replacement (Hydro) \u2014 Q2 outage window"
+    },
+    {
+      "name": "HY-02 Q3",
+      "description": "Ullswick gate seal replacement (Hydro) \u2014 Q3 outage window"
+    },
+    {
+      "name": "HY-02 Q4",
+      "description": "Ullswick gate seal replacement (Hydro) \u2014 Q4 outage window"
+    },
+    {
+      "name": "HY-03 Q1",
+      "description": "Vantry draft tube repair phase 1 (Hydro) \u2014 Q1 outage window"
+    },
+    {
+      "name": "HY-03 Q2",
+      "description": "Vantry draft tube repair phase 1 (Hydro) \u2014 Q2 outage window"
+    },
+    {
+      "name": "HY-03 Q3",
+      "description": "Vantry draft tube repair phase 1 (Hydro) \u2014 Q3 outage window"
+    },
+    {
+      "name": "HY-03 Q4",
+      "description": "Vantry draft tube repair phase 1 (Hydro) \u2014 Q4 outage window"
+    },
+    {
+      "name": "HY-04 Q2",
+      "description": "Vantry draft tube repair phase 2 (Hydro) \u2014 Q2 outage window"
+    },
+    {
+      "name": "HY-04 Q3",
+      "description": "Vantry draft tube repair phase 2 (Hydro) \u2014 Q3 outage window"
+    },
+    {
+      "name": "HY-04 Q4",
+      "description": "Vantry draft tube repair phase 2 (Hydro) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-01 Q1",
+      "description": "Yarnton feeder reconductoring (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-01 Q2",
+      "description": "Yarnton feeder reconductoring (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-01 Q3",
+      "description": "Yarnton feeder reconductoring (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-01 Q4",
+      "description": "Yarnton feeder reconductoring (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-02 Q1",
+      "description": "Zelbrook network vault rebuild (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-02 Q2",
+      "description": "Zelbrook network vault rebuild (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-02 Q3",
+      "description": "Zelbrook network vault rebuild (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-02 Q4",
+      "description": "Zelbrook network vault rebuild (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-03 Q1",
+      "description": "Ambercross recloser program (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-03 Q2",
+      "description": "Ambercross recloser program (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-03 Q3",
+      "description": "Ambercross recloser program (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-03 Q4",
+      "description": "Ambercross recloser program (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-04 Q1",
+      "description": "Brackwell cable injection phase 1 (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-04 Q2",
+      "description": "Brackwell cable injection phase 1 (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-04 Q3",
+      "description": "Brackwell cable injection phase 1 (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-04 Q4",
+      "description": "Brackwell cable injection phase 1 (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-05 Q2",
+      "description": "Brackwell cable injection phase 2 (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-05 Q3",
+      "description": "Brackwell cable injection phase 2 (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-05 Q4",
+      "description": "Brackwell cable injection phase 2 (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-06 Q1",
+      "description": "Cindermoor pole replacement campaign (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-06 Q2",
+      "description": "Cindermoor pole replacement campaign (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-06 Q3",
+      "description": "Cindermoor pole replacement campaign (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-06 Q4",
+      "description": "Cindermoor pole replacement campaign (Distribution) \u2014 Q4 outage window"
+    },
+    {
+      "name": "DX-07 Q1",
+      "description": "Elverton capacitor bank refresh (Distribution) \u2014 Q1 outage window"
+    },
+    {
+      "name": "DX-07 Q2",
+      "description": "Elverton capacitor bank refresh (Distribution) \u2014 Q2 outage window"
+    },
+    {
+      "name": "DX-07 Q3",
+      "description": "Elverton capacitor bank refresh (Distribution) \u2014 Q3 outage window"
+    },
+    {
+      "name": "DX-07 Q4",
+      "description": "Elverton capacitor bank refresh (Distribution) \u2014 Q4 outage window"
+    }
+  ],
+  "scores": [
+    {
+      "option": "TX-01 Q1",
+      "objective": "RiskReduction",
+      "value": 528.7
+    },
+    {
+      "option": "TX-01 Q1",
+      "objective": "DisruptionCost",
+      "value": 4.57
+    },
+    {
+      "option": "TX-01 Q1",
+      "objective": "Capex",
+      "value": 4.03
+    },
+    {
+      "option": "TX-01 Q2",
+      "objective": "RiskReduction",
+      "value": 481.1
+    },
+    {
+      "option": "TX-01 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.98
+    },
+    {
+      "option": "TX-01 Q2",
+      "objective": "Capex",
+      "value": 3.67
+    },
+    {
+      "option": "TX-01 Q3",
+      "objective": "RiskReduction",
+      "value": 437.8
+    },
+    {
+      "option": "TX-01 Q3",
+      "objective": "DisruptionCost",
+      "value": 6.15
+    },
+    {
+      "option": "TX-01 Q3",
+      "objective": "Capex",
+      "value": 3.74
+    },
+    {
+      "option": "TX-01 Q4",
+      "objective": "RiskReduction",
+      "value": 398.4
+    },
+    {
+      "option": "TX-01 Q4",
+      "objective": "DisruptionCost",
+      "value": 3.37
+    },
+    {
+      "option": "TX-01 Q4",
+      "objective": "Capex",
+      "value": 3.82
+    },
+    {
+      "option": "TX-02 Q1",
+      "objective": "RiskReduction",
+      "value": 321.5
+    },
+    {
+      "option": "TX-02 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.78
+    },
+    {
+      "option": "TX-02 Q1",
+      "objective": "Capex",
+      "value": 3.67
+    },
+    {
+      "option": "TX-02 Q2",
+      "objective": "RiskReduction",
+      "value": 305.4
+    },
+    {
+      "option": "TX-02 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.81
+    },
+    {
+      "option": "TX-02 Q2",
+      "objective": "Capex",
+      "value": 3.35
+    },
+    {
+      "option": "TX-02 Q3",
+      "objective": "RiskReduction",
+      "value": 290.2
+    },
+    {
+      "option": "TX-02 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.75
+    },
+    {
+      "option": "TX-02 Q3",
+      "objective": "Capex",
+      "value": 3.41
+    },
+    {
+      "option": "TX-02 Q4",
+      "objective": "RiskReduction",
+      "value": 275.6
+    },
+    {
+      "option": "TX-02 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.06
+    },
+    {
+      "option": "TX-02 Q4",
+      "objective": "Capex",
+      "value": 3.48
+    },
+    {
+      "option": "TX-03 Q1",
+      "objective": "RiskReduction",
+      "value": 857.9
+    },
+    {
+      "option": "TX-03 Q1",
+      "objective": "DisruptionCost",
+      "value": 4.69
+    },
+    {
+      "option": "TX-03 Q1",
+      "objective": "Capex",
+      "value": 10.29
+    },
+    {
+      "option": "TX-03 Q2",
+      "objective": "RiskReduction",
+      "value": 694.9
+    },
+    {
+      "option": "TX-03 Q2",
+      "objective": "DisruptionCost",
+      "value": 3.06
+    },
+    {
+      "option": "TX-03 Q2",
+      "objective": "Capex",
+      "value": 9.37
+    },
+    {
+      "option": "TX-03 Q3",
+      "objective": "RiskReduction",
+      "value": 562.9
+    },
+    {
+      "option": "TX-03 Q3",
+      "objective": "DisruptionCost",
+      "value": 6.32
+    },
+    {
+      "option": "TX-03 Q3",
+      "objective": "Capex",
+      "value": 9.56
+    },
+    {
+      "option": "TX-03 Q4",
+      "objective": "RiskReduction",
+      "value": 455.9
+    },
+    {
+      "option": "TX-03 Q4",
+      "objective": "DisruptionCost",
+      "value": 3.47
+    },
+    {
+      "option": "TX-03 Q4",
+      "objective": "Capex",
+      "value": 9.74
+    },
+    {
+      "option": "TX-04 Q1",
+      "objective": "RiskReduction",
+      "value": 609.0
+    },
+    {
+      "option": "TX-04 Q1",
+      "objective": "DisruptionCost",
+      "value": 3.61
+    },
+    {
+      "option": "TX-04 Q1",
+      "objective": "Capex",
+      "value": 5.9
+    },
+    {
+      "option": "TX-04 Q2",
+      "objective": "RiskReduction",
+      "value": 554.2
+    },
+    {
+      "option": "TX-04 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.35
+    },
+    {
+      "option": "TX-04 Q2",
+      "objective": "Capex",
+      "value": 5.38
+    },
+    {
+      "option": "TX-04 Q3",
+      "objective": "RiskReduction",
+      "value": 504.3
+    },
+    {
+      "option": "TX-04 Q3",
+      "objective": "DisruptionCost",
+      "value": 4.87
+    },
+    {
+      "option": "TX-04 Q3",
+      "objective": "Capex",
+      "value": 5.48
+    },
+    {
+      "option": "TX-04 Q4",
+      "objective": "RiskReduction",
+      "value": 458.9
+    },
+    {
+      "option": "TX-04 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.67
+    },
+    {
+      "option": "TX-04 Q4",
+      "objective": "Capex",
+      "value": 5.59
+    },
+    {
+      "option": "TX-05 Q1",
+      "objective": "RiskReduction",
+      "value": 214.0
+    },
+    {
+      "option": "TX-05 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.93
+    },
+    {
+      "option": "TX-05 Q1",
+      "objective": "Capex",
+      "value": 1.62
+    },
+    {
+      "option": "TX-05 Q2",
+      "objective": "RiskReduction",
+      "value": 203.3
+    },
+    {
+      "option": "TX-05 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.91
+    },
+    {
+      "option": "TX-05 Q2",
+      "objective": "Capex",
+      "value": 1.48
+    },
+    {
+      "option": "TX-05 Q3",
+      "objective": "RiskReduction",
+      "value": 193.1
+    },
+    {
+      "option": "TX-05 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.95
+    },
+    {
+      "option": "TX-05 Q3",
+      "objective": "Capex",
+      "value": 1.51
+    },
+    {
+      "option": "TX-05 Q4",
+      "objective": "RiskReduction",
+      "value": 183.5
+    },
+    {
+      "option": "TX-05 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.17
+    },
+    {
+      "option": "TX-05 Q4",
+      "objective": "Capex",
+      "value": 1.54
+    },
+    {
+      "option": "TX-06 Q1",
+      "objective": "RiskReduction",
+      "value": 497.9
+    },
+    {
+      "option": "TX-06 Q1",
+      "objective": "DisruptionCost",
+      "value": 4.85
+    },
+    {
+      "option": "TX-06 Q1",
+      "objective": "Capex",
+      "value": 6.52
+    },
+    {
+      "option": "TX-06 Q2",
+      "objective": "RiskReduction",
+      "value": 403.3
+    },
+    {
+      "option": "TX-06 Q2",
+      "objective": "DisruptionCost",
+      "value": 3.17
+    },
+    {
+      "option": "TX-06 Q2",
+      "objective": "Capex",
+      "value": 5.94
+    },
+    {
+      "option": "TX-06 Q3",
+      "objective": "RiskReduction",
+      "value": 326.7
+    },
+    {
+      "option": "TX-06 Q3",
+      "objective": "DisruptionCost",
+      "value": 6.54
+    },
+    {
+      "option": "TX-06 Q3",
+      "objective": "Capex",
+      "value": 6.05
+    },
+    {
+      "option": "TX-06 Q4",
+      "objective": "RiskReduction",
+      "value": 264.6
+    },
+    {
+      "option": "TX-06 Q4",
+      "objective": "DisruptionCost",
+      "value": 3.59
+    },
+    {
+      "option": "TX-06 Q4",
+      "objective": "Capex",
+      "value": 6.17
+    },
+    {
+      "option": "TX-07 Q1",
+      "objective": "RiskReduction",
+      "value": 412.9
+    },
+    {
+      "option": "TX-07 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.58
+    },
+    {
+      "option": "TX-07 Q1",
+      "objective": "Capex",
+      "value": 2.64
+    },
+    {
+      "option": "TX-07 Q2",
+      "objective": "RiskReduction",
+      "value": 355.1
+    },
+    {
+      "option": "TX-07 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.68
+    },
+    {
+      "option": "TX-07 Q2",
+      "objective": "Capex",
+      "value": 2.41
+    },
+    {
+      "option": "TX-07 Q3",
+      "objective": "RiskReduction",
+      "value": 305.4
+    },
+    {
+      "option": "TX-07 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.47
+    },
+    {
+      "option": "TX-07 Q3",
+      "objective": "Capex",
+      "value": 2.45
+    },
+    {
+      "option": "TX-07 Q4",
+      "objective": "RiskReduction",
+      "value": 262.6
+    },
+    {
+      "option": "TX-07 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.9
+    },
+    {
+      "option": "TX-07 Q4",
+      "objective": "Capex",
+      "value": 2.5
+    },
+    {
+      "option": "SB-01 Q1",
+      "objective": "RiskReduction",
+      "value": 325.3
+    },
+    {
+      "option": "SB-01 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.84
+    },
+    {
+      "option": "SB-01 Q1",
+      "objective": "Capex",
+      "value": 3.26
+    },
+    {
+      "option": "SB-01 Q2",
+      "objective": "RiskReduction",
+      "value": 296.0
+    },
+    {
+      "option": "SB-01 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.18
+    },
+    {
+      "option": "SB-01 Q2",
+      "objective": "Capex",
+      "value": 3.33
+    },
+    {
+      "option": "SB-01 Q3",
+      "objective": "RiskReduction",
+      "value": 269.4
+    },
+    {
+      "option": "SB-01 Q3",
+      "objective": "DisruptionCost",
+      "value": 2.21
+    },
+    {
+      "option": "SB-01 Q3",
+      "objective": "Capex",
+      "value": 3.39
+    },
+    {
+      "option": "SB-01 Q4",
+      "objective": "RiskReduction",
+      "value": 245.1
+    },
+    {
+      "option": "SB-01 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.32
+    },
+    {
+      "option": "SB-01 Q4",
+      "objective": "Capex",
+      "value": 3.46
+    },
+    {
+      "option": "SB-02 Q1",
+      "objective": "RiskReduction",
+      "value": 395.7
+    },
+    {
+      "option": "SB-02 Q1",
+      "objective": "DisruptionCost",
+      "value": 3.34
+    },
+    {
+      "option": "SB-02 Q1",
+      "objective": "Capex",
+      "value": 2.57
+    },
+    {
+      "option": "SB-02 Q2",
+      "objective": "RiskReduction",
+      "value": 320.5
+    },
+    {
+      "option": "SB-02 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.14
+    },
+    {
+      "option": "SB-02 Q2",
+      "objective": "Capex",
+      "value": 2.62
+    },
+    {
+      "option": "SB-02 Q3",
+      "objective": "RiskReduction",
+      "value": 259.6
+    },
+    {
+      "option": "SB-02 Q3",
+      "objective": "DisruptionCost",
+      "value": 4.0
+    },
+    {
+      "option": "SB-02 Q3",
+      "objective": "Capex",
+      "value": 2.67
+    },
+    {
+      "option": "SB-02 Q4",
+      "objective": "RiskReduction",
+      "value": 210.3
+    },
+    {
+      "option": "SB-02 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.4
+    },
+    {
+      "option": "SB-02 Q4",
+      "objective": "Capex",
+      "value": 2.72
+    },
+    {
+      "option": "SB-03 Q2",
+      "objective": "RiskReduction",
+      "value": 485.4
+    },
+    {
+      "option": "SB-03 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.54
+    },
+    {
+      "option": "SB-03 Q2",
+      "objective": "Capex",
+      "value": 3.66
+    },
+    {
+      "option": "SB-03 Q3",
+      "objective": "RiskReduction",
+      "value": 441.7
+    },
+    {
+      "option": "SB-03 Q3",
+      "objective": "DisruptionCost",
+      "value": 4.75
+    },
+    {
+      "option": "SB-03 Q3",
+      "objective": "Capex",
+      "value": 3.73
+    },
+    {
+      "option": "SB-03 Q4",
+      "objective": "RiskReduction",
+      "value": 402.0
+    },
+    {
+      "option": "SB-03 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.85
+    },
+    {
+      "option": "SB-03 Q4",
+      "objective": "Capex",
+      "value": 3.81
+    },
+    {
+      "option": "SB-04 Q1",
+      "objective": "RiskReduction",
+      "value": 340.6
+    },
+    {
+      "option": "SB-04 Q1",
+      "objective": "DisruptionCost",
+      "value": 4.12
+    },
+    {
+      "option": "SB-04 Q1",
+      "objective": "Capex",
+      "value": 3.62
+    },
+    {
+      "option": "SB-04 Q2",
+      "objective": "RiskReduction",
+      "value": 292.9
+    },
+    {
+      "option": "SB-04 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.64
+    },
+    {
+      "option": "SB-04 Q2",
+      "objective": "Capex",
+      "value": 3.69
+    },
+    {
+      "option": "SB-04 Q3",
+      "objective": "RiskReduction",
+      "value": 251.9
+    },
+    {
+      "option": "SB-04 Q3",
+      "objective": "DisruptionCost",
+      "value": 4.95
+    },
+    {
+      "option": "SB-04 Q3",
+      "objective": "Capex",
+      "value": 3.76
+    },
+    {
+      "option": "SB-04 Q4",
+      "objective": "RiskReduction",
+      "value": 216.6
+    },
+    {
+      "option": "SB-04 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.97
+    },
+    {
+      "option": "SB-04 Q4",
+      "objective": "Capex",
+      "value": 3.84
+    },
+    {
+      "option": "SB-05 Q1",
+      "objective": "RiskReduction",
+      "value": 297.2
+    },
+    {
+      "option": "SB-05 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.49
+    },
+    {
+      "option": "SB-05 Q1",
+      "objective": "Capex",
+      "value": 2.93
+    },
+    {
+      "option": "SB-05 Q2",
+      "objective": "RiskReduction",
+      "value": 282.3
+    },
+    {
+      "option": "SB-05 Q2",
+      "objective": "DisruptionCost",
+      "value": 0.95
+    },
+    {
+      "option": "SB-05 Q2",
+      "objective": "Capex",
+      "value": 2.99
+    },
+    {
+      "option": "SB-05 Q3",
+      "objective": "RiskReduction",
+      "value": 268.2
+    },
+    {
+      "option": "SB-05 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.78
+    },
+    {
+      "option": "SB-05 Q3",
+      "objective": "Capex",
+      "value": 3.05
+    },
+    {
+      "option": "SB-05 Q4",
+      "objective": "RiskReduction",
+      "value": 254.8
+    },
+    {
+      "option": "SB-05 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.07
+    },
+    {
+      "option": "SB-05 Q4",
+      "objective": "Capex",
+      "value": 3.11
+    },
+    {
+      "option": "SB-06 Q2",
+      "objective": "RiskReduction",
+      "value": 124.6
+    },
+    {
+      "option": "SB-06 Q2",
+      "objective": "DisruptionCost",
+      "value": 0.71
+    },
+    {
+      "option": "SB-06 Q2",
+      "objective": "Capex",
+      "value": 1.11
+    },
+    {
+      "option": "SB-06 Q3",
+      "objective": "RiskReduction",
+      "value": 118.4
+    },
+    {
+      "option": "SB-06 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.33
+    },
+    {
+      "option": "SB-06 Q3",
+      "objective": "Capex",
+      "value": 1.13
+    },
+    {
+      "option": "SB-06 Q4",
+      "objective": "RiskReduction",
+      "value": 112.5
+    },
+    {
+      "option": "SB-06 Q4",
+      "objective": "DisruptionCost",
+      "value": 0.8
+    },
+    {
+      "option": "SB-06 Q4",
+      "objective": "Capex",
+      "value": 1.16
+    },
+    {
+      "option": "SB-07 Q1",
+      "objective": "RiskReduction",
+      "value": 344.4
+    },
+    {
+      "option": "SB-07 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.41
+    },
+    {
+      "option": "SB-07 Q1",
+      "objective": "Capex",
+      "value": 4.04
+    },
+    {
+      "option": "SB-07 Q2",
+      "objective": "RiskReduction",
+      "value": 296.2
+    },
+    {
+      "option": "SB-07 Q2",
+      "objective": "DisruptionCost",
+      "value": 0.9
+    },
+    {
+      "option": "SB-07 Q2",
+      "objective": "Capex",
+      "value": 4.12
+    },
+    {
+      "option": "SB-07 Q3",
+      "objective": "RiskReduction",
+      "value": 254.7
+    },
+    {
+      "option": "SB-07 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.69
+    },
+    {
+      "option": "SB-07 Q3",
+      "objective": "Capex",
+      "value": 4.2
+    },
+    {
+      "option": "SB-07 Q4",
+      "objective": "RiskReduction",
+      "value": 219.1
+    },
+    {
+      "option": "SB-07 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.02
+    },
+    {
+      "option": "SB-07 Q4",
+      "objective": "Capex",
+      "value": 4.28
+    },
+    {
+      "option": "GT-01 Q1",
+      "objective": "RiskReduction",
+      "value": 180.6
+    },
+    {
+      "option": "GT-01 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.17
+    },
+    {
+      "option": "GT-01 Q1",
+      "objective": "Capex",
+      "value": 1.62
+    },
+    {
+      "option": "GT-01 Q2",
+      "objective": "RiskReduction",
+      "value": 146.3
+    },
+    {
+      "option": "GT-01 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.17
+    },
+    {
+      "option": "GT-01 Q2",
+      "objective": "Capex",
+      "value": 1.65
+    },
+    {
+      "option": "GT-01 Q3",
+      "objective": "RiskReduction",
+      "value": 118.5
+    },
+    {
+      "option": "GT-01 Q3",
+      "objective": "DisruptionCost",
+      "value": 2.84
+    },
+    {
+      "option": "GT-01 Q3",
+      "objective": "Capex",
+      "value": 1.68
+    },
+    {
+      "option": "GT-01 Q4",
+      "objective": "RiskReduction",
+      "value": 96.0
+    },
+    {
+      "option": "GT-01 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.25
+    },
+    {
+      "option": "GT-01 Q4",
+      "objective": "Capex",
+      "value": 1.72
+    },
+    {
+      "option": "GT-02 Q1",
+      "objective": "RiskReduction",
+      "value": 287.9
+    },
+    {
+      "option": "GT-02 Q1",
+      "objective": "DisruptionCost",
+      "value": 4.12
+    },
+    {
+      "option": "GT-02 Q1",
+      "objective": "Capex",
+      "value": 1.77
+    },
+    {
+      "option": "GT-02 Q2",
+      "objective": "RiskReduction",
+      "value": 262.0
+    },
+    {
+      "option": "GT-02 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.22
+    },
+    {
+      "option": "GT-02 Q2",
+      "objective": "Capex",
+      "value": 1.81
+    },
+    {
+      "option": "GT-02 Q3",
+      "objective": "RiskReduction",
+      "value": 238.4
+    },
+    {
+      "option": "GT-02 Q3",
+      "objective": "DisruptionCost",
+      "value": 5.39
+    },
+    {
+      "option": "GT-02 Q3",
+      "objective": "Capex",
+      "value": 1.84
+    },
+    {
+      "option": "GT-02 Q4",
+      "objective": "RiskReduction",
+      "value": 217.0
+    },
+    {
+      "option": "GT-02 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.38
+    },
+    {
+      "option": "GT-02 Q4",
+      "objective": "Capex",
+      "value": 1.88
+    },
+    {
+      "option": "GT-03 Q2",
+      "objective": "RiskReduction",
+      "value": 287.8
+    },
+    {
+      "option": "GT-03 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.35
+    },
+    {
+      "option": "GT-03 Q2",
+      "objective": "Capex",
+      "value": 3.02
+    },
+    {
+      "option": "GT-03 Q3",
+      "objective": "RiskReduction",
+      "value": 261.9
+    },
+    {
+      "option": "GT-03 Q3",
+      "objective": "DisruptionCost",
+      "value": 5.71
+    },
+    {
+      "option": "GT-03 Q3",
+      "objective": "Capex",
+      "value": 3.08
+    },
+    {
+      "option": "GT-03 Q4",
+      "objective": "RiskReduction",
+      "value": 238.4
+    },
+    {
+      "option": "GT-03 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.52
+    },
+    {
+      "option": "GT-03 Q4",
+      "objective": "Capex",
+      "value": 3.14
+    },
+    {
+      "option": "GT-04 Q1",
+      "objective": "RiskReduction",
+      "value": 543.1
+    },
+    {
+      "option": "GT-04 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.93
+    },
+    {
+      "option": "GT-04 Q1",
+      "objective": "Capex",
+      "value": 5.85
+    },
+    {
+      "option": "GT-04 Q2",
+      "objective": "RiskReduction",
+      "value": 467.1
+    },
+    {
+      "option": "GT-04 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.57
+    },
+    {
+      "option": "GT-04 Q2",
+      "objective": "Capex",
+      "value": 5.97
+    },
+    {
+      "option": "GT-04 Q3",
+      "objective": "RiskReduction",
+      "value": 401.7
+    },
+    {
+      "option": "GT-04 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.82
+    },
+    {
+      "option": "GT-04 Q3",
+      "objective": "Capex",
+      "value": 6.08
+    },
+    {
+      "option": "GT-04 Q4",
+      "objective": "RiskReduction",
+      "value": 345.4
+    },
+    {
+      "option": "GT-04 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.69
+    },
+    {
+      "option": "GT-04 Q4",
+      "objective": "Capex",
+      "value": 6.2
+    },
+    {
+      "option": "GT-05 Q1",
+      "objective": "RiskReduction",
+      "value": 289.0
+    },
+    {
+      "option": "GT-05 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.5
+    },
+    {
+      "option": "GT-05 Q1",
+      "objective": "Capex",
+      "value": 1.66
+    },
+    {
+      "option": "GT-05 Q2",
+      "objective": "RiskReduction",
+      "value": 263.0
+    },
+    {
+      "option": "GT-05 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.34
+    },
+    {
+      "option": "GT-05 Q2",
+      "objective": "Capex",
+      "value": 1.69
+    },
+    {
+      "option": "GT-05 Q3",
+      "objective": "RiskReduction",
+      "value": 239.3
+    },
+    {
+      "option": "GT-05 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.26
+    },
+    {
+      "option": "GT-05 Q3",
+      "objective": "Capex",
+      "value": 1.73
+    },
+    {
+      "option": "GT-05 Q4",
+      "objective": "RiskReduction",
+      "value": 217.8
+    },
+    {
+      "option": "GT-05 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.44
+    },
+    {
+      "option": "GT-05 Q4",
+      "objective": "Capex",
+      "value": 1.76
+    },
+    {
+      "option": "HY-01 Q1",
+      "objective": "RiskReduction",
+      "value": 376.3
+    },
+    {
+      "option": "HY-01 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.34
+    },
+    {
+      "option": "HY-01 Q1",
+      "objective": "Capex",
+      "value": 3.38
+    },
+    {
+      "option": "HY-01 Q2",
+      "objective": "RiskReduction",
+      "value": 357.5
+    },
+    {
+      "option": "HY-01 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.21
+    },
+    {
+      "option": "HY-01 Q2",
+      "objective": "Capex",
+      "value": 3.58
+    },
+    {
+      "option": "HY-01 Q3",
+      "objective": "RiskReduction",
+      "value": 339.6
+    },
+    {
+      "option": "HY-01 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.74
+    },
+    {
+      "option": "HY-01 Q3",
+      "objective": "Capex",
+      "value": 3.52
+    },
+    {
+      "option": "HY-01 Q4",
+      "objective": "RiskReduction",
+      "value": 322.6
+    },
+    {
+      "option": "HY-01 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.26
+    },
+    {
+      "option": "HY-01 Q4",
+      "objective": "Capex",
+      "value": 3.58
+    },
+    {
+      "option": "HY-02 Q1",
+      "objective": "RiskReduction",
+      "value": 460.4
+    },
+    {
+      "option": "HY-02 Q1",
+      "objective": "DisruptionCost",
+      "value": 3.61
+    },
+    {
+      "option": "HY-02 Q1",
+      "objective": "Capex",
+      "value": 4.3
+    },
+    {
+      "option": "HY-02 Q2",
+      "objective": "RiskReduction",
+      "value": 437.4
+    },
+    {
+      "option": "HY-02 Q2",
+      "objective": "DisruptionCost",
+      "value": 5.95
+    },
+    {
+      "option": "HY-02 Q2",
+      "objective": "Capex",
+      "value": 4.56
+    },
+    {
+      "option": "HY-02 Q3",
+      "objective": "RiskReduction",
+      "value": 415.5
+    },
+    {
+      "option": "HY-02 Q3",
+      "objective": "DisruptionCost",
+      "value": 4.68
+    },
+    {
+      "option": "HY-02 Q3",
+      "objective": "Capex",
+      "value": 4.47
+    },
+    {
+      "option": "HY-02 Q4",
+      "objective": "RiskReduction",
+      "value": 394.7
+    },
+    {
+      "option": "HY-02 Q4",
+      "objective": "DisruptionCost",
+      "value": 3.4
+    },
+    {
+      "option": "HY-02 Q4",
+      "objective": "Capex",
+      "value": 4.56
+    },
+    {
+      "option": "HY-03 Q1",
+      "objective": "RiskReduction",
+      "value": 460.1
+    },
+    {
+      "option": "HY-03 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.61
+    },
+    {
+      "option": "HY-03 Q1",
+      "objective": "Capex",
+      "value": 3.7
+    },
+    {
+      "option": "HY-03 Q2",
+      "objective": "RiskReduction",
+      "value": 437.1
+    },
+    {
+      "option": "HY-03 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.66
+    },
+    {
+      "option": "HY-03 Q2",
+      "objective": "Capex",
+      "value": 3.92
+    },
+    {
+      "option": "HY-03 Q3",
+      "objective": "RiskReduction",
+      "value": 415.2
+    },
+    {
+      "option": "HY-03 Q3",
+      "objective": "DisruptionCost",
+      "value": 2.09
+    },
+    {
+      "option": "HY-03 Q3",
+      "objective": "Capex",
+      "value": 3.85
+    },
+    {
+      "option": "HY-03 Q4",
+      "objective": "RiskReduction",
+      "value": 394.5
+    },
+    {
+      "option": "HY-03 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.52
+    },
+    {
+      "option": "HY-03 Q4",
+      "objective": "Capex",
+      "value": 3.92
+    },
+    {
+      "option": "HY-04 Q2",
+      "objective": "RiskReduction",
+      "value": 296.5
+    },
+    {
+      "option": "HY-04 Q2",
+      "objective": "DisruptionCost",
+      "value": 4.7
+    },
+    {
+      "option": "HY-04 Q2",
+      "objective": "Capex",
+      "value": 2.16
+    },
+    {
+      "option": "HY-04 Q3",
+      "objective": "RiskReduction",
+      "value": 240.2
+    },
+    {
+      "option": "HY-04 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.7
+    },
+    {
+      "option": "HY-04 Q3",
+      "objective": "Capex",
+      "value": 2.12
+    },
+    {
+      "option": "HY-04 Q4",
+      "objective": "RiskReduction",
+      "value": 194.6
+    },
+    {
+      "option": "HY-04 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.69
+    },
+    {
+      "option": "HY-04 Q4",
+      "objective": "Capex",
+      "value": 2.16
+    },
+    {
+      "option": "DX-01 Q1",
+      "objective": "RiskReduction",
+      "value": 386.2
+    },
+    {
+      "option": "DX-01 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.12
+    },
+    {
+      "option": "DX-01 Q1",
+      "objective": "Capex",
+      "value": 4.53
+    },
+    {
+      "option": "DX-01 Q2",
+      "objective": "RiskReduction",
+      "value": 351.4
+    },
+    {
+      "option": "DX-01 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.5
+    },
+    {
+      "option": "DX-01 Q2",
+      "objective": "Capex",
+      "value": 4.2
+    },
+    {
+      "option": "DX-01 Q3",
+      "objective": "RiskReduction",
+      "value": 319.8
+    },
+    {
+      "option": "DX-01 Q3",
+      "objective": "DisruptionCost",
+      "value": 2.21
+    },
+    {
+      "option": "DX-01 Q3",
+      "objective": "Capex",
+      "value": 4.28
+    },
+    {
+      "option": "DX-01 Q4",
+      "objective": "RiskReduction",
+      "value": 291.0
+    },
+    {
+      "option": "DX-01 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.68
+    },
+    {
+      "option": "DX-01 Q4",
+      "objective": "Capex",
+      "value": 4.37
+    },
+    {
+      "option": "DX-02 Q1",
+      "objective": "RiskReduction",
+      "value": 829.3
+    },
+    {
+      "option": "DX-02 Q1",
+      "objective": "DisruptionCost",
+      "value": 7.85
+    },
+    {
+      "option": "DX-02 Q1",
+      "objective": "Capex",
+      "value": 9.76
+    },
+    {
+      "option": "DX-02 Q2",
+      "objective": "RiskReduction",
+      "value": 713.2
+    },
+    {
+      "option": "DX-02 Q2",
+      "objective": "DisruptionCost",
+      "value": 5.56
+    },
+    {
+      "option": "DX-02 Q2",
+      "objective": "Capex",
+      "value": 9.05
+    },
+    {
+      "option": "DX-02 Q3",
+      "objective": "RiskReduction",
+      "value": 613.4
+    },
+    {
+      "option": "DX-02 Q3",
+      "objective": "DisruptionCost",
+      "value": 8.18
+    },
+    {
+      "option": "DX-02 Q3",
+      "objective": "Capex",
+      "value": 9.22
+    },
+    {
+      "option": "DX-02 Q4",
+      "objective": "RiskReduction",
+      "value": 527.5
+    },
+    {
+      "option": "DX-02 Q4",
+      "objective": "DisruptionCost",
+      "value": 6.21
+    },
+    {
+      "option": "DX-02 Q4",
+      "objective": "Capex",
+      "value": 9.4
+    },
+    {
+      "option": "DX-03 Q1",
+      "objective": "RiskReduction",
+      "value": 241.6
+    },
+    {
+      "option": "DX-03 Q1",
+      "objective": "DisruptionCost",
+      "value": 0.85
+    },
+    {
+      "option": "DX-03 Q1",
+      "objective": "Capex",
+      "value": 4.85
+    },
+    {
+      "option": "DX-03 Q2",
+      "objective": "RiskReduction",
+      "value": 219.9
+    },
+    {
+      "option": "DX-03 Q2",
+      "objective": "DisruptionCost",
+      "value": 0.6
+    },
+    {
+      "option": "DX-03 Q2",
+      "objective": "Capex",
+      "value": 4.5
+    },
+    {
+      "option": "DX-03 Q3",
+      "objective": "RiskReduction",
+      "value": 200.1
+    },
+    {
+      "option": "DX-03 Q3",
+      "objective": "DisruptionCost",
+      "value": 0.89
+    },
+    {
+      "option": "DX-03 Q3",
+      "objective": "Capex",
+      "value": 4.59
+    },
+    {
+      "option": "DX-03 Q4",
+      "objective": "RiskReduction",
+      "value": 182.1
+    },
+    {
+      "option": "DX-03 Q4",
+      "objective": "DisruptionCost",
+      "value": 0.67
+    },
+    {
+      "option": "DX-03 Q4",
+      "objective": "Capex",
+      "value": 4.67
+    },
+    {
+      "option": "DX-04 Q1",
+      "objective": "RiskReduction",
+      "value": 331.5
+    },
+    {
+      "option": "DX-04 Q1",
+      "objective": "DisruptionCost",
+      "value": 1.82
+    },
+    {
+      "option": "DX-04 Q1",
+      "objective": "Capex",
+      "value": 5.04
+    },
+    {
+      "option": "DX-04 Q2",
+      "objective": "RiskReduction",
+      "value": 268.5
+    },
+    {
+      "option": "DX-04 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.29
+    },
+    {
+      "option": "DX-04 Q2",
+      "objective": "Capex",
+      "value": 4.67
+    },
+    {
+      "option": "DX-04 Q3",
+      "objective": "RiskReduction",
+      "value": 217.5
+    },
+    {
+      "option": "DX-04 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.9
+    },
+    {
+      "option": "DX-04 Q3",
+      "objective": "Capex",
+      "value": 4.76
+    },
+    {
+      "option": "DX-04 Q4",
+      "objective": "RiskReduction",
+      "value": 176.2
+    },
+    {
+      "option": "DX-04 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.44
+    },
+    {
+      "option": "DX-04 Q4",
+      "objective": "Capex",
+      "value": 4.85
+    },
+    {
+      "option": "DX-05 Q2",
+      "objective": "RiskReduction",
+      "value": 269.2
+    },
+    {
+      "option": "DX-05 Q2",
+      "objective": "DisruptionCost",
+      "value": 0.99
+    },
+    {
+      "option": "DX-05 Q2",
+      "objective": "Capex",
+      "value": 2.53
+    },
+    {
+      "option": "DX-05 Q3",
+      "objective": "RiskReduction",
+      "value": 245.0
+    },
+    {
+      "option": "DX-05 Q3",
+      "objective": "DisruptionCost",
+      "value": 1.45
+    },
+    {
+      "option": "DX-05 Q3",
+      "objective": "Capex",
+      "value": 2.58
+    },
+    {
+      "option": "DX-05 Q4",
+      "objective": "RiskReduction",
+      "value": 222.9
+    },
+    {
+      "option": "DX-05 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.1
+    },
+    {
+      "option": "DX-05 Q4",
+      "objective": "Capex",
+      "value": 2.63
+    },
+    {
+      "option": "DX-06 Q1",
+      "objective": "RiskReduction",
+      "value": 360.4
+    },
+    {
+      "option": "DX-06 Q1",
+      "objective": "DisruptionCost",
+      "value": 2.2
+    },
+    {
+      "option": "DX-06 Q1",
+      "objective": "Capex",
+      "value": 3.51
+    },
+    {
+      "option": "DX-06 Q2",
+      "objective": "RiskReduction",
+      "value": 309.9
+    },
+    {
+      "option": "DX-06 Q2",
+      "objective": "DisruptionCost",
+      "value": 1.56
+    },
+    {
+      "option": "DX-06 Q2",
+      "objective": "Capex",
+      "value": 3.25
+    },
+    {
+      "option": "DX-06 Q3",
+      "objective": "RiskReduction",
+      "value": 266.6
+    },
+    {
+      "option": "DX-06 Q3",
+      "objective": "DisruptionCost",
+      "value": 2.29
+    },
+    {
+      "option": "DX-06 Q3",
+      "objective": "Capex",
+      "value": 3.32
+    },
+    {
+      "option": "DX-06 Q4",
+      "objective": "RiskReduction",
+      "value": 229.2
+    },
+    {
+      "option": "DX-06 Q4",
+      "objective": "DisruptionCost",
+      "value": 1.74
+    },
+    {
+      "option": "DX-06 Q4",
+      "objective": "Capex",
+      "value": 3.38
+    },
+    {
+      "option": "DX-07 Q1",
+      "objective": "RiskReduction",
+      "value": 713.3
+    },
+    {
+      "option": "DX-07 Q1",
+      "objective": "DisruptionCost",
+      "value": 3.54
+    },
+    {
+      "option": "DX-07 Q1",
+      "objective": "Capex",
+      "value": 10.55
+    },
+    {
+      "option": "DX-07 Q2",
+      "objective": "RiskReduction",
+      "value": 577.8
+    },
+    {
+      "option": "DX-07 Q2",
+      "objective": "DisruptionCost",
+      "value": 2.51
+    },
+    {
+      "option": "DX-07 Q2",
+      "objective": "Capex",
+      "value": 9.78
+    },
+    {
+      "option": "DX-07 Q3",
+      "objective": "RiskReduction",
+      "value": 468.0
+    },
+    {
+      "option": "DX-07 Q3",
+      "objective": "DisruptionCost",
+      "value": 3.69
+    },
+    {
+      "option": "DX-07 Q3",
+      "objective": "Capex",
+      "value": 9.97
+    },
+    {
+      "option": "DX-07 Q4",
+      "objective": "RiskReduction",
+      "value": 379.1
+    },
+    {
+      "option": "DX-07 Q4",
+      "objective": "DisruptionCost",
+      "value": 2.8
+    },
+    {
+      "option": "DX-07 Q4",
+      "objective": "Capex",
+      "value": 10.17
+    }
+  ]
+}
