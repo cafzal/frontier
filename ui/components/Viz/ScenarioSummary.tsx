@@ -97,6 +97,14 @@ export function ScenarioSummary({ data }: { data: ScenarioSummaryVizData }) {
         </span>
       </div>
 
+      {/* Staleness leads the panel for the same reason it leads the payload: these
+          numbers describe the model as it was, and nothing below says so on its own. */}
+      {data.scenario_results_stale && data.scenario_stale_note && (
+        <Banner tone="amber" label="Stale scenario results">
+          {data.scenario_stale_note}
+        </Banner>
+      )}
+
       {scenarios.length > 0 && (
         <div className="mb-3 text-xs">
           <span className="text-stone-500">scenarios:</span>{" "}
@@ -207,6 +215,17 @@ export function ScenarioSummary({ data }: { data: ScenarioSummaryVizData }) {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {/* Regret declines the join outright when the base and scenario runs describe
+          different models — say so, rather than let the block vanish as if the lens
+          simply didn't apply. */}
+      {regret?.available === false && regret.reason && regret.note && (
+        <div className="mt-3 border-t border-stone-100 pt-3">
+          <Banner tone="amber" label="Regret withheld">
+            {regret.note}
+          </Banner>
         </div>
       )}
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import uuid
 from datetime import datetime, timezone
 from enum import Enum
@@ -225,6 +226,12 @@ class Scenario(BaseModel):
     # Provenance of the scenario when seeded from an analysis lever (e.g. a sensitivity
     # suggestion's `motivated_by`) — echoed by scenario_results so the reading cites its motive.
     motivated_by: str = ""
+    # The base constraint set this scenario was authored against (optimizer.constraints_fingerprint),
+    # stamped server-side on every scenario_config write and on load. `constraint_overrides` replace
+    # the base rules WHOLESALE, so a later base-constraint edit does not flow through — comparing
+    # this stamp to the current fingerprint says whether the overrides predate the current rules
+    # (annotation, never a solve input: it is stripped from the solve fingerprints).
+    base_constraints_fingerprint: str = ""
     score_overrides: list[Score] = []  # only changed scores; base matrix fills rest
     score_adjustments: list[ScoreAdjustment] = []  # bulk adjustments by objective
     constraint_overrides: list[Constraint] = []  # replaces base constraints when non-empty
@@ -240,7 +247,15 @@ class ScenarioRun(BaseModel):
     """Results from per-scenario optimization."""
     scenario_runs: dict[str, Run] = {}  # scenario name → Run
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    solve_fingerprint: str | None = None  # hash of the solve-input fields as solved (see Run.solve_fingerprint)
+    # Scenario solve-inputs as solved = the base fields PLUS scenario_config (see
+    # scenario_solve_fingerprint) — edits compare against it, so scenario reads can say
+    # "these results predate the current model" instead of serving them as findings.
+    solve_fingerprint: str | None = None
+    # The BASE half of the same stamp (see solve_fingerprint at module scope), so a read that
+    # joins base solutions to scenario frontiers — regret — can tell whether the two sides
+    # describe the same base model. Comparable to Run.solve_fingerprint; the composite above
+    # is not.
+    base_fingerprint: str | None = None
 
 
 # --- Run / Solution ---
@@ -319,7 +334,7 @@ class Run(BaseModel):
     exact: bool = False  # MILP zero-gap certification was requested (no-op on the always-exact QP and on NSGA)
     time_limit: float | None = None  # wall-clock cap (s) requested for this solve; None = uncapped
     time_limited: bool = False  # True when the cap was hit, so this frontier is best-so-far, not fully converged
-    solve_fingerprint: str | None = None  # hash of the solve-input fields as solved — edits compare against it, so a round-trip edit lands back at results_stale=False
+    solve_fingerprint: str | None = None  # hash of the base solve-input fields as solved (see solve_fingerprint) — edits compare against it, so a round-trip edit lands back at results_stale=False
     telemetry: dict | None = None  # how this solve ran: {duration_s, engine_detail, evals_or_solves} — machine-local facts, stripped from portable bundles (cap-hit lives on time_limited)
     problem_snapshot: dict | None = None  # problem features as solved (solvers.problem_features) — pairs with telemetry so routing advice can be calibrated from real workload
 
@@ -384,6 +399,90 @@ class Problem(BaseModel):
     feedback: list[Feedback] = []
     created_at: datetime = Field(default_factory=_now)
     updated_at: datetime = Field(default_factory=_now)
+
+
+# --- Solve fingerprints (staleness) ---
+#
+# One definition of "what determines a solve's result", used by every side that asks whether a
+# stored frontier still describes the current model: the solve workers' mid-solve stale guard,
+# `model update`'s results_stale, and the scenario reads' stale marker. Two scopes, because the
+# base frontier and the scenario frontiers have different inputs — the base solve cannot see
+# scenario_config, so a scenarios-only edit must not read as staleness on the base run, and a
+# scenario solve depends on both halves. The scenario stamp carries its base half separately
+# (ScenarioRun.base_fingerprint) so a read joining the two sides can compare them.
+
+_SOLVE_INPUT_FIELDS = {
+    "approach", "objectives", "options", "scores", "constraints", "interaction_matrices",
+}
+_SCENARIO_SOLVE_INPUT_FIELDS = _SOLVE_INPUT_FIELDS | {"scenario_config"}
+
+# Annotations: recorded ON solve inputs but never determining a solve's result — provenance
+# (why a rule exists) and the scenario's authored-against constraints stamp. Annotating a rule
+# after a solve must not read as editing the model. The sibling rule at
+# `explorer._constraint_key` keeps `motivated_by` out of run-diff identity too.
+_ANNOTATION_KEYS = {"motivated_by", "base_constraints_fingerprint"}
+
+
+def _strip_annotations(node):
+    """Drop annotation keys from a dumped payload (see _ANNOTATION_KEYS)."""
+    if isinstance(node, dict):
+        return {k: _strip_annotations(v) for k, v in node.items() if k not in _ANNOTATION_KEYS}
+    if isinstance(node, list):
+        return [_strip_annotations(v) for v in node]
+    return node
+
+
+def _fingerprint(problem: "Problem", fields: set) -> str:
+    payload = _strip_annotations(problem.model_dump(mode="json", include=fields))
+    return hashlib.md5(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
+
+
+def solve_fingerprint(problem: "Problem") -> str:
+    """Fingerprint of the inputs a BASE solve reads (Run.solve_fingerprint)."""
+    return _fingerprint(problem, _SOLVE_INPUT_FIELDS)
+
+
+def scenario_solve_fingerprint(problem: "Problem") -> str:
+    """Fingerprint of the inputs a PER-SCENARIO solve reads — the base inputs plus
+    scenario_config (ScenarioRun.solve_fingerprint)."""
+    return _fingerprint(problem, _SCENARIO_SOLVE_INPUT_FIELDS)
+
+
+def scenario_results_stale(problem: "Problem") -> bool:
+    """True when the stored scenario runs were solved against an earlier model.
+
+    False when they match — and also when the stamp is missing (a pre-stamp run is
+    unknowable, and guessing staleness would cry wolf on every legacy problem).
+    """
+    sr = problem.scenario_run
+    if sr is None or not sr.scenario_runs or not sr.solve_fingerprint:
+        return False
+    return sr.solve_fingerprint != scenario_solve_fingerprint(problem)
+
+
+def scenario_base_mismatch(problem: "Problem") -> bool:
+    """True when the base run and the scenario runs were solved against DIFFERENT base
+    models — the join of the two (regret re-scores base plans against scenario frontiers)
+    would mix two models. Unknowable when either side is unstamped: False."""
+    sr, run = problem.scenario_run, problem.run
+    if sr is None or run is None or not sr.scenario_runs or not run.solutions:
+        return False
+    if not sr.base_fingerprint or not run.solve_fingerprint:
+        return False
+    return sr.base_fingerprint != run.solve_fingerprint
+
+
+def stale_scenario_overrides(problem: "Problem", constraints_fingerprint: str) -> list[str]:
+    """Scenarios whose `constraint_overrides` were authored against a different base
+    constraint set than the one passed in — they replace the base rules wholesale, so a
+    later base edit did NOT flow through and the overrides may need restating. Scenarios
+    without overrides, or without an authored-against stamp, are never named."""
+    sc = problem.scenario_config
+    if not sc or not sc.scenarios:
+        return []
+    return [s.name for s in sc.scenarios
+            if s.constraint_overrides and s.base_constraints_fingerprint
+            and s.base_constraints_fingerprint != constraints_fingerprint]
 
 
 # --- Validation result ---

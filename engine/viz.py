@@ -307,6 +307,12 @@ def _viz_data_scenario_summary(result: dict) -> dict:
     """Scenario summary payload — option robustness tiers, per-objective risk, regret."""
     return {
         "type": "scenario_summary",
+        # Staleness rides along with the numbers it qualifies — a chart surface that
+        # rendered these ranges unmarked would invite exactly the reading the payload's
+        # marker exists to prevent. Absent when the runs match the current model.
+        **({"scenario_results_stale": True,
+            "scenario_stale_note": result["scenario_stale_note"]}
+           if result.get("scenario_results_stale") else {}),
         # Scenario names are the keys of per_scenario (there is no top-level
         # "scenarios" key); the panel keys its visibility off this list, so an
         # empty list hides the whole panel — derive it from per_scenario.

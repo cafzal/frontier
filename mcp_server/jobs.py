@@ -9,8 +9,6 @@ namespace by object identity, so tests that clear them keep working.
 
 from __future__ import annotations
 
-import hashlib
-import json
 import os
 import threading
 import uuid
@@ -18,7 +16,12 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from engine.models import OptimizeMode, Problem
+from engine.models import (
+    OptimizeMode,
+    Problem,
+    scenario_solve_fingerprint,
+    solve_fingerprint,
+)
 
 from mcp_server.guidance import (
     _SOLUTION_INTERPRETER_PROMPT,
@@ -75,31 +78,14 @@ _solve_pool = ThreadPoolExecutor(max_workers=_SOLVE_WORKERS, thread_name_prefix=
 # separately by the fingerprint stale-guard.
 _store_write_lock = threading.Lock()
 
-# Problem fields that determine a solve's result. If any change while a background solve runs,
-# the computed frontier no longer matches the stored problem, so the worker reports `stale`
-# rather than overwriting the concurrent edit (results/curation/etc. are deliberately excluded).
-_SOLVE_INPUT_FIELDS = {
-    "approach", "objectives", "options", "scores", "constraints",
-    "interaction_matrices", "scenario_config",
-}
-
-
-def _strip_motives(node):
-    """Drop `motivated_by` keys (constraints, scenario overrides, scenarios) from a dumped
-    payload. Provenance records why a rule exists; it never determines a solve's result — the
-    membership criterion stated above — so annotating a rule after a solve must not read as
-    editing the model. The sibling rule at `explorer._constraint_key` keeps the same field out
-    of run-diff identity."""
-    if isinstance(node, dict):
-        return {k: _strip_motives(v) for k, v in node.items() if k != "motivated_by"}
-    if isinstance(node, list):
-        return [_strip_motives(v) for v in node]
-    return node
-
-
-def _solve_fingerprint(p: Problem) -> str:
-    payload = _strip_motives(p.model_dump(mode="json", include=_SOLVE_INPUT_FIELDS))
-    return hashlib.md5(json.dumps(payload, sort_keys=True, default=str).encode()).hexdigest()
+# Which problem fields determine a solve's result — one definition, in the engine
+# (`engine.models`), shared with `model update`'s results_stale and the scenario reads' stale
+# marker. If any change while a background solve runs, the computed frontier no longer matches
+# the stored problem, so the worker reports `stale` rather than overwriting the concurrent edit
+# (results/curation/annotations are deliberately excluded). Two scopes: a base solve doesn't
+# read scenario_config, a per-scenario solve does.
+_solve_fingerprint = solve_fingerprint                    # base run / exact overlay
+_scenario_fingerprint = scenario_solve_fingerprint        # per-scenario runs
 
 
 def _solve_label(action: str, mode: OptimizeMode | None, solver: str | None,
