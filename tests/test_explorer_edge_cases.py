@@ -218,3 +218,56 @@ class TestScenarioExplore:
         # The regret lens rides in viz_data too; unavailable here (no base run to
         # regret against), so the panel's regret section stays hidden.
         assert viz["regret"] == {"available": False}
+
+    def test_single_scenario_risk_block_says_it_is_an_echo(self):
+        """Measured three times across capture batches: with ONE scenario, expected ==
+        worst_case == best_case == CVaR, and four agreeing numbers read as "this holds up
+        under stress" when they are one number printed four times. The payload has to say so
+        — the reader can't be expected to infer n=1 from the risk block."""
+        sols = [
+            Solution(solution_id=0, selected_options=["A"], objective_values={"X": 10, "Y": 1}),
+            Solution(solution_id=1, selected_options=["B"], objective_values={"X": 5, "Y": 5}),
+        ]
+        p = Problem(
+            objectives=[Objective(name="X", direction="maximize"),
+                        Objective(name="Y", direction="maximize")],
+            options=[Option(name=n) for n in ["A", "B"]],
+            scenario_config=ScenarioConfig(enabled=True, scenarios=[Scenario(name="base")]),
+        )
+        p.scenario_run = ScenarioRun(scenario_runs={"base": Run(solutions=sols)})
+
+        result = get_scenario_results(p)
+        risk = result["scenario_risk"]["X"]
+        # The degeneracy itself, so the note is anchored in what the reader sees.
+        assert risk["worst_case"] == risk["best_case"] == risk["cvar_20"] == risk["expected"]
+        assert "single scenario" in result["scenario_risk_note"]
+        assert "add scenarios" in result["scenario_risk_note"].lower()
+
+    def test_the_echo_note_claims_only_the_three_values_that_collapse(self):
+        """`expected` is probability-weighted while worst/best/CVaR are not, so a lone
+        scenario carrying a probability scales expected by it and the four do NOT agree.
+        The note names the three that do — a caveat that overstates is its own misread."""
+        sols = [Solution(solution_id=0, selected_options=["A"],
+                         objective_values={"X": 10, "Y": 1})]
+        p = Problem(
+            objectives=[Objective(name="X", direction="maximize"),
+                        Objective(name="Y", direction="maximize")],
+            options=[Option(name="A")],
+            scenario_config=ScenarioConfig(
+                enabled=True, scenarios=[Scenario(name="base", probability=0.6)]),
+        )
+        p.scenario_run = ScenarioRun(scenario_runs={"base": Run(solutions=sols)})
+
+        result = get_scenario_results(p)
+        risk = result["scenario_risk"]["X"]
+        assert risk["worst_case"] == risk["best_case"] == risk["cvar_20"] == 10
+        assert risk["expected"] == 6.0                       # 0.6 x 10 — NOT the other three
+        note = result["scenario_risk_note"]
+        assert "worst_case, best_case and CVaR" in note and "expected" not in note
+
+    def test_multi_scenario_risk_block_carries_no_degeneracy_note(self):
+        """Present only where true — a real scenario set reads without the caveat."""
+        p = self._make_problem_with_scenarios()
+        p.scenario_config = ScenarioConfig(
+            enabled=True, scenarios=[Scenario(name="base"), Scenario(name="recession")])
+        assert "scenario_risk_note" not in get_scenario_results(p)

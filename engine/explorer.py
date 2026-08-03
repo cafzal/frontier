@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from itertools import combinations
 
 import numpy as np
@@ -1653,8 +1654,12 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
         next_steps = (
             f"Present {anchor} to the user as the decision anchor, and navigate the exact overlay "
             "with `explore … source=\"exact\"`. On this continuous/QP problem, `explore sensitivity` "
-            "adds solver-exact shadow prices + reduced costs (the explainability layer). Read this "
-            "certificate with the `solution_interpreter` skill ('Reading the Certificate')."
+            "adds solver-exact shadow prices + reduced costs (the explainability layer) — anchor it "
+            "on a solution_id or content_signature taken from `explore solutions source=\"exact\"`, "
+            "not from a per_pick entry: an exact re-solve re-allocates, so even an `optimal` pick's "
+            "signature is often absent from the exact run (the verdict is a comparison, not a "
+            "guarantee the plan is a point on that frontier). Read this certificate with the "
+            "`solution_interpreter` skill ('Reading the Certificate')."
         )
     if dominated_picks:
         # Routing, not teaching: a dominated finalist has a certified replacement waiting, and
@@ -2424,6 +2429,16 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
         "scenario_specific_options": scenario_specific,
         "expected_values": expected_values,
         "scenario_risk": scenario_risk,
+        # With one scenario there is no spread to take a tail of: worst_case, best_case and
+        # CVaR all collapse onto that scenario's own best value. Three numbers agreeing reads
+        # as a robustness finding when it is an echo, so the payload says so rather than
+        # leaving the reader to notice n=1 (present only in that case). `expected` is left out
+        # of the claim: it is probability-weighted, so a lone scenario carrying a probability
+        # scales it by that probability and it does NOT match the other three.
+        **({"scenario_risk_note": (
+            "single scenario — risk spread degenerates: worst_case, best_case and CVaR are "
+            "all that one scenario's value, so their agreement carries no tail information. "
+            "Add scenarios for a tail reading.")} if n_scenarios == 1 else {}),
         "cvar_alpha": alpha,
         "weighting": "probability" if has_probabilities else "equal",
     }
@@ -2524,7 +2539,7 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
         )
 
         # Marginal rates between adjacent solutions — solver-exact duals where available
-        raw_rates, rate_basis, floor = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
+        raw_rates, rate_basis, floors = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
         rates = [
             {
                 "from_id": rr["from_sol"].solution_id,
@@ -2533,11 +2548,12 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 f"delta_{obj_b.name}": round(rr["delta_b"], 4),
                 "rate": round(rr["rate"], 4),
                 **({"degenerate": True} if rr.get("degenerate") else {}),
+                **({"flat": True} if rr.get("flat") else {}),
                 **({"co_improvement": True} if rr.get("co_improvement") else {}),
             }
             for rr in raw_rates
         ]
-        trustworthy = [not rr.get("degenerate") for rr in raw_rates]
+        trustworthy = _trustworthy_rates(raw_rates)
 
         # Detect inflection: largest jump in marginal rate, over trustworthy transitions only
         detected = _detect_inflection([rr["rate"] for rr in raw_rates], eligible=trustworthy)
@@ -2558,7 +2574,7 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
             "objectives": [obj_a.name, obj_b.name],
             "correlation": round(r, 2),
             "rate_basis": rate_basis,
-            "rate_guard": _rate_guard(rates, obj_a, obj_b, floor),
+            "rate_guard": _rate_guard(rates, obj_a, obj_b, floors),
             "inflection": inflection,
         }
 
@@ -2581,9 +2597,15 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 "rate_median": round(float(np.median(rate_values)), 4) if rate_values else 0,
             }
             # Top-5 steepest transitions (the most expensive tradeoff steps) — over the
-            # trustworthy ones, so the headline is a price and never a near-tie's quotient.
+            # transitions a rate can be trusted on, so the headline is a price and never a
+            # tie's artifact. Both flags are filtered, on either rate basis: a `flat` row is
+            # harmless on secants (a step that bought ~nothing divides out to a ~0 rate, which
+            # cannot rank), but on `solver_exact_duals` the rate is the endpoint's shadow price
+            # and carries no memory of the step — a flat row measured at 900.0 topped this list
+            # while buying 0.0001. The number is a real slope; naming that transition the most
+            # expensive step is the misread. It keeps its place, flagged, in the detail rows.
             top_rates = sorted(
-                (r for r in rates if not r.get("degenerate")),
+                (r for r, ok in zip(rates, trustworthy) if ok),
                 key=lambda r: r["rate"], reverse=True,
             )[:5]
             pair_result["steepest_transitions"] = top_rates
@@ -2635,27 +2657,39 @@ def cap_marginal_detail(problem: Problem, result: dict, max_rows: int) -> dict:
     return {**result, "pairs": capped}
 
 
-def _rate_guard(rates: list[dict], obj_a, obj_b, floor: float) -> dict:
+def _rate_guard(rates: list[dict], obj_a, obj_b, floors: tuple[float, float]) -> dict:
     """What the unsigned `rate` column hides, echoed so the pair's inflection is auditable.
 
-    Both counts are per-response facts (this frontier's sampling), and both name a way a
-    rate misleads: a tie's quotient reads as a cliff, a mutual gain reads as a price. The
-    reading is in `solution_interpreter` → Marginal Analysis Interpretation.
+    Every count is a per-response fact (this frontier's sampling), and each names a way a
+    rate misleads: a tied denominator's quotient reads as a cliff, a tied numerator's reads
+    as one too (the jump against it explodes) while nothing was actually bought, and a mutual
+    gain reads as a price. The reading is in `solution_interpreter` → Marginal Analysis
+    Interpretation.
     """
+    floor_a, floor_b = floors
     degenerate = sum(1 for r in rates if r.get("degenerate"))
+    flat = sum(1 for r in rates if r.get("flat"))
     co_improving = sum(1 for r in rates if r.get("co_improvement"))
     notes = []
     if degenerate:
         notes.append(f"`degenerate` rows tie on {obj_a.name} (step below denominator_floor), so "
                      f"their rate is a division artifact — excluded from inflection and "
                      f"steepest_transitions, still counted in summary")
+    if flat:
+        notes.append(f"`flat` rows tie on {obj_b.name} (step below numerator_floor) — the step "
+                     f"bought essentially none of it, so its rate prices nothing; excluded from "
+                     f"inflection (as both the jump's baseline and its landing) and from "
+                     f"steepest_transitions, still counted in summary")
     if co_improving:
         notes.append(f"`co_improvement` rows GAINED {obj_b.name} rather than paying it, so "
                      f"their rate is a ratio of two gains, not a price")
     return {
         "denominator": obj_a.name,
-        "denominator_floor": round(floor, 6),
+        "denominator_floor": round(floor_a, 6),
         "degenerate_transitions": degenerate,
+        "numerator": obj_b.name,
+        "numerator_floor": round(floor_b, 6),
+        "flat_transitions": flat,
         "co_improvement_transitions": co_improving,
         # Caption only where there is something to caption — a clean pair says so by its counts.
         **({"note": "; ".join(notes)} if notes else {}),
@@ -2700,9 +2734,11 @@ def _render_marginal_rates(rates: list[dict], obj_a, obj_b, inflection: dict | N
         filled = max(0, min(BAR_W, round(rate / max_rate * BAR_W)))
         bar = "█" * filled + "░" * (BAR_W - filled)
         marker = " ◀ INFLECTION" if inflection and idx == inflection["position"] else ""
-        # Same two caveats the payload flags, inline where the number is read.
+        # The same caveats the payload flags, inline where the number is read.
         if r.get("degenerate"):
             marker += f"  ≈ tie on {obj_a.name}"
+        if r.get("flat"):
+            marker += f"  ≈ flat on {obj_b.name}"
         if r.get("co_improvement"):
             marker += f"  ↑ {obj_b.name} gained, not paid"
         lines.append(f"  [{from_id}]→[{to_id}]  |{bar}| {_fmt(rate)}{marker}")
@@ -3885,7 +3921,7 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
 
     ``rate`` is unsigned (|delta_b| per unit delta_a), so the signs stay on the deltas:
     a step where ``delta_b`` is also positive gained B rather than paying it, and
-    ``_mark_rate_geometry`` labels that (and near-tie denominators) before the payload
+    ``_mark_rate_geometry`` labels that (and a near-tie on either side) before the payload
     presents any rate as a cost.
     """
     rates = []
@@ -3908,15 +3944,58 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
     return rates
 
 
-# A marginal rate is a quotient, so it inflates without bound as its denominator step goes
-# to zero. Two scales set the floor below which a step is a tie rather than a move, and the
-# larger wins: a fixed slice of the objective's range across the analyzed frontier, and a
-# fraction of the typical step between adjacent points. The range term is the backstop that
-# survives a frontier of mostly-ties; the spacing term is the one that binds on a densely
-# sampled frontier, where every step is a small slice of the range and only the steps far
-# below the typical one are artifacts.
+# A marginal rate is a quotient, so it misreads at BOTH ends: it inflates without bound as
+# its denominator step goes to zero, and a jump measured against a ~zero numerator inflates
+# the same way. Each side gets a floor — the step below which two adjacent points are a tie
+# rather than a move — but the two are derived separately, because the two sides' steps are
+# different quantities (see `_flat_floor`).
+#
+# DENOMINATOR. Two scales, the larger winning: a fixed slice of the objective's range across
+# the analyzed frontier, and a fraction of the typical step between adjacent points. The
+# range term is the backstop that survives a frontier of mostly-ties; the spacing term binds
+# on a densely sampled frontier, where every step is a small slice of the range and only the
+# steps far below the typical one are artifacts. Both hold because denominator steps are the
+# frontier's SAMPLING — near-uniform, so mean ≈ median and neither term runs away.
 _DEGENERACY_RANGE_FRACTION = 0.001
 _DEGENERACY_SPACING_FRACTION = 0.25
+
+# NUMERATOR. Numerator steps are the frontier's SHAPE: they swing by orders of magnitude
+# between the cheap and expensive stretches, and that swing is the very thing marginal
+# analysis measures. Two consequences, both measured:
+#
+#   * The range term does NOT transfer. `range / spacing = 0.001·n·mean / (frac·median)`, and
+#     a skewed distribution has mean/median of 5–50×, so `0.001 × span` overtakes the spacing
+#     term at a handful of transitions and then GROWS with sampling density — a fixed slice of
+#     a fixed span against steps that shrink as span/n. On a smooth convex frontier it flagged
+#     41% of transitions at n=300 and 67% at n=1000. Dropped: the numerator floor carries no
+#     range term.
+#   * The typical step is the wrong reference on its own. A quarter of it is an ordinary cheap
+#     move (the flat side of any honest elbow); a twentieth is "this step bought essentially
+#     nothing". And where the cheap side is the MINORITY, the median itself sits in the steep
+#     cluster, so even a twentieth of it condemns the whole cheap regime once the cliff is
+#     steeper than ~20:1 — which is where the real receipts live (25×–17038×).
+#
+# So the numerator floor is a twentieth of the typical step, CAPPED at half the pair's own
+# tenth-percentile step — read as the k-th smallest step, never the smallest itself (a lone
+# artifact would otherwise set the cap that protects it). The cap reads the small end of this
+# pair's distribution rather than its centre, so a genuine cheap regime — down to a tenth of
+# the transitions — sets its own scale and survives, while an artifact far below even the
+# bottom decile is still caught. It also bounds the flag structurally: nothing above half the
+# tenth-percentile step can carry it, whatever the sampling density.
+#
+# BOTH DIRECTIONS OF THAT TENTH, deliberately. A flat patch under a tenth of the transitions
+# is an artifact and gets flagged; a cheap stretch over a tenth is a REGIME — the flat side of
+# a real elbow — and keeps its rates. The converse is the cost of the same line: a genuine
+# notch of m steps goes unflagged once m reaches k, so on a 20-transition frontier a two-step
+# notch reads as ordinary. That is the intended trade. Under a tenth is an artifact; over a
+# tenth is a shape the user should see, and a guard that erased it would be the worse error.
+#
+# Both statistics are taken over the steps that MOVED. Exact ties are common on an integer
+# objective (adjacent points tie on one axis and pay on another), and counting them would hand
+# the bottom of the distribution — and with it the cap — to the very artifact being tested for.
+_FLAT_SPACING_FRACTION = 0.05
+_FLAT_TAIL_PERCENTILE = 10
+_FLAT_TAIL_FRACTION = 0.5
 
 
 def _degeneracy_floor(rates: list[dict], sorted_sols, obj_a) -> float:
@@ -3928,22 +4007,72 @@ def _degeneracy_floor(rates: list[dict], sorted_sols, obj_a) -> float:
     return max(_DEGENERACY_RANGE_FRACTION * span, _DEGENERACY_SPACING_FRACTION * typical)
 
 
-def _mark_rate_geometry(rates: list[dict], sorted_sols, obj_a) -> float:
-    """Tag each transition with the two things an unsigned rate hides, and return the floor.
+def _flat_floor(rates: list[dict]) -> float:
+    """Smallest numerator step that still counts as buying something, for this pair.
 
-    ``degenerate`` — the two points effectively tie on the denominator objective (step below
-    ``_degeneracy_floor``), so the rate is a division artifact, not a cliff.
+    A twentieth of the typical step, capped at half the tenth-percentile one. The percentile
+    is the k-th smallest step with ``k = max(2, ceil(n/10))`` — never the smallest itself, so
+    a single artifact can't set the cap that would spare it, and a cheap regime holding a
+    tenth of the transitions still sets the cap from inside its own cluster. Both terms are
+    scale-free in the sampling density, so the flag can't grow with frontier size.
+
+    Both are taken over the steps that MOVED. Exact ties belong to no distribution of prices —
+    they are the thing being tested for — and letting them fill the bottom would collapse the
+    cap onto the artifact beside them, so a frontier with a tenth of its steps tied would stop
+    flagging artifacts exactly where the flat stretch is widest.
+
+    Returns 0.0 only when NOTHING moved — no rates, or every step an exact tie. Neither
+    reaches here through ``marginal_analysis``: it needs three solutions, and a numerator that
+    never moves makes the pair non-conflicting, so it is never analyzed. The branch is kept so
+    the function is total, and 0.0 means "every transition is a tie" rather than standing in
+    for "no artifacts" — the caller's ``max(floor, 1e-9)`` then flags them all, which is the
+    honest reading of a frontier where the pair bought nothing anywhere.
+    """
+    moved = sorted(s for s in (abs(rr["delta_b"]) for rr in rates) if s > 0.0)
+    if not moved:
+        return 0.0
+    k = max(2, math.ceil(len(moved) * _FLAT_TAIL_PERCENTILE / 100))
+    tail = moved[min(k, len(moved)) - 1]
+    typical = float(np.median(moved))
+    return min(_FLAT_SPACING_FRACTION * typical, _FLAT_TAIL_FRACTION * tail)
+
+
+def _mark_rate_geometry(rates: list[dict], sorted_sols, obj_a, obj_b) -> tuple[float, float]:
+    """Tag each transition with what an unsigned rate hides, and return ``(floor_a, floor_b)``.
+
+    ``degenerate`` — the two points effectively tie on the DENOMINATOR objective (step below
+    its floor), so the rate is a division artifact: the price looks like it exploded.
+    ``flat`` — the two points effectively tie on the NUMERATOR objective, so the step bought
+    essentially nothing of it: the rate is ~0 and any jump measured against it explodes just
+    as unboundedly. The mirror of ``degenerate``, and the reader's distinction is which one
+    happened — the price exploded, or nothing was bought.
     ``co_improvement`` — the step improved BOTH objectives (possible on a frontier of three or
     more objectives, where the pair's conflict is paid elsewhere), so its rate is a ratio of
-    two gains, not a price. Both are set only when true, so a plain row is the ordinary case.
+    two gains, not a price. All three are set only when true, so a plain row is the ordinary case.
+
+    The two floors are derived separately — a denominator step is sampling, a numerator step
+    is shape — so ``obj_b`` enters through ``_flat_floor``'s own construction.
     """
-    floor = _degeneracy_floor(rates, sorted_sols, obj_a)
+    floor_a = _degeneracy_floor(rates, sorted_sols, obj_a)
+    floor_b = _flat_floor(rates)
     for rr in rates:
-        if abs(rr["delta_a"]) <= max(floor, 1e-9):
+        if abs(rr["delta_a"]) <= max(floor_a, 1e-9):
             rr["degenerate"] = True
+        if abs(rr["delta_b"]) <= max(floor_b, 1e-9):
+            rr["flat"] = True
         if rr["delta_b"] > 0:
             rr["co_improvement"] = True
-    return floor
+    return floor_a, floor_b
+
+
+def _trustworthy_rates(rates: list[dict]) -> list[bool]:
+    """Which transitions may anchor an inflection — either end of the quotient a real move.
+
+    A rate whose denominator tied (``degenerate``) or whose numerator tied (``flat``) is an
+    artifact in BOTH detector roles: as the jump's baseline it manufactures the jump, and as
+    its landing it plants a stop-here marker where the user has nothing to stop for.
+    """
+    return [not (rr.get("degenerate") or rr.get("flat")) for rr in rates]
 
 
 def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
@@ -3967,22 +4096,23 @@ def _pair_dual_rates(sorted_sols, obj_a, obj_b, problem) -> list[float] | None:
 def _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem=None):
     """Marginal rates for one conflicting pair, on the sharpest basis available: solver-exact
     duals (the slope AT each transition's left endpoint) when the exact path attached them,
-    else secants between adjacent points. Returns ``(rates, basis, floor)`` with basis ∈
-    'solver_exact_duals' | 'secant' so the payload states its epistemic footing, and ``floor``
-    the denominator step below which a transition is a tie (see ``_mark_rate_geometry``).
+    else secants between adjacent points. Returns ``(rates, basis, floors)`` with basis ∈
+    'solver_exact_duals' | 'secant' so the payload states its epistemic footing, and ``floors``
+    the ``(denominator, numerator)`` steps below which a transition is a tie on that side (see
+    ``_mark_rate_geometry``).
 
-    The tie test rides on the deltas, so it holds on both bases: a dual is an exact slope, but
-    an inflection is a marker telling the user where to stop, and two points that tie on the
-    denominator objective are not two stopping places to choose between.
+    The tie tests ride on the deltas, so they hold on both bases: a dual is an exact slope, but
+    an inflection is a marker telling the user where to stop, and two points that tie — on
+    either objective — are not two stopping places to choose between.
     """
     rates = _compute_pair_rates(sorted_sols, obj_a, obj_b)
-    floor = _mark_rate_geometry(rates, sorted_sols, obj_a)
+    floors = _mark_rate_geometry(rates, sorted_sols, obj_a, obj_b)
     duals = _pair_dual_rates(sorted_sols, obj_a, obj_b, problem)
     if duals is None:
-        return rates, "secant", floor
+        return rates, "secant", floors
     for k, rr in enumerate(rates):
         rr["rate"] = duals[k]
-    return rates, "solver_exact_duals", floor
+    return rates, "solver_exact_duals", floors
 
 
 def _knee_rationale(obj_a, obj_b, jump_factor: float, co_improvement: bool = False) -> str:
@@ -4078,9 +4208,9 @@ def _find_inflection_solutions(solutions, objectives, problem=None) -> list[dict
             key=lambda s: s.objective_values[obj_a.name],
             reverse=reverse_a,
         )
-        rates, _basis, _floor = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
+        rates, _basis, _floors = _pair_rates_with_basis(sorted_sols, obj_a, obj_b, problem)
         inflection = _detect_inflection(
-            [r["rate"] for r in rates], eligible=[not r.get("degenerate") for r in rates])
+            [r["rate"] for r in rates], eligible=_trustworthy_rates(rates))
         if inflection is None:
             continue
         landing = rates[inflection["position"]]

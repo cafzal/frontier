@@ -71,9 +71,11 @@ export type ParallelCoordsVizData = {
   series: ParallelCoordsSeries[];
 };
 
-// `rate` is unsigned, so the engine flags the two shapes that make one misleading
+// `rate` is unsigned, so the engine flags the shapes that make one misleading
 // (explorer.py `_mark_rate_geometry`): `degenerate` — the two solutions tie on the
 // denominator objective, so the rate is a division artifact rather than a cliff;
+// `flat` — the mirror case, a tie on the NUMERATOR objective, so the step bought
+// essentially nothing and its ~0 rate is no baseline for a jump either;
 // `co_improvement` — the step gained BOTH objectives, so the rate is a ratio of two
 // gains, not a price.
 export type MarginalRate = {
@@ -81,6 +83,7 @@ export type MarginalRate = {
   to_id: number;
   rate: number;
   degenerate?: boolean;
+  flat?: boolean;
   co_improvement?: boolean;
   [k: string]: unknown;
 };
