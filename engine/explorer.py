@@ -155,8 +155,17 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
     return result
 
 
-def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str | None = None, source: str | None = None) -> dict:
-    """Side-by-side comparison of specific solutions."""
+def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str | None = None,
+                      source: str | None = None, detail: bool = False) -> dict:
+    """Side-by-side comparison of specific solutions.
+
+    ``detail`` works as it does on the curated form (``compare_curated``) and on
+    ``get_solutions``: default compact — ``{solution_id, objective_values,
+    content_signature}`` per solution, since `shared_options` / `differentiating_options`
+    already carry the structural difference; ``detail=True`` returns the full dump
+    (`selected_options`, `allocations`). On proportional problems the per-option
+    `allocation_comparison` table rides both modes — it IS the comparison.
+    """
     run = _require_run(problem, scenario, source)
     sol_map = {s.solution_id: s for s in run.solutions}
 
@@ -187,10 +196,18 @@ def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str |
         }
 
     result = {
-        "solutions": [s.model_dump() for s in selected],
+        "solutions": [
+            s.model_dump() if detail else {
+                "solution_id": s.solution_id,
+                "objective_values": s.objective_values,
+                "content_signature": s.content_signature,
+            }
+            for s in selected
+        ],
         "shared_options": sorted(shared),
         "differentiating_options": sorted(differentiating),
         "tradeoff_summary": tradeoff_summary,
+        "detail": detail,
     }
 
     # Allocation comparison for proportional mode
@@ -1045,11 +1062,12 @@ def compare_runs(problem: Problem, run_ids: list[str]) -> dict:
 
 def _elide_coverage_diff(option_coverage: dict[str, dict[str, int]],
                          opt_names: list[str]) -> tuple[dict, dict | None]:
-    """Keep the top options by CHANGE in selection count across the compared runs.
+    """Keep the top options by SPREAD in selection count across the compared runs.
 
-    Ranking by |delta| rather than by count is what the action is for: an option holding
-    steady at 40 plans in both runs says nothing about the edit, while one that moved from
-    0 to 12 is the finding. Returns ``(coverage, elided-summary or None)``."""
+    Spread (max − min) rather than raw count is what the action is for: an option holding
+    steady at 40 plans in every run says nothing about the edit, while one that moved from
+    0 to 12 is the finding. Generalizes past a pair, as `run_ids` does — with two runs the
+    spread IS the delta. Returns ``(coverage, elided-summary or None)``."""
     from engine.metrics import _MAX_COVERAGE_RETURNED
 
     if len(opt_names) <= _MAX_COVERAGE_RETURNED:
@@ -1066,14 +1084,15 @@ def _elide_coverage_diff(option_coverage: dict[str, dict[str, int]],
     return trimmed, {
         "shown": len(kept),
         "total_options": len(opt_names),
-        "ranked_by": "change in selection count between the compared runs",
+        "ranked_by": "spread in selection count across the compared runs (max − min)",
         "tail_max_delta": tail_max_delta,
         "note": ("absence below the head is elision, NOT a coverage of zero — "
-                 + ("every elided option held the same count in both runs. "
+                 + ("every elided option holds the same count in all compared runs. "
                     if tail_max_delta == 0 else
-                    f"an elided option moved by at most {tail_max_delta} plan(s) between "
-                    "these runs. ")
-                 + "Full per-option selection rates: explore composition"),
+                    f"an elided option's count spans at most {tail_max_delta} plan(s) "
+                    "across the compared runs. ")
+                 + "Full per-option selection rates for the CURRENT frontier: "
+                   "explore composition"),
     }
 
 

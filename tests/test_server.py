@@ -739,6 +739,21 @@ class TestExploreCompare:
         result = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2])
         assert "shared_options" in result
 
+    def test_detail_is_honored_by_the_solution_ids_form(self):
+        """`detail` was advertised on compare but only the signatures form read it —
+        the id form dumped every plan whole and dropped the flag."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        compact = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2])
+        assert compact["detail"] is False
+        assert all("selected_options" not in s for s in compact["solutions"])
+        # The structural difference survives the compact form — that's why it can be default.
+        assert "shared_options" in compact and "differentiating_options" in compact
+
+        full = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2], detail=True)
+        assert full["detail"] is True
+        assert all("selected_options" in s for s in full["solutions"])
+
 
 class TestExploreSolutions:
     def test_solutions_listing(self):
@@ -948,6 +963,17 @@ class TestCompareRuns:
             run_ids=[r1["run_id"]],
         )
         assert "error" in result
+
+    def test_small_problem_coverage_passes_through_whole(self):
+        """The elision is a portfolio-scale trim — a 4-option model ships every row.
+        (The elision itself is gated in tests/test_explorer.py at engine level.)"""
+        pid = _build_solvable_problem()
+        r1 = srv.solve(action="run", problem_id=pid, seed=1)
+        r2 = srv.solve(action="run", problem_id=pid, seed=2)
+        out = srv.explore(action="compare_runs", problem_id=pid,
+                          run_ids=[r1["run_id"], r2["run_id"]])
+        assert "option_coverage_elided" not in out
+        assert all(len(cov) == 4 for cov in out["option_coverage"].values())
 
 
 class TestScenarios:
@@ -3080,6 +3106,31 @@ class TestDroppedFrontierDisclosure:
         assert "dropped_frontier_note" not in out
         assert srv.store.load(pid).run is not None  # nothing to drop: results were fresh
 
+    def test_stale_solve_with_no_other_frontier_stays_silent(self):
+        """The branch the `is not None` guards exist for: stale, but only ONE frontier
+        stored. Nothing is dropped, so nothing may be claimed — a note here would report
+        a loss that never happened. Probed in both directions."""
+        # NSGA only → re-solve with NSGA.
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        srv.model(action="update", problem_id=pid,
+                  constraints=[{"type": "cardinality", "min": 1, "max": 3}])
+        assert srv.store.load(pid).results_stale is True
+        out = srv.solve(action="run", problem_id=pid, seed=42)
+        assert "dropped_frontier_note" not in out
+
+        # Exact overlay only (no NSGA run to drop) → re-solve with the exact backend.
+        pid2 = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid2, solver="highs", scope="full")
+        p = srv.store.load(pid2)
+        assert p.run is None and p.exact_run is not None
+        srv.model(action="update", problem_id=pid2,
+                  constraints=[{"type": "cardinality", "min": 1, "max": 3}])
+        assert srv.store.load(pid2).results_stale is True
+        out = srv.solve(action="run", problem_id=pid2, solver="highs", scope="full")
+        assert "dropped_frontier_note" not in out
+        assert srv.store.load(pid2).exact_run is not None  # the overlay was refreshed
+
 
 class TestOverlaySeedInheritance:
     """`scope="curated"`/`"fill_gaps"` re-solve an EXISTING frontier's points, so the seed
@@ -3156,15 +3207,6 @@ class TestExploreFormatParamHonesty:
         srv.solve(action="run", problem_id=pid, seed=42)
         out = srv.explore(action="curated", problem_id=pid, format="markdown")
         assert "error" not in out
-
-    def test_compare_runs_small_problem_keeps_every_option(self):
-        pid = _build_solvable_problem()
-        r1 = srv.solve(action="run", problem_id=pid, seed=1)
-        r2 = srv.solve(action="run", problem_id=pid, seed=2)
-        out = srv.explore(action="compare_runs", problem_id=pid,
-                          run_ids=[r1["run_id"], r2["run_id"]])
-        assert "option_coverage_elided" not in out
-        assert all(len(cov) == 4 for cov in out["option_coverage"].values())
 
 
 class TestCompositionClusterQuality:

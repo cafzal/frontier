@@ -184,6 +184,7 @@ Mining the solution set — operates on the active frontier, or a curated subset
 | `co_occurrence` | list | Option pairs ranked by departure from independence (top 8; all when `detail=true`) |
 | `design_principles` | list | Statements that hold across the set |
 | `clusters` | list | Decision-space strategy families (omitted when too few solutions) |
+| `clusters_summary` | obj | `{n_families, largest_family_share}`, plus a `note` when the share exceeds 0.9 — rides with `clusters` |
 | `feedback_rules` | obj | Liked/disliked separators, when feedback exists |
 
 ### `option_selection` entry
@@ -214,7 +215,7 @@ Binary: `{option, selection_count, selection_pct}`. Proportional adds `mean_weig
  "objective_signature": {"Impact": {"min": 6, "max": 9, "mean": 7.5}}}
 ```
 
-Clustering is in **decision space** (option/allocation composition), not objective space — so two families can share an `objective_signature` yet differ in `defining_options` (different plans, same outcome → the choice between them is low-regret). `k` comes from the largest gap in merge distance, capped at a legible handful; `defining_options` are options far more common inside the family than outside (empty = a weakly-separated family).
+Clustering is in **decision space** (option/allocation composition), not objective space — so two families can share an `objective_signature` yet differ in `defining_options` (different plans, same outcome → the choice between them is low-regret). `k` comes from the largest gap in merge distance, capped at a legible handful; `defining_options` are options far more common inside the family than outside (empty = a weakly-separated family). `clusters_summary.largest_family_share` prices the split: near 1.0 it is one strategy with corner variants (a 104/1/1/1), so present the family rather than a menu.
 
 ### `feedback_rules`
 

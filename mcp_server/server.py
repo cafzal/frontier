@@ -1246,9 +1246,10 @@ def _parse_constraint(c: dict | Constraint) -> Constraint:
         opts = [o for o in c["options"] if isinstance(o, str)]
         example = ", ".join(f'{{"type": "{ctype}", "option": "{o}"}}' for o in opts[:2]) \
             or f'{{"type": "{ctype}", "option": "<name>"}}'
+        send = f"Send {len(opts)} rows" if len(opts) > 1 else "Send one row"
         raise _ToolDecline(
             f"{ctype} takes `option` (singular) — one constraint row per option, not an "
-            f"`options` list. Send {len(opts) or 'one'} rows: [{example}"
+            f"`options` list. {send}: [{example}"
             f"{', …' if len(opts) > 2 else ''}]. For a rule over a SET of options "
             "(at most/at least N of these), use group_limit, which does take `options`.")
     return cls(**c)
@@ -2067,7 +2068,11 @@ def explore(
                    Optional: scenario.
       compare    — Side-by-side comparison.
                    Requires: solution_ids (2+ ints) — or signatures (2+ curated
-                   content_signatures) to compare the curated set. Optional: scenario, detail.
+                   content_signatures) to compare the curated set.
+                   Default: compact per solution (id/signature + objective_values) —
+                   shared_options and differentiating_options carry the structural
+                   difference; detail=true adds each plan's selected_options and
+                   allocations. Both forms honor it. Optional: scenario, detail.
       solutions  — Pareto frontier listing — or one solution's detail.
                    Default: compact list (solution_id + objective_values + content_signature).
                    Pass solution_id — or content_signature — for single-solution detail
@@ -2086,8 +2091,8 @@ def explore(
                    Default: current run vs the previous one ("what changed since my
                    last solve?"). Optional: run_ids (2+) for explicit historical runs.
                    Past 60 options the coverage table keeps the options that MOVED most
-                   between the runs and summarizes the rest in option_coverage_elided —
-                   an absent option is elided, not at zero coverage.
+                   across the compared runs and summarizes the rest in
+                   option_coverage_elided — an absent option is elided, not at zero coverage.
       certify    — Check the NSGA frontier against the exact overlay: dominance check,
                    hypervolume coverage reclaimed, soundness invariant, per-objective corner
                    sharpening, plus `per_pick` — a verdict per curated finalist (optimal /
@@ -2254,7 +2259,8 @@ def explore(
             if not solution_ids or len(solution_ids) < 2:
                 return {"error": "compare needs solution_ids (2+ ints) or signatures (2+ curated content_signatures)."}
             try:
-                result = _format_explore(explorer.compare_solutions(p, solution_ids, scenario=scenario, source=source))
+                result = _format_explore(explorer.compare_solutions(
+                    p, solution_ids, scenario=scenario, source=source, detail=detail))
             except ValueError as e:
                 return {"error": str(e)}
             return _attach_guidance_pointer(result, action)

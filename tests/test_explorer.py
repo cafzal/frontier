@@ -781,8 +781,27 @@ class TestCompareRunsCoverageElision:
         assert elided["shown"] == _MAX_COVERAGE_RETURNED and elided["total_options"] == 70
         assert elided["tail_max_delta"] == 0, "everything that moved is in the head"
         assert "NOT a coverage of zero" in elided["note"]
-        assert "held the same count in both runs" in elided["note"]
-        assert "change in selection count" in elided["ranked_by"]
+        assert "holds the same count in all compared runs" in elided["note"]
+        assert "spread in selection count" in elided["ranked_by"]
+        # The pointer must be one this action can deliver: composition resolves
+        # run/exact/scenario, never a historical run_id — so it is scoped to the current
+        # frontier rather than promising per-option rates for an archived run.
+        assert "CURRENT frontier" in elided["note"]
+
+    def test_ranking_and_prose_generalize_past_a_pair(self):
+        """`run_ids` takes 2+, so the spread is max−min over EVERY compared run. The
+        ranking already generalized; the prose must not hardcode two runs either."""
+        from engine.explorer import _elide_coverage_diff
+        names = [f"opt{i:03d}" for i in range(70)]
+        # Three runs: one option swings only between the first and the third.
+        a = {o: 5 for o in names}
+        b = {o: 5 for o in names}
+        c = {o: (20 if o == "opt069" else 5) for o in names}
+        kept, elided = _elide_coverage_diff({"a": a, "b": b, "c": c}, names)
+        assert "opt069" in kept["a"], "a swing visible only in a third run must survive"
+        assert elided["tail_max_delta"] == 0
+        assert "both runs" not in elided["note"]
+        assert "all compared runs" in elided["note"]
 
     def test_note_states_the_tail_when_the_tail_moved(self):
         """A nonzero tail must report how far an elided option could have moved."""
