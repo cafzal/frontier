@@ -1247,11 +1247,16 @@ def _parse_constraint(c: dict | Constraint) -> Constraint:
         example = ", ".join(f'{{"type": "{ctype}", "option": "{o}"}}' for o in opts[:2]) \
             or f'{{"type": "{ctype}", "option": "<name>"}}'
         send = f"Send {len(opts)} rows" if len(opts) > 1 else "Send one row"
+        # The set-shaped sibling differs by what the type constrains: membership rules
+        # generalize to group_limit, an allocation box to the global per-option cap.
+        sibling = ("For ONE cap across every option, use max_allocation."
+                   if ctype == "allocation_bound" else
+                   "For a rule over a SET of options (at most/at least N of these), use "
+                   "group_limit, which does take `options`.")
         raise _ToolDecline(
             f"{ctype} takes `option` (singular) — one constraint row per option, not an "
             f"`options` list. {send}: [{example}"
-            f"{', …' if len(opts) > 2 else ''}]. For a rule over a SET of options "
-            "(at most/at least N of these), use group_limit, which does take `options`.")
+            f"{', …' if len(opts) > 2 else ''}]. {sibling}")
     return cls(**c)
 
 

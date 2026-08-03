@@ -3178,6 +3178,19 @@ class TestSingularOptionConstraintShape:
         assert srv._SINGULAR_OPTION_TYPES == {"force_include", "force_exclude",
                                               "allocation_bound"}
 
+    def test_set_shaped_sibling_matches_what_the_type_constrains(self):
+        """group_limit is a selection-count rule, so it is the wrong sibling for an
+        allocation box — an allocation_bound miscall is pointed at max_allocation.
+        (Several allocation_bound rows on ONE option are legitimate: they intersect,
+        per the merge landed in #132 — which is exactly why the row-per-option shape
+        is the fix here, not a set-shaped rewrite.)"""
+        pid = _build_solvable_problem()
+        err = srv.model(action="update", problem_id=pid,
+                        constraints=[{"type": "allocation_bound", "options": ["B", "C"],
+                                      "min": 5, "max": 40}])["error"]
+        assert "one constraint row per option" in err
+        assert "max_allocation" in err and "group_limit" not in err
+
     def test_correct_singular_rows_still_parse(self):
         pid = _build_solvable_problem()
         out = srv.model(action="update", problem_id=pid,
