@@ -138,11 +138,21 @@ def _build_milp_data(problem: Problem):
         return table[name]
 
     mc = {"card": None, "bounds": [], "force_in": [], "force_out": [], "deps": [], "excl": [], "groups": []}
+    # Cardinality resolves through the engine's own resolver, exactly as the NSGA encoding
+    # and the pre-solve checks do — several rows apply intersected. Reading a single row
+    # here would encode a DIFFERENT feasible set into the exact backends than the heuristic
+    # pass searched, and `explore certify` compares those two frontiers: an optimality gap
+    # and a never-dominates invariant measured across two feasible sets certify nothing.
+    mc["card"] = _opt.merged_cardinality(problem.constraints)
+    if mc["card"] is not None and mc["card"][0] > mc["card"][1]:
+        lo, hi = mc["card"]
+        raise ValueError(
+            f"cardinality rows intersect to an empty range (merged min {lo} > merged max "
+            f"{hi}) — no plan can satisfy them. Send ONE cardinality row (model update), "
+            "then retry.")
     for c in (problem.constraints or []):
         t = c.type
-        if t == "cardinality":
-            mc["card"] = (int(c.min), int(c.max))
-        elif t == "objective_bound":
+        if t == "objective_bound":
             mc["bounds"].append((S[:, _ref(c.objective, "objective", c)].copy(), c.operator, float(c.value)))
         elif t == "force_include":
             mc["force_in"].append(_ref(c.option, "option", c))

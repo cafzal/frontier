@@ -529,14 +529,18 @@ def _attach_constraint_merge_note(result: dict, p: Problem) -> None:
     `constraints_merged_note` independently is exactly how one of them goes silently
     missing, which is the defect class these notes exist to prevent.
     """
-    parts = []
-    for m in optimizer.allocation_bound_merges(p.constraints)[:5]:
-        parts.append(f"'{m['option']}' ({m['rows']} allocation_bound rows) → "
-                     f"min {m['min']}%, max {m['max']}%")
+    # Empty intersections are skipped on BOTH kinds: "min 60%, max 40%" or "select 4–2",
+    # captioned as a tightest combination, describes a rule the model applies. The
+    # validation error beside this note states those cases correctly — leave it to.
+    parts = [f"'{m['option']}' ({m['rows']} allocation_bound rows) → "
+             f"min {m['min']}%, max {m['max']}%"
+             for m in optimizer.allocation_bound_merges(p.constraints)[:5]
+             if m["min"] <= m["max"]]
     for m in optimizer.singleton_constraint_merges(p.constraints):
-        applied = (f"≤{m['max']}% per option" if m["type"] == "max_allocation"
-                   else f"select {m['min']}–{m['max']}")
-        parts.append(f"{m['rows']} {m['type']} rows → {applied}")
+        if m["type"] == "max_allocation":
+            parts.append(f"{m['rows']} max_allocation rows → ≤{m['max']}% per option")
+        elif m["min"] <= m["max"]:
+            parts.append(f"{m['rows']} cardinality rows → select {m['min']}–{m['max']}")
     if not parts:
         return
     result["constraints_merged_note"] = (

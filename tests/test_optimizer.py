@@ -1316,6 +1316,67 @@ class TestSingletonConstraintMerging:
         assert not any("apply as the tightest" in i.message or "apply intersected" in i.message
                        for i in validate(p).issues)
 
+    def test_exact_encoding_reads_the_same_resolver(self):
+        """The exact backends encode `_build_milp_data`'s `mc`, so a row read there hands
+        HiGHS/cuOpt a different feasible set than the NSGA pass searched — and `explore
+        certify` measures its optimality gap and its never-dominates invariant ACROSS those
+        two frontiers. Pinned here so the exact path can't drift again."""
+        from engine.optimizer import merged_cardinality
+        from solvers._scalarization import _build_milp_data
+
+        p = _make_problem(constraints=[
+            CardinalityConstraint(min=1, max=2), CardinalityConstraint(min=1, max=5)])
+        mc = _build_milp_data(p)[-1]
+        assert mc["card"] == merged_cardinality(p.constraints) == (1, 2)
+
+        # A single row still encodes itself.
+        one = _make_problem(constraints=[CardinalityConstraint(min=2, max=3)])
+        assert _build_milp_data(one)[-1]["card"] == (2, 3)
+
+    def test_exact_encoding_declines_an_empty_cardinality_intersection(self):
+        """No plan satisfies it, so the exact path declines in words instead of encoding an
+        empty model and reporting the infeasibility as a solver outcome."""
+        from solvers._scalarization import _build_milp_data
+
+        p = _make_problem(constraints=[
+            CardinalityConstraint(min=4, max=5), CardinalityConstraint(min=1, max=2)])
+        with pytest.raises(ValueError, match="empty range"):
+            _build_milp_data(p)
+
+    def test_infeasibility_diagnosis_reads_the_applied_range(self):
+        """analyze_infeasibility explains why the SEARCH came back empty, so it has to
+        reason about the range the search applied. Rows (1,2) then (1,5) with three
+        force_includes: the applied max is 2, so the forced trio is the real conflict.
+        Reading the last row (max 5) instead described a model where the trio fits, and
+        blamed cardinality — twice, once per row, suggestion and all."""
+        p = _make_problem(constraints=[
+            CardinalityConstraint(min=1, max=2), CardinalityConstraint(min=1, max=5),
+            *(ForceIncludeConstraint(option=n) for n in "ABC")])
+        d = analyze_infeasibility(p)
+        assert not any("Relaxing cardinality" in s for s in d["suggestions"])
+        assert [c.get("type") for c in d["binding_constraints"]] == ["force_include"] * 3
+        # One cardinality entry however many rows, wherever the diagnosis names it.
+        assert sum(c.get("type") == "cardinality"
+                   for c in analyze_infeasibility(_make_problem(constraints=[
+                       CardinalityConstraint(min=4, max=4),
+                       CardinalityConstraint(min=4, max=5),
+                       ForceExcludeConstraint(option="A"),
+                       ForceExcludeConstraint(option="B"),
+                       ForceExcludeConstraint(option="C")]))["binding_constraints"]) <= 1
+
+    def test_quality_flag_reads_the_applied_cap(self):
+        """solution_quality's at-a-bound check measures allocations against the cap the
+        solver placed them on — reading the first row (60) missed them silently."""
+        from engine.explorer import solution_quality
+        from engine.models import MaxAllocationConstraint
+
+        p = self._props([MaxAllocationConstraint(max=60), MaxAllocationConstraint(max=30)],
+                        names="ABCD")
+        alloc = {"A": 30, "B": 30, "C": 30, "D": 0}   # three at the applied cap, one at 0
+        flags = solution_quality(p, [k for k, v in alloc.items() if v], alloc)["flags"]
+        assert any(f["check"] == "allocations_at_bounds" and "30%" in f["message"]
+                   for f in flags)
+
     def test_group_floor_check_reads_the_merged_cardinality_max(self):
         """The group-floor-vs-cardinality check took the FIRST row; with rows (1,5) then
         (1,2) the applied max is 2, so disjoint floors summing to 3 are a real conflict."""

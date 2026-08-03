@@ -519,14 +519,18 @@ def validate(problem: Problem) -> ValidationResult:
                     message="max_allocation constraint only applies to proportional mode; ignored in binary mode.",
                 ))
 
-    for m in singleton_constraint_merges(problem.constraints):
-        if m["type"] == "max_allocation":
-            issues.append(ValidationIssue(
-                severity="warning",
-                message=(f"{m['rows']} max_allocation rows apply as the tightest cap "
-                         f"(≤{m['max']}% per option). Send one max_allocation row to state "
-                         "that directly."),
-            ))
+    # Proportional only: naming the applied cap of a constraint the block above just
+    # declared ignored in binary mode would talk past its own advice (the same gate
+    # allocation_bound's merge notice uses).
+    if problem.approach == Approach.proportional:
+        for m in singleton_constraint_merges(problem.constraints):
+            if m["type"] == "max_allocation":
+                issues.append(ValidationIssue(
+                    severity="warning",
+                    message=(f"{m['rows']} max_allocation rows apply as the tightest cap "
+                             f"(≤{m['max']}% per option). Send one max_allocation row to "
+                             "state that directly."),
+                ))
 
     # Check force_include + force_exclude conflict
     forced_in = {c.option for c in problem.constraints if c.type == "force_include"}
@@ -2873,11 +2877,14 @@ def analyze_infeasibility(problem: Problem) -> dict:
     # Floor of 1 mirrors the EA's search_floor: this diagnoses why the SEARCH came
     # back empty, so it reasons over the plans the search actually proposes.
     card_min, card_max = 1, n_options
+    # Through the resolver, like the rest of the stack: this explains why the SEARCH came
+    # back empty, so it has to reason about the range the search actually applied.
+    card = merged_cardinality(problem.constraints)
+    if card is not None:
+        card_min, card_max = card
     obj_bounds = []
     for c in problem.constraints:
-        if c.type == "cardinality":
-            card_min, card_max = c.min, c.max
-        elif c.type == "objective_bound":
+        if c.type == "objective_bound":
             obj_bounds.append((c.objective, c.operator, c.value))
 
     # Build interaction matrix lookup for quadratic objectives
@@ -2978,12 +2985,21 @@ def analyze_infeasibility(problem: Problem) -> dict:
                     return False  # can't tell, assume not
         return False
 
-    # Build constraint labels for testing
+    # Build constraint labels for testing. Cardinality gets ONE entry however many rows the
+    # model carries — they resolve to a single applied range, and skipping "cardinality"
+    # lifts all of them at once, so a per-row entry duplicated both the binding rule and its
+    # suggestion. Several rows report the applied range; a single row reports itself (its
+    # motivated_by and all).
+    card_rows = [c for c in problem.constraints if c.type == "cardinality"]
     constraint_labels = []
+    if card_rows:
+        constraint_labels.append((
+            "cardinality",
+            card_rows[0].model_dump() if len(card_rows) == 1
+            else {"type": "cardinality", "min": card_min, "max": card_max},
+        ))
     for c in problem.constraints:
-        if c.type == "cardinality":
-            constraint_labels.append(("cardinality", c.model_dump()))
-        elif c.type == "force_include":
+        if c.type == "force_include":
             constraint_labels.append((f"force_include:{c.option}", c.model_dump()))
         elif c.type == "force_exclude":
             constraint_labels.append((f"force_exclude:{c.option}", c.model_dump()))
@@ -3034,7 +3050,13 @@ def analyze_infeasibility(problem: Problem) -> dict:
                 suggestions.append(f"Relaxing group limit may help.")
 
     if not binding:
-        binding = [c.model_dump() for c in problem.constraints]
+        # Nothing isolated the failure, so hand back the whole rule set — as the model the
+        # search ran: the cardinality rows collapse to the one applied range, the way the
+        # per-rule entries above do.
+        binding = [c.model_dump() for c in problem.constraints if c.type != "cardinality"]
+        if card_rows:
+            binding.insert(0, card_rows[0].model_dump() if len(card_rows) == 1
+                           else {"type": "cardinality", "min": card_min, "max": card_max})
         suggestions = ["Constraints may be jointly infeasible. Try relaxing multiple constraints."]
 
     result = {"binding_constraints": binding, "suggestions": suggestions}

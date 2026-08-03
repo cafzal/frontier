@@ -1909,8 +1909,10 @@ def solution_quality(problem: Problem, selected_options: list[str], allocations:
                            "if you expected a spread, add a max_allocation cap or revisit the "
                            "scores/interactions that let one option dominate",
             })
-        cap = next((c.max for c in problem.constraints or []
-                    if getattr(c, "type", "") == "max_allocation"), 100)
+        # The APPLIED cap (the tightest row), so the at-a-bound test measures allocations
+        # against the same edge the solver placed them on.
+        from .optimizer import merged_max_allocation
+        cap = merged_max_allocation(problem.constraints) or 100
         if n >= 3:
             at_bounds = sum(1 for o in problem.options if alloc.get(o.name, 0) in (0, cap))
             if at_bounds >= 0.9 * n:
