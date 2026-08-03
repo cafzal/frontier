@@ -972,6 +972,72 @@ class TestExtremeSeeds:
         # caps: A 5 + C/D/E 30 each = 95 < 100
         assert any("caps sum to 95%" in i.message for i in starved.issues)
 
+
+class TestDuplicateAllocationBounds:
+    """Two allocation_bound rows on ONE option intersect — a contractual floor row sent
+    beside a separate cap row used to be silently overwritten by whichever came last."""
+
+    def _floor_and_cap(self):
+        from engine.models import AllocationBoundConstraint
+        return _make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=20, max=100),   # contractual floor row
+            AllocationBoundConstraint(option="A", min=0, max=40)])    # separate cap row
+
+    def test_parse_intersects_instead_of_overwriting(self):
+        from engine.optimizer import _parse_constraints
+
+        cp = _parse_constraints(self._floor_and_cap())
+        a_idx = 0  # options are A..E
+        assert cp["allocation_bounds"][a_idx] == (20, 40)
+
+    def test_merged_helper_and_echo(self):
+        from engine.optimizer import allocation_bound_merges, merged_allocation_bounds
+
+        cons = self._floor_and_cap().constraints
+        assert merged_allocation_bounds(cons) == {"A": (20, 40)}
+        assert allocation_bound_merges(cons) == [
+            {"option": "A", "rows": 2, "min": 20, "max": 40}]
+
+    def test_solved_plans_hold_both_rows(self):
+        """The observed loss: the floor vanished and only the allocations revealed it."""
+        run = optimize(self._floor_and_cap(), mode="fast", seed=7)
+        assert len(run.solutions) > 0
+        for s in run.solutions:
+            assert 20 <= s.allocations.get("A", 0) <= 40
+
+    def test_merge_is_echoed_as_a_validation_warning(self):
+        v = validate(self._floor_and_cap())
+        assert any("2 allocation_bound rows" in i.message and "tightest box" in i.message
+                   and i.severity == "warning" for i in v.issues)
+
+    def test_empty_intersection_is_a_validation_error(self):
+        from engine.models import AllocationBoundConstraint
+
+        v = validate(_make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=60, max=100),
+            AllocationBoundConstraint(option="A", min=0, max=40)]))
+        assert any("empty box" in i.message and "60% > merged max 40%" in i.message
+                   and i.severity == "error" for i in v.issues)
+
+    def test_arithmetic_checks_run_on_the_merged_box(self):
+        """Floors are counted once per option, and the cap sum reads the merged cap —
+        summing the raw rows double-counted the floor and took whichever cap came last."""
+        from engine.models import AllocationBoundConstraint
+
+        # A: two rows, floor 60 → floors sum to 60, not 120. Feasible; no floor error.
+        ok = validate(_make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=60, max=100),
+            AllocationBoundConstraint(option="A", min=0, max=80)]))
+        assert not any("floors sum to" in i.message for i in ok.issues)
+
+        # Caps: A merges to 10 (the tighter row), B/C/D/E uncapped → 10 + 400 ≥ 100.
+        # Reading only the last row (max=90) would hide nothing here, so pin the merge
+        # itself: A's applied cap is 10.
+        from engine.optimizer import merged_allocation_bounds
+        cons = [AllocationBoundConstraint(option="A", min=0, max=10),
+                AllocationBoundConstraint(option="A", min=0, max=90)]
+        assert merged_allocation_bounds(cons)["A"] == (0, 10)
+
     def test_group_floor_respected_by_nsga_and_prefilled_in_seeds(self):
         """E1: a group_limit floor pulls its members into every plan (NSGA) and into the
         greedy corner seeds (pre-fill), even when the floored group scores worst."""

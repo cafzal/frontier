@@ -15,7 +15,7 @@ Pass to the `constraints` param as a list of dicts:
 {"type": "dependency", "if_option": "<name>", "then_option": "<name>"}
 {"type": "group_limit", "options": ["<name>", ...], "max": <int>}  (optional "min": <int> floor — at least that many selected/active from the group; exact-certifiable on binary, NSGA-only on proportional)
 {"type": "max_allocation", "max": <int>}  (proportional only: one global cap on every option's allocation)
-{"type": "allocation_bound", "option": "<name>", "min": <int>, "max": <int>}  (proportional only: per-option floor/cap in percent — contractual minimums, service floors, per-channel caps; effective cap = min(global, per-option); a floor > 0 force-activates the option and carries a dual on the exact LP/QP path)
+{"type": "allocation_bound", "option": "<name>", "min": <int>, "max": <int>}  (proportional only: per-option floor/cap in percent — contractual minimums, service floors, per-channel caps; effective cap = min(global, per-option); a floor > 0 force-activates the option and carries a dual on the exact LP/QP path; several rows on ONE option apply intersected — the tightest box, max of the mins and min of the maxes — so a floor row sent beside a separate cap row keeps both, and an empty intersection is a validation error)
 ```
 
 Every type also accepts an optional `"motivated_by": "<why this rule exists>"` — the user's own words, carried and echoed beside the constraint's cost in `binding_analysis` and in the stakeholder writeup. Fill it whenever the reason isn't recoverable from the rule itself, which is most of the time (see *Post-Solve Constraint Discovery* in the core).

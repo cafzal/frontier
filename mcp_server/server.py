@@ -298,7 +298,11 @@ def model(
         description="On update: FULL REPLACEMENT — always send the COMPLETE constraint "
                     "set; a partial list silently drops every constraint it omits. Every "
                     "type accepts an optional \"motivated_by\" string recording why the rule "
-                    "exists; it is echoed beside the rule's cost in binding_analysis.")] = None,
+                    "exists; it is echoed beside the rule's cost in binding_analysis. "
+                    "Several \"allocation_bound\" rows on ONE option apply intersected — the "
+                    "tightest box (max of the mins, min of the maxes), echoed as "
+                    "constraints_merged_note; an empty intersection is a validation "
+                    "error.")] = None,
     approach: str | None = None,
     reference_points: Annotated[list[dict] | None, Field(
         description="On update: FULL REPLACEMENT — send the complete list.")] = None,
@@ -769,6 +773,19 @@ def _model_update(params: dict) -> dict:
                if "constraints" in params else
                "rules referencing removed options/objectives were dropped")
             + f". Dropped: {listed}.")
+
+    # Several allocation_bound rows on one option apply intersected, so the applied box is
+    # not any single row the caller sent — name it here rather than leaving the difference
+    # for the allocations to reveal.
+    merges = optimizer.allocation_bound_merges(p.constraints)
+    if merges:
+        listed = "; ".join(
+            f"'{m['option']}' ({m['rows']} rows) → min {m['min']}%, max {m['max']}%"
+            for m in merges[:5]) + (" …" if len(merges) > 5 else "")
+        result["constraints_merged_note"] = (
+            "Options carrying several allocation_bound rows apply as the tightest box "
+            f"(max of the mins, min of the maxes): {listed}. Send one merged row per option "
+            "to state that directly.")
 
     if matrix_cells_echo:
         result["interaction_matrix_cells"] = matrix_cells_echo
@@ -1976,7 +1993,10 @@ def explore(
                    Optional: solution_id, content_signature, detail, scenario, source.
       feedback   — Record user feedback. Feedback links to content_signature (stable across runs)
                    and attaches to curated solutions.
-                   Requires: solution_id OR content_signature.
+                   Requires: solution_id OR content_signature (feedback on a solution —
+                   a rating-less notes annotation is fine and travels with the pin), OR
+                   rating (1-5) alone for process-level feedback. A call carrying none of
+                   the three has nothing to attach and errors.
                    Optional: rating (1-5), notes, stage.
       compare_runs — Diff two runs (criteria, frontier ranges, option coverage).
                    Default: current run vs the previous one ("what changed since my
@@ -2360,9 +2380,20 @@ def _explore_feedback(
     Feedback is linked to a content_signature (stable across runs). If only
     solution_id is provided, the signature is computed from the current run.
     Feedback is also appended to any curated solution with the same signature.
+
+    Two shapes are serveable: feedback ON a solution (solution_id or content_signature,
+    with or without a rating — notes-only is a legitimate annotation that travels with
+    the pin), and process-level feedback (rating, no solution — "how is this going").
+    A call carrying neither a solution nor a rating has nothing to attach and nothing to
+    learn from: it would land a null-signature, null-rating row that inflates
+    feedback_count and that composition's rule induction skips, so it is refused here.
     """
     if rating is not None and not (1 <= rating <= 5):
         return {"error": "rating must be 1-5."}
+    if solution_id is None and content_signature is None and rating is None:
+        return {"error": "feedback needs solution_id or content_signature (feedback on a "
+                         "solution — notes optional), or rating (1-5) for process-level "
+                         "feedback. A call with none of the three records nothing usable."}
 
     # Resolve content_signature from solution_id if not provided directly
     sig = content_signature

@@ -174,7 +174,12 @@ class MaxAllocationConstraint(_Motivated):
 class AllocationBoundConstraint(_Motivated):
     """Per-option allocation floor/cap in percent (proportional only) — contractual minimums,
     service floors, per-channel caps. The effective cap is min(global max_allocation, max);
-    a floor > 0 force-activates the option."""
+    a floor > 0 force-activates the option.
+
+    Several rows on ONE option apply intersected — the tightest box (max of the mins, min
+    of the maxes), the way several objective_bound rows on one objective all bind. So a
+    contractual floor row sent beside a separate cap row yields the box both asked for;
+    `validate` echoes the merge and errors when the intersection is empty."""
     type: Literal["allocation_bound"] = "allocation_bound"
     option: str
     min: int = 0

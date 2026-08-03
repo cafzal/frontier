@@ -519,15 +519,23 @@ def _defining_options(members: list, all_solutions: list, proportional: bool, to
     return [o for o, _ in scored[:top]]
 
 
+_THIN_EVIDENCE_FLOOR = 3   # rated solutions per side below which a rule is a hypothesis
+
+
 def _feedback_rules(problem: Problem, run_solutions: list, proportional: bool) -> dict:
     """Induce rules separating liked (rating ≥4) from disliked (≤2) solutions.
 
     No fixed count gate — a rule surfaces only when it MEASURABLY separates the two
     classes (separation × coverage), so weak/no-signal cases return cleanly. A clean
     separator is a candidate latent constraint → route to problem_framing.
+
+    Every block carries `n_liked` / `n_disliked`, the rated solutions the rules were
+    induced from: separation 1.0 and coverage 1.0 off ONE liked solution is arithmetic,
+    not evidence, and the scores alone read identically to a rule learned from twenty.
+    Below `_THIN_EVIDENCE_FLOOR` on either side the block says so in its note.
     """
     if not problem.feedback:
-        return {"available": False,
+        return {"available": False, "n_liked": 0, "n_disliked": 0,
                 "note": "No feedback yet — rate solutions (explore feedback) to learn liked/disliked patterns."}
     sig_to_sol = {s.content_signature: s for s in run_solutions}
     id_to_sol = {s.solution_id: s for s in run_solutions}
@@ -542,18 +550,29 @@ def _feedback_rules(problem: Problem, run_solutions: list, proportional: bool) -
             rated[sig] = fb.rating  # appended in order → latest wins
     liked = [sig for sig, r in rated.items() if r >= 4 and sig in sig_to_sol]
     disliked = [sig for sig, r in rated.items() if r <= 2 and sig in sig_to_sol]
+    evidence = {"n_liked": len(liked), "n_disliked": len(disliked)}
     if not liked or not disliked:
-        return {"available": False,
+        return {"available": False, **evidence,
                 "note": (f"Need rated solutions on both sides in the current frontier; "
                          f"have {len(liked)} liked, {len(disliked)} disliked.")}
     pos = [_present_options(sig_to_sol[s], proportional) for s in liked]
     neg = [_present_options(sig_to_sol[s], proportional) for s in disliked]
     rules = _greedy_separating_rules([o.name for o in problem.options], pos, neg)
     if not rules:
-        return {"available": True, "rules": [],
+        return {"available": True, "rules": [], **evidence,
                 "note": "Rated solutions don't separate cleanly on option composition — no reliable rule."}
-    return {"available": True, "rules": rules,
-            "note": "These are candidate latent constraints — confirm with the user, then route to problem_framing."}
+    note = ("These are candidate latent constraints — confirm with the user, then route to "
+            "problem_framing.")
+    thin = [side for side, n in (("liked", len(liked)), ("disliked", len(disliked)))
+            if n < _THIN_EVIDENCE_FLOOR]
+    if thin:
+        note = (f"Thin evidence: {len(liked)} liked, {len(disliked)} disliked "
+                f"({' and '.join(thin)} under {_THIN_EVIDENCE_FLOOR}). A rule induced from "
+                "so few rated solutions separates them perfectly by arithmetic, so its "
+                "separation and coverage carry no weight yet — a hypothesis to confirm "
+                "(rate more solutions, or check it against design_principles region_bound), "
+                "not a constraint to apply. " + note)
+    return {"available": True, "rules": rules, **evidence, "note": note}
 
 
 def _greedy_separating_rules(opt_names: list[str], pos: list[set], neg: list[set], max_rules: int = 3) -> list[dict]:
@@ -650,9 +669,14 @@ def _render_composition_viz(result: dict) -> str:
     fr = result.get("feedback_rules", {})
     if fr.get("rules"):
         lines.append("")
-        lines.append("─── Learned from your feedback ───")
+        # The evidence size sits in the header: sep/cov alone read the same off 1 rated
+        # solution as off 20, and the first number is what calibrates the rest.
+        lines.append(f"─── Learned from your feedback ({fr.get('n_liked', 0)} liked / "
+                     f"{fr.get('n_disliked', 0)} disliked) ───")
         for r in fr["rules"]:
             lines.append(f"  • {r['condition']} → {r['separates']} (sep {r['separation']}, cov {r['coverage']})")
+        if (min(fr.get("n_liked", 0), fr.get("n_disliked", 0)) < _THIN_EVIDENCE_FLOOR):
+            lines.append("  (thin evidence — hypotheses to confirm, not constraints to apply)")
     return "\n".join(lines) if lines else "No composition patterns to show on this set."
 
 
@@ -3638,8 +3662,11 @@ def sensitivity_analysis(problem: Problem, solution_id: int | None = None,
         ref = _find_balanced(exact, problem.objectives)
 
     optimized = _optimized_objective(problem, ref.sensitivity)
-    floors = {c.option: int(c.min) for c in (problem.constraints or [])
-              if getattr(c, "type", "") == "allocation_bound" and int(getattr(c, "min", 0)) > 0}
+    from .optimizer import merged_allocation_bounds
+    # Merged per option: an option carrying a floor row and a separate cap row is held at
+    # the floor the intersection actually applies, not at whichever row came last.
+    floors = {opt: lo for opt, (lo, _hi)
+              in merged_allocation_bounds(problem.constraints).items() if lo > 0}
     where, near, capped, floored = _format_solution_sensitivity(ref, optimized, floors)
     scope = ("Exact LP/QP duals (continuous path). Shadow price = the price a binding "
              "constraint charges the optimized objective per unit of tightening, in that "
