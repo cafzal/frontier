@@ -1,4 +1,4 @@
-"""Upstream-kit sufficiency: each README's Step-1 ask + data.csv (+ matrix CSVs) must reconstruct the
+"""Upstream-kit sufficiency: each README's Step-1 ask + its raw CSVs must reconstruct the
 canonical bundle.
 
 Every example ships an upstream kit (a user-voiced ask in the README plus raw CSVs) so a session can
@@ -52,12 +52,15 @@ def _canon_scores(scores):
                               "value": float(r["value"])}, sort_keys=True) for r in scores)
 
 
-def _assert_model(example, built_constraints, built_scores, objectives, option_key):
+def _assert_model(example, built_constraints, built_scores, objectives, option_key, rows=None):
+    """``rows`` overrides the option-order source — a kit whose raw inputs arrive as more than
+    one CSV (vendor_consolidation ships one book per subsidiary) passes the concatenation."""
     p, s = _bundle(example)
     assert [(o["name"], o["direction"], o["aggregation"]) for o in p["objectives"]] == objectives
     assert _canon(p["constraints"]) == _canon(built_constraints)
     assert _canon_scores(s["scores"]) == _canon_scores(built_scores)
-    assert [o["name"] for o in s["options"]] == [r[option_key] for r in _rows(example)]
+    assert [o["name"] for o in s["options"]] == [r[option_key] for r in
+                                                 (_rows(example) if rows is None else rows)]
     return p, s
 
 
@@ -392,6 +395,73 @@ def test_research_cohort_kit():
                    ("CostPerParticipant", "minimize", "sum")], "volunteer")
 
 
+def _by_option(scores):
+    vals = defaultdict(dict)
+    for s in scores:
+        vals[s["option"]][s["objective"]] = s["value"]
+    return vals
+
+
+def _same_tool_pairs(scores, names, tol=0.02):
+    """The vendor_consolidation ask's merge rule: two contracts within `tol` of every
+    objective's spread across the whole book are the same tool entered twice."""
+    vals = _by_option(scores)
+    objs = sorted({s["objective"] for s in scores})
+    spread = {o: max(vals[n][o] for n in names) - min(vals[n][o] for n in names) for o in objs}
+    return [(a, b) for i, a in enumerate(names) for b in names[i + 1:]
+            if all(abs(vals[a][o] - vals[b][o]) <= tol * spread[o] for o in objs)]
+
+
+def _beaten_on_all_three(scores, names, maximize):
+    """The ask's drop rule: a contract another contract beats on every objective."""
+    vals = _by_option(scores)
+    objs = sorted({s["objective"] for s in scores})
+
+    def better_eq(x, y, o):
+        return vals[x][o] >= vals[y][o] if o in maximize else vals[x][o] <= vals[y][o]
+
+    return [a for a in names
+            if any(a != b and all(better_eq(b, a, o) for o in objs)
+                   and any(vals[b][o] != vals[a][o] for o in objs) for b in names)]
+
+
+def test_vendor_consolidation_kit():
+    ng = list(_rows("vendor_consolidation", "vendors_northgate.csv"))
+    sw = list(_rows("vendor_consolidation", "vendors_selwyn.csv"))
+    rows = ng + sw
+    names = [r["vendor"] for r in rows]
+
+    # The ask's scale mapping: Northgate rated 1-5, Selwyn rated 0-100, both onto 0-10.
+    scores = [{"option": r["vendor"], "objective": "AnnualCost",
+               "value": float(r["annual_cost_kusd"])} for r in rows]
+    scores += [{"option": r["vendor"], "objective": "Capability",
+                "value": round((float(r["capability_1_5"]) - 1) * 2.5, 2)} for r in ng]
+    scores += [{"option": r["vendor"], "objective": "Capability",
+                "value": round(float(r["capability_0_100"]) / 10, 2)} for r in sw]
+    # ... and its 6.4 default for the two contracts Selwyn shipped unrated.
+    scores += [{"option": r["vendor"], "objective": "TransitionRisk",
+                "value": float(r["transition_risk_0_10"] or 6.4)} for r in rows]
+
+    built = [{"type": "cardinality", "min": 14, "max": 18}]
+    built += [{"type": "group_limit", "options": opts, "min": 1, "max": 3}
+              for opts in _groups(rows, "vendor", "category").values()]
+    built += [{"type": "force_include", "option": r["vendor"]}
+              for r in rows if int(r["lock_years"]) >= 4]
+    built += _exclusions(rows, "vendor", "conflicts_with")
+    built += [{"type": "exclusion_pair", "option_a": a, "option_b": b}
+              for a, b in _same_tool_pairs(scores, names)]
+    built += [{"type": "force_exclude", "option": o}
+              for o in _beaten_on_all_three(scores, names, maximize={"Capability"})]
+
+    p, _ = _assert_model("vendor_consolidation", built, scores,
+                         [("AnnualCost", "minimize", "sum"), ("Capability", "maximize", "sum"),
+                          ("TransitionRisk", "minimize", "sum")], "vendor", rows=rows)
+    reprice = [{"option": r["vendor"], "objective": "AnnualCost",
+                "value": round(float(r["annual_cost_kusd"]) * 1.12, 2)} for r in sw]
+    assert _canon_scores(_scenario(p, "novation_repricing")["score_overrides"]) == \
+           _canon_scores(reprice)
+
+
 def test_interconnection_kit():
     rows = _rows("interconnection_approvals")
     base = [{"type": "objective_bound", "objective": "Cost", "operator": "max", "value": 400.0}]
@@ -474,6 +544,7 @@ KIT_COVERED = [
     "scarce_supply_rationing",
     "shift_coverage_staffing",
     "supplier_selection",
+    "vendor_consolidation",
 ]
 
 # The load-bearing numbers each kit test hardcodes, as they read in the README's
@@ -507,6 +578,9 @@ ASK_LITERALS = {
     "shift_coverage_staffing": ["$210k", "between 60 and 80", "12 ICU", "14 ED",
                                 "12 MedSurg", "8 Oncology", "8 LD", "more than 3"],
     "community_program_funding": ["12%", "2.6", "5%", "6%", "3% each", "25% higher"],
+    "vendor_consolidation": ["1-5", "0-100", "* 2.5", "/ 10", "6.4", "within 2%",
+                             "between 14 and 18", "at least 1", "more than 3",
+                             "four or more years", "12% higher"],
 }
 
 

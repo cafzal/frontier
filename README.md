@@ -52,7 +52,7 @@ Spreadsheets hit a complexity wall once options and constraints in a decision mu
 
 **When Frontier helps:** any decision that picks a subset from many options or splits an allocation across them, under conflicting objectives and hard constraints, with data to score the options – the territory just past what a spreadsheet answers. Pairwise interactions between options, where one's value depends on another, make the problem genuinely nonlinear: beyond what a ranking or weighted sum can capture.
 
-**Target problem types.** The [examples table](examples/) maps all fourteen:
+**Target problem types.** The [examples table](examples/) maps all fifteen:
 
 | Shape | Structure | Examples |
 |---|---|---|

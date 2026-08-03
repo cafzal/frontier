@@ -1,0 +1,5018 @@
+{
+  "run": {
+    "run_id": "9161ed0f-5139-4fbd-b7d8-fddf7e12551b",
+    "created_at": "2026-08-03T15:13:35.451487Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Selkirk Runners",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2516.0,
+          "Capability": 41.25,
+          "TransitionRisk": 90.2
+        },
+        "allocations": null,
+        "content_signature": "47dc16e00699",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2787.0,
+          "Capability": 48.5,
+          "TransitionRisk": 96.3
+        },
+        "allocations": null,
+        "content_signature": "10b510cf8dcf",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2822.8,
+          "Capability": 42.7,
+          "TransitionRisk": 83.7
+        },
+        "allocations": null,
+        "content_signature": "642c083c3ef0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts"
+        ],
+        "objective_values": {
+          "AnnualCost": 2904.2,
+          "Capability": 54.45,
+          "TransitionRisk": 86.7
+        },
+        "allocations": null,
+        "content_signature": "c83b3823efbe",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Selkirk Runners",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 2991.5,
+          "Capability": 48.75,
+          "TransitionRisk": 82.4
+        },
+        "allocations": null,
+        "content_signature": "34828fc7ab0e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Selkirk Runners",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2994.8,
+          "Capability": 55.85,
+          "TransitionRisk": 94.6
+        },
+        "allocations": null,
+        "content_signature": "2f64fefe3f56",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Ostrander Security",
+          "Estvale Customer",
+          "Oakhurst Metrics",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3108.0,
+          "Capability": 39.9,
+          "TransitionRisk": 76.1
+        },
+        "allocations": null,
+        "content_signature": "b5e5d954a283",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Quillon Security Labs",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3150.8,
+          "Capability": 59.4,
+          "TransitionRisk": 83.1
+        },
+        "allocations": null,
+        "content_signature": "4aff4a060e84",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Oakhurst Metrics",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3173.7,
+          "Capability": 55.4,
+          "TransitionRisk": 80.9
+        },
+        "allocations": null,
+        "content_signature": "67d8e1117a6c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3291.9,
+          "Capability": 62.85,
+          "TransitionRisk": 99.9
+        },
+        "allocations": null,
+        "content_signature": "e9aac8cd4294",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Brightlow Sales",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Ostrander Security",
+          "Estvale Customer",
+          "Oakhurst Metrics",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 3320.1,
+          "Capability": 47.15,
+          "TransitionRisk": 74.3
+        },
+        "allocations": null,
+        "content_signature": "20ebcf76f8de",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3419.0,
+          "Capability": 65.1,
+          "TransitionRisk": 107.3
+        },
+        "allocations": null,
+        "content_signature": "647bee434b83",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Ostrander Security",
+          "Estvale Customer",
+          "Oakhurst Metrics",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3493.7,
+          "Capability": 46.15,
+          "TransitionRisk": 69.9
+        },
+        "allocations": null,
+        "content_signature": "d261040f233d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "NW Data",
+          "Ostrander Security",
+          "Estvale Customer",
+          "Oakhurst Metrics",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3538.8,
+          "Capability": 39.05,
+          "TransitionRisk": 65.9
+        },
+        "allocations": null,
+        "content_signature": "dff8d0c3df0a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3578.1,
+          "Capability": 67.6,
+          "TransitionRisk": 114.0
+        },
+        "allocations": null,
+        "content_signature": "3cd209c5a9ca",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 3619.2,
+          "Capability": 65.15,
+          "TransitionRisk": 102.7
+        },
+        "allocations": null,
+        "content_signature": "9fc7c6e22e18",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Quillon Security Labs",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3699.7,
+          "Capability": 66.7,
+          "TransitionRisk": 92.2
+        },
+        "allocations": null,
+        "content_signature": "fe699f32fb6c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Hollowmere Service",
+          "Aldercrest",
+          "NW Data",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3805.3,
+          "Capability": 47.2,
+          "TransitionRisk": 63.2
+        },
+        "allocations": null,
+        "content_signature": "f8d949cdd223",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 3832.5,
+          "Capability": 51.9,
+          "TransitionRisk": 64.4
+        },
+        "allocations": null,
+        "content_signature": "2ed43e1fa9aa",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3987.0,
+          "Capability": 68.3,
+          "TransitionRisk": 105.0
+        },
+        "allocations": null,
+        "content_signature": "a44ff03cdbd8",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Quillon Security Labs",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4041.5,
+          "Capability": 73.75,
+          "TransitionRisk": 106.0
+        },
+        "allocations": null,
+        "content_signature": "a1ebba68564f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4089.7,
+          "Capability": 56.85,
+          "TransitionRisk": 60.6
+        },
+        "allocations": null,
+        "content_signature": "8a3d2242d003",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Vantorra Signals",
+          "Northwind Data Systems",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Ravensmoor ITSM",
+          "Torrey Metrics",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4116.6,
+          "Capability": 43.25,
+          "TransitionRisk": 54.6
+        },
+        "allocations": null,
+        "content_signature": "a2ef8161237f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Aldercrest",
+          "NW Data",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 4154.4,
+          "Capability": 50.15,
+          "TransitionRisk": 56.4
+        },
+        "allocations": null,
+        "content_signature": "e0085d584aa5",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 25,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Quillon Security Labs",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4203.5,
+          "Capability": 70.9,
+          "TransitionRisk": 101.2
+        },
+        "allocations": null,
+        "content_signature": "f46096654a9b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 26,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Juniper Deals",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4240.4,
+          "Capability": 61.15,
+          "TransitionRisk": 68.2
+        },
+        "allocations": null,
+        "content_signature": "f0d73fff763b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 27,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Cormorant Pipeline",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4273.1,
+          "Capability": 72.05,
+          "TransitionRisk": 90.7
+        },
+        "allocations": null,
+        "content_signature": "e590d4752153",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 28,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 4343.7,
+          "Capability": 65.2,
+          "TransitionRisk": 76.9
+        },
+        "allocations": null,
+        "content_signature": "a524229e8612",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 29,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Aldercrest",
+          "NW Data",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4466.1,
+          "Capability": 51.45,
+          "TransitionRisk": 49.9
+        },
+        "allocations": null,
+        "content_signature": "5cdf2ed08c86",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Juniper Deals",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4526.6,
+          "Capability": 60.65,
+          "TransitionRisk": 61.6
+        },
+        "allocations": null,
+        "content_signature": "52fcd607c7a6",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 31,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Cormorant Pipeline",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4568.5,
+          "Capability": 73.3,
+          "TransitionRisk": 84.4
+        },
+        "allocations": null,
+        "content_signature": "e698bb0dd64c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 32,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "NW Data",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4623.9,
+          "Capability": 57.3,
+          "TransitionRisk": 58.0
+        },
+        "allocations": null,
+        "content_signature": "6ff264d0d880",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 33,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4672.0,
+          "Capability": 64.6,
+          "TransitionRisk": 69.1
+        },
+        "allocations": null,
+        "content_signature": "9d5ec251338c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 34,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "Sablefish Warehouse",
+          "Selkirk Runners",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4704.0,
+          "Capability": 70.7,
+          "TransitionRisk": 80.3
+        },
+        "allocations": null,
+        "content_signature": "0d81fb90222a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 35,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Cormorant Pipeline",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4807.7,
+          "Capability": 76.55,
+          "TransitionRisk": 89.6
+        },
+        "allocations": null,
+        "content_signature": "3402d3ec0c63",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 36,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4893.4,
+          "Capability": 68.2,
+          "TransitionRisk": 75.0
+        },
+        "allocations": null,
+        "content_signature": "622e6cf56611",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 37,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 5010.0,
+          "Capability": 74.55,
+          "TransitionRisk": 84.2
+        },
+        "allocations": null,
+        "content_signature": "c0b17fd462d6",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 38,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Cormorant Pipeline",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 5164.8,
+          "Capability": 71.95,
+          "TransitionRisk": 79.7
+        },
+        "allocations": null,
+        "content_signature": "bc7c048c511a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 39,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 5196.1,
+          "Capability": 66.3,
+          "TransitionRisk": 67.3
+        },
+        "allocations": null,
+        "content_signature": "a5d15b9ac26b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 40,
+        "selected_options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Juniper Deals",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 5474.2,
+          "Capability": 69.9,
+          "TransitionRisk": 71.8
+        },
+        "allocations": null,
+        "content_signature": "4169714b95ce",
+        "sensitivity": null
+      }
+    ],
+    "total_pareto_found": 90,
+    "quality": {
+      "hypervolume_normalized": 0.5666,
+      "spacing_cv": 0.6187
+    },
+    "constraints_snapshot": [
+      {
+        "motivated_by": "",
+        "type": "cardinality",
+        "min": 14,
+        "max": 18
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Beacon Telemetry",
+          "Aldercrest Inc",
+          "Vantorra Signals",
+          "Aldercrest",
+          "Perinox Observability",
+          "Torrey Metrics"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ambervale Data",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Corvid Tables"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Umbra Deploy",
+          "Selkirk Runners",
+          "Halloway Build Cloud"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Quillon Security Labs",
+          "Harrowgate Shield",
+          "Ferrolane Defense",
+          "Quillon Labs",
+          "Ostrander Security",
+          "Marlowe Endpoint"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Lumen Rooms",
+          "Petrichor Notes",
+          "Vellum Boards"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Fairholt CRM",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Juniper Deals"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Thornbury Analytics",
+          "Greyloch Insights",
+          "Solvarra BI",
+          "Peregrine Charts",
+          "Oakhurst Metrics",
+          "Sillith Reports"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Ravensmoor ITSM",
+          "Copperfield Tickets",
+          "Alder Grove Service",
+          "Wrenfield Ops"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Ridgeway Pipelines"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Hollowmere Service"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Estvale Customer"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Harrowgate Shield",
+        "option_b": "Marlowe Endpoint"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Aldercrest Inc",
+        "option_b": "Aldercrest"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Northwind Data Systems",
+        "option_b": "NW Data"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Quillon Security Labs",
+        "option_b": "Quillon Labs"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_exclude",
+        "option": "Thornbury Analytics"
+      }
+    ],
+    "seed_used": 42,
+    "solver": "nsga-ii",
+    "exact": false,
+    "time_limit": null,
+    "time_limited": false,
+    "solve_fingerprint": null,
+    "problem_snapshot": {
+      "n_options": 48,
+      "n_objectives": 3,
+      "n_scores": 144,
+      "approach": "binary",
+      "aggregation_mix": {
+        "sum": 3
+      },
+      "constraint_type_counts": {
+        "cardinality": 1,
+        "group_limit": 8,
+        "force_include": 3,
+        "exclusion_pair": 4,
+        "force_exclude": 1
+      },
+      "interaction_matrix": false,
+      "scenarios": 1,
+      "exact_fits": true,
+      "exact_fits_reason": ""
+    }
+  },
+  "exact_run": {
+    "run_id": "7b75b387-6d54-45f8-ac94-920ae65353d1",
+    "created_at": "2026-08-03T15:14:03.102468Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Brightlow Sales",
+          "Hollowmere Service",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2401.7,
+          "Capability": 40.25,
+          "TransitionRisk": 92.4
+        },
+        "allocations": null,
+        "content_signature": "e5170c44b595",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Brightlow Sales",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2623.3,
+          "Capability": 50.5,
+          "TransitionRisk": 91.5
+        },
+        "allocations": null,
+        "content_signature": "351fb84d7e5d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ridgeway Pipelines",
+          "Quillon Security Labs",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Petrichor Notes",
+          "Estvale Customer",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 2676.2,
+          "Capability": 44.75,
+          "TransitionRisk": 87.8
+        },
+        "allocations": null,
+        "content_signature": "d29f46ff5867",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Sablefish Warehouse",
+          "Halloway Build Cloud",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 2952.3,
+          "Capability": 42.4,
+          "TransitionRisk": 80.5
+        },
+        "allocations": null,
+        "content_signature": "02be9b08a801",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Ambervale Data",
+          "Ridgeway Pipelines",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Fairholt CRM",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Halloway Build Cloud",
+          "Ostrander Security",
+          "Petrichor Notes",
+          "Estvale Customer",
+          "Sillith Reports",
+          "Alder Grove Service"
+        ],
+        "objective_values": {
+          "AnnualCost": 2999.4,
+          "Capability": 32.8,
+          "TransitionRisk": 75.7
+        },
+        "allocations": null,
+        "content_signature": "75e803157c26",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Aldercrest Inc",
+          "Northwind Data Systems",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Tallow Chat",
+          "Fairholt CRM",
+          "Greyloch Insights",
+          "Hollowmere Service",
+          "Halloway Build Cloud",
+          "Petrichor Notes",
+          "Estvale Customer",
+          "Alder Grove Service",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 3213.2,
+          "Capability": 35.65,
+          "TransitionRisk": 71.9
+        },
+        "allocations": null,
+        "content_signature": "0b149f83d8d6",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Quillon Security Labs",
+          "Tallow Chat",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Perinox Observability",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Halloway Build Cloud",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 3451.1,
+          "Capability": 56.2,
+          "TransitionRisk": 74.7
+        },
+        "allocations": null,
+        "content_signature": "b64f8e29612f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Aldercrest Inc",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Fairholt CRM",
+          "Hollowmere Service",
+          "Perinox Observability",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Halloway Build Cloud",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts"
+        ],
+        "objective_values": {
+          "AnnualCost": 3542.6,
+          "Capability": 47.35,
+          "TransitionRisk": 69.0
+        },
+        "allocations": null,
+        "content_signature": "2fbf592a790a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Fairholt CRM",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 3642.9,
+          "Capability": 71.15,
+          "TransitionRisk": 113.9
+        },
+        "allocations": null,
+        "content_signature": "fd3f6bb7299c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Halloway Build Cloud",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics",
+          "Sillith Reports"
+        ],
+        "objective_values": {
+          "AnnualCost": 3793.8,
+          "Capability": 73.25,
+          "TransitionRisk": 111.4
+        },
+        "allocations": null,
+        "content_signature": "2e090f9eb888",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Northwind Data Systems",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Fairholt CRM",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Copperfield Tickets",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 3989.0,
+          "Capability": 48.15,
+          "TransitionRisk": 59.2
+        },
+        "allocations": null,
+        "content_signature": "4027a9d5cd9f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Quillon Security Labs",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Hollowmere Service",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts"
+        ],
+        "objective_values": {
+          "AnnualCost": 4008.4,
+          "Capability": 67.3,
+          "TransitionRisk": 76.0
+        },
+        "allocations": null,
+        "content_signature": "9d7d80119daf",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4023.0,
+          "Capability": 76.15,
+          "TransitionRisk": 107.4
+        },
+        "allocations": null,
+        "content_signature": "f54af39e8f80",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "Beacon Telemetry",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4162.9,
+          "Capability": 77.5,
+          "TransitionRisk": 104.8
+        },
+        "allocations": null,
+        "content_signature": "3789400bb893",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Selkirk Runners",
+          "Quillon Labs",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4308.8,
+          "Capability": 79.0,
+          "TransitionRisk": 102.1
+        },
+        "allocations": null,
+        "content_signature": "545bbe6bbea5",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Quillon Security Labs",
+          "Harrowgate Shield",
+          "Windmere Workspace",
+          "Cormorant Pipeline",
+          "Hollowmere Service",
+          "Aldercrest",
+          "Torrey Metrics",
+          "Sablefish Warehouse",
+          "Corvid Tables",
+          "Umbra Deploy",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Oakhurst Metrics"
+        ],
+        "objective_values": {
+          "AnnualCost": 4388.3,
+          "Capability": 79.25,
+          "TransitionRisk": 100.3
+        },
+        "allocations": null,
+        "content_signature": "f07a3f8d45ef",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Aldercrest",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Quillon Labs",
+          "Marlowe Endpoint",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts"
+        ],
+        "objective_values": {
+          "AnnualCost": 4397.3,
+          "Capability": 59.15,
+          "TransitionRisk": 54.7
+        },
+        "allocations": null,
+        "content_signature": "0670f1cce1a3",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "Vantorra Signals",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts",
+          "Copperfield Tickets",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4434.8,
+          "Capability": 54.55,
+          "TransitionRisk": 51.8
+        },
+        "allocations": null,
+        "content_signature": "ee693cbba51c",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Quillon Security Labs",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Marlowe Endpoint",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts"
+        ],
+        "objective_values": {
+          "AnnualCost": 4503.1,
+          "Capability": 65.45,
+          "TransitionRisk": 64.1
+        },
+        "allocations": null,
+        "content_signature": "09d3d9c02aad",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "Vantorra Signals",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Aldercrest",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Quillon Labs",
+          "Ostrander Security",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4688.3,
+          "Capability": 62.05,
+          "TransitionRisk": 58.5
+        },
+        "allocations": null,
+        "content_signature": "ede1306e7d13",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Vantorra Signals",
+          "Northwind Data Systems",
+          "Ridgeway Pipelines",
+          "Ferrolane Defense",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Copperfield Tickets"
+        ],
+        "objective_values": {
+          "AnnualCost": 4729.2,
+          "Capability": 42.3,
+          "TransitionRisk": 40.4
+        },
+        "allocations": null,
+        "content_signature": "19e8dd27ab09",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Harrowgate Shield",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Perinox Observability",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Umbra Deploy",
+          "Ostrander Security",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Peregrine Charts",
+          "Wrenfield Ops"
+        ],
+        "objective_values": {
+          "AnnualCost": 4947.7,
+          "Capability": 70.7,
+          "TransitionRisk": 74.6
+        },
+        "allocations": null,
+        "content_signature": "c3dbaa232632",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "Vantorra Signals",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Ravensmoor ITSM",
+          "Aldercrest",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Ostrander Security",
+          "Marlowe Endpoint",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts",
+          "Copperfield Tickets"
+        ],
+        "objective_values": {
+          "AnnualCost": 5278.2,
+          "Capability": 61.75,
+          "TransitionRisk": 54.4
+        },
+        "allocations": null,
+        "content_signature": "35da2b0dff0f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "Aldercrest Inc",
+          "Vantorra Signals",
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Quillon Security Labs",
+          "Solvarra BI",
+          "Hollowmere Service",
+          "Perinox Observability",
+          "Sablefish Warehouse",
+          "Marlowe Endpoint",
+          "Lumen Rooms",
+          "Vellum Boards",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Peregrine Charts",
+          "Copperfield Tickets"
+        ],
+        "objective_values": {
+          "AnnualCost": 5433.9,
+          "Capability": 74.35,
+          "TransitionRisk": 74.5
+        },
+        "allocations": null,
+        "content_signature": "6a0bed76bd4c",
+        "sensitivity": null
+      }
+    ],
+    "total_pareto_found": 24,
+    "quality": {
+      "hypervolume_normalized": 0.5354,
+      "spacing_cv": 0.7427
+    },
+    "constraints_snapshot": [
+      {
+        "motivated_by": "",
+        "type": "cardinality",
+        "min": 14,
+        "max": 18
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Beacon Telemetry",
+          "Aldercrest Inc",
+          "Vantorra Signals",
+          "Aldercrest",
+          "Perinox Observability",
+          "Torrey Metrics"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Northwind Data Systems",
+          "Kestrel Lakehouse",
+          "Ambervale Data",
+          "NW Data",
+          "Sablefish Warehouse",
+          "Corvid Tables"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Pikefall Build",
+          "Ridgeway Pipelines",
+          "Calderon CI",
+          "Umbra Deploy",
+          "Selkirk Runners",
+          "Halloway Build Cloud"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Quillon Security Labs",
+          "Harrowgate Shield",
+          "Ferrolane Defense",
+          "Quillon Labs",
+          "Ostrander Security",
+          "Marlowe Endpoint"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Windmere Workspace",
+          "Tallow Chat",
+          "Ashbury Docs",
+          "Lumen Rooms",
+          "Petrichor Notes",
+          "Vellum Boards"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Fairholt CRM",
+          "Brightlow Sales",
+          "Cormorant Pipeline",
+          "Estvale Customer",
+          "Marchmont CRM",
+          "Juniper Deals"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Thornbury Analytics",
+          "Greyloch Insights",
+          "Solvarra BI",
+          "Peregrine Charts",
+          "Oakhurst Metrics",
+          "Sillith Reports"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "Hollowmere Service",
+          "Dunlin Desk",
+          "Ravensmoor ITSM",
+          "Copperfield Tickets",
+          "Alder Grove Service",
+          "Wrenfield Ops"
+        ],
+        "min": 1,
+        "max": 3
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Ridgeway Pipelines"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Hollowmere Service"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_include",
+        "option": "Estvale Customer"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Harrowgate Shield",
+        "option_b": "Marlowe Endpoint"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Aldercrest Inc",
+        "option_b": "Aldercrest"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Northwind Data Systems",
+        "option_b": "NW Data"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "Quillon Security Labs",
+        "option_b": "Quillon Labs"
+      },
+      {
+        "motivated_by": "",
+        "type": "force_exclude",
+        "option": "Thornbury Analytics"
+      }
+    ],
+    "seed_used": 42,
+    "solver": "highs",
+    "exact": true,
+    "time_limit": null,
+    "time_limited": false,
+    "solve_fingerprint": null,
+    "problem_snapshot": {
+      "n_options": 48,
+      "n_objectives": 3,
+      "n_scores": 144,
+      "approach": "binary",
+      "aggregation_mix": {
+        "sum": 3
+      },
+      "constraint_type_counts": {
+        "cardinality": 1,
+        "group_limit": 8,
+        "force_include": 3,
+        "exclusion_pair": 4,
+        "force_exclude": 1
+      },
+      "interaction_matrix": false,
+      "scenarios": 1,
+      "exact_fits": true,
+      "exact_fits_reason": ""
+    }
+  },
+  "scenario_run": {
+    "scenario_runs": {
+      "novation_repricing": {
+        "run_id": "e6c20cdd-5c31-4581-ac2e-370a1490b5b5",
+        "created_at": "2026-08-03T15:13:35.589083Z",
+        "mode": "fast",
+        "solutions": [
+          {
+            "solution_id": 1,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2718.32,
+              "Capability": 45.85,
+              "TransitionRisk": 90.4
+            },
+            "allocations": null,
+            "content_signature": "92446cdaddd5",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 2,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2740.32,
+              "Capability": 45.85,
+              "TransitionRisk": 89.9
+            },
+            "allocations": null,
+            "content_signature": "e25e9ded362b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 3,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 2780.28,
+              "Capability": 43.5,
+              "TransitionRisk": 87.7
+            },
+            "allocations": null,
+            "content_signature": "9d2986908963",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 4,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2834.32,
+              "Capability": 47.85,
+              "TransitionRisk": 97.9
+            },
+            "allocations": null,
+            "content_signature": "a06467b41f00",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 5,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Brightlow Sales",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Corvid Tables",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2897.05,
+              "Capability": 44.2,
+              "TransitionRisk": 85.7
+            },
+            "allocations": null,
+            "content_signature": "2f2a02bfc055",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 6,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Brightlow Sales",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2922.92,
+              "Capability": 47.1,
+              "TransitionRisk": 86.3
+            },
+            "allocations": null,
+            "content_signature": "8a1bacf3b83c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 7,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Brightlow Sales",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Perinox Observability",
+              "Corvid Tables",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2977.91,
+              "Capability": 43.7,
+              "TransitionRisk": 83.8
+            },
+            "allocations": null,
+            "content_signature": "1d03ca44c7b6",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 8,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Ferrolane Defense",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Corvid Tables",
+              "Selkirk Runners",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 2988.29,
+              "Capability": 42.4,
+              "TransitionRisk": 82.7
+            },
+            "allocations": null,
+            "content_signature": "9b5e956dfff7",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 9,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3054.83,
+              "Capability": 38.55,
+              "TransitionRisk": 79.3
+            },
+            "allocations": null,
+            "content_signature": "fca887cd9951",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 10,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3074.83,
+              "Capability": 41.8,
+              "TransitionRisk": 80.2
+            },
+            "allocations": null,
+            "content_signature": "b6433041a061",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 11,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3083.32,
+              "Capability": 52.6,
+              "TransitionRisk": 84.9
+            },
+            "allocations": null,
+            "content_signature": "90fbbc3e1527",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 12,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Fairholt CRM",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "NW Data",
+              "Umbra Deploy",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3109.94,
+              "Capability": 42.35,
+              "TransitionRisk": 79.9
+            },
+            "allocations": null,
+            "content_signature": "1a83fde0e6f6",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 13,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Fairholt CRM",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "NW Data",
+              "Umbra Deploy",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3150.64,
+              "Capability": 41.1,
+              "TransitionRisk": 78.5
+            },
+            "allocations": null,
+            "content_signature": "88c904d160d7",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 14,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Cormorant Pipeline",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "NW Data",
+              "Umbra Deploy",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3186.84,
+              "Capability": 44.35,
+              "TransitionRisk": 79.0
+            },
+            "allocations": null,
+            "content_signature": "3b7e3ea19e6e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 15,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3220.42,
+              "Capability": 57.1,
+              "TransitionRisk": 92.9
+            },
+            "allocations": null,
+            "content_signature": "1f4380f4244a",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 16,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Ostrander Security",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3238.29,
+              "Capability": 40.35,
+              "TransitionRisk": 76.2
+            },
+            "allocations": null,
+            "content_signature": "e5a4c2ea948a",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 17,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Pikefall Build",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3270.39,
+              "Capability": 53.55,
+              "TransitionRisk": 81.0
+            },
+            "allocations": null,
+            "content_signature": "1f91db899699",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 18,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3276.22,
+              "Capability": 56.6,
+              "TransitionRisk": 91.5
+            },
+            "allocations": null,
+            "content_signature": "0188b472cb1f",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 19,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Brightlow Sales",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Perinox Observability",
+              "Corvid Tables",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 3291.26,
+              "Capability": 46.65,
+              "TransitionRisk": 78.1
+            },
+            "allocations": null,
+            "content_signature": "92ac4009c35b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 20,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3324.71,
+              "Capability": 46.5,
+              "TransitionRisk": 77.1
+            },
+            "allocations": null,
+            "content_signature": "8deafb0ee126",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 21,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3355.43,
+              "Capability": 50.3,
+              "TransitionRisk": 77.3
+            },
+            "allocations": null,
+            "content_signature": "0abbfdda086c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 22,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3380.51,
+              "Capability": 56.25,
+              "TransitionRisk": 89.1
+            },
+            "allocations": null,
+            "content_signature": "b70b84d8bf06",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 23,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3413.32,
+              "Capability": 61.1,
+              "TransitionRisk": 99.5
+            },
+            "allocations": null,
+            "content_signature": "167ea1faec28",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 24,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3423.06,
+              "Capability": 57.75,
+              "TransitionRisk": 80.9
+            },
+            "allocations": null,
+            "content_signature": "c8ff5bdd333e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 25,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3470.32,
+              "Capability": 63.75,
+              "TransitionRisk": 109.1
+            },
+            "allocations": null,
+            "content_signature": "26aa4254003c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 26,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3488.42,
+              "Capability": 64.0,
+              "TransitionRisk": 108.8
+            },
+            "allocations": null,
+            "content_signature": "7279ae1882cb",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 27,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3493.53,
+              "Capability": 53.15,
+              "TransitionRisk": 76.7
+            },
+            "allocations": null,
+            "content_signature": "816d9b01ddc7",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 28,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3567.33,
+              "Capability": 39.35,
+              "TransitionRisk": 68.6
+            },
+            "allocations": null,
+            "content_signature": "d9b509f34295",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 29,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3625.32,
+              "Capability": 63.35,
+              "TransitionRisk": 104.9
+            },
+            "allocations": null,
+            "content_signature": "022fb780dfd9",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 30,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Quillon Labs",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3659.25,
+              "Capability": 60.15,
+              "TransitionRisk": 85.7
+            },
+            "allocations": null,
+            "content_signature": "4e78dfb43daf",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 31,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Ostrander Security",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3669.76,
+              "Capability": 39.2,
+              "TransitionRisk": 66.2
+            },
+            "allocations": null,
+            "content_signature": "d799eabd66af",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 32,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3687.92,
+              "Capability": 66.75,
+              "TransitionRisk": 114.7
+            },
+            "allocations": null,
+            "content_signature": "a12b7de56793",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 33,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3700.63,
+              "Capability": 43.35,
+              "TransitionRisk": 67.2
+            },
+            "allocations": null,
+            "content_signature": "0b107739a8a6",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 34,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3732.68,
+              "Capability": 48.85,
+              "TransitionRisk": 69.1
+            },
+            "allocations": null,
+            "content_signature": "ad7731679f25",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 35,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3782.55,
+              "Capability": 63.45,
+              "TransitionRisk": 92.8
+            },
+            "allocations": null,
+            "content_signature": "c1b51600b273",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 36,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3850.22,
+              "Capability": 67.75,
+              "TransitionRisk": 111.4
+            },
+            "allocations": null,
+            "content_signature": "a4c7dff7774f",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 37,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Halloway Build Cloud",
+              "Marlowe Endpoint",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 3890.48,
+              "Capability": 49.9,
+              "TransitionRisk": 68.1
+            },
+            "allocations": null,
+            "content_signature": "36c9956fb63a",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 38,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3941.85,
+              "Capability": 71.1,
+              "TransitionRisk": 111.4
+            },
+            "allocations": null,
+            "content_signature": "7a2ffa6299de",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 39,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Quillon Labs",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3969.22,
+              "Capability": 68.9,
+              "TransitionRisk": 100.7
+            },
+            "allocations": null,
+            "content_signature": "5a0719010a80",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 40,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 3994.75,
+              "Capability": 70.85,
+              "TransitionRisk": 110.1
+            },
+            "allocations": null,
+            "content_signature": "aca5e2dcc677",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 41,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4077.26,
+              "Capability": 67.0,
+              "TransitionRisk": 88.5
+            },
+            "allocations": null,
+            "content_signature": "54baa2039c21",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 42,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4094.92,
+              "Capability": 69.55,
+              "TransitionRisk": 98.6
+            },
+            "allocations": null,
+            "content_signature": "2083034ea425",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 43,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4150.26,
+              "Capability": 68.25,
+              "TransitionRisk": 87.3
+            },
+            "allocations": null,
+            "content_signature": "a6eb18526676",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 44,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Quillon Labs",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4221.48,
+              "Capability": 69.75,
+              "TransitionRisk": 96.2
+            },
+            "allocations": null,
+            "content_signature": "c00b55bd52f3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 45,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Corvid Tables",
+              "Selkirk Runners",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4274.97,
+              "Capability": 51.9,
+              "TransitionRisk": 61.8
+            },
+            "allocations": null,
+            "content_signature": "1ecabb841361",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 46,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4325.22,
+              "Capability": 74.1,
+              "TransitionRisk": 105.3
+            },
+            "allocations": null,
+            "content_signature": "3a011e7fc05e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 47,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Halloway Build Cloud",
+              "Quillon Labs",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4373.58,
+              "Capability": 73.25,
+              "TransitionRisk": 103.5
+            },
+            "allocations": null,
+            "content_signature": "051a1eafdc23",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 48,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4395.64,
+              "Capability": 51.55,
+              "TransitionRisk": 59.5
+            },
+            "allocations": null,
+            "content_signature": "0548d0adb4ad",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 49,
+            "selected_options": [
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4457.83,
+              "Capability": 42.9,
+              "TransitionRisk": 53.7
+            },
+            "allocations": null,
+            "content_signature": "68dc6f9cbd63",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 50,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4487.62,
+              "Capability": 75.85,
+              "TransitionRisk": 102.3
+            },
+            "allocations": null,
+            "content_signature": "9a43e8ac2fca",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 51,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Sablefish Warehouse",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Juniper Deals",
+              "Sillith Reports"
+            ],
+            "objective_values": {
+              "AnnualCost": 4500.74,
+              "Capability": 54.2,
+              "TransitionRisk": 55.5
+            },
+            "allocations": null,
+            "content_signature": "646705e35a0f",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 52,
+            "selected_options": [
+              "Beacon Telemetry",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4519.71,
+              "Capability": 49.4,
+              "TransitionRisk": 54.5
+            },
+            "allocations": null,
+            "content_signature": "529ae1765945",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 53,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4527.92,
+              "Capability": 75.35,
+              "TransitionRisk": 101.2
+            },
+            "allocations": null,
+            "content_signature": "d2bf896407f1",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 54,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4549.0,
+              "Capability": 55.8,
+              "TransitionRisk": 56.7
+            },
+            "allocations": null,
+            "content_signature": "fe131d480f93",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 55,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Fairholt CRM",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4593.22,
+              "Capability": 71.35,
+              "TransitionRisk": 88.7
+            },
+            "allocations": null,
+            "content_signature": "057bf7ad9c8a",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 56,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 4630.39,
+              "Capability": 51.25,
+              "TransitionRisk": 52.7
+            },
+            "allocations": null,
+            "content_signature": "c6da3c0ff07d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 57,
+            "selected_options": [
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4683.29,
+              "Capability": 44.6,
+              "TransitionRisk": 49.7
+            },
+            "allocations": null,
+            "content_signature": "5ad690a73ed3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 58,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4721.27,
+              "Capability": 67.3,
+              "TransitionRisk": 74.4
+            },
+            "allocations": null,
+            "content_signature": "42c70916d166",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 59,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Windmere Workspace",
+              "Fairholt CRM",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4749.97,
+              "Capability": 73.55,
+              "TransitionRisk": 95.0
+            },
+            "allocations": null,
+            "content_signature": "a680595e9aa2",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 60,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 4766.48,
+              "Capability": 61.55,
+              "TransitionRisk": 63.6
+            },
+            "allocations": null,
+            "content_signature": "9b47ae3218fb",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 61,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4783.28,
+              "Capability": 65.45,
+              "TransitionRisk": 73.3
+            },
+            "allocations": null,
+            "content_signature": "51dfdff3c703",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 62,
+            "selected_options": [
+              "Ambervale Data",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4809.85,
+              "Capability": 44.8,
+              "TransitionRisk": 47.3
+            },
+            "allocations": null,
+            "content_signature": "3da0abdb1daa",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 63,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Fairholt CRM",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4810.82,
+              "Capability": 74.35,
+              "TransitionRisk": 94.3
+            },
+            "allocations": null,
+            "content_signature": "21ebf53e0333",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 64,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 4833.06,
+              "Capability": 52.35,
+              "TransitionRisk": 48.8
+            },
+            "allocations": null,
+            "content_signature": "c91ad91d2a62",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 65,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts"
+            ],
+            "objective_values": {
+              "AnnualCost": 4846.08,
+              "Capability": 64.8,
+              "TransitionRisk": 72.5
+            },
+            "allocations": null,
+            "content_signature": "6cc97e31730c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 66,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4886.48,
+              "Capability": 65.2,
+              "TransitionRisk": 70.8
+            },
+            "allocations": null,
+            "content_signature": "6f0c9e51236b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 67,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Cormorant Pipeline",
+              "Greyloch Insights",
+              "Hollowmere Service",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics"
+            ],
+            "objective_values": {
+              "AnnualCost": 4887.72,
+              "Capability": 76.35,
+              "TransitionRisk": 93.4
+            },
+            "allocations": null,
+            "content_signature": "879f994d4102",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 68,
+            "selected_options": [
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4901.33,
+              "Capability": 45.05,
+              "TransitionRisk": 46.0
+            },
+            "allocations": null,
+            "content_signature": "a31b07e4ac21",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 69,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Sablefish Warehouse",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 4916.71,
+              "Capability": 58.1,
+              "TransitionRisk": 57.9
+            },
+            "allocations": null,
+            "content_signature": "9061762da8cb",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 70,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5032.39,
+              "Capability": 58.4,
+              "TransitionRisk": 57.3
+            },
+            "allocations": null,
+            "content_signature": "b8828d53dd68",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 71,
+            "selected_options": [
+              "Aldercrest Inc",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5092.18,
+              "Capability": 69.45,
+              "TransitionRisk": 77.2
+            },
+            "allocations": null,
+            "content_signature": "004f93560b46",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 72,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5145.08,
+              "Capability": 69.2,
+              "TransitionRisk": 75.9
+            },
+            "allocations": null,
+            "content_signature": "acf746ee0d33",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 73,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5162.25,
+              "Capability": 54.95,
+              "TransitionRisk": 52.8
+            },
+            "allocations": null,
+            "content_signature": "517c0536f633",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 74,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5210.45,
+              "Capability": 52.45,
+              "TransitionRisk": 50.7
+            },
+            "allocations": null,
+            "content_signature": "2e2c126f468b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 75,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5231.63,
+              "Capability": 54.8,
+              "TransitionRisk": 51.8
+            },
+            "allocations": null,
+            "content_signature": "ee45a3c63e3e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 76,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5255.6,
+              "Capability": 58.9,
+              "TransitionRisk": 62.5
+            },
+            "allocations": null,
+            "content_signature": "098c892ab97b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 77,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5280.58,
+              "Capability": 65.2,
+              "TransitionRisk": 64.3
+            },
+            "allocations": null,
+            "content_signature": "327973d0bd68",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 78,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5352.51,
+              "Capability": 68.45,
+              "TransitionRisk": 72.0
+            },
+            "allocations": null,
+            "content_signature": "bdb982e1953c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 79,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Selkirk Runners",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5384.08,
+              "Capability": 72.4,
+              "TransitionRisk": 81.7
+            },
+            "allocations": null,
+            "content_signature": "bac5a8c95894",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 80,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5389.09,
+              "Capability": 61.95,
+              "TransitionRisk": 60.2
+            },
+            "allocations": null,
+            "content_signature": "d582bef75f70",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 81,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Aldercrest",
+              "NW Data",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5427.46,
+              "Capability": 62.6,
+              "TransitionRisk": 61.3
+            },
+            "allocations": null,
+            "content_signature": "392a378132ef",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 82,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Petrichor Notes",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5451.37,
+              "Capability": 59.8,
+              "TransitionRisk": 58.7
+            },
+            "allocations": null,
+            "content_signature": "eb76ae3e6cb0",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 83,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Fairholt CRM",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5465.03,
+              "Capability": 69.9,
+              "TransitionRisk": 78.7
+            },
+            "allocations": null,
+            "content_signature": "0ee516b807fc",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 84,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Quillon Labs",
+              "Lumen Rooms",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5578.31,
+              "Capability": 71.7,
+              "TransitionRisk": 77.5
+            },
+            "allocations": null,
+            "content_signature": "4b716eadf205",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 85,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Aldercrest",
+              "Torrey Metrics",
+              "NW Data",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5631.19,
+              "Capability": 66.5,
+              "TransitionRisk": 68.1
+            },
+            "allocations": null,
+            "content_signature": "a1ad9b1c835c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 86,
+            "selected_options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "Sablefish Warehouse",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5730.5,
+              "Capability": 70.6,
+              "TransitionRisk": 73.9
+            },
+            "allocations": null,
+            "content_signature": "5fa90bd60fb3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 87,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5822.66,
+              "Capability": 64.6,
+              "TransitionRisk": 62.5
+            },
+            "allocations": null,
+            "content_signature": "40e431607e1d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 88,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5831.28,
+              "Capability": 66.2,
+              "TransitionRisk": 62.9
+            },
+            "allocations": null,
+            "content_signature": "9a4a641c6970",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 89,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Quillon Security Labs",
+              "Windmere Workspace",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "NW Data",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 5900.19,
+              "Capability": 68.4,
+              "TransitionRisk": 71.0
+            },
+            "allocations": null,
+            "content_signature": "68a7951dd8ca",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 90,
+            "selected_options": [
+              "Kestrel Lakehouse",
+              "Ridgeway Pipelines",
+              "Solvarra BI",
+              "Hollowmere Service",
+              "Ravensmoor ITSM",
+              "Aldercrest",
+              "Torrey Metrics",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Ostrander Security",
+              "Marlowe Endpoint",
+              "Lumen Rooms",
+              "Vellum Boards",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Peregrine Charts",
+              "Sillith Reports",
+              "Copperfield Tickets"
+            ],
+            "objective_values": {
+              "AnnualCost": 6035.01,
+              "Capability": 70.1,
+              "TransitionRisk": 69.7
+            },
+            "allocations": null,
+            "content_signature": "d60610f3bcaf",
+            "sensitivity": null
+          }
+        ],
+        "total_pareto_found": 90,
+        "quality": {
+          "hypervolume_normalized": 0.5796,
+          "spacing_cv": 0.5625
+        },
+        "constraints_snapshot": [
+          {
+            "motivated_by": "",
+            "type": "cardinality",
+            "min": 14,
+            "max": 18
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Beacon Telemetry",
+              "Aldercrest Inc",
+              "Vantorra Signals",
+              "Aldercrest",
+              "Perinox Observability",
+              "Torrey Metrics"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Northwind Data Systems",
+              "Kestrel Lakehouse",
+              "Ambervale Data",
+              "NW Data",
+              "Sablefish Warehouse",
+              "Corvid Tables"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Pikefall Build",
+              "Ridgeway Pipelines",
+              "Calderon CI",
+              "Umbra Deploy",
+              "Selkirk Runners",
+              "Halloway Build Cloud"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Quillon Security Labs",
+              "Harrowgate Shield",
+              "Ferrolane Defense",
+              "Quillon Labs",
+              "Ostrander Security",
+              "Marlowe Endpoint"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Windmere Workspace",
+              "Tallow Chat",
+              "Ashbury Docs",
+              "Lumen Rooms",
+              "Petrichor Notes",
+              "Vellum Boards"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Fairholt CRM",
+              "Brightlow Sales",
+              "Cormorant Pipeline",
+              "Estvale Customer",
+              "Marchmont CRM",
+              "Juniper Deals"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Thornbury Analytics",
+              "Greyloch Insights",
+              "Solvarra BI",
+              "Peregrine Charts",
+              "Oakhurst Metrics",
+              "Sillith Reports"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "Hollowmere Service",
+              "Dunlin Desk",
+              "Ravensmoor ITSM",
+              "Copperfield Tickets",
+              "Alder Grove Service",
+              "Wrenfield Ops"
+            ],
+            "min": 1,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "force_include",
+            "option": "Ridgeway Pipelines"
+          },
+          {
+            "motivated_by": "",
+            "type": "force_include",
+            "option": "Hollowmere Service"
+          },
+          {
+            "motivated_by": "",
+            "type": "force_include",
+            "option": "Estvale Customer"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "Harrowgate Shield",
+            "option_b": "Marlowe Endpoint"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "Aldercrest Inc",
+            "option_b": "Aldercrest"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "Northwind Data Systems",
+            "option_b": "NW Data"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "Quillon Security Labs",
+            "option_b": "Quillon Labs"
+          },
+          {
+            "motivated_by": "",
+            "type": "force_exclude",
+            "option": "Thornbury Analytics"
+          }
+        ],
+        "seed_used": 1691291760,
+        "solver": "nsga-ii",
+        "exact": false,
+        "time_limit": null,
+        "time_limited": false,
+        "solve_fingerprint": null,
+        "problem_snapshot": {
+          "n_options": 48,
+          "n_objectives": 3,
+          "n_scores": 144,
+          "approach": "binary",
+          "aggregation_mix": {
+            "sum": 3
+          },
+          "constraint_type_counts": {
+            "cardinality": 1,
+            "group_limit": 8,
+            "force_include": 3,
+            "exclusion_pair": 4,
+            "force_exclude": 1
+          },
+          "interaction_matrix": false,
+          "scenarios": 0,
+          "exact_fits": true,
+          "exact_fits_reason": ""
+        }
+      }
+    },
+    "created_at": "2026-08-03T15:13:35.589666Z",
+    "solve_fingerprint": null
+  }
+}

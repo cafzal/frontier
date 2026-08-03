@@ -1,0 +1,918 @@
+{
+  "options": [
+    {
+      "name": "Beacon Telemetry",
+      "description": "Observability - Northgate book, 3y left on term"
+    },
+    {
+      "name": "Aldercrest Inc",
+      "description": "Observability - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Vantorra Signals",
+      "description": "Observability - Northgate book"
+    },
+    {
+      "name": "Northwind Data Systems",
+      "description": "DataPlatform - Northgate book"
+    },
+    {
+      "name": "Kestrel Lakehouse",
+      "description": "DataPlatform - Northgate book, 3y left on term"
+    },
+    {
+      "name": "Ambervale Data",
+      "description": "DataPlatform - Northgate book"
+    },
+    {
+      "name": "Pikefall Build",
+      "description": "DevOps - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Ridgeway Pipelines",
+      "description": "DevOps - Northgate book, 4y left on term"
+    },
+    {
+      "name": "Calderon CI",
+      "description": "DevOps - Northgate book"
+    },
+    {
+      "name": "Quillon Security Labs",
+      "description": "SecurityOps - Northgate book"
+    },
+    {
+      "name": "Harrowgate Shield",
+      "description": "SecurityOps - Northgate book"
+    },
+    {
+      "name": "Ferrolane Defense",
+      "description": "SecurityOps - Northgate book"
+    },
+    {
+      "name": "Windmere Workspace",
+      "description": "Collaboration - Northgate book"
+    },
+    {
+      "name": "Tallow Chat",
+      "description": "Collaboration - Northgate book"
+    },
+    {
+      "name": "Ashbury Docs",
+      "description": "Collaboration - Northgate book"
+    },
+    {
+      "name": "Fairholt CRM",
+      "description": "CRM - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Brightlow Sales",
+      "description": "CRM - Northgate book"
+    },
+    {
+      "name": "Cormorant Pipeline",
+      "description": "CRM - Northgate book"
+    },
+    {
+      "name": "Thornbury Analytics",
+      "description": "Analytics - Northgate book"
+    },
+    {
+      "name": "Greyloch Insights",
+      "description": "Analytics - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Solvarra BI",
+      "description": "Analytics - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Hollowmere Service",
+      "description": "ITSM - Northgate book, 4y left on term"
+    },
+    {
+      "name": "Dunlin Desk",
+      "description": "ITSM - Northgate book, 2y left on term"
+    },
+    {
+      "name": "Ravensmoor ITSM",
+      "description": "ITSM - Northgate book"
+    },
+    {
+      "name": "Aldercrest",
+      "description": "Observability - Selwyn book"
+    },
+    {
+      "name": "Perinox Observability",
+      "description": "Observability - Selwyn book"
+    },
+    {
+      "name": "Torrey Metrics",
+      "description": "Observability - Selwyn book, 2y left on term"
+    },
+    {
+      "name": "NW Data",
+      "description": "DataPlatform - Selwyn book, 2y left on term"
+    },
+    {
+      "name": "Sablefish Warehouse",
+      "description": "DataPlatform - Selwyn book, 2y left on term"
+    },
+    {
+      "name": "Corvid Tables",
+      "description": "DataPlatform - Selwyn book"
+    },
+    {
+      "name": "Umbra Deploy",
+      "description": "DevOps - Selwyn book, 3y left on term"
+    },
+    {
+      "name": "Selkirk Runners",
+      "description": "DevOps - Selwyn book"
+    },
+    {
+      "name": "Halloway Build Cloud",
+      "description": "DevOps - Selwyn book"
+    },
+    {
+      "name": "Quillon Labs",
+      "description": "SecurityOps - Selwyn book"
+    },
+    {
+      "name": "Ostrander Security",
+      "description": "SecurityOps - Selwyn book"
+    },
+    {
+      "name": "Marlowe Endpoint",
+      "description": "SecurityOps - Selwyn book"
+    },
+    {
+      "name": "Lumen Rooms",
+      "description": "Collaboration - Selwyn book"
+    },
+    {
+      "name": "Petrichor Notes",
+      "description": "Collaboration - Selwyn book"
+    },
+    {
+      "name": "Vellum Boards",
+      "description": "Collaboration - Selwyn book"
+    },
+    {
+      "name": "Estvale Customer",
+      "description": "CRM - Selwyn book, 5y left on term"
+    },
+    {
+      "name": "Marchmont CRM",
+      "description": "CRM - Selwyn book, 3y left on term"
+    },
+    {
+      "name": "Juniper Deals",
+      "description": "CRM - Selwyn book"
+    },
+    {
+      "name": "Peregrine Charts",
+      "description": "Analytics - Selwyn book, 3y left on term"
+    },
+    {
+      "name": "Oakhurst Metrics",
+      "description": "Analytics - Selwyn book"
+    },
+    {
+      "name": "Sillith Reports",
+      "description": "Analytics - Selwyn book"
+    },
+    {
+      "name": "Copperfield Tickets",
+      "description": "ITSM - Selwyn book, 3y left on term"
+    },
+    {
+      "name": "Alder Grove Service",
+      "description": "ITSM - Selwyn book"
+    },
+    {
+      "name": "Wrenfield Ops",
+      "description": "ITSM - Selwyn book"
+    }
+  ],
+  "scores": [
+    {
+      "option": "Beacon Telemetry",
+      "objective": "AnnualCost",
+      "value": 159.1
+    },
+    {
+      "option": "Beacon Telemetry",
+      "objective": "Capability",
+      "value": 2.5
+    },
+    {
+      "option": "Beacon Telemetry",
+      "objective": "TransitionRisk",
+      "value": 6.7
+    },
+    {
+      "option": "Aldercrest Inc",
+      "objective": "AnnualCost",
+      "value": 308.9
+    },
+    {
+      "option": "Aldercrest Inc",
+      "objective": "Capability",
+      "value": 4.0
+    },
+    {
+      "option": "Aldercrest Inc",
+      "objective": "TransitionRisk",
+      "value": 3.9
+    },
+    {
+      "option": "Vantorra Signals",
+      "objective": "AnnualCost",
+      "value": 319.7
+    },
+    {
+      "option": "Vantorra Signals",
+      "objective": "Capability",
+      "value": 3.25
+    },
+    {
+      "option": "Vantorra Signals",
+      "objective": "TransitionRisk",
+      "value": 3.4
+    },
+    {
+      "option": "Northwind Data Systems",
+      "objective": "AnnualCost",
+      "value": 361.8
+    },
+    {
+      "option": "Northwind Data Systems",
+      "objective": "Capability",
+      "value": 3.75
+    },
+    {
+      "option": "Northwind Data Systems",
+      "objective": "TransitionRisk",
+      "value": 2.6
+    },
+    {
+      "option": "Kestrel Lakehouse",
+      "objective": "AnnualCost",
+      "value": 330.3
+    },
+    {
+      "option": "Kestrel Lakehouse",
+      "objective": "Capability",
+      "value": 9.75
+    },
+    {
+      "option": "Kestrel Lakehouse",
+      "objective": "TransitionRisk",
+      "value": 5.8
+    },
+    {
+      "option": "Ambervale Data",
+      "objective": "AnnualCost",
+      "value": 199.5
+    },
+    {
+      "option": "Ambervale Data",
+      "objective": "Capability",
+      "value": 2.75
+    },
+    {
+      "option": "Ambervale Data",
+      "objective": "TransitionRisk",
+      "value": 5.9
+    },
+    {
+      "option": "Pikefall Build",
+      "objective": "AnnualCost",
+      "value": 239.2
+    },
+    {
+      "option": "Pikefall Build",
+      "objective": "Capability",
+      "value": 3.25
+    },
+    {
+      "option": "Pikefall Build",
+      "objective": "TransitionRisk",
+      "value": 5.2
+    },
+    {
+      "option": "Ridgeway Pipelines",
+      "objective": "AnnualCost",
+      "value": 235.1
+    },
+    {
+      "option": "Ridgeway Pipelines",
+      "objective": "Capability",
+      "value": 2.0
+    },
+    {
+      "option": "Ridgeway Pipelines",
+      "objective": "TransitionRisk",
+      "value": 4.8
+    },
+    {
+      "option": "Calderon CI",
+      "objective": "AnnualCost",
+      "value": 218.3
+    },
+    {
+      "option": "Calderon CI",
+      "objective": "Capability",
+      "value": 4.5
+    },
+    {
+      "option": "Calderon CI",
+      "objective": "TransitionRisk",
+      "value": 6.2
+    },
+    {
+      "option": "Quillon Security Labs",
+      "objective": "AnnualCost",
+      "value": 217.9
+    },
+    {
+      "option": "Quillon Security Labs",
+      "objective": "Capability",
+      "value": 5.25
+    },
+    {
+      "option": "Quillon Security Labs",
+      "objective": "TransitionRisk",
+      "value": 6.5
+    },
+    {
+      "option": "Harrowgate Shield",
+      "objective": "AnnualCost",
+      "value": 258.6
+    },
+    {
+      "option": "Harrowgate Shield",
+      "objective": "Capability",
+      "value": 4.0
+    },
+    {
+      "option": "Harrowgate Shield",
+      "objective": "TransitionRisk",
+      "value": 5.1
+    },
+    {
+      "option": "Ferrolane Defense",
+      "objective": "AnnualCost",
+      "value": 266.1
+    },
+    {
+      "option": "Ferrolane Defense",
+      "objective": "Capability",
+      "value": 2.75
+    },
+    {
+      "option": "Ferrolane Defense",
+      "objective": "TransitionRisk",
+      "value": 4.4
+    },
+    {
+      "option": "Windmere Workspace",
+      "objective": "AnnualCost",
+      "value": 99.2
+    },
+    {
+      "option": "Windmere Workspace",
+      "objective": "Capability",
+      "value": 3.75
+    },
+    {
+      "option": "Windmere Workspace",
+      "objective": "TransitionRisk",
+      "value": 8.6
+    },
+    {
+      "option": "Tallow Chat",
+      "objective": "AnnualCost",
+      "value": 28.0
+    },
+    {
+      "option": "Tallow Chat",
+      "objective": "Capability",
+      "value": 1.75
+    },
+    {
+      "option": "Tallow Chat",
+      "objective": "TransitionRisk",
+      "value": 9.4
+    },
+    {
+      "option": "Ashbury Docs",
+      "objective": "AnnualCost",
+      "value": 94.0
+    },
+    {
+      "option": "Ashbury Docs",
+      "objective": "Capability",
+      "value": 2.0
+    },
+    {
+      "option": "Ashbury Docs",
+      "objective": "TransitionRisk",
+      "value": 8.0
+    },
+    {
+      "option": "Fairholt CRM",
+      "objective": "AnnualCost",
+      "value": 116.0
+    },
+    {
+      "option": "Fairholt CRM",
+      "objective": "Capability",
+      "value": 2.0
+    },
+    {
+      "option": "Fairholt CRM",
+      "objective": "TransitionRisk",
+      "value": 7.5
+    },
+    {
+      "option": "Brightlow Sales",
+      "objective": "AnnualCost",
+      "value": 127.1
+    },
+    {
+      "option": "Brightlow Sales",
+      "objective": "Capability",
+      "value": 2.25
+    },
+    {
+      "option": "Brightlow Sales",
+      "objective": "TransitionRisk",
+      "value": 7.4
+    },
+    {
+      "option": "Cormorant Pipeline",
+      "objective": "AnnualCost",
+      "value": 192.9
+    },
+    {
+      "option": "Cormorant Pipeline",
+      "objective": "Capability",
+      "value": 4.0
+    },
+    {
+      "option": "Cormorant Pipeline",
+      "objective": "TransitionRisk",
+      "value": 6.6
+    },
+    {
+      "option": "Thornbury Analytics",
+      "objective": "AnnualCost",
+      "value": 176.3
+    },
+    {
+      "option": "Thornbury Analytics",
+      "objective": "Capability",
+      "value": 3.5
+    },
+    {
+      "option": "Thornbury Analytics",
+      "objective": "TransitionRisk",
+      "value": 7.3
+    },
+    {
+      "option": "Greyloch Insights",
+      "objective": "AnnualCost",
+      "value": 217.6
+    },
+    {
+      "option": "Greyloch Insights",
+      "objective": "Capability",
+      "value": 3.0
+    },
+    {
+      "option": "Greyloch Insights",
+      "objective": "TransitionRisk",
+      "value": 5.6
+    },
+    {
+      "option": "Solvarra BI",
+      "objective": "AnnualCost",
+      "value": 330.9
+    },
+    {
+      "option": "Solvarra BI",
+      "objective": "Capability",
+      "value": 3.75
+    },
+    {
+      "option": "Solvarra BI",
+      "objective": "TransitionRisk",
+      "value": 3.3
+    },
+    {
+      "option": "Hollowmere Service",
+      "objective": "AnnualCost",
+      "value": 425.0
+    },
+    {
+      "option": "Hollowmere Service",
+      "objective": "Capability",
+      "value": 2.5
+    },
+    {
+      "option": "Hollowmere Service",
+      "objective": "TransitionRisk",
+      "value": 0.7
+    },
+    {
+      "option": "Dunlin Desk",
+      "objective": "AnnualCost",
+      "value": 346.6
+    },
+    {
+      "option": "Dunlin Desk",
+      "objective": "Capability",
+      "value": 2.25
+    },
+    {
+      "option": "Dunlin Desk",
+      "objective": "TransitionRisk",
+      "value": 2.4
+    },
+    {
+      "option": "Ravensmoor ITSM",
+      "objective": "AnnualCost",
+      "value": 395.2
+    },
+    {
+      "option": "Ravensmoor ITSM",
+      "objective": "Capability",
+      "value": 2.0
+    },
+    {
+      "option": "Ravensmoor ITSM",
+      "objective": "TransitionRisk",
+      "value": 1.2
+    },
+    {
+      "option": "Aldercrest",
+      "objective": "AnnualCost",
+      "value": 305.0
+    },
+    {
+      "option": "Aldercrest",
+      "objective": "Capability",
+      "value": 4.0
+    },
+    {
+      "option": "Aldercrest",
+      "objective": "TransitionRisk",
+      "value": 4.0
+    },
+    {
+      "option": "Perinox Observability",
+      "objective": "AnnualCost",
+      "value": 254.1
+    },
+    {
+      "option": "Perinox Observability",
+      "objective": "Capability",
+      "value": 3.4
+    },
+    {
+      "option": "Perinox Observability",
+      "objective": "TransitionRisk",
+      "value": 4.9
+    },
+    {
+      "option": "Torrey Metrics",
+      "objective": "AnnualCost",
+      "value": 181.9
+    },
+    {
+      "option": "Torrey Metrics",
+      "objective": "Capability",
+      "value": 3.9
+    },
+    {
+      "option": "Torrey Metrics",
+      "objective": "TransitionRisk",
+      "value": 6.8
+    },
+    {
+      "option": "NW Data",
+      "objective": "AnnualCost",
+      "value": 357.8
+    },
+    {
+      "option": "NW Data",
+      "objective": "Capability",
+      "value": 3.8
+    },
+    {
+      "option": "NW Data",
+      "objective": "TransitionRisk",
+      "value": 2.7
+    },
+    {
+      "option": "Sablefish Warehouse",
+      "objective": "AnnualCost",
+      "value": 221.6
+    },
+    {
+      "option": "Sablefish Warehouse",
+      "objective": "Capability",
+      "value": 6.8
+    },
+    {
+      "option": "Sablefish Warehouse",
+      "objective": "TransitionRisk",
+      "value": 7.0
+    },
+    {
+      "option": "Corvid Tables",
+      "objective": "AnnualCost",
+      "value": 198.5
+    },
+    {
+      "option": "Corvid Tables",
+      "objective": "Capability",
+      "value": 3.9
+    },
+    {
+      "option": "Corvid Tables",
+      "objective": "TransitionRisk",
+      "value": 6.4
+    },
+    {
+      "option": "Umbra Deploy",
+      "objective": "AnnualCost",
+      "value": 230.1
+    },
+    {
+      "option": "Umbra Deploy",
+      "objective": "Capability",
+      "value": 4.0
+    },
+    {
+      "option": "Umbra Deploy",
+      "objective": "TransitionRisk",
+      "value": 5.7
+    },
+    {
+      "option": "Selkirk Runners",
+      "objective": "AnnualCost",
+      "value": 154.6
+    },
+    {
+      "option": "Selkirk Runners",
+      "objective": "Capability",
+      "value": 3.8
+    },
+    {
+      "option": "Selkirk Runners",
+      "objective": "TransitionRisk",
+      "value": 7.4
+    },
+    {
+      "option": "Halloway Build Cloud",
+      "objective": "AnnualCost",
+      "value": 63.0
+    },
+    {
+      "option": "Halloway Build Cloud",
+      "objective": "Capability",
+      "value": 2.3
+    },
+    {
+      "option": "Halloway Build Cloud",
+      "objective": "TransitionRisk",
+      "value": 8.8
+    },
+    {
+      "option": "Quillon Labs",
+      "objective": "AnnualCost",
+      "value": 213.9
+    },
+    {
+      "option": "Quillon Labs",
+      "objective": "Capability",
+      "value": 5.2
+    },
+    {
+      "option": "Quillon Labs",
+      "objective": "TransitionRisk",
+      "value": 6.6
+    },
+    {
+      "option": "Ostrander Security",
+      "objective": "AnnualCost",
+      "value": 348.1
+    },
+    {
+      "option": "Ostrander Security",
+      "objective": "Capability",
+      "value": 2.9
+    },
+    {
+      "option": "Ostrander Security",
+      "objective": "TransitionRisk",
+      "value": 2.6
+    },
+    {
+      "option": "Marlowe Endpoint",
+      "objective": "AnnualCost",
+      "value": 357.5
+    },
+    {
+      "option": "Marlowe Endpoint",
+      "objective": "Capability",
+      "value": 3.3
+    },
+    {
+      "option": "Marlowe Endpoint",
+      "objective": "TransitionRisk",
+      "value": 2.6
+    },
+    {
+      "option": "Lumen Rooms",
+      "objective": "AnnualCost",
+      "value": 200.8
+    },
+    {
+      "option": "Lumen Rooms",
+      "objective": "Capability",
+      "value": 4.4
+    },
+    {
+      "option": "Lumen Rooms",
+      "objective": "TransitionRisk",
+      "value": 6.5
+    },
+    {
+      "option": "Petrichor Notes",
+      "objective": "AnnualCost",
+      "value": 175.4
+    },
+    {
+      "option": "Petrichor Notes",
+      "objective": "Capability",
+      "value": 2.6
+    },
+    {
+      "option": "Petrichor Notes",
+      "objective": "TransitionRisk",
+      "value": 6.4
+    },
+    {
+      "option": "Vellum Boards",
+      "objective": "AnnualCost",
+      "value": 313.8
+    },
+    {
+      "option": "Vellum Boards",
+      "objective": "Capability",
+      "value": 4.6
+    },
+    {
+      "option": "Vellum Boards",
+      "objective": "TransitionRisk",
+      "value": 4.1
+    },
+    {
+      "option": "Estvale Customer",
+      "objective": "AnnualCost",
+      "value": 315.9
+    },
+    {
+      "option": "Estvale Customer",
+      "objective": "Capability",
+      "value": 2.4
+    },
+    {
+      "option": "Estvale Customer",
+      "objective": "TransitionRisk",
+      "value": 3.1
+    },
+    {
+      "option": "Marchmont CRM",
+      "objective": "AnnualCost",
+      "value": 372.8
+    },
+    {
+      "option": "Marchmont CRM",
+      "objective": "Capability",
+      "value": 3.2
+    },
+    {
+      "option": "Marchmont CRM",
+      "objective": "TransitionRisk",
+      "value": 2.2
+    },
+    {
+      "option": "Juniper Deals",
+      "objective": "AnnualCost",
+      "value": 278.1
+    },
+    {
+      "option": "Juniper Deals",
+      "objective": "Capability",
+      "value": 3.6
+    },
+    {
+      "option": "Juniper Deals",
+      "objective": "TransitionRisk",
+      "value": 4.5
+    },
+    {
+      "option": "Peregrine Charts",
+      "objective": "AnnualCost",
+      "value": 271.1
+    },
+    {
+      "option": "Peregrine Charts",
+      "objective": "Capability",
+      "value": 5.6
+    },
+    {
+      "option": "Peregrine Charts",
+      "objective": "TransitionRisk",
+      "value": 5.4
+    },
+    {
+      "option": "Oakhurst Metrics",
+      "objective": "AnnualCost",
+      "value": 172.3
+    },
+    {
+      "option": "Oakhurst Metrics",
+      "objective": "Capability",
+      "value": 3.9
+    },
+    {
+      "option": "Oakhurst Metrics",
+      "objective": "TransitionRisk",
+      "value": 7.0
+    },
+    {
+      "option": "Sillith Reports",
+      "objective": "AnnualCost",
+      "value": 231.1
+    },
+    {
+      "option": "Sillith Reports",
+      "objective": "Capability",
+      "value": 3.3
+    },
+    {
+      "option": "Sillith Reports",
+      "objective": "TransitionRisk",
+      "value": 5.4
+    },
+    {
+      "option": "Copperfield Tickets",
+      "objective": "AnnualCost",
+      "value": 378.4
+    },
+    {
+      "option": "Copperfield Tickets",
+      "objective": "Capability",
+      "value": 1.9
+    },
+    {
+      "option": "Copperfield Tickets",
+      "objective": "TransitionRisk",
+      "value": 1.5
+    },
+    {
+      "option": "Alder Grove Service",
+      "objective": "AnnualCost",
+      "value": 214.0
+    },
+    {
+      "option": "Alder Grove Service",
+      "objective": "Capability",
+      "value": 1.8
+    },
+    {
+      "option": "Alder Grove Service",
+      "objective": "TransitionRisk",
+      "value": 5.2
+    },
+    {
+      "option": "Wrenfield Ops",
+      "objective": "AnnualCost",
+      "value": 327.3
+    },
+    {
+      "option": "Wrenfield Ops",
+      "objective": "Capability",
+      "value": 2.3
+    },
+    {
+      "option": "Wrenfield Ops",
+      "objective": "TransitionRisk",
+      "value": 2.8
+    }
+  ]
+}

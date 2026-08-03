@@ -1,0 +1,305 @@
+{
+  "name": "Post-merger vendor consolidation",
+  "domain": "Procurement / IT vendor management",
+  "context": "Two merged subsidiaries arrive with separate tooling-vendor books \u2014 48 live contracts across eight categories, delivered as two spreadsheets that disagree on how capability is rated, overlap on vendors entered under variant names, and leave two transition-risk cells blank. The consolidated estate keeps 14-18 contracts: every category stays covered, no category runs more than three vendors, and the contracts still inside a multi-year term stay put.",
+  "approach": "binary",
+  "objectives": [
+    {
+      "name": "AnnualCost",
+      "direction": "minimize",
+      "unit": "$k/yr",
+      "aggregation": "sum"
+    },
+    {
+      "name": "Capability",
+      "direction": "maximize",
+      "unit": "0-10",
+      "aggregation": "sum"
+    },
+    {
+      "name": "TransitionRisk",
+      "direction": "minimize",
+      "unit": "0-10",
+      "aggregation": "sum"
+    }
+  ],
+  "constraints": [
+    {
+      "type": "cardinality",
+      "min": 14,
+      "max": 18
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Beacon Telemetry",
+        "Aldercrest Inc",
+        "Vantorra Signals",
+        "Aldercrest",
+        "Perinox Observability",
+        "Torrey Metrics"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Northwind Data Systems",
+        "Kestrel Lakehouse",
+        "Ambervale Data",
+        "NW Data",
+        "Sablefish Warehouse",
+        "Corvid Tables"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Pikefall Build",
+        "Ridgeway Pipelines",
+        "Calderon CI",
+        "Umbra Deploy",
+        "Selkirk Runners",
+        "Halloway Build Cloud"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Quillon Security Labs",
+        "Harrowgate Shield",
+        "Ferrolane Defense",
+        "Quillon Labs",
+        "Ostrander Security",
+        "Marlowe Endpoint"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Windmere Workspace",
+        "Tallow Chat",
+        "Ashbury Docs",
+        "Lumen Rooms",
+        "Petrichor Notes",
+        "Vellum Boards"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Fairholt CRM",
+        "Brightlow Sales",
+        "Cormorant Pipeline",
+        "Estvale Customer",
+        "Marchmont CRM",
+        "Juniper Deals"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Thornbury Analytics",
+        "Greyloch Insights",
+        "Solvarra BI",
+        "Peregrine Charts",
+        "Oakhurst Metrics",
+        "Sillith Reports"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "Hollowmere Service",
+        "Dunlin Desk",
+        "Ravensmoor ITSM",
+        "Copperfield Tickets",
+        "Alder Grove Service",
+        "Wrenfield Ops"
+      ],
+      "min": 1,
+      "max": 3
+    },
+    {
+      "type": "force_include",
+      "option": "Ridgeway Pipelines"
+    },
+    {
+      "type": "force_include",
+      "option": "Hollowmere Service"
+    },
+    {
+      "type": "force_include",
+      "option": "Estvale Customer"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "Harrowgate Shield",
+      "option_b": "Marlowe Endpoint"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "Aldercrest Inc",
+      "option_b": "Aldercrest"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "Northwind Data Systems",
+      "option_b": "NW Data"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "Quillon Security Labs",
+      "option_b": "Quillon Labs"
+    },
+    {
+      "type": "force_exclude",
+      "option": "Thornbury Analytics"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "novation_repricing",
+      "probability": null,
+      "description": "Novating the Selwyn contracts to the merged entity re-opens their pricing: every Selwyn line comes back 12% higher. Capability and transition risk are unchanged \u2014 only the price moves.",
+      "score_overrides": [
+        {
+          "option": "Aldercrest",
+          "objective": "AnnualCost",
+          "value": 341.6
+        },
+        {
+          "option": "Perinox Observability",
+          "objective": "AnnualCost",
+          "value": 284.59
+        },
+        {
+          "option": "Torrey Metrics",
+          "objective": "AnnualCost",
+          "value": 203.73
+        },
+        {
+          "option": "NW Data",
+          "objective": "AnnualCost",
+          "value": 400.74
+        },
+        {
+          "option": "Sablefish Warehouse",
+          "objective": "AnnualCost",
+          "value": 248.19
+        },
+        {
+          "option": "Corvid Tables",
+          "objective": "AnnualCost",
+          "value": 222.32
+        },
+        {
+          "option": "Umbra Deploy",
+          "objective": "AnnualCost",
+          "value": 257.71
+        },
+        {
+          "option": "Selkirk Runners",
+          "objective": "AnnualCost",
+          "value": 173.15
+        },
+        {
+          "option": "Halloway Build Cloud",
+          "objective": "AnnualCost",
+          "value": 70.56
+        },
+        {
+          "option": "Quillon Labs",
+          "objective": "AnnualCost",
+          "value": 239.57
+        },
+        {
+          "option": "Ostrander Security",
+          "objective": "AnnualCost",
+          "value": 389.87
+        },
+        {
+          "option": "Marlowe Endpoint",
+          "objective": "AnnualCost",
+          "value": 400.4
+        },
+        {
+          "option": "Lumen Rooms",
+          "objective": "AnnualCost",
+          "value": 224.9
+        },
+        {
+          "option": "Petrichor Notes",
+          "objective": "AnnualCost",
+          "value": 196.45
+        },
+        {
+          "option": "Vellum Boards",
+          "objective": "AnnualCost",
+          "value": 351.46
+        },
+        {
+          "option": "Estvale Customer",
+          "objective": "AnnualCost",
+          "value": 353.81
+        },
+        {
+          "option": "Marchmont CRM",
+          "objective": "AnnualCost",
+          "value": 417.54
+        },
+        {
+          "option": "Juniper Deals",
+          "objective": "AnnualCost",
+          "value": 311.47
+        },
+        {
+          "option": "Peregrine Charts",
+          "objective": "AnnualCost",
+          "value": 303.63
+        },
+        {
+          "option": "Oakhurst Metrics",
+          "objective": "AnnualCost",
+          "value": 192.98
+        },
+        {
+          "option": "Sillith Reports",
+          "objective": "AnnualCost",
+          "value": 258.83
+        },
+        {
+          "option": "Copperfield Tickets",
+          "objective": "AnnualCost",
+          "value": 423.81
+        },
+        {
+          "option": "Alder Grove Service",
+          "objective": "AnnualCost",
+          "value": 239.68
+        },
+        {
+          "option": "Wrenfield Ops",
+          "objective": "AnnualCost",
+          "value": 366.58
+        }
+      ],
+      "score_adjustments": [],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
+    }
+  ]
+}
