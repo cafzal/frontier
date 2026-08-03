@@ -155,8 +155,17 @@ def get_tradeoffs(problem: Problem, scenario: str | None = None, source: str | N
     return result
 
 
-def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str | None = None, source: str | None = None) -> dict:
-    """Side-by-side comparison of specific solutions."""
+def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str | None = None,
+                      source: str | None = None, detail: bool = False) -> dict:
+    """Side-by-side comparison of specific solutions.
+
+    ``detail`` works as it does on the curated form (``compare_curated``) and on
+    ``get_solutions``: default compact — ``{solution_id, objective_values,
+    content_signature}`` per solution, since `shared_options` / `differentiating_options`
+    already carry the structural difference; ``detail=True`` returns the full dump
+    (`selected_options`, `allocations`). On proportional problems the per-option
+    `allocation_comparison` table rides both modes — it IS the comparison.
+    """
     run = _require_run(problem, scenario, source)
     sol_map = {s.solution_id: s for s in run.solutions}
 
@@ -187,10 +196,18 @@ def compare_solutions(problem: Problem, solution_ids: list[int], scenario: str |
         }
 
     result = {
-        "solutions": [s.model_dump() for s in selected],
+        "solutions": [
+            s.model_dump() if detail else {
+                "solution_id": s.solution_id,
+                "objective_values": s.objective_values,
+                "content_signature": s.content_signature,
+            }
+            for s in selected
+        ],
         "shared_options": sorted(shared),
         "differentiating_options": sorted(differentiating),
         "tradeoff_summary": tradeoff_summary,
+        "detail": detail,
     }
 
     # Allocation comparison for proportional mode
@@ -487,6 +504,22 @@ def _decision_space_clusters(solutions: list, problem: Problem, proportional: bo
     return clusters
 
 
+def _clusters_summary(clusters: list[dict]) -> dict | None:
+    """Partition quality beside the families themselves: how many, and how much of the set
+    the largest one holds. Without it a 104/1/1/1 split reads exactly like a meaningful
+    155/19 — same block, same field names, a very different decision."""
+    if not clusters:
+        return None
+    sizes = [c["size"] for c in clusters]
+    total = sum(sizes)
+    share = round(max(sizes) / total, 2) if total else 0.0
+    summary = {"n_families": len(clusters), "largest_family_share": share}
+    if share > 0.9:
+        summary["note"] = ("one strategy with corner variants, not a menu of families — "
+                           "present the family, not a menu")
+    return summary
+
+
 def _cluster_medoid(members: list, opt_names: list[str], proportional: bool):
     if len(members) == 1:
         return members[0]
@@ -633,12 +666,16 @@ def analyze_composition(problem: Problem, solution_ids: list[int] | None = None,
     option_selection = option_selection_stats(solutions, approach)
     co_occ = _co_occurrence(solutions, option_selection, proportional, top=(9999 if detail else 8))
 
+    clusters = _decision_space_clusters(solutions, problem, proportional)
+    clusters_summary = _clusters_summary(clusters)
+
     result = {
         "scope": {"set": set_kind, "n_solutions": len(solutions), "approach": approach},
         "option_selection": option_selection,
         "co_occurrence": co_occ,
         "design_principles": _design_principles(solutions, option_selection, co_occ, problem, proportional),
-        "clusters": _decision_space_clusters(solutions, problem, proportional),
+        "clusters": clusters,
+        **({"clusters_summary": clusters_summary} if clusters_summary else {}),
         "feedback_rules": _feedback_rules(problem, run.solutions, proportional),
     }
     result["visualization"] = _render_composition_viz(result)
@@ -664,11 +701,16 @@ def _render_composition_viz(result: dict) -> str:
             lines.append(f"  • {p['detail']}")
     cl = result.get("clusters", [])
     if cl:
+        cs = result.get("clusters_summary") or {}
+        share = cs.get("largest_family_share")
+        head = f" — largest holds {int(round(share * 100))}%" if share is not None else ""
         lines.append("")
-        lines.append(f"─── Strategy families ({len(cl)}) ───")
+        lines.append(f"─── Strategy families ({len(cl)}){head} ───")
         for c in cl:
             opts = ", ".join(c["defining_options"]) or "(mixed)"
             lines.append(f"  [{c['cluster_id']}] {c['size']} solutions — defining: {opts}")
+        if cs.get("note"):
+            lines.append(f"  ({cs['note']})")
     fr = result.get("feedback_rules", {})
     if fr.get("rules"):
         lines.append("")
@@ -1003,11 +1045,54 @@ def compare_runs(problem: Problem, run_ids: list[str]) -> dict:
             coverage[opt] = sum(1 for s in run.solutions if opt in s.selected_options)
         option_coverage[run.run_id] = coverage
 
+    # One row per option PER RUN, so this block scales with options × runs — the widest
+    # part of the response at portfolio scale. Keep the options that actually moved (the
+    # question compare_runs answers) and summarize the rest, the same elide-and-say-so
+    # treatment solve's own option_coverage gets (metrics._MAX_COVERAGE_RETURNED).
+    option_coverage, coverage_elided = _elide_coverage_diff(option_coverage, opt_names)
+
     return {
         "runs_compared": [r.run_id for r in selected_runs],
         "criteria_diffs": criteria_diffs,
         "frontier_diffs": frontier_diffs,
         "option_coverage": option_coverage,
+        **({"option_coverage_elided": coverage_elided} if coverage_elided else {}),
+    }
+
+
+def _elide_coverage_diff(option_coverage: dict[str, dict[str, int]],
+                         opt_names: list[str]) -> tuple[dict, dict | None]:
+    """Keep the top options by SPREAD in selection count across the compared runs.
+
+    Spread (max − min) rather than raw count is what the action is for: an option holding
+    steady at 40 plans in every run says nothing about the edit, while one that moved from
+    0 to 12 is the finding. Generalizes past a pair, as `run_ids` does — with two runs the
+    spread IS the delta. Returns ``(coverage, elided-summary or None)``."""
+    from engine.metrics import _MAX_COVERAGE_RETURNED
+
+    if len(opt_names) <= _MAX_COVERAGE_RETURNED:
+        return option_coverage, None
+
+    def delta(opt: str) -> int:
+        counts = [cov.get(opt, 0) for cov in option_coverage.values()]
+        return max(counts) - min(counts)
+
+    ranked = sorted(opt_names, key=lambda o: (-delta(o), o))
+    kept = ranked[:_MAX_COVERAGE_RETURNED]
+    tail_max_delta = delta(ranked[_MAX_COVERAGE_RETURNED])
+    trimmed = {rid: {o: cov[o] for o in kept if o in cov} for rid, cov in option_coverage.items()}
+    return trimmed, {
+        "shown": len(kept),
+        "total_options": len(opt_names),
+        "ranked_by": "spread in selection count across the compared runs (max − min)",
+        "tail_max_delta": tail_max_delta,
+        "note": ("absence below the head is elision, NOT a coverage of zero — "
+                 + ("every elided option holds the same count in all compared runs. "
+                    if tail_max_delta == 0 else
+                    f"an elided option's count spans at most {tail_max_delta} plan(s) "
+                    "across the compared runs. ")
+                 + "Full per-option selection rates for the CURRENT frontier: "
+                   "explore composition"),
     }
 
 

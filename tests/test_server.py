@@ -739,6 +739,21 @@ class TestExploreCompare:
         result = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2])
         assert "shared_options" in result
 
+    def test_detail_is_honored_by_the_solution_ids_form(self):
+        """`detail` was advertised on compare but only the signatures form read it —
+        the id form dumped every plan whole and dropped the flag."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        compact = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2])
+        assert compact["detail"] is False
+        assert all("selected_options" not in s for s in compact["solutions"])
+        # The structural difference survives the compact form — that's why it can be default.
+        assert "shared_options" in compact and "differentiating_options" in compact
+
+        full = srv.explore(action="compare", problem_id=pid, solution_ids=[1, 2], detail=True)
+        assert full["detail"] is True
+        assert all("selected_options" in s for s in full["solutions"])
+
 
 class TestExploreSolutions:
     def test_solutions_listing(self):
@@ -948,6 +963,17 @@ class TestCompareRuns:
             run_ids=[r1["run_id"]],
         )
         assert "error" in result
+
+    def test_small_problem_coverage_passes_through_whole(self):
+        """The elision is a portfolio-scale trim — a 4-option model ships every row.
+        (The elision itself is gated in tests/test_explorer.py at engine level.)"""
+        pid = _build_solvable_problem()
+        r1 = srv.solve(action="run", problem_id=pid, seed=1)
+        r2 = srv.solve(action="run", problem_id=pid, seed=2)
+        out = srv.explore(action="compare_runs", problem_id=pid,
+                          run_ids=[r1["run_id"], r2["run_id"]])
+        assert "option_coverage_elided" not in out
+        assert all(len(cov) == 4 for cov in out["option_coverage"].values())
 
 
 class TestScenarios:
@@ -3042,3 +3068,168 @@ class TestSensitivityAnchorAndLabelGuard:
             {"name": "V", "direction": "maximize"}], options=["A", "B"])["problem_id"]
         out = srv.explore(action="curate", problem_id=pid, solution_ids=[1, 2])
         assert "error" in out and "per call" in out["error"]
+
+
+class TestDroppedFrontierDisclosure:
+    """A stale-flagged solve clears the OTHER stored frontier by design (it predates the
+    edit, so clearing results_stale mustn't vouch for it). Sound, and previously silent —
+    the next `explore` just found a frontier gone. The drop now says itself."""
+
+    def _both_frontiers_then_edit(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        srv.solve(action="run", problem_id=pid, solver="highs", scope="full")
+        # Structural edit (constraints ride the solve fingerprint) → results_stale.
+        srv.model(action="update", problem_id=pid,
+                  constraints=[{"type": "cardinality", "min": 1, "max": 3}])
+        return pid
+
+    def test_nsga_resolve_names_the_dropped_exact_overlay(self):
+        pid = self._both_frontiers_then_edit()
+        out = srv.solve(action="run", problem_id=pid, seed=42)
+        note = out["dropped_frontier_note"]
+        assert "exact overlay" in note and "predates" in note
+        assert 'solve(solver="highs")' in note  # the re-run that restores it
+        assert srv.store.load(pid).exact_run is None  # the note describes what happened
+
+    def test_exact_resolve_names_the_dropped_nsga_frontier(self):
+        pid = self._both_frontiers_then_edit()
+        out = srv.solve(action="run", problem_id=pid, solver="highs", scope="full")
+        note = out["dropped_frontier_note"]
+        assert "NSGA" in note and "predates" in note and "solve run" in note
+        assert srv.store.load(pid).run is None
+
+    def test_fresh_solve_drops_nothing_and_says_nothing(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.solve(action="run", problem_id=pid, solver="highs", scope="full")
+        assert "dropped_frontier_note" not in out
+        assert srv.store.load(pid).run is not None  # nothing to drop: results were fresh
+
+    def test_stale_solve_with_no_other_frontier_stays_silent(self):
+        """The branch the `is not None` guards exist for: stale, but only ONE frontier
+        stored. Nothing is dropped, so nothing may be claimed — a note here would report
+        a loss that never happened. Probed in both directions."""
+        # NSGA only → re-solve with NSGA.
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        srv.model(action="update", problem_id=pid,
+                  constraints=[{"type": "cardinality", "min": 1, "max": 3}])
+        assert srv.store.load(pid).results_stale is True
+        out = srv.solve(action="run", problem_id=pid, seed=42)
+        assert "dropped_frontier_note" not in out
+
+        # Exact overlay only (no NSGA run to drop) → re-solve with the exact backend.
+        pid2 = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid2, solver="highs", scope="full")
+        p = srv.store.load(pid2)
+        assert p.run is None and p.exact_run is not None
+        srv.model(action="update", problem_id=pid2,
+                  constraints=[{"type": "cardinality", "min": 1, "max": 3}])
+        assert srv.store.load(pid2).results_stale is True
+        out = srv.solve(action="run", problem_id=pid2, solver="highs", scope="full")
+        assert "dropped_frontier_note" not in out
+        assert srv.store.load(pid2).exact_run is not None  # the overlay was refreshed
+
+
+class TestOverlaySeedInheritance:
+    """`scope="curated"`/`"fill_gaps"` re-solve an EXISTING frontier's points, so the seed
+    is the source run's. Passing one there was accepted and ignored, and `seed_used` came
+    back a number the caller never sent."""
+
+    def test_curated_overlay_declines_a_passed_seed_out_loud(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.solve(action="run", problem_id=pid, solver="highs", seed=7712)
+        assert out["overlay_scope"] == "curated"
+        assert out["seed_used"] == 42, "the overlay inherits the source run's seed"
+        note = out["seed_note"]
+        assert "7712" in note and "seed_used=42" in note and 'scope="full"' in note
+
+    def test_full_scope_uses_the_seed_and_stays_quiet(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.solve(action="run", problem_id=pid, solver="highs", scope="full", seed=7712)
+        assert out["seed_used"] == 7712 and "seed_note" not in out
+
+    def test_no_seed_no_note(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.solve(action="run", problem_id=pid, solver="highs")
+        assert "seed_note" not in out
+
+
+class TestSingularOptionConstraintShape:
+    """`{"type": "force_exclude", "options": [...]}` answered with pydantic's bare
+    "option: Field required" — the missing field named, the SHAPE unexplained."""
+
+    def test_plural_options_names_the_singular_shape(self):
+        pid = _build_solvable_problem()
+        out = srv.model(action="update", problem_id=pid,
+                        constraints=[{"type": "force_exclude", "options": ["B", "C"]}])
+        err = out["error"]
+        assert "`option` (singular)" in err and "one constraint row per option" in err
+        assert '{"type": "force_exclude", "option": "B"}' in err  # the payload to send
+        assert "group_limit" in err  # the type that DOES take a set of options
+        assert len(srv.store.load(pid).constraints) == 1, "nothing was written"
+
+    def test_guard_covers_every_single_option_type(self):
+        # Derived from the models, so a new single-option type inherits the guard.
+        assert srv._SINGULAR_OPTION_TYPES == {"force_include", "force_exclude",
+                                              "allocation_bound"}
+
+    def test_set_shaped_sibling_matches_what_the_type_constrains(self):
+        """group_limit is a selection-count rule, so it is the wrong sibling for an
+        allocation box — an allocation_bound miscall is pointed at max_allocation.
+        (Several allocation_bound rows on ONE option are legitimate: they intersect,
+        per the merge landed in #132 — which is exactly why the row-per-option shape
+        is the fix here, not a set-shaped rewrite.)"""
+        pid = _build_solvable_problem()
+        err = srv.model(action="update", problem_id=pid,
+                        constraints=[{"type": "allocation_bound", "options": ["B", "C"],
+                                      "min": 5, "max": 40}])["error"]
+        assert "one constraint row per option" in err
+        assert "max_allocation" in err and "group_limit" not in err
+
+    def test_correct_singular_rows_still_parse(self):
+        pid = _build_solvable_problem()
+        out = srv.model(action="update", problem_id=pid,
+                        constraints=[{"type": "force_exclude", "option": "B"},
+                                     {"type": "force_exclude", "option": "C"}])
+        assert out["status"]["constraints"] == 2
+
+
+class TestExploreFormatParamHonesty:
+    """`format` is the curated handoff export's renderer. Elsewhere it was accepted and
+    dropped, so format="summary" returned the FULL payload while reading as a summary."""
+
+    def test_format_on_tradeoffs_redirects(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.explore(action="tradeoffs", problem_id=pid, format="summary")
+        err = out["error"]
+        assert "curated" in err and "detail=true" in err and "_elided" in err
+
+    def test_format_on_scenario_results_redirects(self):
+        pid = _build_solvable_problem()
+        out = srv.explore(action="scenario_results", problem_id=pid, format="compact")
+        assert "format" in out["error"] and "curated" in out["error"]
+
+    def test_curated_export_still_renders(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.explore(action="curated", problem_id=pid, format="markdown")
+        assert "error" not in out
+
+
+class TestCompositionClusterQuality:
+    def test_clusters_summary_rides_with_the_clusters(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid, seed=42)
+        out = srv.explore(action="composition", problem_id=pid)
+        # Present exactly when there are families to price — never a lone empty block.
+        assert ("clusters_summary" in out) == bool(out["clusters"])
+        if out["clusters"]:
+            s = out["clusters_summary"]
+            assert s["n_families"] == len(out["clusters"])
+            assert 0 < s["largest_family_share"] <= 1

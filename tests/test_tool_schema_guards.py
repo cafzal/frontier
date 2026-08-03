@@ -95,3 +95,19 @@ class TestReplaceVsMergeContract:
 
     def test_source_declares_load_only(self):
         assert 'action="load"' in _param_desc("model", "source")
+
+
+class TestFormatIsExportOnly:
+    """`format` renders the curated handoff export — one word, one meaning. It was
+    accepted and ignored elsewhere, so format="summary" returned a full payload dressed
+    as a summary. The schema now says so, and the runtime redirect is the behavior half
+    (tests/test_server.py::TestExploreFormatParamHonesty)."""
+
+    def test_format_declares_curated_scope_and_the_real_levers(self):
+        desc = _param_desc("explore", "format")
+        assert "curated" in desc and "markdown" in desc and "csv" in desc
+        assert "summary" in desc and "detail=" in desc
+
+    def test_explore_docstring_agrees(self):
+        doc = _TOOLS["explore"].description
+        assert "not a verbosity switch" in doc.lower()
