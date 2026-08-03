@@ -983,32 +983,46 @@ def _format_constraint(c, units: dict | None = None) -> str:
 def _formatted_constraints(p: Problem) -> list[str]:
     """Constraint lines for the formulation card and its ASCII twin.
 
-    Several ``allocation_bound`` rows on one option apply INTERSECTED, so the formulation
-    states the applied box once per option (naming how many rows produced it) instead of
-    the raw rows: the card's job is to describe the problem the solver will run, and two
-    raw lines — "A allocation 20–100%" and "A allocation 0–40%" — describe neither. Every
-    other type renders row for row; none of them carries a per-option merge.
+    Every rule that COLLAPSES renders as the rule actually applied, once, captioned with
+    the number of rows behind it: several ``allocation_bound`` rows on one option intersect
+    into a per-option box, and the whole-plan types (``max_allocation``, ``cardinality``)
+    resolve to their tightest combination. The card's job is to describe the problem the
+    solver will run, and raw lines — "A allocation 20–100%" beside "A allocation 0–40%",
+    or "≤50% per option" beside "≤45% per option" — describe neither. Every other type
+    renders row for row; none of them collapses.
     """
     units = {o.name: o.unit for o in p.objectives}
     merged = optimizer.merged_allocation_bounds(p.constraints)
+    card = optimizer.merged_cardinality(p.constraints)
+    cap = optimizer.merged_max_allocation(p.constraints)
     counts: dict[str, int] = {}
     for c in p.constraints:
-        if c.type == "allocation_bound":
-            counts[c.option] = counts.get(c.option, 0) + 1
+        key = c.option if c.type == "allocation_bound" else c.type
+        counts[key] = counts.get(key, 0) + 1
+
+    def _caption(line: str, key: str) -> str:
+        return line + (f" ({counts[key]} rows merged)" if counts[key] > 1 else "")
+
     lines: list[str] = []
     shown: set[str] = set()
     for c in p.constraints:
-        if c.type != "allocation_bound":
+        if c.type == "allocation_bound":
+            if c.option in shown:
+                continue
+            shown.add(c.option)
+            lo, hi = merged[c.option]
+            lines.append(_caption(_format_constraint(
+                {"type": "allocation_bound", "option": c.option, "min": lo, "max": hi},
+                units), c.option))
+        elif c.type in ("max_allocation", "cardinality"):
+            if c.type in shown:
+                continue
+            shown.add(c.type)
+            applied = ({"type": "max_allocation", "max": cap} if c.type == "max_allocation"
+                       else {"type": "cardinality", "min": card[0], "max": card[1]})
+            lines.append(_caption(_format_constraint(applied, units), c.type))
+        else:
             lines.append(_format_constraint(c, units))
-            continue
-        if c.option in shown:
-            continue
-        shown.add(c.option)
-        lo, hi = merged[c.option]
-        line = _format_constraint(
-            {"type": "allocation_bound", "option": c.option, "min": lo, "max": hi}, units)
-        lines.append(line + (f" ({counts[c.option]} rows merged)"
-                             if counts[c.option] > 1 else ""))
     return lines
 
 

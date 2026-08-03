@@ -276,9 +276,44 @@ class TestModelUpdate:
             {"type": "allocation_bound", "option": "A", "min": 0, "max": 40},
             {"type": "max_allocation", "max": 50},
             {"type": "max_allocation", "max": 45},
+            {"type": "cardinality", "min": 1, "max": 3},
+            {"type": "cardinality", "min": 2, "max": 4},
         ])["constraints_merged_note"]
         assert "'A' (2 allocation_bound rows) → min 20%, max 40%" in note
         assert "2 max_allocation rows → ≤45% per option" in note
+        assert "2 cardinality rows → select 2–3" in note
+
+        # The formulation reads every collapsed rule back as the rule applied — six rows
+        # in, three applied lines out, each captioned with the rows behind it.
+        card = srv.model(action="get", problem_id=pid, section="summary")
+        assert card["viz_data"]["constraints"] == [
+            "A allocation 20–40% (2 rows merged)",
+            "≤45% per option (2 rows merged)",
+            "select 2–3 (2 rows merged)",
+        ]
+        for raw in ("≤50% per option", "select 1–3", "select 2–4"):
+            assert raw not in card["visualization"]
+
+    def test_empty_intersections_are_left_to_the_validation_error(self):
+        """The note reports resolutions; "select 4–2" or "min 60%, max 40%" captioned as a
+        tightest combination describes a rule the model applies. The errors beside the note
+        state those cases correctly, so the note stays quiet on them."""
+        pid = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+        )["problem_id"]
+        r = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "cardinality", "min": 4, "max": 5},
+            {"type": "cardinality", "min": 1, "max": 2},
+            {"type": "allocation_bound", "option": "A", "min": 60, "max": 100},
+            {"type": "allocation_bound", "option": "A", "min": 0, "max": 40},
+        ])
+        assert "constraints_merged_note" not in r
+        msgs = [i["message"] for i in r["validation_issues"] if i["severity"] == "error"]
+        assert any("empty range" in m and "min 4 > merged max 2" in m for m in msgs)
+        assert any("empty box" in m and "60% > merged max 40%" in m for m in msgs)
 
     def test_create_checks_the_constraints_it_was_given(self):
         """The create-time echo gap: constraints passed at create went unchecked until the
