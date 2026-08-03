@@ -1320,6 +1320,20 @@ def _per_pick_verdicts(problem: Problem, names: list[str], sign: np.ndarray, N: 
     objective space at all: it is reported ``inconclusive`` with the objectives it lacks, rather
     than scored against a fabricated 0.0. Absent (not empty) when nothing is curated, matching
     ``regret.curated``.
+
+    **A pick is judged at its slate's value under the CURRENT scores**, not at the values
+    stored when it was pinned. The certified frontier is built from today's scores; a pin
+    carries yesterday's. Judging the stored vector against a fresh frontier certified an
+    obsolete pick as ``optimal, gap 0.0`` after a score edit — its stale value sat above the
+    new ceiling, so nothing on the honest frontier could dominate it (observed live:
+    budget_allocation, ROI 26.2 stored vs 24.0 under revised scores, new ceiling 24.2). So
+    each pick's option set is re-scored via the optimizer's own ``score_slate`` — the same
+    machinery ``regret.curated`` trusts — and the dominance check runs in one score regime.
+    When the recomputed values differ from the stored ones the entry says so
+    (``stored_values_stale`` + ``values_now``); a slate no longer feasible under the current
+    constraints is reported ``infeasible`` rather than ranked (an invalid plan has no place
+    on any frontier). A pin with no recorded slate falls back to its stored values — all a
+    hand-built pin has.
     """
     if not problem.curated_solutions:
         return {}
@@ -1330,16 +1344,53 @@ def _per_pick_verdicts(problem: Problem, names: list[str], sign: np.ndarray, N: 
     def _sig(s) -> str:
         return s.content_signature or _content_signature(s.selected_options, s.allocations)
 
+    scorer = None  # built once, only if some pick carries a slate
+
+    def _revalue(cs):
+        """(values under current scores, feasible) — or (None, None) when re-scoring is
+        impossible: a slate-less hand-built pin, or a model the scorer itself cannot evaluate
+        (e.g. a quadratic objective missing its matrix — solve validate flags that upstream).
+        Falling back to stored values is the honest floor; it is exactly what the block did
+        for every pin before the regime check existed."""
+        nonlocal scorer
+        if not cs.selected_options and not cs.allocations:
+            return None, None
+        try:
+            if scorer is None:
+                from .optimizer import make_slate_scorer
+                scorer = make_slate_scorer(problem, None)
+            r = scorer(cs.selected_options, cs.allocations)
+        except Exception:
+            return None, None
+        return r["values"], r["feasible"]
+
     per_pick = {}
     for cs in problem.curated_solutions:
-        missing = [n for n in names if n not in cs.objective_values]
+        now, feasible = _revalue(cs)
+        source = now if now is not None else cs.objective_values
+        missing = [n for n in names if n not in source]
         if missing:
             per_pick[cs.content_signature] = {
                 "verdict": "inconclusive", "custom_name": cs.custom_name,
                 "missing_objectives": missing,   # self-certifying: names why it can't be judged
             }
             continue
-        pick = np.array([cs.objective_values[n] for n in names], dtype=float) * sign
+        # Staleness is measured, not assumed: material drift between stored and current
+        # values means a score edit happened after the pin. Threshold rides the joint
+        # spread so whole-percent rounding never trips it.
+        stale = now is not None and any(
+            abs(now[n] - cs.objective_values[n]) > max(1e-9, 1e-4 * spread[i])
+            for i, n in enumerate(names) if n in cs.objective_values)
+        stale_fields = ({"stored_values_stale": True,
+                         "values_now": {n: round(now[n], 4) for n in names}} if stale else {})
+        if now is not None and not feasible:
+            per_pick[cs.content_signature] = {
+                "verdict": "infeasible", "custom_name": cs.custom_name, **stale_fields,
+                "note": "this slate violates the current constraints — re-curate from the "
+                        "current frontier rather than ranking an invalid plan",
+            }
+            continue
+        pick = np.array([source[n] for n in names], dtype=float) * sign
         nearest = None
         for k in exact_front:
             if not _dominates_min(E[k], pick):
@@ -1349,12 +1400,12 @@ def _per_pick_verdicts(problem: Problem, names: list[str], sign: np.ndarray, N: 
                 nearest = (d, int(k))
         if nearest is None:
             per_pick[cs.content_signature] = {
-                "verdict": "optimal", "custom_name": cs.custom_name, "gap": 0.0}
+                "verdict": "optimal", "custom_name": cs.custom_name, "gap": 0.0, **stale_fields}
         else:
             gap, k = nearest
             per_pick[cs.content_signature] = {
                 "verdict": "dominated", "custom_name": cs.custom_name, "gap": round(gap, 4),
-                "dominated_by": _sig(exact_run.solutions[k]),
+                "dominated_by": _sig(exact_run.solutions[k]), **stale_fields,
             }
     return per_pick
 
@@ -1473,14 +1524,18 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
     per_pick = _per_pick_verdicts(problem, names, sign, N, E, exact_front, exact_run)
     dominated_picks = [sig for sig, v in per_pick.items() if v["verdict"] == "dominated"]
     inconclusive_picks = [sig for sig, v in per_pick.items() if v["verdict"] == "inconclusive"]
+    infeasible_picks = [sig for sig, v in per_pick.items() if v["verdict"] == "infeasible"]
 
     parts = []
     if per_pick:
         # Lead with it: "are my finalists optimal?" is the question the phase exists to answer.
-        n_opt = len(per_pick) - len(dominated_picks) - len(inconclusive_picks)
+        # Count optimal directly — deriving it by subtraction silently absorbs any new verdict.
+        n_opt = sum(1 for v in per_pick.values() if v["verdict"] == "optimal")
         tally = f"curated picks: {n_opt} of {len(per_pick)} optimal at their own tradeoff"
         if dominated_picks:
             tally += f", {len(dominated_picks)} dominated"
+        if infeasible_picks:
+            tally += f", {len(infeasible_picks)} infeasible under current constraints"
         if inconclusive_picks:
             tally += f", {len(inconclusive_picks)} inconclusive"
         parts.append(tally + " (see per_pick)")
@@ -1549,6 +1604,14 @@ def certify_against_exact(problem: Problem, nsga_run: Run, exact_run: Run) -> di
             "straight to `explore curate content_signature=<sig> source=\"exact\"` (and "
             "`explore solutions content_signature=<sig> source=\"exact\"` to read it first), "
             "then unpin the dominated one with `remove=true`. " + next_steps)
+    if infeasible_picks:
+        # An infeasible pin has no dominating replacement to name — the route is the current
+        # frontier itself.
+        next_steps = (
+            f"{len(infeasible_picks)} pinned plan(s) violate the CURRENT constraints (see "
+            "per_pick verdict=infeasible) — unpin with `remove=true` and pick a replacement "
+            "from the current frontier; every plan there honors the rules as they now stand. "
+            + next_steps)
 
     coverage = _coverage_gain(N, Eref)  # the cleaned exact front (as the dominance audit uses), so integer-rounding artifacts can't rescale the shared box
     if coverage is not None:

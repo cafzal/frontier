@@ -689,3 +689,84 @@ def test_unknown_signature_is_a_tool_error_naming_the_scope(srv_tmp_store):
     out = srv.explore(action="solutions", problem_id=p.problem_id,
                       content_signature="nope", source="exact")
     assert "error" in out and "nope" in out["error"] and "exact" in out["error"]
+
+
+# ─── per-pick verdicts judge in the CURRENT score regime ───
+
+
+def _scored_problem():
+    """Binary problem where a slate's value is recomputable: Return = sum of picked scores."""
+    objs = [Objective(name="Return", direction="maximize", aggregation="sum"),
+            Objective(name="Risk", direction="minimize", aggregation="sum")]
+    p = Problem(
+        name="t", approach="binary", objectives=objs,
+        options=[Option(name=n) for n in ["A", "B", "C"]],
+        scores=[Score(option=n, objective="Return", value=v)
+                for n, v in [("A", 10.0), ("B", 8.0), ("C", 2.0)]]
+              + [Score(option=n, objective="Risk", value=v)
+                 for n, v in [("A", 3.0), ("B", 2.0), ("C", 1.0)]],
+    )
+    return p, objs
+
+
+def test_per_pick_judges_a_stale_pin_at_current_scores():
+    """The live false-optimal: a pin stored at Return 26.2 before a score cut to 24.2 sat above
+    the whole fresh frontier, so nothing could dominate it and it certified optimal, gap 0.0.
+    The pick must be re-scored under CURRENT scores — the regime the certified frontier was
+    built in — so the stale stored vector cannot place it above the honest ceiling."""
+    p, objs = _scored_problem()
+    # Pin {A,B} recorded when A scored 18: stored Return 26, Risk 5. A has since been re-scored
+    # to 10, so the slate is actually worth Return 18 now — and exact-a (Return 19, Risk 4)
+    # beats the TRUE value on both axes while losing to the stale stored one.
+    p.curated_solutions = [CuratedSolution(
+        content_signature="pick-stale-values", custom_name="Growth",
+        selected_options=["A", "B"], objective_values={"Return": 26.0, "Risk": 5.0})]
+    nsga = _run([(18.0, 5.0)], objs)
+    exact = _run([(19.0, 4.0)], objs, solver="highs")
+    exact.solutions[0].content_signature = "exact-a"
+
+    entry = certify_against_exact(p, nsga, exact)["per_pick"]["pick-stale-values"]
+    assert entry["verdict"] == "dominated" and entry["dominated_by"] == "exact-a"
+    assert entry["stored_values_stale"] is True
+    assert entry["values_now"] == {"Return": 18.0, "Risk": 5.0}
+
+
+def test_per_pick_reports_an_infeasible_pin_rather_than_ranking_it():
+    """A pinned slate that violates the CURRENT constraints is an invalid plan — ranking it on
+    any frontier would be the same confident-wrong-answer, one level down."""
+    p, objs = _scored_problem()
+    p.constraints = [CardinalityConstraint(min=1, max=1)]
+    p.curated_solutions = [CuratedSolution(
+        content_signature="pick-now-invalid", custom_name="Pair",
+        selected_options=["A", "B"], objective_values={"Return": 18.0, "Risk": 5.0})]
+    cert = certify_against_exact(p, _run([(10.0, 3.0)], objs),
+                                 _run([(10.0, 3.0)], objs, solver="highs"))
+    entry = cert["per_pick"]["pick-now-invalid"]
+    assert entry["verdict"] == "infeasible" and "re-curate" in entry["note"]
+    assert "1 infeasible under current constraints" in cert["recommendation"]
+    assert "violate the CURRENT constraints" in cert["next_steps"]
+
+
+def test_per_pick_fresh_pin_carries_no_stale_noise():
+    """A pin whose stored values match its current re-evaluation stays clean — no stale flag,
+    no values_now, same verdicts as before the regime check existed."""
+    p, objs = _scored_problem()
+    p.curated_solutions = [CuratedSolution(
+        content_signature="pick-fresh", custom_name="Solo",
+        selected_options=["A"], objective_values={"Return": 10.0, "Risk": 3.0})]
+    entry = certify_against_exact(p, _run([(10.0, 3.0)], objs),
+                                  _run([(10.0, 3.0)], objs, solver="highs"))["per_pick"]["pick-fresh"]
+    assert entry["verdict"] == "optimal" and "stored_values_stale" not in entry
+    assert "values_now" not in entry
+
+
+def test_per_pick_slateless_pin_still_uses_stored_values():
+    """A hand-built pin with no recorded slate has nothing to re-score — stored values remain
+    all it has, exactly the pre-existing behavior the fixtures above rely on."""
+    p, objs = _scored_problem()
+    p.curated_solutions = [CuratedSolution(
+        content_signature="pick-bare", custom_name="Note-only",
+        objective_values={"Return": 9.0, "Risk": 2.5})]
+    entry = certify_against_exact(p, _run([(9.0, 2.5)], objs),
+                                  _run([(10.0, 2.0)], objs, solver="highs"))["per_pick"]["pick-bare"]
+    assert entry["verdict"] == "dominated" and "stored_values_stale" not in entry
