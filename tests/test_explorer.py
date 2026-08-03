@@ -711,3 +711,92 @@ class TestShadowPriceTrend:
                          ShadowPrice(name="Return", role="linear_floor", shadow_price=-0.0)]))
         trend, _ = _shadow_price_trend([s])
         assert math.copysign(1.0, trend[0]["shadow_price"]) == 1.0
+
+
+class TestClustersSummary:
+    """Cluster sizes without a partition-quality signal read alike: a 104/1/1/1 split and a
+    meaningful 155/19 both come back as "4 families" / "2 families" and nothing else."""
+
+    def test_lopsided_split_is_named_as_one_strategy(self):
+        from engine.explorer import _clusters_summary
+        s = _clusters_summary([{"size": 104}, {"size": 1}, {"size": 1}, {"size": 1}])
+        assert s["n_families"] == 4 and s["largest_family_share"] == 0.97
+        assert "corner variants" in s["note"] and "not a menu" in s["note"]
+
+    def test_real_split_carries_the_share_without_a_note(self):
+        from engine.explorer import _clusters_summary
+        s = _clusters_summary([{"size": 155}, {"size": 19}])
+        assert s["n_families"] == 2 and s["largest_family_share"] == 0.89
+        assert "note" not in s
+
+    def test_no_clusters_no_summary(self):
+        from engine.explorer import _clusters_summary
+        assert _clusters_summary([]) is None
+
+    def test_composition_payload_carries_the_summary(self):
+        objs = [Objective(name="X", direction="maximize"), Objective(name="Y", direction="maximize")]
+        # One strategy (A+B) with corner variants, plus a single outlier.
+        sols = [_csol(i, ["A", "B"], {"X": 1 + i * 0.1, "Y": 9 - i * 0.1}) for i in range(10)]
+        sols.append(_csol(10, ["C", "D"], {"X": 9, "Y": 1}))
+        p = _problem_with_run(sols, ["A", "B", "C", "D"], objs)
+        r = analyze_composition(p)
+        s = r["clusters_summary"]
+        assert s["n_families"] == len(r["clusters"])
+        assert s["largest_family_share"] >= 0.9 and "corner variants" in s["note"]
+        assert "largest holds" in r["visualization"]
+
+
+class TestCompareRunsCoverageElision:
+    """compare_runs' coverage table is options × runs — 360 rows on the 180-option
+    portfolio. It elides the way solve's own option_coverage does, and ranks by the
+    quantity the action is about: how much each option MOVED between the runs."""
+
+    def _two_runs(self, n_options=70):
+        names = [f"opt{i:03d}" for i in range(n_options)]
+        objs = [Objective(name="X", direction="maximize")]
+        # Run A holds every option once; run B drops the last 5 — those are the movers.
+        movers, steady = names[-5:], names[:-5]
+        a = Run(solutions=[_csol(0, names, {"X": 1.0})])
+        b = Run(solutions=[_csol(0, steady, {"X": 2.0})])
+        p = Problem(objectives=objs, options=[Option(name=o) for o in names])
+        p.runs = [a]
+        p.run = b
+        return p, a, b, movers, steady
+
+    def test_head_keeps_the_options_that_moved(self):
+        from engine.explorer import compare_runs
+        from engine.metrics import _MAX_COVERAGE_RETURNED
+        p, a, b, movers, steady = self._two_runs()
+        out = compare_runs(p, [a.run_id, b.run_id])
+        kept = set(out["option_coverage"][a.run_id])
+        assert len(kept) == _MAX_COVERAGE_RETURNED
+        assert set(movers) <= kept, "an option that changed must never be elided"
+        assert out["option_coverage"][b.run_id].keys() == kept, "same head on both runs"
+
+    def test_elision_says_absence_is_not_zero(self):
+        from engine.explorer import compare_runs
+        from engine.metrics import _MAX_COVERAGE_RETURNED
+        p, a, b, movers, steady = self._two_runs()
+        elided = compare_runs(p, [a.run_id, b.run_id])["option_coverage_elided"]
+        assert elided["shown"] == _MAX_COVERAGE_RETURNED and elided["total_options"] == 70
+        assert elided["tail_max_delta"] == 0, "everything that moved is in the head"
+        assert "NOT a coverage of zero" in elided["note"]
+        assert "held the same count in both runs" in elided["note"]
+        assert "change in selection count" in elided["ranked_by"]
+
+    def test_note_states_the_tail_when_the_tail_moved(self):
+        """A nonzero tail must report how far an elided option could have moved."""
+        from engine.explorer import _elide_coverage_diff
+        names = [f"opt{i:03d}" for i in range(70)]
+        a = {o: 10 for o in names}
+        b = {o: 10 - min(i, 3) for i, o in enumerate(reversed(names))}
+        _, elided = _elide_coverage_diff({"a": a, "b": b}, names)
+        assert elided["tail_max_delta"] == 3
+        assert "at most 3 plan(s)" in elided["note"]
+
+    def test_small_problem_passes_through_whole(self):
+        from engine.explorer import compare_runs
+        p, a, b, _, _ = self._two_runs(n_options=8)
+        out = compare_runs(p, [a.run_id, b.run_id])
+        assert "option_coverage_elided" not in out
+        assert len(out["option_coverage"][a.run_id]) == 8

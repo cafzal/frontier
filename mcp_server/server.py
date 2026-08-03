@@ -1224,6 +1224,13 @@ _CONSTRAINT_TYPES: dict[str, type] = {
 }
 
 
+# Types that name ONE option per row (force_include / force_exclude / allocation_bound),
+# derived from the models so a new single-option type inherits the guard below.
+_SINGULAR_OPTION_TYPES = frozenset(
+    t for t, cls in _CONSTRAINT_TYPES.items() if "option" in cls.model_fields
+)
+
+
 def _parse_constraint(c: dict | Constraint) -> Constraint:
     if not isinstance(c, dict):
         return c
@@ -1232,6 +1239,18 @@ def _parse_constraint(c: dict | Constraint) -> Constraint:
     if cls is None:
         raise _ToolDecline(f"Unknown constraint type: {ctype}. "
                            f"Valid types: {', '.join(_CONSTRAINT_TYPES)}.")
+    # A list where the schema wants one name is the common miscall (batching several
+    # exclusions into one row). Pydantic answers it as "option: Field required", which names
+    # the missing field but not the shape — say which shape, the way the scenarios guard does.
+    if ctype in _SINGULAR_OPTION_TYPES and "option" not in c and isinstance(c.get("options"), list):
+        opts = [o for o in c["options"] if isinstance(o, str)]
+        example = ", ".join(f'{{"type": "{ctype}", "option": "{o}"}}' for o in opts[:2]) \
+            or f'{{"type": "{ctype}", "option": "<name>"}}'
+        raise _ToolDecline(
+            f"{ctype} takes `option` (singular) — one constraint row per option, not an "
+            f"`options` list. Send {len(opts) or 'one'} rows: [{example}"
+            f"{', …' if len(opts) > 2 else ''}]. For a rule over a SET of options "
+            "(at most/at least N of these), use group_limit, which does take `options`.")
     return cls(**c)
 
 
@@ -1281,7 +1300,9 @@ def solve(
       run            — Validate, then optimize. Returns the Pareto frontier (+ solution_interpreter
                        skill), OR a {status:"running", job_id} handle to poll (see above).
                        Side effects: archives the previous run; clears results_stale; persists full
-                       results to full_result_path on disk.
+                       results to full_result_path on disk. Solving a STALE problem also drops the
+                       other stored frontier (it predates the edit) — reported as
+                       `dropped_frontier_note`, naming the re-run that restores it.
       run_scenarios  — Run optimization independently per scenario. Requires scenario_config.
                        May also return a running handle to poll.
       status         — Poll a background solve by `job_id`. Returns status="running" (with
@@ -1302,6 +1323,10 @@ def solve(
             result. For `run_scenarios`, the parent seed is propagated to each
             scenario (per-scenario `seed_used` derived via SHA-256 of scenario name
             + parent seed), so pinning the parent reproduces the whole run.
+            An exact overlay built by scope="curated"/"fill_gaps" re-solves an EXISTING
+            frontier's points, so it INHERITS that run's seed: a seed passed there is
+            declined with a `seed_note` naming the inherited `seed_used`. Use
+            scope="full" to seed a fresh exact search.
       solver: Which engine to run. Omit (or "nsga") for the default NSGA-II/III
             evolutionary search — it fits any problem shape and is the right choice for
             exploration and most runs. "highs" (CPU) or "cuopt" (GPU) select an OPTIONAL
@@ -1579,6 +1604,11 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     # extends ONE specific overlay — remember that too.
     certified_run_id = p.run.run_id if (use_curated or use_fill) else None
     fill_base_run_id = p.exact_run.run_id if use_fill else None
+    # A curated/fill overlay re-solves an EXISTING frontier's points, so its randomness is the
+    # source run's — the seed rides along on the inherited `seed_used` and this call's `seed`
+    # is never read. Correct, and previously silent: say so rather than echo a seed_used the
+    # caller didn't ask for. (Only `scope="full"` runs a fresh seeded search.)
+    seed_inherited = seed is not None and (use_curated or use_fill)
     try:
         if use_fill:
             run, fill_report = optimizer.fill_gaps(p, p.run, p.exact_run, solver=solver,
@@ -1605,6 +1635,7 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
     # changed feasibility isn't reported as a stale "infeasible".
     from solvers import is_exact_solver
 
+    dropped_frontier_note = None
     with _store_write_lock:
         p = store.load(p.problem_id)
         if _solve_fingerprint(p) != fingerprint:
@@ -1642,18 +1673,29 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
             # then certify). A default/NSGA run replaces `run` and archives the prior one. A solve
             # only refreshes the frontier it produces; if results were stale the *other* stored
             # frontier predates that edit and is dropped, so clearing results_stale below doesn't
-            # vouch for a frontier that no longer matches.
+            # vouch for a frontier that no longer matches. A correct silent action still has to
+            # say itself: the drop is reported as `dropped_frontier_note`, or the next `explore`
+            # reads as if a frontier simply vanished.
             was_stale = p.results_stale
             if is_exact_solver(run.solver):
-                p.exact_run = run
-                if was_stale:
+                if was_stale and p.run is not None:
                     p.run = None
+                    dropped_frontier_note = (
+                        "the exploratory NSGA frontier was dropped — it predates the edit that "
+                        "marked results stale, so it no longer matches this model. Re-run "
+                        "`solve run` to re-explore; `explore certify` needs both frontiers.")
+                p.exact_run = run
             else:
+                if was_stale and p.exact_run is not None:
+                    dropped_solver = p.exact_run.solver
+                    p.exact_run = None
+                    dropped_frontier_note = (
+                        "the exact overlay was dropped — it predates the edit that marked results "
+                        f"stale, so it no longer certifies this model. Re-run "
+                        f"solve(solver=\"{dropped_solver}\") to re-certify this frontier.")
                 if p.run is not None:
                     p.runs.append(p.run)
                 p.run = run
-                if was_stale:
-                    p.exact_run = None
             p.results_stale = False
             store.save(p)
 
@@ -1699,6 +1741,13 @@ def _solve_run_body(p: Problem, fingerprint: str, *, mode: OptimizeMode | None =
         "solver_used": run.solver,
         "exact": run.exact,
         "overlay_scope": overlay_scope,
+        **({"dropped_frontier_note": dropped_frontier_note}
+           if dropped_frontier_note else {}),
+        **({"seed_note": (
+            f"seed={seed} was not applied — scope=\"{overlay_scope}\" re-solves an existing "
+            f"frontier's points, so it inherits that run's seed (seed_used={run.seed_used}). "
+            "Pass scope=\"full\" for a freshly seeded exact search.")}
+           if seed_inherited else {}),
         **({"fill": fill_report} if fill_report is not None else {}),
         "time_limit": run.time_limit,
         "time_limited": run.time_limited,
@@ -1982,7 +2031,12 @@ def explore(
     source: str | None = None,
     detail: bool = False,
     cvar_alpha: float | None = None,
-    format: str | None = None,
+    format: Annotated[str | None, Field(
+        description="curated ONLY — render the handoff export as \"markdown\" or \"csv\". Not a "
+                    "verbosity switch: there is no \"summary\"/\"compact\" mode, and passing it "
+                    "to any other action returns a redirect rather than a silently unchanged "
+                    "payload. For depth use detail=; oversized tables elide on their own and "
+                    "say so in an `…_elided` block.")] = None,
     audit_property: dict | list[dict] | None = None,
     # guard: wrong name for custom_name (see below)
     label: Annotated[str | None, Field(
@@ -2031,6 +2085,9 @@ def explore(
       compare_runs — Diff two runs (criteria, frontier ranges, option coverage).
                    Default: current run vs the previous one ("what changed since my
                    last solve?"). Optional: run_ids (2+) for explicit historical runs.
+                   Past 60 options the coverage table keeps the options that MOVED most
+                   between the runs and summarizes the rest in option_coverage_elided —
+                   an absent option is elided, not at zero coverage.
       certify    — Check the NSGA frontier against the exact overlay: dominance check,
                    hypervolume coverage reclaimed, soundness invariant, per-objective corner
                    sharpening, plus `per_pick` — a verdict per curated finalist (optimal /
@@ -2107,6 +2164,9 @@ def explore(
       composition — Mine the solution set: option selection rates (consensus vs distinctive),
                    co-occurrence, design principles, decision-space strategy clusters, and
                    feedback rules when ratings exist. Frontier-wide or a curated subset.
+                   clusters_summary reports the partition's quality (n_families,
+                   largest_family_share) — a lopsided split is one strategy with corner
+                   variants, not a menu of families; present it that way.
                    Optional: solution_ids, signatures, detail, source.
 
     Scenario param (optional):
@@ -2122,6 +2182,12 @@ def explore(
       can drop `source`); a heuristic result flags exact_overlay_available when an
       overlay exists.
 
+    Format param (curated only):
+      format="markdown"|"csv" renders the curated handoff export. It is an export renderer,
+      not a verbosity switch — no action takes format="summary"/"compact", and passing it
+      anywhere else returns a redirect. Depth is `detail=`; size is automatic (oversized
+      tables elide and say so in an `…_elided` block).
+
     Presentation judgment (never "best", extremes-first, preference elicitation, curation
     flow) lives in the solution_interpreter skill — injected on first solve; deep sections
     via get_skill('solution_interpreter', section=...).
@@ -2133,6 +2199,17 @@ def explore(
                 "`custom_name` (e.g. explore(action=\"curate\", solution_id=…, "
                 "custom_name=\"Balanced split\")). To rename an existing pin, use "
                 "action=\"curate\", rename=\"…\" with its content_signature."}
+
+    # `format` is the curated handoff EXPORT renderer, one word for one meaning. Elsewhere it
+    # was accepted and ignored, so format="summary"/"compact" came back as a full payload that
+    # read like a summary. Refuse loudly and name the levers that do exist.
+    if format is not None and action != "curated":
+        return {"error": f"explore has no `format` on action=\"{action}\" — `format` renders the "
+                "curated handoff export only (explore(action=\"curated\", "
+                "format=\"markdown\"|\"csv\")). It is not a verbosity switch: no action has a "
+                "\"summary\"/\"compact\" mode. For depth, pass detail=true where the action "
+                "offers it (solutions, compare, marginal_analysis, composition); response size "
+                "is handled for you — large tables elide and report it in an `…_elided` block."}
 
     try:
         p = store.load(problem_id)
