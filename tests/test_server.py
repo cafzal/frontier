@@ -118,6 +118,33 @@ class TestInteractionMatrixIncrementalWrite:
         assert "B" not in entries.get("A", {})
         assert entries["A"]["C"] == 0.25
 
+    def test_cell_echo_rises_across_upsert_chunks(self):
+        """Every touched objective echoes its post-merge cell count — the response is
+        self-certifying, so a chunked build can watch the matrix grow instead of trusting."""
+        pid = self._setup()
+        r1 = srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"B": 0.5}}}])
+        r2 = srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert", "entries": {"A": {"C": 0.25}}}])
+        assert r1["interaction_matrix_cells"]["Risk"]["cells"] == 2   # A-B mirrored
+        assert r2["interaction_matrix_cells"]["Risk"]["cells"] == 4   # + A-C mirrored
+        assert "note" not in r2["interaction_matrix_cells"]["Risk"]
+
+    def test_cell_echo_names_a_wipe_when_mode_is_omitted(self):
+        """The silent-loss case from the live capture: a chunked build that omits
+        mode="upsert" on a later chunk replaces the objective's map, and only a later
+        validation error revealed it. A falling cell count is the wipe's signature —
+        the response must say so and name the cause (the matrix twin of constraints_note)."""
+        pid = self._setup()
+        srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "mode": "upsert",
+             "entries": {"A": {"B": 0.5, "C": 0.3}, "B": {"C": 0.2}}}])
+        r = srv.model(action="update", problem_id=pid, interaction_matrices=[
+            {"objective": "Risk", "entries": {"A": {"C": 0.25}}}])  # default: replace
+        echo = r["interaction_matrix_cells"]["Risk"]
+        assert echo["cells"] == 1 and "cell count fell" in echo["note"]
+        assert 'mode="upsert"' in echo["note"]
+
     def test_scale_groups_apply_to_the_base_matrix(self):
         pid = self._setup()
         srv.model(action="update", problem_id=pid, interaction_matrices=[
