@@ -90,7 +90,7 @@ export function MarginalRates({ data }: Props) {
                   width={w}
                   height={ROW_H - 6}
                   fill={isInf ? "#f59e0b" : "#0ea5e9"}
-                  opacity={r.degenerate ? 0.25 : 0.85}
+                  opacity={r.degenerate || r.flat ? 0.25 : 0.85}
                 />
                 <text
                   x={w + 4}

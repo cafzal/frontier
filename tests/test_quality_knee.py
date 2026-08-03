@@ -9,6 +9,7 @@ rate, traversed in the improving direction of objective A so a convex elbow fire
 detector; a near-linear frontier yields NO knee (threshold-gated, never a fake one). Where the
 exact path attached solver duals, they replace secants as the slopes (rate_basis says which).
 """
+import numpy as np
 import pytest
 
 from engine.explorer import (
@@ -391,12 +392,17 @@ def _steps(dv, dc):
     return pts
 
 
-# The live receipt, reconstructed: a flat stretch (Cost moves 0.005, then 0.15) inside a
-# frontier whose steps otherwise run 4-6. Without the guard the largest jump in the whole
-# sequence is the 0.15 step landing on the 0.00507 one — exactly 25.5x, on a step that
-# bought 0.15 of Cost.
-FLAT_STRETCH = _steps([1.0, 1.0, 1.5, 1.74, 3.0, 1.0],
-                      [4.0, 4.4, 0.00507, 0.15, 6.0, 5.0])
+# The live receipt, reconstructed at the density it was measured at: a flat stretch (Cost
+# moves 0.005, then 0.15) inside a 30-transition frontier whose steps otherwise run 4-6.
+# Without the guard the largest jump in the whole sequence is the 0.15 step landing on the
+# 0.00507 one — exactly 25.5x, on a step that bought 0.15 of Cost. Density matters to the
+# calibration (see the density block below), so the fixture carries a realistic one: two
+# artifacts among thirty transitions, the ~7% share the bundled examples show.
+_NORMAL = [4.0, 4.4, 6.0, 5.0]
+FLAT_STRETCH = _steps(
+    [1.0] * 12 + [1.5, 1.74, 3.0] + [1.0] * 15,
+    (_NORMAL * 3) + [0.00507, 0.15, 6.0] + [5.0] + (_NORMAL * 3) + [4.0, 4.4],
+)
 
 # The genuine-kink control: the step INTO the marker is small on both sides (3.02 Value buys
 # 0.08 Cost) but this pair's steps run ~0.5, so 0.08 is a real move, not a non-move — and the
@@ -407,23 +413,26 @@ GENUINE_KINK = _steps([0.5, 0.5, 3.02, 0.29, 0.5, 0.5],
 
 def test_flat_numerator_step_is_flagged_and_loses_the_marker():
     pair = _pair(FLAT_STRETCH, detail=True)
-    flat = pair["rates"][3]
+    flat = pair["rates"][13]
     assert flat["delta_Cost"] == -0.15 and flat["delta_Value"] == 1.74   # healthy denominator
     assert flat["flat"] is True and "degenerate" not in flat
     # The marker moves off it — to the one real steepening left in the sequence.
-    assert pair["inflection"]["solution_id"] == 5
+    assert pair["inflection"]["solution_id"] == 15
     assert pair["inflection"]["jump_factor"] == 2.5
 
 
 def test_the_flat_stretch_is_what_the_unguarded_detector_would_have_led_with():
     # Both ends of the stretch are ties, so neither can anchor a jump: the 25.5x the raw
-    # quotients offer (0.0862 / 0.00338) is the number the guard exists to keep off the page.
+    # quotients offer (0.0862 / 0.00338) is the number the guard exists to keep off the page,
+    # and it is the largest jump anywhere in the sequence.
     def secant(k):     # unrounded, straight off the fixture's points
         (v0, c0), (v1, c1) = FLAT_STRETCH[k], FLAT_STRETCH[k + 1]
         return (c1 - c0) / (v1 - v0)
-    assert round(secant(3) / secant(2), 1) == 25.5
+    raw = [secant(k) for k in range(len(FLAT_STRETCH) - 1)]
+    jumps = [raw[i] / raw[i - 1] for i in range(1, len(raw))]
+    assert round(max(jumps), 1) == 25.5 and jumps.index(max(jumps)) + 1 == 13
     rows = _pair(FLAT_STRETCH, detail=True)["rates"]
-    assert [i for i, r in enumerate(rows) if r.get("flat")] == [2, 3]
+    assert [i for i, r in enumerate(rows) if r.get("flat")] == [12, 13]
 
 
 def test_a_genuine_kink_over_a_small_but_real_step_still_fires():
@@ -434,8 +443,8 @@ def test_a_genuine_kink_over_a_small_but_real_step_still_fires():
 
 
 def test_the_numerator_floor_is_that_pair_s_own_scale_not_an_absolute():
-    # Why the two receipts above split: 0.15 is a tie where the typical step is 4.2, while a
-    # SMALLER 0.08 is a real move where the typical step is 0.55. The floor is relative, so
+    # Why the two receipts above split: 0.15 is a tie where the typical step is 4.4, while a
+    # SMALLER 0.08 is a real move where the typical step is 0.53. The floor is relative, so
     # the same absolute step reads differently in two pairs — as it should.
     flat_guard = _pair(FLAT_STRETCH)["rate_guard"]
     kink_guard = _pair(GENUINE_KINK)["rate_guard"]
@@ -446,7 +455,7 @@ def test_the_numerator_floor_is_that_pair_s_own_scale_not_an_absolute():
 def test_rate_guard_echoes_the_numerator_side_too():
     guard = _pair(FLAT_STRETCH, detail=True)["rate_guard"]
     assert guard["numerator"] == "Cost"
-    assert guard["numerator_floor"] == pytest.approx(0.21)   # a twentieth of the 4.2 median
+    assert guard["numerator_floor"] == pytest.approx(0.22)   # a twentieth of the 4.4 median
     assert guard["flat_transitions"] == 2
     assert "`flat` rows tie on Cost" in guard["note"]
 
@@ -454,19 +463,23 @@ def test_rate_guard_echoes_the_numerator_side_too():
 def test_flat_transitions_are_kept_in_detail_and_counted_in_summary():
     detail = _pair(FLAT_STRETCH, detail=True)
     assert len(detail["rates"]) == len(FLAT_STRETCH) - 1          # flagged, never dropped
-    # Filtering shapes the headline; it never moves the distribution stats. Rates are
-    # [4.0, 4.4, 0.0034, 0.0862, 2.0, 5.0] — median 3.0, unchanged by the guard.
+    # Filtering shapes the headline; it never moves the distribution stats — the artifacts
+    # stay in the spread as rate_min, and the median is the frontier's own typical rate.
     summary = _pair(FLAT_STRETCH)["summary"]
-    assert summary["total_transitions"] == 6
-    assert summary["rate_median"] == 3.0
+    assert summary["total_transitions"] == 30
+    assert summary["rate_median"] == 4.4
     assert summary["rate_min"] == 0.0034
 
 
 def test_tradeoffs_candidates_are_pre_filtered_for_flat_steps():
+    # An elbow at solution 3, plus one step further along that buys 0.0001 of Cost. Unguarded,
+    # the jump OUT of that step is 50000x and takes the headline; guarded, the candidate is
+    # the elbow. (Solution 4 is the ideal-closest here, so `tradeoffs`' de-duplication against
+    # the balanced point leaves the candidate under test visible.)
     p = _problem()
-    p.run = _run(FLAT_STRETCH)
+    p.run = _run(_steps([1.0] * 8, [1.0, 1.0, 1.0, 5.0, 5.0, 0.0001, 5.0, 5.0]))
     candidates = get_tradeoffs(p)["inflection_point_candidates"]
-    assert [c["solution_id"] for c in candidates] == [5]
+    assert [(c["solution_id"], c["jump_factor"]) for c in candidates] == [(3, 5.0)]
 
 
 def test_an_elbow_s_own_cheap_side_is_not_a_flat_tie():
@@ -489,7 +502,83 @@ def test_a_step_that_ties_on_both_sides_carries_both_flags():
     assert pair["rate_guard"]["flat_transitions"] == 1
 
 
+def test_one_artifact_cannot_set_the_cap_that_would_spare_it():
+    # The tail cap reads the k-th smallest step, never the smallest — otherwise a lone
+    # artifact IS the bottom of the distribution and licenses itself. Same fixture as above,
+    # where the 1e-4 step is the minimum of only eight.
+    pair = _pair(ELBOW_LONG + [(7.0001, 23.0001)], detail=True)
+    assert pair["rate_guard"]["numerator_floor"] == pytest.approx(0.15)   # half the 2nd smallest
+    assert pair["rates"][-1]["flat"] is True
+
+
 def test_the_ascii_marks_the_flat_caveat_where_the_number_is_read():
     viz = _pair(FLAT_STRETCH, detail=True)["visualization"]
     assert "≈ flat on Cost" in viz
     assert "≈ tie on Value" not in viz     # this pair's denominators are all healthy
+
+
+# ─── Density: the floor must not tighten as the frontier is sampled more finely ───
+#
+# What the shipped calibration missed. The denominator floor carries a `0.001 x range` term
+# that works because denominator steps are near-uniform sampling; carried over to the
+# numerator it becomes a fixed slice of a fixed span measured against steps that shrink as
+# span/n, so it overtakes the spacing term within a handful of transitions and then flags an
+# ever-larger share — 41% of a smooth convex frontier at n=300, 67% at n=1000, and every
+# cheap step of an honest elbow past n≈80. Every fixture above is under 30 transitions, which
+# is how it shipped; the bundled examples run 27-359. These pin the shape at three densities,
+# in both regimes, so a floor that tightens with n fails here first.
+
+
+def _elbow(n_cheap, n_steep, cheap=0.2, steep=10.0):
+    """An honest 50x cliff: n_cheap steps buying `cheap`, then n_steep buying `steep`, each
+    over a healthy 1.0 denominator. The marker belongs at the junction, at 50x, at any n."""
+    return _steps([1.0] * (n_cheap + n_steep), [cheap] * n_cheap + [steep] * n_steep)
+
+
+@pytest.mark.parametrize("n_cheap,n_steep", [(6, 2), (60, 20), (150, 50)])
+def test_an_elbow_survives_at_any_density_cheap_majority(n_cheap, n_steep):
+    pair = _pair(_elbow(n_cheap, n_steep), detail=True)
+    assert pair["rate_guard"]["flat_transitions"] == 0
+    assert pair["inflection"]["solution_id"] == n_cheap
+    assert pair["inflection"]["jump_factor"] == 50.0
+
+
+@pytest.mark.parametrize("n_cheap,n_steep", [(2, 6), (20, 60), (50, 150)])
+def test_an_elbow_survives_at_any_density_cheap_minority(n_cheap, n_steep):
+    # The harder regime: the median step lands in the STEEP cluster, so a floor read off the
+    # centre of the distribution condemns the whole cheap side — the sharper the cliff, the
+    # worse. The cap reads the small end instead, so the cheap regime sets its own scale.
+    pair = _pair(_elbow(n_cheap, n_steep), detail=True)
+    assert pair["rate_guard"]["flat_transitions"] == 0
+    assert pair["inflection"]["solution_id"] == n_cheap
+    assert pair["inflection"]["jump_factor"] == 50.0
+
+
+def test_a_smooth_frontier_carries_no_flat_flags_at_any_density():
+    # A diminishing-returns curve is ALL gradient and no ties: "bought essentially none of it"
+    # must describe none of it, however finely it is sampled.
+    for n in (50, 300, 1000):
+        steps = list(np.geomspace(0.05, 5.0, n))
+        pair = _pair(_steps([1.0] * n, steps))
+        assert pair["rate_guard"]["flat_transitions"] == 0, f"n={n}"
+
+
+def test_a_noisy_elbow_keeps_its_marker_at_the_elbow():
+    # Displacement is worse than a missing marker: with lognormal noise on both regimes, a
+    # too-tight floor flagged most of the cheap side and moved the marker deep into the steep
+    # one. The marker belongs at the junction.
+    rng = np.random.default_rng(7)
+    steps = list(0.2 * rng.lognormal(0, 0.5, 150)) + list(10.0 * rng.lognormal(0, 0.5, 50))
+    pair = _pair(_steps([1.0] * 200, steps), detail=True)
+    assert pair["rate_guard"]["flat_transitions"] == 0
+    assert pair["inflection"]["solution_id"] == 150
+
+
+def test_the_flag_share_is_bounded_by_the_tail_cap():
+    # The structural property behind all of the above: nothing above half the pair's
+    # tenth-percentile step can be flagged, so the share stays in the tail by construction.
+    for n in (40, 200):
+        steps = list(np.geomspace(0.01, 10.0, n))
+        pair = _pair(_steps([1.0] * n, steps))
+        guard = pair["rate_guard"]
+        assert guard["flat_transitions"] / n <= 0.10

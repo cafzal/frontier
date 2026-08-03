@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from itertools import combinations
 
 import numpy as np
@@ -2428,14 +2429,16 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
         "scenario_specific_options": scenario_specific,
         "expected_values": expected_values,
         "scenario_risk": scenario_risk,
-        # With one scenario there is no spread to take a tail of: expected, worst_case,
-        # best_case and CVaR all collapse onto that scenario's own best value. Four numbers
-        # agreeing reads as a robustness finding when it is an echo, so the payload says so
-        # rather than leaving the reader to notice n=1 (present only in that case).
+        # With one scenario there is no spread to take a tail of: worst_case, best_case and
+        # CVaR all collapse onto that scenario's own best value. Three numbers agreeing reads
+        # as a robustness finding when it is an echo, so the payload says so rather than
+        # leaving the reader to notice n=1 (present only in that case). `expected` is left out
+        # of the claim: it is probability-weighted, so a lone scenario carrying a probability
+        # scales it by that probability and it does NOT match the other three.
         **({"scenario_risk_note": (
-            "single scenario — risk spread degenerates: expected, worst_case, best_case and "
-            "CVaR are all that one scenario's value, so their agreement carries no tail "
-            "information. Add scenarios for a tail reading.")} if n_scenarios == 1 else {}),
+            "single scenario — risk spread degenerates: worst_case, best_case and CVaR are "
+            "all that one scenario's value, so their agreement carries no tail information. "
+            "Add scenarios for a tail reading.")} if n_scenarios == 1 else {}),
         "cvar_alpha": alpha,
         "weighting": "probability" if has_probabilities else "equal",
     }
@@ -2593,8 +2596,11 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 "rate_max": round(max(rate_values), 4) if rate_values else 0,
                 "rate_median": round(float(np.median(rate_values)), 4) if rate_values else 0,
             }
-            # Top-5 steepest transitions (the most expensive tradeoff steps) — over the
-            # trustworthy ones, so the headline is a price and never a near-tie's quotient.
+            # Top-5 steepest transitions (the most expensive tradeoff steps). `degenerate` rows
+            # are dropped, so the headline is a price and never a near-tie's quotient; `flat`
+            # rows need no filter here — a step that bought ~nothing has a ~0 rate and can't
+            # rank among the steepest. (Narrower than `_trustworthy_rates`, which gates the
+            # inflection, where a ~0 rate does damage as the jump's baseline.)
             top_rates = sorted(
                 (r for r in rates if not r.get("degenerate")),
                 key=lambda r: r["rate"], reverse=True,
@@ -3937,43 +3943,72 @@ def _compute_pair_rates(sorted_sols, obj_a, obj_b) -> list[dict]:
 
 # A marginal rate is a quotient, so it misreads at BOTH ends: it inflates without bound as
 # its denominator step goes to zero, and a jump measured against a ~zero numerator inflates
-# the same way. One floor definition serves both — the step below which two adjacent points
-# are a tie rather than a move — applied to each objective in turn. Two scales set it and the
-# larger wins: a fixed slice of that objective's range across the analyzed frontier, and a
-# fraction of the typical step between adjacent points. The range term is the backstop that
-# survives a frontier of mostly-ties; the spacing term is the one that binds on a densely
-# sampled frontier, where every step is a small slice of the range and only the steps far
-# below the typical one are artifacts.
+# the same way. Each side gets a floor — the step below which two adjacent points are a tie
+# rather than a move — but the two are derived separately, because the two sides' steps are
+# different quantities (see `_flat_floor`).
+#
+# DENOMINATOR. Two scales, the larger winning: a fixed slice of the objective's range across
+# the analyzed frontier, and a fraction of the typical step between adjacent points. The
+# range term is the backstop that survives a frontier of mostly-ties; the spacing term binds
+# on a densely sampled frontier, where every step is a small slice of the range and only the
+# steps far below the typical one are artifacts. Both hold because denominator steps are the
+# frontier's SAMPLING — near-uniform, so mean ≈ median and neither term runs away.
 _DEGENERACY_RANGE_FRACTION = 0.001
 _DEGENERACY_SPACING_FRACTION = 0.25
-# The two sides need different spacing fractions because their steps mean different things.
-# Denominator steps are the frontier's SAMPLING — near-uniform, so a quarter of the typical
-# one is already a tie. Numerator steps are the frontier's SHAPE: they swing by orders of
-# magnitude between the cheap and expensive stretches, and that swing is the very thing
-# marginal analysis measures. A quarter of the typical numerator step is an ordinary cheap
-# move (the flat side of any honest elbow), so the numerator's tie test sits far below it —
-# a twentieth, which is "this step bought essentially nothing" rather than "this step was
-# cheap". Calibrated on the bundled examples: at 0.25 an elbow's own cheap side is called a
-# tie; at 0.05 the flags land on the ~zero steps and the elbows survive intact.
+
+# NUMERATOR. Numerator steps are the frontier's SHAPE: they swing by orders of magnitude
+# between the cheap and expensive stretches, and that swing is the very thing marginal
+# analysis measures. Two consequences, both measured:
+#
+#   * The range term does NOT transfer. `range / spacing = 0.001·n·mean / (frac·median)`, and
+#     a skewed distribution has mean/median of 5–50×, so `0.001 × span` overtakes the spacing
+#     term at a handful of transitions and then GROWS with sampling density — a fixed slice of
+#     a fixed span against steps that shrink as span/n. On a smooth convex frontier it flagged
+#     41% of transitions at n=300 and 67% at n=1000. Dropped: the numerator floor carries no
+#     range term.
+#   * The typical step is the wrong reference on its own. A quarter of it is an ordinary cheap
+#     move (the flat side of any honest elbow); a twentieth is "this step bought essentially
+#     nothing". And where the cheap side is the MINORITY, the median itself sits in the steep
+#     cluster, so even a twentieth of it condemns the whole cheap regime once the cliff is
+#     steeper than ~20:1 — which is where the real receipts live (25×–17038×).
+#
+# So the numerator floor is a twentieth of the typical step, CAPPED at half the pair's own
+# tenth-percentile step — read as the k-th smallest step, never the smallest itself (a lone
+# artifact would otherwise set the cap that protects it). The cap reads the small end of this
+# pair's distribution rather than its centre, so a genuine cheap regime — down to a tenth of
+# the transitions — sets its own scale and survives, while an artifact far below even the
+# bottom decile is still caught. It also bounds the flag structurally: nothing above half the
+# tenth-percentile step can carry it, whatever the sampling density.
 _FLAT_SPACING_FRACTION = 0.05
+_FLAT_TAIL_PERCENTILE = 10
+_FLAT_TAIL_FRACTION = 0.5
 
 
-def _degeneracy_floor(rates: list[dict], sorted_sols, obj, delta_key: str = "delta_a") -> float:
-    """Smallest step on ``obj`` that counts as a move rather than a tie, for this pair.
-
-    ``delta_key`` selects which side of the quotient is being floored: ``delta_a`` for the
-    denominator (a tie there is a division artifact), ``delta_b`` for the numerator (a tie
-    there means the step bought nothing). Same construction either way — the larger of a
-    slice of this objective's own range and a fraction of this frontier's own spacing — with
-    the spacing fraction set per side (see the constants).
-    """
-    vals = [s.objective_values[obj.name] for s in sorted_sols]
+def _degeneracy_floor(rates: list[dict], sorted_sols, obj_a) -> float:
+    """Smallest denominator step on which a marginal rate for this pair is trustworthy."""
+    vals = [s.objective_values[obj_a.name] for s in sorted_sols]
     span = (max(vals) - min(vals)) if vals else 0.0
-    steps = [abs(rr[delta_key]) for rr in rates]
+    steps = [abs(rr["delta_a"]) for rr in rates]
     typical = float(np.median(steps)) if steps else 0.0
-    spacing = (_DEGENERACY_SPACING_FRACTION if delta_key == "delta_a"
-               else _FLAT_SPACING_FRACTION)
-    return max(_DEGENERACY_RANGE_FRACTION * span, spacing * typical)
+    return max(_DEGENERACY_RANGE_FRACTION * span, _DEGENERACY_SPACING_FRACTION * typical)
+
+
+def _flat_floor(rates: list[dict]) -> float:
+    """Smallest numerator step that still counts as buying something, for this pair.
+
+    A twentieth of the typical step, capped at half the tenth-percentile one. The percentile
+    is the k-th smallest step with ``k = max(2, ceil(n/10))`` — never the smallest itself, so
+    a single artifact can't set the cap that would spare it, and a cheap regime holding a
+    tenth of the transitions still sets the cap from inside its own cluster. Both terms are
+    scale-free in the sampling density, so the flag can't grow with frontier size.
+    """
+    steps = sorted(abs(rr["delta_b"]) for rr in rates)
+    if not steps:
+        return 0.0
+    k = max(2, math.ceil(len(steps) * _FLAT_TAIL_PERCENTILE / 100))
+    tail = steps[min(k, len(steps)) - 1]
+    typical = float(np.median(steps))
+    return min(_FLAT_SPACING_FRACTION * typical, _FLAT_TAIL_FRACTION * tail)
 
 
 def _mark_rate_geometry(rates: list[dict], sorted_sols, obj_a, obj_b) -> tuple[float, float]:
@@ -3988,9 +4023,12 @@ def _mark_rate_geometry(rates: list[dict], sorted_sols, obj_a, obj_b) -> tuple[f
     ``co_improvement`` — the step improved BOTH objectives (possible on a frontier of three or
     more objectives, where the pair's conflict is paid elsewhere), so its rate is a ratio of
     two gains, not a price. All three are set only when true, so a plain row is the ordinary case.
+
+    The two floors are derived separately — a denominator step is sampling, a numerator step
+    is shape — so ``obj_b`` enters through ``_flat_floor``'s own construction.
     """
-    floor_a = _degeneracy_floor(rates, sorted_sols, obj_a, "delta_a")
-    floor_b = _degeneracy_floor(rates, sorted_sols, obj_b, "delta_b")
+    floor_a = _degeneracy_floor(rates, sorted_sols, obj_a)
+    floor_b = _flat_floor(rates)
     for rr in rates:
         if abs(rr["delta_a"]) <= max(floor_a, 1e-9):
             rr["degenerate"] = True
