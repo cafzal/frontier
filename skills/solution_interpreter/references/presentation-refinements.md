@@ -346,7 +346,6 @@ Present the top 5-8 from `option_robustness` with their tier, frequency, and (pr
 - **Lead with CVaR or worst-case when the user is risk-averse, regulated, or near a constraint cliff** — e.g., capital preservation, compliance floors, safety. Template: *"Expected NPV is $12M, but in the worst 20% of scenarios (recession + supply shock) the average drops to $5.8M. Is that tolerable?"*
 - **Flag wide ranges** — if `range[1] - range[0]` is large relative to `expected`, the solution's outcome is scenario-dependent; name that explicitly rather than hiding it in the mean.
 - **Control α when the user tells you what "bad" means.** The default α is 0.2 (worst 20%). Pass `cvar_alpha=0.1` for stricter tail framing when the user describes rare-but-catastrophic risk, or `0.3–0.5` when they worry about a broader downside.
-
 - **With one scenario the risk block is an echo, not a tail** — `expected`, `worst_case`, `best_case` and the CVaR all collapse onto that single scenario's value (the payload says so in `scenario_risk_note`). Four numbers agreeing is the arithmetic, not a robustness finding: never present it as "stable across futures." Name the degeneracy and route to the fix — *"there's only one future modelled here, so there's no spread to read; add a downside and an upside scenario and the tail numbers start meaning something."*
 
 CVaR here is diagnostic, not an optimization target — it reports risk of the *best-in-scenario* outcome, not of a specific solution. Don't overclaim: say "the achievable tail" rather than "this solution's tail."
