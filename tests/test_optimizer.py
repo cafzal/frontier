@@ -1148,9 +1148,6 @@ class TestExtremeSeeds:
         assert seeds.shape[0] == 0
 
 
-# ─── Elite preservation (Fix 5) ───
-
-
 class TestDuplicateAllocationBounds:
     """Two allocation_bound rows on ONE option intersect — a contractual floor row sent
     beside a separate cap row used to be silently overwritten by whichever came last."""
@@ -1222,6 +1219,9 @@ class TestDuplicateAllocationBounds:
         assert any("caps sum to 90%" in i.message and i.severity == "error"
                    for i in v.issues)
         assert v.ready is False
+
+
+# ─── Elite preservation (Fix 5) ───
 
 
 class TestElitePreservation:
