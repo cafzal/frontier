@@ -302,7 +302,10 @@ def model(
                     "Several \"allocation_bound\" rows on ONE option apply intersected — the "
                     "tightest box (max of the mins, min of the maxes), echoed as "
                     "constraints_merged_note; an empty intersection is a validation "
-                    "error.")] = None,
+                    "error. The whole-plan types — \"max_allocation\" (one global per-option "
+                    "cap) and \"cardinality\" (one selection-count range) — take ONE row "
+                    "each the same way: several rows resolve to their tightest combination, "
+                    "echoed in that same note.")] = None,
     approach: str | None = None,
     reference_points: Annotated[list[dict] | None, Field(
         description="On update: FULL REPLACEMENT — send the complete list.")] = None,
@@ -346,6 +349,8 @@ def model(
                 NOT applied at create — passing them errors with a pointer to update.
                 `source` belongs to action='load' (it rebuilds a saved/example bundle),
                 so passing it to create errors with a pointer there.
+                Constraints passed here are checked on the spot, like an update's:
+                the response carries validation_issues and constraints_merged_note.
       update  — Modify problem. Params: problem_id (required), plus any of:
                 name, domain, context, objectives, options, scores, constraints,
                 approach ("binary" or "proportional"),
@@ -489,12 +494,58 @@ def _model_create(params: dict) -> dict:
         "options": len(p.options),
         "constraints": len(p.constraints),
     }
+    # Constraints passed at create get the same self-certifying echo an update gives them
+    # — the merge note plus the non-scoring validation issues. Without it a one-shot
+    # framing call carrying, say, two cardinality rows learned what the model actually
+    # applies only on the next update, or at solve.
+    if "constraints" in params:
+        _attach_constraint_merge_note(result, p)
+        try:
+            issues = [json.loads(i.model_dump_json()) for i in optimizer.validate(p).issues
+                      if "Score matrix incomplete" not in i.message]
+            if issues:
+                result["validation_issues"] = issues
+        except Exception:
+            pass  # advisory, like the update path — never block a create on validation
     # Next step is scoring — inject data_collection guidance (throttled in _inject_skill)
     _inject_skill(result, "data_collection",
         "Problem created. Use this guide when entering scores — "
         "it covers anchoring, batch efficiency, and completeness.",
         p.problem_id)
     return result
+
+
+def _attach_constraint_merge_note(result: dict, p: Problem) -> None:
+    """Name what the model actually applies wherever several rows collapse into one rule.
+
+    Two kinds collapse, and ONE note carries both: several `allocation_bound` rows on one
+    option intersect into a per-option box, and the whole-plan types (`max_allocation`,
+    `cardinality`) resolve to their tightest combination. In each case the applied rule is
+    not any single row the caller sent, so the response names it — the same self-certifying
+    echo `constraints_note` gives a shrinking constraint set, and it beats leaving the
+    difference for the allocations or the frontier to reveal.
+
+    Both kinds route through this one builder deliberately: two writers assigning
+    `constraints_merged_note` independently is exactly how one of them goes silently
+    missing, which is the defect class these notes exist to prevent.
+    """
+    # Empty intersections are skipped on BOTH kinds: "min 60%, max 40%" or "select 4–2",
+    # captioned as a tightest combination, describes a rule the model applies. The
+    # validation error beside this note states those cases correctly — leave it to.
+    parts = [f"'{m['option']}' ({m['rows']} allocation_bound rows) → "
+             f"min {m['min']}%, max {m['max']}%"
+             for m in optimizer.allocation_bound_merges(p.constraints)[:5]
+             if m["min"] <= m["max"]]
+    for m in optimizer.singleton_constraint_merges(p.constraints):
+        if m["type"] == "max_allocation":
+            parts.append(f"{m['rows']} max_allocation rows → ≤{m['max']}% per option")
+        elif m["min"] <= m["max"]:
+            parts.append(f"{m['rows']} cardinality rows → select {m['min']}–{m['max']}")
+    if not parts:
+        return
+    result["constraints_merged_note"] = (
+        "Rules that collapse apply as their tightest combination (max of the mins, min of "
+        "the maxes): " + "; ".join(parts) + ". Send one row each to state that directly.")
 
 
 def _results_stale(p: Problem) -> bool:
@@ -774,18 +825,7 @@ def _model_update(params: dict) -> dict:
                "rules referencing removed options/objectives were dropped")
             + f". Dropped: {listed}.")
 
-    # Several allocation_bound rows on one option apply intersected, so the applied box is
-    # not any single row the caller sent — name it here rather than leaving the difference
-    # for the allocations to reveal.
-    merges = optimizer.allocation_bound_merges(p.constraints)
-    if merges:
-        listed = "; ".join(
-            f"'{m['option']}' ({m['rows']} rows) → min {m['min']}%, max {m['max']}%"
-            for m in merges[:5]) + (" …" if len(merges) > 5 else "")
-        result["constraints_merged_note"] = (
-            "Options carrying several allocation_bound rows apply as the tightest box "
-            f"(max of the mins, min of the maxes): {listed}. Send one merged row per option "
-            "to state that directly.")
+    _attach_constraint_merge_note(result, p)
 
     if matrix_cells_echo:
         result["interaction_matrix_cells"] = matrix_cells_echo
@@ -943,32 +983,46 @@ def _format_constraint(c, units: dict | None = None) -> str:
 def _formatted_constraints(p: Problem) -> list[str]:
     """Constraint lines for the formulation card and its ASCII twin.
 
-    Several ``allocation_bound`` rows on one option apply INTERSECTED, so the formulation
-    states the applied box once per option (naming how many rows produced it) instead of
-    the raw rows: the card's job is to describe the problem the solver will run, and two
-    raw lines — "A allocation 20–100%" and "A allocation 0–40%" — describe neither. Every
-    other type renders row for row; none of them carries a per-option merge.
+    Every rule that COLLAPSES renders as the rule actually applied, once, captioned with
+    the number of rows behind it: several ``allocation_bound`` rows on one option intersect
+    into a per-option box, and the whole-plan types (``max_allocation``, ``cardinality``)
+    resolve to their tightest combination. The card's job is to describe the problem the
+    solver will run, and raw lines — "A allocation 20–100%" beside "A allocation 0–40%",
+    or "≤50% per option" beside "≤45% per option" — describe neither. Every other type
+    renders row for row; none of them collapses.
     """
     units = {o.name: o.unit for o in p.objectives}
     merged = optimizer.merged_allocation_bounds(p.constraints)
+    card = optimizer.merged_cardinality(p.constraints)
+    cap = optimizer.merged_max_allocation(p.constraints)
     counts: dict[str, int] = {}
     for c in p.constraints:
-        if c.type == "allocation_bound":
-            counts[c.option] = counts.get(c.option, 0) + 1
+        key = c.option if c.type == "allocation_bound" else c.type
+        counts[key] = counts.get(key, 0) + 1
+
+    def _caption(line: str, key: str) -> str:
+        return line + (f" ({counts[key]} rows merged)" if counts[key] > 1 else "")
+
     lines: list[str] = []
     shown: set[str] = set()
     for c in p.constraints:
-        if c.type != "allocation_bound":
+        if c.type == "allocation_bound":
+            if c.option in shown:
+                continue
+            shown.add(c.option)
+            lo, hi = merged[c.option]
+            lines.append(_caption(_format_constraint(
+                {"type": "allocation_bound", "option": c.option, "min": lo, "max": hi},
+                units), c.option))
+        elif c.type in ("max_allocation", "cardinality"):
+            if c.type in shown:
+                continue
+            shown.add(c.type)
+            applied = ({"type": "max_allocation", "max": cap} if c.type == "max_allocation"
+                       else {"type": "cardinality", "min": card[0], "max": card[1]})
+            lines.append(_caption(_format_constraint(applied, units), c.type))
+        else:
             lines.append(_format_constraint(c, units))
-            continue
-        if c.option in shown:
-            continue
-        shown.add(c.option)
-        lo, hi = merged[c.option]
-        line = _format_constraint(
-            {"type": "allocation_bound", "option": c.option, "min": lo, "max": hi}, units)
-        lines.append(line + (f" ({counts[c.option]} rows merged)"
-                             if counts[c.option] > 1 else ""))
     return lines
 
 

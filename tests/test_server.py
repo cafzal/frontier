@@ -217,7 +217,7 @@ class TestModelUpdate:
         ])
         assert r["status"]["constraints"] == 2
         note = r["constraints_merged_note"]
-        assert "'A' (2 rows) → min 20%, max 40%" in note
+        assert "'A' (2 allocation_bound rows) → min 20%, max 40%" in note
         assert any("2 allocation_bound rows" in i["message"] and i["severity"] == "warning"
                    for i in r["validation_issues"])
         # The formulation reads the APPLIED box back, once, on both surfaces — the raw
@@ -234,6 +234,103 @@ class TestModelUpdate:
         assert "constraints_merged_note" not in clean
         clean_card = srv.model(action="get", problem_id=pid, section="summary")
         assert clean_card["viz_data"]["constraints"] == ["A allocation 20–40%"]
+
+    def test_whole_plan_constraint_merge_is_echoed(self):
+        """Several rows of a whole-plan type resolve to one applied value, which is not
+        any single row the caller sent — the SAME note names it."""
+        pid = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}, {"name": "D"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+        )["problem_id"]
+        r = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "max_allocation", "max": 50},
+            {"type": "max_allocation", "max": 40},
+            {"type": "cardinality", "min": 1, "max": 3},
+            {"type": "cardinality", "min": 2, "max": 4},
+        ])
+        note = r["constraints_merged_note"]
+        assert "2 max_allocation rows → ≤40% per option" in note
+        assert "2 cardinality rows → select 2–3" in note
+        assert any("apply as the tightest cap" in i["message"] and i["severity"] == "warning"
+                   for i in r["validation_issues"])
+
+        # One row per type says nothing.
+        clean = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "max_allocation", "max": 40}])
+        assert "constraints_merged_note" not in clean
+
+    def test_both_merge_kinds_share_one_note(self):
+        """One builder writes `constraints_merged_note`, so a model carrying both kinds
+        reports both. Two independent writers would have dropped one silently — the exact
+        failure class these notes exist to prevent."""
+        pid = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}, {"name": "D"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+        )["problem_id"]
+        note = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "allocation_bound", "option": "A", "min": 20, "max": 100},
+            {"type": "allocation_bound", "option": "A", "min": 0, "max": 40},
+            {"type": "max_allocation", "max": 50},
+            {"type": "max_allocation", "max": 45},
+            {"type": "cardinality", "min": 1, "max": 3},
+            {"type": "cardinality", "min": 2, "max": 4},
+        ])["constraints_merged_note"]
+        assert "'A' (2 allocation_bound rows) → min 20%, max 40%" in note
+        assert "2 max_allocation rows → ≤45% per option" in note
+        assert "2 cardinality rows → select 2–3" in note
+
+        # The formulation reads every collapsed rule back as the rule applied — six rows
+        # in, three applied lines out, each captioned with the rows behind it.
+        card = srv.model(action="get", problem_id=pid, section="summary")
+        assert card["viz_data"]["constraints"] == [
+            "A allocation 20–40% (2 rows merged)",
+            "≤45% per option (2 rows merged)",
+            "select 2–3 (2 rows merged)",
+        ]
+        for raw in ("≤50% per option", "select 1–3", "select 2–4"):
+            assert raw not in card["visualization"]
+
+    def test_empty_intersections_are_left_to_the_validation_error(self):
+        """The note reports resolutions; "select 4–2" or "min 60%, max 40%" captioned as a
+        tightest combination describes a rule the model applies. The errors beside the note
+        state those cases correctly, so the note stays quiet on them."""
+        pid = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+        )["problem_id"]
+        r = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "cardinality", "min": 4, "max": 5},
+            {"type": "cardinality", "min": 1, "max": 2},
+            {"type": "allocation_bound", "option": "A", "min": 60, "max": 100},
+            {"type": "allocation_bound", "option": "A", "min": 0, "max": 40},
+        ])
+        assert "constraints_merged_note" not in r
+        msgs = [i["message"] for i in r["validation_issues"] if i["severity"] == "error"]
+        assert any("empty range" in m and "min 4 > merged max 2" in m for m in msgs)
+        assert any("empty box" in m and "60% > merged max 40%" in m for m in msgs)
+
+    def test_create_checks_the_constraints_it_was_given(self):
+        """The create-time echo gap: constraints passed at create went unchecked until the
+        next update, so a one-shot framing call learned what its model applies at solve."""
+        created = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+            constraints=[{"type": "cardinality", "min": 1, "max": 2},
+                         {"type": "cardinality", "min": 1, "max": 3}],
+        )
+        assert "2 cardinality rows → select 1–2" in created["constraints_merged_note"]
+        assert any("apply intersected" in i["message"] for i in created["validation_issues"])
+        # A create without constraints keeps its lean response.
+        bare = srv.model(action="create", options=[{"name": "A"}])
+        assert "constraints_merged_note" not in bare and "validation_issues" not in bare
 
     def test_option_removal_cascade_carries_constraints_note(self):
         """An options replacement that cascade-drops referencing constraints is

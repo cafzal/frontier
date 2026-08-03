@@ -308,6 +308,23 @@ class TestBinaryMILP:
             assert 2 <= len(s.selected_options) <= 3
             assert "A" in s.selected_options
 
+    def test_duplicate_cardinality_rows_bind_the_exact_frontier(self):
+        """End to end: the exact frontier obeys the SAME merged range the NSGA pass
+        searched. Encoding one row here (the last, max 6) returns plans the heuristic
+        frontier could never contain — and `explore certify` compares those two frontiers,
+        so its optimality gap and never-dominates invariant would span two feasible sets."""
+        from engine.optimizer import merged_cardinality
+
+        p = _binary_problem(constraints=[CardinalityConstraint(min=1, max=2),
+                                         CardinalityConstraint(min=1, max=6)])
+        assert merged_cardinality(p.constraints) == (1, 2)
+        exact = _optimize_highs(p, mode=OptimizeMode.fast)
+        assert exact.solutions
+        assert all(1 <= len(s.selected_options) <= 2 for s in exact.solutions)
+        # The heuristic half agrees, which is what makes the two frontiers comparable.
+        nsga = optimize(p, mode=OptimizeMode.fast, seed=3)
+        assert all(1 <= len(s.selected_options) <= 2 for s in nsga.solutions)
+
     def test_deterministic(self):
         p = _binary_problem()
         a = _optimize_highs(p, mode=OptimizeMode.fast)

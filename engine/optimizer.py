@@ -305,6 +305,60 @@ def allocation_bound_merges(constraints) -> list[dict]:
             for o, n in counts.items() if n > 1]
 
 
+# ─── Whole-plan (singleton) constraint resolution ───
+#
+# `max_allocation` and `cardinality` describe the WHOLE plan (one global per-option cap,
+# one selection-count range), so several rows of either type resolve to a single applied
+# value. Assigning row by row made that value order-dependent — and, worse, the engine and
+# the validator picked different rows: `_parse_constraints` kept the LAST row while the
+# conflict checks read the FIRST via `next(...)`, so a model could be hard-errored by
+# validate on a cap the solver was never going to apply. Both sides now read these two
+# functions, which is what keeps them in agreement; several rows intersect (the tightest
+# combination), the way several `objective_bound` rows on one objective all bind.
+
+
+def merged_max_allocation(constraints) -> int | None:
+    """The global per-option allocation cap actually applied: the tightest of every
+    ``max_allocation`` row (``None`` when the model carries none)."""
+    caps = [int(c.max) for c in (constraints or [])
+            if getattr(c, "type", "") == "max_allocation"]
+    return min(caps) if caps else None
+
+
+def merged_cardinality(constraints) -> tuple[int, int] | None:
+    """The selection-count range actually applied: the intersection of every
+    ``cardinality`` row — max of the mins, min of the maxes (``None`` when the model
+    carries none, leaving the caller's own default in place).
+
+    An empty intersection (merged min > merged max) is returned intact and reported by
+    ``validate``: two rows that cannot both hold are a conflict to name, not something to
+    clamp into a range neither row asked for.
+    """
+    rows = [c for c in (constraints or []) if getattr(c, "type", "") == "cardinality"]
+    if not rows:
+        return None
+    return (max(int(c.min) for c in rows), min(int(c.max) for c in rows))
+
+
+def singleton_constraint_merges(constraints) -> list[dict]:
+    """The whole-plan constraint types that carried MORE than one row, each with the value
+    actually applied — the echo that keeps the resolution visible."""
+    merges: list[dict] = []
+    counts: dict[str, int] = {}
+    for c in (constraints or []):
+        t = getattr(c, "type", "")
+        if t in ("max_allocation", "cardinality"):
+            counts[t] = counts.get(t, 0) + 1
+    if counts.get("max_allocation", 0) > 1:
+        merges.append({"type": "max_allocation", "rows": counts["max_allocation"],
+                       "max": merged_max_allocation(constraints)})
+    if counts.get("cardinality", 0) > 1:
+        lo, hi = merged_cardinality(constraints)
+        merges.append({"type": "cardinality", "rows": counts["cardinality"],
+                       "min": lo, "max": hi})
+    return merges
+
+
 def validate(problem: Problem) -> ValidationResult:
     """Check if a problem is ready to optimize."""
     issues: list[ValidationIssue] = []
@@ -465,6 +519,19 @@ def validate(problem: Problem) -> ValidationResult:
                     message="max_allocation constraint only applies to proportional mode; ignored in binary mode.",
                 ))
 
+    # Proportional only: naming the applied cap of a constraint the block above just
+    # declared ignored in binary mode would talk past its own advice (the same gate
+    # allocation_bound's merge notice uses).
+    if problem.approach == Approach.proportional:
+        for m in singleton_constraint_merges(problem.constraints):
+            if m["type"] == "max_allocation":
+                issues.append(ValidationIssue(
+                    severity="warning",
+                    message=(f"{m['rows']} max_allocation rows apply as the tightest cap "
+                             f"(≤{m['max']}% per option). Send one max_allocation row to "
+                             "state that directly."),
+                ))
+
     # Check force_include + force_exclude conflict
     forced_in = {c.option for c in problem.constraints if c.type == "force_include"}
     forced_out = {c.option for c in problem.constraints if c.type == "force_exclude"}
@@ -475,24 +542,45 @@ def validate(problem: Problem) -> ValidationResult:
             message=f"Options both force_include and force_exclude: {conflict}.",
         ))
 
-    # Check cardinality feasibility
+    # Check cardinality feasibility — against the range the solver will actually apply
+    # (the intersection of every row), so validate and the engine reason about one model.
     available = len(opt_names - forced_out)
     for c in problem.constraints:
-        if c.type == "cardinality":
-            if c.min > available:
+        if c.type == "cardinality" and c.min > c.max:
+            issues.append(ValidationIssue(
+                severity="error",
+                message=f"Cardinality min ({c.min}) > max ({c.max}).",
+            ))
+    card = merged_cardinality(problem.constraints)
+    if card is not None:
+        card_min, card_max = card
+        for m in singleton_constraint_merges(problem.constraints):
+            if m["type"] != "cardinality":
+                continue
+            if card_min > card_max:
                 issues.append(ValidationIssue(
                     severity="error",
-                    message=f"Cardinality min ({c.min}) exceeds available options ({available}).",
+                    message=(f"{m['rows']} cardinality rows intersect to an empty range "
+                             f"(merged min {card_min} > merged max {card_max}) — the rows "
+                             "cannot both hold. Send ONE cardinality row."),
                 ))
-            if c.min > c.max:
+            else:
                 issues.append(ValidationIssue(
-                    severity="error",
-                    message=f"Cardinality min ({c.min}) > max ({c.max}).",
+                    severity="warning",
+                    message=(f"{m['rows']} cardinality rows apply intersected, as the "
+                             f"tightest range (select {card_min}–{card_max}). Send one "
+                             "cardinality row to state that directly."),
                 ))
-            if len(forced_in) > c.max:
+        if card_min <= card_max:
+            if card_min > available:
                 issues.append(ValidationIssue(
                     severity="error",
-                    message=f"force_include count ({len(forced_in)}) exceeds cardinality max ({c.max}).",
+                    message=f"Cardinality min ({card_min}) exceeds available options ({available}).",
+                ))
+            if len(forced_in) > card_max:
+                issues.append(ValidationIssue(
+                    severity="error",
+                    message=f"force_include count ({len(forced_in)}) exceeds cardinality max ({card_max}).",
                 ))
 
     # ── 1.9 Pre-solve constraint conflict detection ──
@@ -610,7 +698,8 @@ def _check_constraint_conflicts(
     # Floors vs the cardinality cap: sound only over pairwise-disjoint floored groups
     # (overlapping groups would double-count), so overlapping floors are left to the solver.
     if group_floors:
-        card_max = next((c.max for c in problem.constraints if c.type == "cardinality"), None)
+        merged_card = merged_cardinality(problem.constraints)
+        card_max = merged_card[1] if merged_card else None
         all_disjoint = all(
             not set(a.options) & set(b.options)
             for i, a in enumerate(group_floors) for b in group_floors[i + 1:]
@@ -690,16 +779,17 @@ def _check_constraint_conflicts(
 
     # E. MaxAllocation / allocation_bound arithmetic (proportional mode only)
     if problem.approach == Approach.proportional:
-        for c in problem.constraints:
-            if c.type == "max_allocation":
-                if c.max * available < 100:
-                    issues.append(ValidationIssue(
-                        severity="error",
-                        message=(
-                            f"max_allocation cap ({c.max}%) × available options ({available}) = "
-                            f"{c.max * available}% < 100% required. Allocation cannot sum to 100."
-                        ),
-                    ))
+        # The APPLIED cap, not each row: checking rows one by one hard-errored models on a
+        # cap the solver would never apply (it took a different row).
+        applied_cap = merged_max_allocation(problem.constraints)
+        if applied_cap is not None and applied_cap * available < 100:
+            issues.append(ValidationIssue(
+                severity="error",
+                message=(
+                    f"max_allocation cap ({applied_cap}%) × available options ({available}) = "
+                    f"{applied_cap * available}% < 100% required. Allocation cannot sum to 100."
+                ),
+            ))
         ab = [c for c in problem.constraints if c.type == "allocation_bound"]
         if ab:
             # Several rows on one option apply intersected, so every arithmetic check below
@@ -729,8 +819,7 @@ def _check_constraint_conflicts(
                     message=(f"allocation_bound floors sum to {floor_sum}% > 100% — "
                              "the floors cannot all be met."),
                 ))
-            global_cap_for_floors = next(
-                (c.max for c in problem.constraints if c.type == "max_allocation"), 100)
+            global_cap_for_floors = merged_max_allocation(problem.constraints) or 100
             for name, (lo, hi) in bounded.items():
                 if lo > hi:
                     continue  # empty intersection — already named above, in its own terms
@@ -749,8 +838,7 @@ def _check_constraint_conflicts(
                         message=(f"allocation_bound floor ({lo}%) on '{name}' conflicts "
                                  "with force_exclude on the same option."),
                     ))
-            global_cap = next((c.max for c in problem.constraints if c.type == "max_allocation"),
-                              None)
+            global_cap = merged_max_allocation(problem.constraints)
             cap_sum = sum(
                 min(global_cap or 100, bounded[o][1]) if o in bounded else (global_cap or 100)
                 for o in (opt.name for opt in problem.options) if o not in forced_out
@@ -802,9 +890,6 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
             forced_in_idx.add(_opt_idx(c.option, c))
         elif c.type == "force_exclude":
             forced_out_idx.add(_opt_idx(c.option, c))
-        elif c.type == "cardinality":
-            cardinality_min = c.min
-            cardinality_max = c.max
         elif c.type == "objective_bound":
             obj_idx = next((j for j, o in enumerate(obj_list) if o.name == c.objective), None)
             if obj_idx is None:
@@ -819,14 +904,20 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
         elif c.type == "group_limit":
             group_indices = [_opt_idx(o, c) for o in c.options]
             group_limits.append((group_indices, int(c.min), int(c.max)))
-        elif c.type == "max_allocation":
-            max_allocation = c.max
         elif c.type == "allocation_bound":
             # Rows on the same option intersect (see merged_allocation_bounds) — assigning
             # into the dict would keep only the last one and drop the rest in silence.
             idx = _opt_idx(c.option, c)
             allocation_bounds[idx] = _intersect_bounds(
                 allocation_bounds.get(idx), int(c.min), int(c.max))
+
+    # Whole-plan constraints resolve through the shared functions the validator also
+    # reads, so the two sides can never reason about different rows (see the resolution
+    # note above them). A single row of either type resolves to itself.
+    card = merged_cardinality(problem.constraints)
+    if card is not None:
+        cardinality_min, cardinality_max = card
+    max_allocation = merged_max_allocation(problem.constraints)
 
     return {
         "forced_in": forced_in_idx,
@@ -2786,11 +2877,14 @@ def analyze_infeasibility(problem: Problem) -> dict:
     # Floor of 1 mirrors the EA's search_floor: this diagnoses why the SEARCH came
     # back empty, so it reasons over the plans the search actually proposes.
     card_min, card_max = 1, n_options
+    # Through the resolver, like the rest of the stack: this explains why the SEARCH came
+    # back empty, so it has to reason about the range the search actually applied.
+    card = merged_cardinality(problem.constraints)
+    if card is not None:
+        card_min, card_max = card
     obj_bounds = []
     for c in problem.constraints:
-        if c.type == "cardinality":
-            card_min, card_max = c.min, c.max
-        elif c.type == "objective_bound":
+        if c.type == "objective_bound":
             obj_bounds.append((c.objective, c.operator, c.value))
 
     # Build interaction matrix lookup for quadratic objectives
@@ -2891,12 +2985,21 @@ def analyze_infeasibility(problem: Problem) -> dict:
                     return False  # can't tell, assume not
         return False
 
-    # Build constraint labels for testing
+    # Build constraint labels for testing. Cardinality gets ONE entry however many rows the
+    # model carries — they resolve to a single applied range, and skipping "cardinality"
+    # lifts all of them at once, so a per-row entry duplicated both the binding rule and its
+    # suggestion. Several rows report the applied range; a single row reports itself (its
+    # motivated_by and all).
+    card_rows = [c for c in problem.constraints if c.type == "cardinality"]
     constraint_labels = []
+    if card_rows:
+        constraint_labels.append((
+            "cardinality",
+            card_rows[0].model_dump() if len(card_rows) == 1
+            else {"type": "cardinality", "min": card_min, "max": card_max},
+        ))
     for c in problem.constraints:
-        if c.type == "cardinality":
-            constraint_labels.append(("cardinality", c.model_dump()))
-        elif c.type == "force_include":
+        if c.type == "force_include":
             constraint_labels.append((f"force_include:{c.option}", c.model_dump()))
         elif c.type == "force_exclude":
             constraint_labels.append((f"force_exclude:{c.option}", c.model_dump()))
@@ -2947,7 +3050,13 @@ def analyze_infeasibility(problem: Problem) -> dict:
                 suggestions.append(f"Relaxing group limit may help.")
 
     if not binding:
-        binding = [c.model_dump() for c in problem.constraints]
+        # Nothing isolated the failure, so hand back the whole rule set — as the model the
+        # search ran: the cardinality rows collapse to the one applied range, the way the
+        # per-rule entries above do.
+        binding = [c.model_dump() for c in problem.constraints if c.type != "cardinality"]
+        if card_rows:
+            binding.insert(0, card_rows[0].model_dump() if len(card_rows) == 1
+                           else {"type": "cardinality", "min": card_min, "max": card_max})
         suggestions = ["Constraints may be jointly infeasible. Try relaxing multiple constraints."]
 
     result = {"binding_constraints": binding, "suggestions": suggestions}

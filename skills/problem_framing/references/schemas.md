@@ -7,14 +7,14 @@ JSON shapes for the structured fields passed through `model/create` and `model/u
 Pass to the `constraints` param as a list of dicts:
 
 ```
-{"type": "cardinality", "min": <int>, "max": <int>}
+{"type": "cardinality", "min": <int>, "max": <int>}  (whole-plan: ONE row states the selection count — several rows apply intersected, and an empty intersection is a validation error)
 {"type": "force_include", "option": "<name>"}
 {"type": "force_exclude", "option": "<name>"}
 {"type": "objective_bound", "objective": "<name>", "operator": "min"|"max", "value": <float>}
 {"type": "exclusion_pair", "option_a": "<name>", "option_b": "<name>"}
 {"type": "dependency", "if_option": "<name>", "then_option": "<name>"}
 {"type": "group_limit", "options": ["<name>", ...], "max": <int>}  (optional "min": <int> floor — at least that many selected/active from the group; exact-certifiable on binary, NSGA-only on proportional)
-{"type": "max_allocation", "max": <int>}  (proportional only: one global cap on every option's allocation)
+{"type": "max_allocation", "max": <int>}  (proportional only, whole-plan: ONE row states the global cap on every option's allocation — several rows apply as the tightest; per-option floors/caps belong on allocation_bound)
 {"type": "allocation_bound", "option": "<name>", "min": <int>, "max": <int>}  (proportional only: per-option floor/cap in percent — contractual minimums, service floors, per-channel caps; effective cap = min(global, per-option); a floor > 0 force-activates the option and carries a dual on the exact LP/QP path; several rows on ONE option apply intersected — the tightest box, max of the mins and min of the maxes — so a floor row sent beside a separate cap row keeps both, and an empty intersection is a validation error)
 ```
 
