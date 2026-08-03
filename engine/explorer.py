@@ -2596,13 +2596,16 @@ def marginal_analysis(problem: Problem, scenario: str | None = None, detail: boo
                 "rate_max": round(max(rate_values), 4) if rate_values else 0,
                 "rate_median": round(float(np.median(rate_values)), 4) if rate_values else 0,
             }
-            # Top-5 steepest transitions (the most expensive tradeoff steps). `degenerate` rows
-            # are dropped, so the headline is a price and never a near-tie's quotient; `flat`
-            # rows need no filter here — a step that bought ~nothing has a ~0 rate and can't
-            # rank among the steepest. (Narrower than `_trustworthy_rates`, which gates the
-            # inflection, where a ~0 rate does damage as the jump's baseline.)
+            # Top-5 steepest transitions (the most expensive tradeoff steps) — over the
+            # transitions a rate can be trusted on, so the headline is a price and never a
+            # tie's artifact. Both flags are filtered, on either rate basis: a `flat` row is
+            # harmless on secants (a step that bought ~nothing divides out to a ~0 rate, which
+            # cannot rank), but on `solver_exact_duals` the rate is the endpoint's shadow price
+            # and carries no memory of the step — a flat row measured at 900.0 topped this list
+            # while buying 0.0001. The number is a real slope; naming that transition the most
+            # expensive step is the misread. It keeps its place, flagged, in the detail rows.
             top_rates = sorted(
-                (r for r in rates if not r.get("degenerate")),
+                (r for r, ok in zip(rates, trustworthy) if ok),
                 key=lambda r: r["rate"], reverse=True,
             )[:5]
             pair_result["steepest_transitions"] = top_rates
@@ -2674,9 +2677,9 @@ def _rate_guard(rates: list[dict], obj_a, obj_b, floors: tuple[float, float]) ->
                      f"steepest_transitions, still counted in summary")
     if flat:
         notes.append(f"`flat` rows tie on {obj_b.name} (step below numerator_floor) — the step "
-                     f"bought essentially none of it, so a jump measured against that ~0 rate "
-                     f"is an artifact too; excluded from inflection as both the jump's baseline "
-                     f"and its landing, still counted in summary")
+                     f"bought essentially none of it, so its rate prices nothing; excluded from "
+                     f"inflection (as both the jump's baseline and its landing) and from "
+                     f"steepest_transitions, still counted in summary")
     if co_improving:
         notes.append(f"`co_improvement` rows GAINED {obj_b.name} rather than paying it, so "
                      f"their rate is a ratio of two gains, not a price")
@@ -3979,6 +3982,17 @@ _DEGENERACY_SPACING_FRACTION = 0.25
 # the transitions — sets its own scale and survives, while an artifact far below even the
 # bottom decile is still caught. It also bounds the flag structurally: nothing above half the
 # tenth-percentile step can carry it, whatever the sampling density.
+#
+# BOTH DIRECTIONS OF THAT TENTH, deliberately. A flat patch under a tenth of the transitions
+# is an artifact and gets flagged; a cheap stretch over a tenth is a REGIME — the flat side of
+# a real elbow — and keeps its rates. The converse is the cost of the same line: a genuine
+# notch of m steps goes unflagged once m reaches k, so on a 20-transition frontier a two-step
+# notch reads as ordinary. That is the intended trade. Under a tenth is an artifact; over a
+# tenth is a shape the user should see, and a guard that erased it would be the worse error.
+#
+# Both statistics are taken over the steps that MOVED. Exact ties are common on an integer
+# objective (adjacent points tie on one axis and pay on another), and counting them would hand
+# the bottom of the distribution — and with it the cap — to the very artifact being tested for.
 _FLAT_SPACING_FRACTION = 0.05
 _FLAT_TAIL_PERCENTILE = 10
 _FLAT_TAIL_FRACTION = 0.5
@@ -4001,13 +4015,25 @@ def _flat_floor(rates: list[dict]) -> float:
     a single artifact can't set the cap that would spare it, and a cheap regime holding a
     tenth of the transitions still sets the cap from inside its own cluster. Both terms are
     scale-free in the sampling density, so the flag can't grow with frontier size.
+
+    Both are taken over the steps that MOVED. Exact ties belong to no distribution of prices —
+    they are the thing being tested for — and letting them fill the bottom would collapse the
+    cap onto the artifact beside them, so a frontier with a tenth of its steps tied would stop
+    flagging artifacts exactly where the flat stretch is widest.
+
+    Returns 0.0 only when NOTHING moved — no rates, or every step an exact tie. Neither
+    reaches here through ``marginal_analysis``: it needs three solutions, and a numerator that
+    never moves makes the pair non-conflicting, so it is never analyzed. The branch is kept so
+    the function is total, and 0.0 means "every transition is a tie" rather than standing in
+    for "no artifacts" — the caller's ``max(floor, 1e-9)`` then flags them all, which is the
+    honest reading of a frontier where the pair bought nothing anywhere.
     """
-    steps = sorted(abs(rr["delta_b"]) for rr in rates)
-    if not steps:
+    moved = sorted(s for s in (abs(rr["delta_b"]) for rr in rates) if s > 0.0)
+    if not moved:
         return 0.0
-    k = max(2, math.ceil(len(steps) * _FLAT_TAIL_PERCENTILE / 100))
-    tail = steps[min(k, len(steps)) - 1]
-    typical = float(np.median(steps))
+    k = max(2, math.ceil(len(moved) * _FLAT_TAIL_PERCENTILE / 100))
+    tail = moved[min(k, len(moved)) - 1]
+    typical = float(np.median(moved))
     return min(_FLAT_SPACING_FRACTION * typical, _FLAT_TAIL_FRACTION * tail)
 
 

@@ -503,12 +503,18 @@ def test_a_step_that_ties_on_both_sides_carries_both_flags():
 
 
 def test_one_artifact_cannot_set_the_cap_that_would_spare_it():
-    # The tail cap reads the k-th smallest step, never the smallest — otherwise a lone
-    # artifact IS the bottom of the distribution and licenses itself. Same fixture as above,
-    # where the 1e-4 step is the minimum of only eight.
-    pair = _pair(ELBOW_LONG + [(7.0001, 23.0001)], detail=True)
-    assert pair["rate_guard"]["numerator_floor"] == pytest.approx(0.15)   # half the 2nd smallest
-    assert pair["rates"][-1]["flat"] is True
+    # The tail cap reads the k-th smallest step, never the smallest — otherwise a lone artifact
+    # IS the bottom of the distribution and licenses itself. Skewed on purpose so the CAP is
+    # the binding term (0.1, half the 0.2 second-smallest) rather than the spacing term (0.5):
+    # read from the smallest, the cap would be 5e-05 and the 1e-4 artifact would walk. The same
+    # skew is what the previous construction got wrong in the other direction — its floor of
+    # 0.5 condemned the real 0.2 step alongside the artifact.
+    pair = _pair(_steps([1.0] * 8, [10.0, 10.0, 0.0001, 0.2, 10.0, 10.0, 10.0, 10.0]), detail=True)
+    guard = pair["rate_guard"]
+    assert guard["numerator_floor"] == pytest.approx(0.1)      # the cap, not 0.05 x median (0.5)
+    assert guard["flat_transitions"] == 1
+    assert pair["rates"][2]["flat"] is True                    # the 1e-4 artifact
+    assert "flat" not in pair["rates"][3]                      # the real 0.2 step
 
 
 def test_the_ascii_marks_the_flat_caveat_where_the_number_is_read():
@@ -530,28 +536,39 @@ def test_the_ascii_marks_the_flat_caveat_where_the_number_is_read():
 
 
 def _elbow(n_cheap, n_steep, cheap=0.2, steep=10.0):
-    """An honest 50x cliff: n_cheap steps buying `cheap`, then n_steep buying `steep`, each
-    over a healthy 1.0 denominator. The marker belongs at the junction, at 50x, at any n."""
+    """An honest cliff: n_cheap steps buying `cheap`, then n_steep buying `steep`, each over a
+    healthy 1.0 denominator. The marker belongs at the junction, at steep/cheap, at any n."""
     return _steps([1.0] * (n_cheap + n_steep), [cheap] * n_cheap + [steep] * n_steep)
 
 
-@pytest.mark.parametrize("n_cheap,n_steep", [(6, 2), (60, 20), (150, 50)])
-def test_an_elbow_survives_at_any_density_cheap_majority(n_cheap, n_steep):
-    pair = _pair(_elbow(n_cheap, n_steep), detail=True)
+# Each case is chosen to FAIL against the range-term construction — the small ones by a steeper
+# cliff (which is what pushes `0.001 x span` above the cheap step at low n), the large ones by
+# density alone. A case below every crossover would pass either way and pin nothing.
+@pytest.mark.parametrize("n_cheap,n_steep,steep,jump", [
+    (6, 2, 150.0, 750.0),     # n=8:   old floor 0.301 > 0.2 cheap step
+    (60, 20, 10.0, 50.0),     # n=80:  old floor 0.212
+    (150, 50, 10.0, 50.0),    # n=200: old floor 0.53
+])
+def test_an_elbow_survives_at_any_density_cheap_majority(n_cheap, n_steep, steep, jump):
+    pair = _pair(_elbow(n_cheap, n_steep, steep=steep), detail=True)
     assert pair["rate_guard"]["flat_transitions"] == 0
     assert pair["inflection"]["solution_id"] == n_cheap
-    assert pair["inflection"]["jump_factor"] == 50.0
+    assert pair["inflection"]["jump_factor"] == jump
 
 
-@pytest.mark.parametrize("n_cheap,n_steep", [(2, 6), (20, 60), (50, 150)])
-def test_an_elbow_survives_at_any_density_cheap_minority(n_cheap, n_steep):
+@pytest.mark.parametrize("n_cheap,n_steep,steep,jump", [
+    (2, 6, 10.0, 50.0),       # n=8:   old floor 0.0604 > 0.05 x median already condemns it
+    (20, 60, 10.0, 50.0),     # n=80:  old floor 0.604
+    (50, 150, 10.0, 50.0),    # n=200: old floor 1.51
+])
+def test_an_elbow_survives_at_any_density_cheap_minority(n_cheap, n_steep, steep, jump):
     # The harder regime: the median step lands in the STEEP cluster, so a floor read off the
     # centre of the distribution condemns the whole cheap side — the sharper the cliff, the
     # worse. The cap reads the small end instead, so the cheap regime sets its own scale.
-    pair = _pair(_elbow(n_cheap, n_steep), detail=True)
+    pair = _pair(_elbow(n_cheap, n_steep, steep=steep), detail=True)
     assert pair["rate_guard"]["flat_transitions"] == 0
     assert pair["inflection"]["solution_id"] == n_cheap
-    assert pair["inflection"]["jump_factor"] == 50.0
+    assert pair["inflection"]["jump_factor"] == jump
 
 
 def test_a_smooth_frontier_carries_no_flat_flags_at_any_density():
@@ -582,3 +599,52 @@ def test_the_flag_share_is_bounded_by_the_tail_cap():
         pair = _pair(_steps([1.0] * n, steps))
         guard = pair["rate_guard"]
         assert guard["flat_transitions"] / n <= 0.10
+
+
+# ─── Exact numerator ties: the cap must not fail OPEN ───
+#
+# The tail cap defends against ONE artifact by never reading the smallest step. Exact ties
+# defeat that by populating the bottom below it: on an integer-valued objective (adjacent
+# frontier points legitimately tie on one axis and pay on another) the artifact becomes the
+# k-th smallest and sets the cap that spares it. Measured before the fix: at 9% ties the floor
+# collapsed 0.25 -> 5e-05 -> 0, the artifact unflagged, and the 50000x marker this guard exists
+# to suppress came back — failing open exactly where the flat stretch is widest. Both statistics
+# are now taken over the steps that MOVED. (The bundled corpus tops out at 0.97% ties, so this
+# was latent, not observed.)
+
+
+def _one_artifact_with_ties(n=100, tie_share=0.0, artifact=1e-4, normal=5.0):
+    """A healthy `normal` regime holding one `artifact` step, with `tie_share` exact ties."""
+    n_tie = round(n * tie_share)
+    steps = [normal] * 20 + [artifact] + [0.0] * n_tie + [normal] * (n - 21 - n_tie)
+    return _steps([1.0] * n, steps)
+
+
+@pytest.mark.parametrize("tie_share", [0.0, 0.05, 0.09, 0.15, 0.30])
+def test_exact_ties_do_not_let_the_artifact_set_its_own_cap(tie_share):
+    pair = _pair(_one_artifact_with_ties(tie_share=tie_share), detail=True)
+    guard = pair["rate_guard"]
+    # The floor is the moving steps' own scale, whatever share of the frontier stands still.
+    assert guard["numerator_floor"] == pytest.approx(0.25)
+    assert pair["rates"][20]["flat"] is True                      # the 1e-4 artifact
+    # Ties are flat too — they bought nothing — and with the artifact excluded from both
+    # detector roles, the 50000x quotient it would have anchored never becomes a marker.
+    assert guard["flat_transitions"] == 1 + round(100 * tie_share)
+    assert pair["inflection"] is None
+
+
+def test_the_steepest_headline_drops_flat_rows_on_the_duals_basis():
+    # On secants a flat row can't rank — a step that bought ~nothing divides out to a ~0 rate.
+    # On `solver_exact_duals` the rate is the endpoint's shadow price and carries no memory of
+    # the step, so a flat row measured at 900.0 topped the list while buying 0.0001. The slope
+    # is real; naming that transition the most expensive step is the misread.
+    p = _problem(approach="proportional")
+    p.run = _run([(0, 0), (1, 1), (2, 2), (3, 2.0001), (4, 8), (5, 13)],
+                 sensitivities=[_sens(d) for d in (1.0, 1.0, 900.0, 5.0, 5.0, 5.0)])
+    summary = marginal_analysis(p)["pairs"][0]
+    assert summary["rate_basis"] == "solver_exact_duals"
+    assert all(not r.get("flat") for r in summary["steepest_transitions"])
+    assert max(r["rate"] for r in summary["steepest_transitions"]) == 5.0
+    # Dropped from the headline, kept in the detail rows with its flag and its real slope.
+    detail = marginal_analysis(p, detail=True)["pairs"][0]
+    assert (detail["rates"][2]["rate"], detail["rates"][2]["flat"]) == (900.0, True)

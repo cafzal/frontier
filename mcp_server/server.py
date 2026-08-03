@@ -2090,9 +2090,9 @@ def explore(
                    `degenerate` tie on the denominator objective (their rate is a division
                    artifact — excluded from the inflection and the steepest list, kept in
                    detail), transitions marked `flat` tie on the numerator objective (the step
-                   bought ~nothing, so its ~0 rate is no baseline for a jump either — excluded
-                   from the inflection, kept in detail; `degenerate` means the price exploded,
-                   `flat` means nothing was bought), and transitions marked `co_improvement`
+                   bought ~nothing, so its rate prices nothing — excluded from the inflection
+                   and the steepest list, kept in detail; `degenerate` means the price
+                   exploded, `flat` means nothing was bought), and transitions marked `co_improvement`
                    GAINED the second objective rather than paying it, so their rate is not a
                    price. Summary stats span every transition; the headline lists are filtered.
                    Optional: detail, scenario.
