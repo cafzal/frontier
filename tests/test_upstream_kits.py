@@ -52,12 +52,17 @@ def _canon_scores(scores):
                               "value": float(r["value"])}, sort_keys=True) for r in scores)
 
 
-def _assert_model(example, built_constraints, built_scores, objectives, option_key):
+def _assert_model(example, built_constraints, built_scores, objectives, option_key=None, *,
+                  option_names=None):
+    """``option_key`` names the CSV column that IS the option list (one row per option).
+    ``option_names`` is the explicit list, for a kit whose options are derived rather than
+    listed — e.g. one option per (row, time window)."""
     p, s = _bundle(example)
     assert [(o["name"], o["direction"], o["aggregation"]) for o in p["objectives"]] == objectives
     assert _canon(p["constraints"]) == _canon(built_constraints)
     assert _canon_scores(s["scores"]) == _canon_scores(built_scores)
-    assert [o["name"] for o in s["options"]] == [r[option_key] for r in _rows(example)]
+    expected = option_names if option_names is not None else [r[option_key] for r in _rows(example)]
+    assert [o["name"] for o in s["options"]] == expected
     return p, s
 
 
@@ -412,6 +417,97 @@ def test_interconnection_kit():
         assert _canon(_scenario(p, name)["constraint_overrides"]) == _canon(envelope), name
 
 
+_QUARTERS = ["Q1", "Q2", "Q3", "Q4"]
+
+
+def _outage_windows(row):
+    """A phase-2 job has no Q1 window — its phase 1 has to come first."""
+    return _QUARTERS[1:] if row["follows"] else _QUARTERS
+
+
+def _outage_option(project_id, quarter):
+    return f"{project_id} {quarter}"
+
+
+def test_outage_program_scheduling_kit():
+    """The time-phased kit: the CSVs list JOBS, the model's options are (job, quarter) pairs.
+
+    The encoding is the agent's work, so this test does it the way the ask states it — one
+    option per job per quarter it could run in, scores derived from the job's base values,
+    its own decay rate and the seasonal table.
+    """
+    rows = _rows("outage_program_scheduling", "projects.csv")
+    factors = {(f["asset_class"], f["quarter"]): f
+               for f in _rows("outage_program_scheduling", "quarter_factors.csv")}
+    options, scores = [], []
+    for r in rows:
+        for q in _outage_windows(r):
+            qi, f = _QUARTERS.index(q), factors[(r["asset_class"], q)]
+            name = _outage_option(r["project_id"], q)
+            options.append(name)
+            decay = 1.0 - float(r["risk_decay_pct_per_quarter"]) / 100.0
+            scores += [
+                {"option": name, "objective": "RiskReduction",
+                 "value": round(float(r["risk_reduction_mwh"]) * decay ** qi, 1)},
+                {"option": name, "objective": "DisruptionCost",
+                 "value": round(float(r["disruption_musd"]) * float(f["disruption_factor"]), 2)},
+                {"option": name, "objective": "Capex",
+                 "value": round(float(r["capex_musd"]) * float(f["capex_factor"]), 2)},
+            ]
+
+    built = [{"type": "objective_bound", "objective": "Capex", "operator": "max", "value": 76.0}]
+    # six outage crews a quarter
+    built += [{"type": "group_limit",
+               "options": [_outage_option(r["project_id"], q) for r in rows
+                           if q in _outage_windows(r)], "min": 0, "max": 6}
+              for q in _QUARTERS]
+    for r in rows:
+        # a job runs at most once — and a safety-critical job exactly once, before June 30
+        built.append({"type": "group_limit",
+                      "options": [_outage_option(r["project_id"], q) for q in _outage_windows(r)],
+                      "min": 0, "max": 1})
+        if r["safety_critical"]:
+            built.append({"type": "group_limit",
+                          "options": [_outage_option(r["project_id"], q) for q in _QUARTERS[:2]
+                                      if q in _outage_windows(r)], "min": 1, "max": 1})
+    # phase 2 runs in the quarter right after phase 1
+    built += [{"type": "dependency",
+               "if_option": _outage_option(r["project_id"], _QUARTERS[i]),
+               "then_option": _outage_option(r["follows"], _QUARTERS[i - 1])}
+              for r in rows if r["follows"] for i in range(1, len(_QUARTERS))]
+    # corridor rivals stay out of the same quarter
+    by_id = {r["project_id"]: r for r in rows}
+    for members in _groups(rows, "project_id", "corridor").values():
+        for i in range(len(members)):
+            for j in range(i + 1, len(members)):
+                a, b = by_id[members[i]], by_id[members[j]]
+                built += [{"type": "exclusion_pair",
+                           "option_a": _outage_option(a["project_id"], q),
+                           "option_b": _outage_option(b["project_id"], q)}
+                          for q in _QUARTERS
+                          if q in _outage_windows(a) and q in _outage_windows(b)]
+
+    p, _ = _assert_model("outage_program_scheduling", built, scores,
+                         [("RiskReduction", "maximize", "sum"),
+                          ("DisruptionCost", "minimize", "sum"), ("Capex", "minimize", "sum")],
+                         option_names=options)
+
+    def _crews(quarter, slots):
+        return [c if not (c["type"] == "group_limit" and c.get("max") == 6
+                          and all(o.endswith(" " + quarter) for o in c["options"]))
+                else {**c, "max": slots} for c in built]
+
+    surge = _scenario(p, "summer_demand_surge")
+    assert _canon(surge["constraint_overrides"]) == _canon(_crews("Q3", 3))
+    assert _canon_scores(surge["score_overrides"]) == _canon_scores(
+        [{"option": _outage_option(r["project_id"], "Q3"), "objective": "DisruptionCost",
+          "value": round(round(float(r["disruption_musd"])
+                               * float(factors[(r["asset_class"], "Q3")]["disruption_factor"]), 2)
+                         * 1.6, 2)}
+         for r in rows if "Q3" in _outage_windows(r)])
+    assert _canon(_scenario(p, "crew_shortage_q2")["constraint_overrides"]) == _canon(_crews("Q2", 4))
+
+
 def test_shift_coverage_staffing_kit():
     rows = _rows("shift_coverage_staffing")
     built = [{"type": "objective_bound", "objective": "Cost", "operator": "max", "value": 210.0},
@@ -517,6 +613,7 @@ KIT_COVERED = [
     "emergency_readiness_portfolio",
     "interconnection_approvals",
     "investment_portfolio",
+    "outage_program_scheduling",
     "production_mix",
     "research_cohort_selection",
     "scarce_supply_rationing",
@@ -548,6 +645,8 @@ ASK_LITERALS = {
     "interconnection_approvals": ["$400M", "$320M", "$480M", "$560M",
                                   "9 approvals per zone"],
     "investment_portfolio": ["30%", "at most 3", "20%", "15% lower", "1.5x"],
+    "outage_program_scheduling": ["$76M", "at most 6 outages", "June 30", "right after",
+                                  "same corridor", "60% more", "3 crews", "4 crews"],
     "production_mix": ["30%", "25%", "at most 2 active"],
     "research_cohort_selection": ["exactly 24", "at least 4", "at least 3",
                                   "at least 2", "no more than 8", "at most 4", "V-118"],

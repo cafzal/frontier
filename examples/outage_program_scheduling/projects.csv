@@ -1,0 +1,31 @@
+project_id,project_name,asset_class,risk_reduction_mwh,risk_decay_pct_per_quarter,capex_musd,disruption_musd,safety_critical,follows,corridor
+TX-01,Ashfield 230kV conductor replacement,Transmission,528.7,9,3.60,3.97,yes,,North Loop
+TX-02,Bellrun river crossing refit,Transmission,321.5,5,3.28,2.42,,,
+TX-03,Corvane 115kV insulator campaign,Transmission,857.9,19,9.19,4.08,,,North Loop
+TX-04,Dunmere tower foundation repair,Transmission,609.0,9,5.27,3.14,yes,,
+TX-05,Elstow line relay retrofit,Transmission,214.0,5,1.45,2.55,,,East Tie
+TX-06,Fenwick series capacitor overhaul,Transmission,497.9,19,5.82,4.22,,,East Tie
+TX-07,Garrow shield wire replacement,Transmission,412.9,14,2.36,2.24,,,
+SB-01,Halverton breaker replacement,Substation,325.3,9,3.26,1.47,yes,,
+SB-02,Ivyloch bus rebuild phase 1,Substation,395.7,19,2.57,2.67,yes,,
+SB-03,Ivyloch bus rebuild phase 2,Substation,533.4,9,3.59,3.17,yes,SB-02,
+SB-04,Jarrow Bend transformer overhaul,Substation,340.6,14,3.62,3.30,,,
+SB-05,Kestrel Ridge protection upgrade phase 1,Substation,297.2,5,2.93,1.19,,,
+SB-06,Kestrel Ridge protection upgrade phase 2,Substation,131.2,5,1.09,0.89,,SB-05,
+SB-07,Lyndhurst switchgear refurbishment,Substation,344.4,14,4.04,1.13,,,
+GT-01,Oakfell unit 2 major inspection,Thermal,180.6,19,1.62,1.67,,,
+GT-02,Pikewater turbine rotor swap phase 1,Thermal,287.9,9,1.77,3.17,,,
+GT-03,Pikewater turbine rotor swap phase 2,Thermal,316.3,9,2.96,3.36,,GT-02,
+GT-04,Quarrow boiler tube campaign,Thermal,543.1,14,5.85,2.25,yes,,
+GT-05,Redlin emissions controls tie-in,Thermal,289.0,9,1.66,1.92,,,
+HY-01,Thackray penstock inspection,Hydro,376.3,5,3.38,1.58,,,
+HY-02,Ullswick gate seal replacement,Hydro,460.4,5,4.30,4.25,yes,,
+HY-03,Vantry draft tube repair phase 1,Hydro,460.1,5,3.70,1.90,,,
+HY-04,Vantry draft tube repair phase 2,Hydro,366.1,19,2.04,3.36,,HY-03,
+DX-01,Yarnton feeder reconductoring,Distribution,386.2,9,4.12,1.77,,,West Spur
+DX-02,Zelbrook network vault rebuild,Distribution,829.3,14,8.87,6.54,yes,,
+DX-03,Ambercross recloser program,Distribution,241.6,9,4.41,0.71,,,
+DX-04,Brackwell cable injection phase 1,Distribution,331.5,19,4.58,1.52,,,
+DX-05,Brackwell cable injection phase 2,Distribution,295.8,9,2.48,1.16,,DX-04,West Spur
+DX-06,Cindermoor pole replacement campaign,Distribution,360.4,14,3.19,1.83,,,
+DX-07,Elverton capacitor bank refresh,Distribution,713.3,19,9.59,2.95,,,

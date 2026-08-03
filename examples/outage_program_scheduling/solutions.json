@@ -1,0 +1,7676 @@
+{
+  "run": {
+    "run_id": "ee392b21-c3d7-4f6a-a653-66be3a802edb",
+    "created_at": "2026-08-03T21:34:06.491522Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q1",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7369.3,
+          "DisruptionCost": 50.46,
+          "Capex": 73.68
+        },
+        "allocations": null,
+        "content_signature": "8a3768b5a1f7",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q1",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7166.0,
+          "DisruptionCost": 48.55,
+          "Capex": 72.2
+        },
+        "allocations": null,
+        "content_signature": "5979267c98fe",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2",
+          "DX-06 Q4"
+        ],
+        "objective_values": {
+          "RiskReduction": 7152.0,
+          "DisruptionCost": 46.68,
+          "Capex": 75.02
+        },
+        "allocations": null,
+        "content_signature": "eb5d159a6fee",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2",
+          "DX-06 Q4"
+        ],
+        "objective_values": {
+          "RiskReduction": 7021.3,
+          "DisruptionCost": 46.75,
+          "Capex": 71.31
+        },
+        "allocations": null,
+        "content_signature": "bc919341714a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q3",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6979.5,
+          "DisruptionCost": 48.93,
+          "Capex": 68.94
+        },
+        "allocations": null,
+        "content_signature": "eccf7e6b3fc8",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6922.8,
+          "DisruptionCost": 44.94,
+          "Capex": 71.64
+        },
+        "allocations": null,
+        "content_signature": "2a4f78d764c1",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q1",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6764.3,
+          "DisruptionCost": 45.99,
+          "Capex": 66.41
+        },
+        "allocations": null,
+        "content_signature": "0ed9f65bc9a1",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6702.5,
+          "DisruptionCost": 42.55,
+          "Capex": 70.22
+        },
+        "allocations": null,
+        "content_signature": "20701657b3d0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6523.9,
+          "DisruptionCost": 43.23,
+          "Capex": 64.88
+        },
+        "allocations": null,
+        "content_signature": "64cb12e8f702",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6383.9,
+          "DisruptionCost": 41.71,
+          "Capex": 63.08
+        },
+        "allocations": null,
+        "content_signature": "d9d72a2b8a4b",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2",
+          "DX-07 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6286.6,
+          "DisruptionCost": 39.11,
+          "Capex": 67.16
+        },
+        "allocations": null,
+        "content_signature": "6fac56f7e61a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q1",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6241.9,
+          "DisruptionCost": 40.14,
+          "Capex": 62.08
+        },
+        "allocations": null,
+        "content_signature": "174e400615b7",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6134.4,
+          "DisruptionCost": 41.98,
+          "Capex": 58.86
+        },
+        "allocations": null,
+        "content_signature": "89bb7716c5a2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6044.3,
+          "DisruptionCost": 39.97,
+          "Capex": 59.56
+        },
+        "allocations": null,
+        "content_signature": "03f3f7674448",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6015.2,
+          "DisruptionCost": 37.85,
+          "Capex": 60.95
+        },
+        "allocations": null,
+        "content_signature": "22269aae14c0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5929.8,
+          "DisruptionCost": 40.05,
+          "Capex": 55.86
+        },
+        "allocations": null,
+        "content_signature": "455937a5f3c2",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5843.5,
+          "DisruptionCost": 37.6,
+          "Capex": 57.69
+        },
+        "allocations": null,
+        "content_signature": "97b6d0a1b6db",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q1",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5767.6,
+          "DisruptionCost": 38.93,
+          "Capex": 54.5
+        },
+        "allocations": null,
+        "content_signature": "8a423844a3bf",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-04 Q2",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5638.1,
+          "DisruptionCost": 34.41,
+          "Capex": 59.98
+        },
+        "allocations": null,
+        "content_signature": "54cf0e60e246",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5607.2,
+          "DisruptionCost": 38.79,
+          "Capex": 52.28
+        },
+        "allocations": null,
+        "content_signature": "dbd7ea2a982e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-02 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5579.4,
+          "DisruptionCost": 35.46,
+          "Capex": 55.06
+        },
+        "allocations": null,
+        "content_signature": "17693adb5694",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5389.4,
+          "DisruptionCost": 37.35,
+          "Capex": 50.52
+        },
+        "allocations": null,
+        "content_signature": "0eb3aa6dae37",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-02 Q4",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5329.2,
+          "DisruptionCost": 33.62,
+          "Capex": 56.8
+        },
+        "allocations": null,
+        "content_signature": "648cfc7fb175",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5258.3,
+          "DisruptionCost": 34.46,
+          "Capex": 49.39
+        },
+        "allocations": null,
+        "content_signature": "a88d24cde85d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 25,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5150.8,
+          "DisruptionCost": 31.61,
+          "Capex": 52.65
+        },
+        "allocations": null,
+        "content_signature": "60796addd578",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 26,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5023.3,
+          "DisruptionCost": 32.26,
+          "Capex": 49.25
+        },
+        "allocations": null,
+        "content_signature": "676c659443e3",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 27,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4906.8,
+          "DisruptionCost": 31.96,
+          "Capex": 46.45
+        },
+        "allocations": null,
+        "content_signature": "7e5e0bb76894",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 28,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-01 Q3",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4882.6,
+          "DisruptionCost": 30.7,
+          "Capex": 48.41
+        },
+        "allocations": null,
+        "content_signature": "811f4ced339e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 29,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4767.0,
+          "DisruptionCost": 29.63,
+          "Capex": 46.13
+        },
+        "allocations": null,
+        "content_signature": "34735f85ba44",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4700.9,
+          "DisruptionCost": 31.28,
+          "Capex": 44.11
+        },
+        "allocations": null,
+        "content_signature": "12d1143ba818",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 31,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-07 Q4",
+          "GT-04 Q2",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4692.3,
+          "DisruptionCost": 27.85,
+          "Capex": 48.77
+        },
+        "allocations": null,
+        "content_signature": "89edda4597ce",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 32,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4515.8,
+          "DisruptionCost": 28.33,
+          "Capex": 43.02
+        },
+        "allocations": null,
+        "content_signature": "e2251f390981",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 33,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4477.5,
+          "DisruptionCost": 30.43,
+          "Capex": 42.63
+        },
+        "allocations": null,
+        "content_signature": "3092711bc027",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 34,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-07 Q4",
+          "GT-04 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4411.8,
+          "DisruptionCost": 25.89,
+          "Capex": 45.73
+        },
+        "allocations": null,
+        "content_signature": "bb415a9318c7",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 35,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4303.5,
+          "DisruptionCost": 27.14,
+          "Capex": 41.1
+        },
+        "allocations": null,
+        "content_signature": "2e11648a7d38",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 36,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4146.9,
+          "DisruptionCost": 25.93,
+          "Capex": 39.57
+        },
+        "allocations": null,
+        "content_signature": "f27c158df81e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 37,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-07 Q4",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4072.2,
+          "DisruptionCost": 24.15,
+          "Capex": 42.21
+        },
+        "allocations": null,
+        "content_signature": "7af72fc7893e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 38,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-04 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4060.8,
+          "DisruptionCost": 28.0,
+          "Capex": 38.62
+        },
+        "allocations": null,
+        "content_signature": "e34af6266987",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 39,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 3958.4,
+          "DisruptionCost": 25.15,
+          "Capex": 37.74
+        },
+        "allocations": null,
+        "content_signature": "2282a216d045",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 40,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 3853.1,
+          "DisruptionCost": 23.13,
+          "Capex": 37.93
+        },
+        "allocations": null,
+        "content_signature": "8281b0257c12",
+        "sensitivity": null
+      }
+    ],
+    "total_pareto_found": 140,
+    "quality": {
+      "hypervolume_normalized": 0.4768,
+      "spacing_cv": 0.662
+    },
+    "constraints_snapshot": [
+      {
+        "motivated_by": "",
+        "type": "objective_bound",
+        "objective": "Capex",
+        "operator": "max",
+        "value": 76.0
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-02 Q1",
+          "TX-03 Q1",
+          "TX-04 Q1",
+          "TX-05 Q1",
+          "TX-06 Q1",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-04 Q1",
+          "SB-05 Q1",
+          "SB-07 Q1",
+          "GT-01 Q1",
+          "GT-02 Q1",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-01 Q1",
+          "DX-02 Q1",
+          "DX-03 Q1",
+          "DX-04 Q1",
+          "DX-06 Q1",
+          "DX-07 Q1"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q2",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-06 Q2",
+          "TX-07 Q2",
+          "SB-01 Q2",
+          "SB-02 Q2",
+          "SB-03 Q2",
+          "SB-04 Q2",
+          "SB-05 Q2",
+          "SB-06 Q2",
+          "SB-07 Q2",
+          "GT-01 Q2",
+          "GT-02 Q2",
+          "GT-03 Q2",
+          "GT-04 Q2",
+          "GT-05 Q2",
+          "HY-01 Q2",
+          "HY-02 Q2",
+          "HY-03 Q2",
+          "HY-04 Q2",
+          "DX-01 Q2",
+          "DX-02 Q2",
+          "DX-03 Q2",
+          "DX-04 Q2",
+          "DX-05 Q2",
+          "DX-06 Q2",
+          "DX-07 Q2"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q3",
+          "TX-02 Q3",
+          "TX-03 Q3",
+          "TX-04 Q3",
+          "TX-05 Q3",
+          "TX-06 Q3",
+          "TX-07 Q3",
+          "SB-01 Q3",
+          "SB-02 Q3",
+          "SB-03 Q3",
+          "SB-04 Q3",
+          "SB-05 Q3",
+          "SB-06 Q3",
+          "SB-07 Q3",
+          "GT-01 Q3",
+          "GT-02 Q3",
+          "GT-03 Q3",
+          "GT-04 Q3",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q3",
+          "HY-03 Q3",
+          "HY-04 Q3",
+          "DX-01 Q3",
+          "DX-02 Q3",
+          "DX-03 Q3",
+          "DX-04 Q3",
+          "DX-05 Q3",
+          "DX-06 Q3",
+          "DX-07 Q3"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q4",
+          "TX-02 Q4",
+          "TX-03 Q4",
+          "TX-04 Q4",
+          "TX-05 Q4",
+          "TX-06 Q4",
+          "TX-07 Q4",
+          "SB-01 Q4",
+          "SB-02 Q4",
+          "SB-03 Q4",
+          "SB-04 Q4",
+          "SB-05 Q4",
+          "SB-06 Q4",
+          "SB-07 Q4",
+          "GT-01 Q4",
+          "GT-02 Q4",
+          "GT-03 Q4",
+          "GT-04 Q4",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q4",
+          "HY-03 Q4",
+          "HY-04 Q4",
+          "DX-01 Q4",
+          "DX-02 Q4",
+          "DX-03 Q4",
+          "DX-04 Q4",
+          "DX-05 Q4",
+          "DX-06 Q4",
+          "DX-07 Q4"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-01 Q2",
+          "TX-01 Q3",
+          "TX-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-01 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-02 Q1",
+          "TX-02 Q2",
+          "TX-02 Q3",
+          "TX-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-03 Q1",
+          "TX-03 Q2",
+          "TX-03 Q3",
+          "TX-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-04 Q1",
+          "TX-04 Q2",
+          "TX-04 Q3",
+          "TX-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-04 Q1",
+          "TX-04 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-05 Q1",
+          "TX-05 Q2",
+          "TX-05 Q3",
+          "TX-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-06 Q1",
+          "TX-06 Q2",
+          "TX-06 Q3",
+          "TX-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-07 Q1",
+          "TX-07 Q2",
+          "TX-07 Q3",
+          "TX-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-01 Q1",
+          "SB-01 Q2",
+          "SB-01 Q3",
+          "SB-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-01 Q1",
+          "SB-01 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-02 Q1",
+          "SB-02 Q2",
+          "SB-02 Q3",
+          "SB-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-02 Q1",
+          "SB-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-03 Q2",
+          "SB-03 Q3",
+          "SB-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-03 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-04 Q1",
+          "SB-04 Q2",
+          "SB-04 Q3",
+          "SB-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-05 Q1",
+          "SB-05 Q2",
+          "SB-05 Q3",
+          "SB-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-06 Q2",
+          "SB-06 Q3",
+          "SB-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-07 Q1",
+          "SB-07 Q2",
+          "SB-07 Q3",
+          "SB-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-01 Q1",
+          "GT-01 Q2",
+          "GT-01 Q3",
+          "GT-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-02 Q1",
+          "GT-02 Q2",
+          "GT-02 Q3",
+          "GT-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-03 Q2",
+          "GT-03 Q3",
+          "GT-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-04 Q1",
+          "GT-04 Q2",
+          "GT-04 Q3",
+          "GT-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-04 Q1",
+          "GT-04 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-05 Q1",
+          "GT-05 Q2",
+          "GT-05 Q3",
+          "GT-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-01 Q1",
+          "HY-01 Q2",
+          "HY-01 Q3",
+          "HY-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-02 Q1",
+          "HY-02 Q2",
+          "HY-02 Q3",
+          "HY-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-02 Q1",
+          "HY-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-03 Q1",
+          "HY-03 Q2",
+          "HY-03 Q3",
+          "HY-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-04 Q2",
+          "HY-04 Q3",
+          "HY-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-01 Q1",
+          "DX-01 Q2",
+          "DX-01 Q3",
+          "DX-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-02 Q1",
+          "DX-02 Q2",
+          "DX-02 Q3",
+          "DX-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-02 Q1",
+          "DX-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-03 Q1",
+          "DX-03 Q2",
+          "DX-03 Q3",
+          "DX-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-04 Q1",
+          "DX-04 Q2",
+          "DX-04 Q3",
+          "DX-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-05 Q2",
+          "DX-05 Q3",
+          "DX-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-06 Q1",
+          "DX-06 Q2",
+          "DX-06 Q3",
+          "DX-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-07 Q1",
+          "DX-07 Q2",
+          "DX-07 Q3",
+          "DX-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q2",
+        "then_option": "SB-02 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q3",
+        "then_option": "SB-02 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q4",
+        "then_option": "SB-02 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q2",
+        "then_option": "SB-05 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q3",
+        "then_option": "SB-05 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q4",
+        "then_option": "SB-05 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q2",
+        "then_option": "GT-02 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q3",
+        "then_option": "GT-02 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q4",
+        "then_option": "GT-02 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q2",
+        "then_option": "HY-03 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q3",
+        "then_option": "HY-03 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q4",
+        "then_option": "HY-03 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q2",
+        "then_option": "DX-04 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q3",
+        "then_option": "DX-04 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q4",
+        "then_option": "DX-04 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q1",
+        "option_b": "TX-03 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q2",
+        "option_b": "TX-03 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q3",
+        "option_b": "TX-03 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q4",
+        "option_b": "TX-03 Q4"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q1",
+        "option_b": "TX-06 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q2",
+        "option_b": "TX-06 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q3",
+        "option_b": "TX-06 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q4",
+        "option_b": "TX-06 Q4"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q2",
+        "option_b": "DX-05 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q3",
+        "option_b": "DX-05 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q4",
+        "option_b": "DX-05 Q4"
+      }
+    ],
+    "seed_used": 42,
+    "solver": "nsga-ii",
+    "exact": false,
+    "time_limit": null,
+    "time_limited": false,
+    "solve_fingerprint": null,
+    "problem_snapshot": {
+      "n_options": 115,
+      "n_objectives": 3,
+      "n_scores": 345,
+      "approach": "binary",
+      "aggregation_mix": {
+        "sum": 3
+      },
+      "constraint_type_counts": {
+        "objective_bound": 1,
+        "group_limit": 42,
+        "dependency": 15,
+        "exclusion_pair": 11
+      },
+      "interaction_matrix": false,
+      "scenarios": 2,
+      "exact_fits": true,
+      "exact_fits_reason": ""
+    }
+  },
+  "exact_run": {
+    "run_id": "b03b2fbe-cbd1-49df-8b11-4d2866852bb2",
+    "created_at": "2026-08-03T21:35:25.475446Z",
+    "mode": "fast",
+    "solutions": [
+      {
+        "solution_id": 1,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q3",
+          "GT-03 Q4",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7876.2,
+          "DisruptionCost": 61.26,
+          "Capex": 75.96
+        },
+        "allocations": null,
+        "content_signature": "4c4399896858",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 2,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q2",
+          "DX-06 Q3"
+        ],
+        "objective_values": {
+          "RiskReduction": 7866.3,
+          "DisruptionCost": 59.01,
+          "Capex": 75.87
+        },
+        "allocations": null,
+        "content_signature": "322904f79550",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 3,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q4",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-01 Q3",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7747.5,
+          "DisruptionCost": 54.67,
+          "Capex": 75.15
+        },
+        "allocations": null,
+        "content_signature": "b525523186fb",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 4,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-04 Q1",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q3",
+          "GT-03 Q4",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q2",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1",
+          "DX-06 Q3"
+        ],
+        "objective_values": {
+          "RiskReduction": 7709.0,
+          "DisruptionCost": 65.83,
+          "Capex": 73.61
+        },
+        "allocations": null,
+        "content_signature": "70143053d7c0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 5,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q2",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7702.4,
+          "DisruptionCost": 63.13,
+          "Capex": 73.49
+        },
+        "allocations": null,
+        "content_signature": "59977a89b162",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 6,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-01 Q3",
+          "GT-02 Q3",
+          "GT-03 Q4",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q2",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1",
+          "DX-06 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7580.7,
+          "DisruptionCost": 64.46,
+          "Capex": 71.86
+        },
+        "allocations": null,
+        "content_signature": "57fdb3ae71d6",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 7,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q3",
+          "HY-04 Q4",
+          "DX-02 Q1",
+          "DX-06 Q3"
+        ],
+        "objective_values": {
+          "RiskReduction": 7508.7,
+          "DisruptionCost": 50.37,
+          "Capex": 72.39
+        },
+        "allocations": null,
+        "content_signature": "69c3d655446d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 8,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q3",
+          "DX-01 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7437.9,
+          "DisruptionCost": 47.61,
+          "Capex": 72.04
+        },
+        "allocations": null,
+        "content_signature": "b99e82846299",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 9,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-07 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "SB-07 Q1",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q4",
+          "DX-01 Q4",
+          "DX-02 Q1",
+          "DX-06 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7367.7,
+          "DisruptionCost": 42.37,
+          "Capex": 75.63
+        },
+        "allocations": null,
+        "content_signature": "b0409c400b07",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 10,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q3",
+          "DX-01 Q2",
+          "DX-02 Q2",
+          "DX-06 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7356.1,
+          "DisruptionCost": 44.18,
+          "Capex": 72.57
+        },
+        "allocations": null,
+        "content_signature": "bdd277d11f1f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 11,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q4",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2",
+          "DX-06 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7244.8,
+          "DisruptionCost": 44.06,
+          "Capex": 70.71
+        },
+        "allocations": null,
+        "content_signature": "fc0a0818f876",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 12,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-01 Q3",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 7208.5,
+          "DisruptionCost": 51.84,
+          "Capex": 67.55
+        },
+        "allocations": null,
+        "content_signature": "b5168801455a",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 13,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q3",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q2",
+          "GT-03 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1",
+          "DX-06 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7123.0,
+          "DisruptionCost": 58.24,
+          "Capex": 65.87
+        },
+        "allocations": null,
+        "content_signature": "9ef7d64ecfe9",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 14,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 7043.8,
+          "DisruptionCost": 43.58,
+          "Capex": 67.28
+        },
+        "allocations": null,
+        "content_signature": "3a094391ca31",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 15,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1",
+          "DX-06 Q3"
+        ],
+        "objective_values": {
+          "RiskReduction": 7035.6,
+          "DisruptionCost": 52.64,
+          "Capex": 65.1
+        },
+        "allocations": null,
+        "content_signature": "61c194b907e6",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 16,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q2",
+          "GT-03 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6982.2,
+          "DisruptionCost": 56.45,
+          "Capex": 64.35
+        },
+        "allocations": null,
+        "content_signature": "af7a98590751",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 17,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q4",
+          "TX-03 Q1",
+          "TX-04 Q2",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2",
+          "DX-03 Q4"
+        ],
+        "objective_values": {
+          "RiskReduction": 6862.1,
+          "DisruptionCost": 38.35,
+          "Capex": 70.66
+        },
+        "allocations": null,
+        "content_signature": "580c56cab9eb",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 18,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q3",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6832.9,
+          "DisruptionCost": 52.79,
+          "Capex": 62.42
+        },
+        "allocations": null,
+        "content_signature": "b581e39e0379",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 19,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1",
+          "DX-06 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6774.7,
+          "DisruptionCost": 53.11,
+          "Capex": 61.62
+        },
+        "allocations": null,
+        "content_signature": "98f792053605",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 20,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-02 Q4",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2",
+          "DX-06 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 6678.8,
+          "DisruptionCost": 41.1,
+          "Capex": 62.94
+        },
+        "allocations": null,
+        "content_signature": "3868ac74f705",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 21,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 6619.8,
+          "DisruptionCost": 47.64,
+          "Capex": 59.83
+        },
+        "allocations": null,
+        "content_signature": "fa37d17acf1d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 22,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q4",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "SB-06 Q4",
+          "GT-02 Q4",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 6570.0,
+          "DisruptionCost": 45.64,
+          "Capex": 59.56
+        },
+        "allocations": null,
+        "content_signature": "9c7b54cb255f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 23,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q3",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q3",
+          "DX-02 Q1",
+          "DX-06 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6345.3,
+          "DisruptionCost": 40.75,
+          "Capex": 58.26
+        },
+        "allocations": null,
+        "content_signature": "d62c6bbc59ac",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 24,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q2",
+          "SB-06 Q3",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-02 Q2",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 6292.5,
+          "DisruptionCost": 53.55,
+          "Capex": 56.41
+        },
+        "allocations": null,
+        "content_signature": "c34bcac81197",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 25,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-01 Q2",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 6031.8,
+          "DisruptionCost": 49.44,
+          "Capex": 53.75
+        },
+        "allocations": null,
+        "content_signature": "4e91cb697dc9",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 26,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "SB-07 Q4",
+          "GT-04 Q2",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2",
+          "DX-03 Q1",
+          "DX-07 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 6012.1,
+          "DisruptionCost": 32.19,
+          "Capex": 66.96
+        },
+        "allocations": null,
+        "content_signature": "9914492bd73f",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 27,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q3",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "HY-04 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5968.9,
+          "DisruptionCost": 42.51,
+          "Capex": 53.29
+        },
+        "allocations": null,
+        "content_signature": "01c547d66987",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 28,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "SB-07 Q1",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5890.9,
+          "DisruptionCost": 32.34,
+          "Capex": 56.26
+        },
+        "allocations": null,
+        "content_signature": "8458857d7450",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 29,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "GT-04 Q2",
+          "GT-05 Q4",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2",
+          "DX-03 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 5788.1,
+          "DisruptionCost": 31.78,
+          "Capex": 57.07
+        },
+        "allocations": null,
+        "content_signature": "6bc55f543c45",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 30,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-01 Q3",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5696.0,
+          "DisruptionCost": 34.64,
+          "Capex": 51.1
+        },
+        "allocations": null,
+        "content_signature": "b78a1dcf5d92",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 31,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q3",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q1",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-02 Q1",
+          "HY-03 Q2",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5520.6,
+          "DisruptionCost": 40.06,
+          "Capex": 49.01
+        },
+        "allocations": null,
+        "content_signature": "36caa0ecc9c0",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 32,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q1",
+          "TX-05 Q2",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-02 Q1",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 5241.2,
+          "DisruptionCost": 36.09,
+          "Capex": 46.66
+        },
+        "allocations": null,
+        "content_signature": "110577634ad3",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 33,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 5125.6,
+          "DisruptionCost": 34.36,
+          "Capex": 45.33
+        },
+        "allocations": null,
+        "content_signature": "d5ca7c9ae008",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 34,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-02 Q2",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 5015.4,
+          "DisruptionCost": 37.08,
+          "Capex": 44.82
+        },
+        "allocations": null,
+        "content_signature": "04886722b0e1",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 35,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-02 Q2",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-02 Q1",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 4980.6,
+          "DisruptionCost": 33.84,
+          "Capex": 44.33
+        },
+        "allocations": null,
+        "content_signature": "bac8fad830d7",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 36,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "SB-05 Q4",
+          "SB-07 Q1",
+          "GT-04 Q2",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4828.6,
+          "DisruptionCost": 26.95,
+          "Capex": 48.46
+        },
+        "allocations": null,
+        "content_signature": "32de3dbe03f1",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 37,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q2",
+          "HY-02 Q1",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 4750.4,
+          "DisruptionCost": 31.36,
+          "Capex": 42.78
+        },
+        "allocations": null,
+        "content_signature": "d78ff3b784da",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 38,
+        "selected_options": [
+          "TX-01 Q1",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4295.0,
+          "DisruptionCost": 29.24,
+          "Capex": 39.76
+        },
+        "allocations": null,
+        "content_signature": "b9b2eca49662",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 39,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "TX-07 Q1",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4266.0,
+          "DisruptionCost": 25.71,
+          "Capex": 40.57
+        },
+        "allocations": null,
+        "content_signature": "6544d174aa0e",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 40,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "HY-03 Q4",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 4247.6,
+          "DisruptionCost": 24.65,
+          "Capex": 41.85
+        },
+        "allocations": null,
+        "content_signature": "f7168fbda7e8",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 41,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "DX-02 Q1"
+        ],
+        "objective_values": {
+          "RiskReduction": 4129.3,
+          "DisruptionCost": 28.7,
+          "Capex": 38.97
+        },
+        "allocations": null,
+        "content_signature": "f3277e2d18fa",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 42,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2",
+          "DX-03 Q4"
+        ],
+        "objective_values": {
+          "RiskReduction": 4035.2,
+          "DisruptionCost": 23.8,
+          "Capex": 42.6
+        },
+        "allocations": null,
+        "content_signature": "2a9db2d4143d",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 43,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q1",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 3958.4,
+          "DisruptionCost": 25.15,
+          "Capex": 37.74
+        },
+        "allocations": null,
+        "content_signature": "2282a216d045",
+        "sensitivity": null
+      },
+      {
+        "solution_id": 44,
+        "selected_options": [
+          "TX-01 Q2",
+          "TX-04 Q2",
+          "SB-01 Q2",
+          "SB-02 Q1",
+          "SB-03 Q2",
+          "GT-04 Q2",
+          "HY-02 Q1",
+          "DX-02 Q2"
+        ],
+        "objective_values": {
+          "RiskReduction": 3853.1,
+          "DisruptionCost": 23.13,
+          "Capex": 37.93
+        },
+        "allocations": null,
+        "content_signature": "8281b0257c12",
+        "sensitivity": null
+      }
+    ],
+    "total_pareto_found": 44,
+    "quality": {
+      "hypervolume_normalized": 0.5196,
+      "spacing_cv": 0.8405
+    },
+    "constraints_snapshot": [
+      {
+        "motivated_by": "",
+        "type": "objective_bound",
+        "objective": "Capex",
+        "operator": "max",
+        "value": 76.0
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-02 Q1",
+          "TX-03 Q1",
+          "TX-04 Q1",
+          "TX-05 Q1",
+          "TX-06 Q1",
+          "TX-07 Q1",
+          "SB-01 Q1",
+          "SB-02 Q1",
+          "SB-04 Q1",
+          "SB-05 Q1",
+          "SB-07 Q1",
+          "GT-01 Q1",
+          "GT-02 Q1",
+          "GT-04 Q1",
+          "GT-05 Q1",
+          "HY-01 Q1",
+          "HY-02 Q1",
+          "HY-03 Q1",
+          "DX-01 Q1",
+          "DX-02 Q1",
+          "DX-03 Q1",
+          "DX-04 Q1",
+          "DX-06 Q1",
+          "DX-07 Q1"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q2",
+          "TX-02 Q2",
+          "TX-03 Q2",
+          "TX-04 Q2",
+          "TX-05 Q2",
+          "TX-06 Q2",
+          "TX-07 Q2",
+          "SB-01 Q2",
+          "SB-02 Q2",
+          "SB-03 Q2",
+          "SB-04 Q2",
+          "SB-05 Q2",
+          "SB-06 Q2",
+          "SB-07 Q2",
+          "GT-01 Q2",
+          "GT-02 Q2",
+          "GT-03 Q2",
+          "GT-04 Q2",
+          "GT-05 Q2",
+          "HY-01 Q2",
+          "HY-02 Q2",
+          "HY-03 Q2",
+          "HY-04 Q2",
+          "DX-01 Q2",
+          "DX-02 Q2",
+          "DX-03 Q2",
+          "DX-04 Q2",
+          "DX-05 Q2",
+          "DX-06 Q2",
+          "DX-07 Q2"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q3",
+          "TX-02 Q3",
+          "TX-03 Q3",
+          "TX-04 Q3",
+          "TX-05 Q3",
+          "TX-06 Q3",
+          "TX-07 Q3",
+          "SB-01 Q3",
+          "SB-02 Q3",
+          "SB-03 Q3",
+          "SB-04 Q3",
+          "SB-05 Q3",
+          "SB-06 Q3",
+          "SB-07 Q3",
+          "GT-01 Q3",
+          "GT-02 Q3",
+          "GT-03 Q3",
+          "GT-04 Q3",
+          "GT-05 Q3",
+          "HY-01 Q3",
+          "HY-02 Q3",
+          "HY-03 Q3",
+          "HY-04 Q3",
+          "DX-01 Q3",
+          "DX-02 Q3",
+          "DX-03 Q3",
+          "DX-04 Q3",
+          "DX-05 Q3",
+          "DX-06 Q3",
+          "DX-07 Q3"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q4",
+          "TX-02 Q4",
+          "TX-03 Q4",
+          "TX-04 Q4",
+          "TX-05 Q4",
+          "TX-06 Q4",
+          "TX-07 Q4",
+          "SB-01 Q4",
+          "SB-02 Q4",
+          "SB-03 Q4",
+          "SB-04 Q4",
+          "SB-05 Q4",
+          "SB-06 Q4",
+          "SB-07 Q4",
+          "GT-01 Q4",
+          "GT-02 Q4",
+          "GT-03 Q4",
+          "GT-04 Q4",
+          "GT-05 Q4",
+          "HY-01 Q4",
+          "HY-02 Q4",
+          "HY-03 Q4",
+          "HY-04 Q4",
+          "DX-01 Q4",
+          "DX-02 Q4",
+          "DX-03 Q4",
+          "DX-04 Q4",
+          "DX-05 Q4",
+          "DX-06 Q4",
+          "DX-07 Q4"
+        ],
+        "min": 0,
+        "max": 6
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-01 Q2",
+          "TX-01 Q3",
+          "TX-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-01 Q1",
+          "TX-01 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-02 Q1",
+          "TX-02 Q2",
+          "TX-02 Q3",
+          "TX-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-03 Q1",
+          "TX-03 Q2",
+          "TX-03 Q3",
+          "TX-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-04 Q1",
+          "TX-04 Q2",
+          "TX-04 Q3",
+          "TX-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-04 Q1",
+          "TX-04 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-05 Q1",
+          "TX-05 Q2",
+          "TX-05 Q3",
+          "TX-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-06 Q1",
+          "TX-06 Q2",
+          "TX-06 Q3",
+          "TX-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "TX-07 Q1",
+          "TX-07 Q2",
+          "TX-07 Q3",
+          "TX-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-01 Q1",
+          "SB-01 Q2",
+          "SB-01 Q3",
+          "SB-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-01 Q1",
+          "SB-01 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-02 Q1",
+          "SB-02 Q2",
+          "SB-02 Q3",
+          "SB-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-02 Q1",
+          "SB-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-03 Q2",
+          "SB-03 Q3",
+          "SB-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-03 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-04 Q1",
+          "SB-04 Q2",
+          "SB-04 Q3",
+          "SB-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-05 Q1",
+          "SB-05 Q2",
+          "SB-05 Q3",
+          "SB-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-06 Q2",
+          "SB-06 Q3",
+          "SB-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "SB-07 Q1",
+          "SB-07 Q2",
+          "SB-07 Q3",
+          "SB-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-01 Q1",
+          "GT-01 Q2",
+          "GT-01 Q3",
+          "GT-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-02 Q1",
+          "GT-02 Q2",
+          "GT-02 Q3",
+          "GT-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-03 Q2",
+          "GT-03 Q3",
+          "GT-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-04 Q1",
+          "GT-04 Q2",
+          "GT-04 Q3",
+          "GT-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-04 Q1",
+          "GT-04 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "GT-05 Q1",
+          "GT-05 Q2",
+          "GT-05 Q3",
+          "GT-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-01 Q1",
+          "HY-01 Q2",
+          "HY-01 Q3",
+          "HY-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-02 Q1",
+          "HY-02 Q2",
+          "HY-02 Q3",
+          "HY-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-02 Q1",
+          "HY-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-03 Q1",
+          "HY-03 Q2",
+          "HY-03 Q3",
+          "HY-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "HY-04 Q2",
+          "HY-04 Q3",
+          "HY-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-01 Q1",
+          "DX-01 Q2",
+          "DX-01 Q3",
+          "DX-01 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-02 Q1",
+          "DX-02 Q2",
+          "DX-02 Q3",
+          "DX-02 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-02 Q1",
+          "DX-02 Q2"
+        ],
+        "min": 1,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-03 Q1",
+          "DX-03 Q2",
+          "DX-03 Q3",
+          "DX-03 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-04 Q1",
+          "DX-04 Q2",
+          "DX-04 Q3",
+          "DX-04 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-05 Q2",
+          "DX-05 Q3",
+          "DX-05 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-06 Q1",
+          "DX-06 Q2",
+          "DX-06 Q3",
+          "DX-06 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "group_limit",
+        "options": [
+          "DX-07 Q1",
+          "DX-07 Q2",
+          "DX-07 Q3",
+          "DX-07 Q4"
+        ],
+        "min": 0,
+        "max": 1
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q2",
+        "then_option": "SB-02 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q3",
+        "then_option": "SB-02 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-03 Q4",
+        "then_option": "SB-02 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q2",
+        "then_option": "SB-05 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q3",
+        "then_option": "SB-05 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "SB-06 Q4",
+        "then_option": "SB-05 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q2",
+        "then_option": "GT-02 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q3",
+        "then_option": "GT-02 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "GT-03 Q4",
+        "then_option": "GT-02 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q2",
+        "then_option": "HY-03 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q3",
+        "then_option": "HY-03 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "HY-04 Q4",
+        "then_option": "HY-03 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q2",
+        "then_option": "DX-04 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q3",
+        "then_option": "DX-04 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "dependency",
+        "if_option": "DX-05 Q4",
+        "then_option": "DX-04 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q1",
+        "option_b": "TX-03 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q2",
+        "option_b": "TX-03 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q3",
+        "option_b": "TX-03 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-01 Q4",
+        "option_b": "TX-03 Q4"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q1",
+        "option_b": "TX-06 Q1"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q2",
+        "option_b": "TX-06 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q3",
+        "option_b": "TX-06 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "TX-05 Q4",
+        "option_b": "TX-06 Q4"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q2",
+        "option_b": "DX-05 Q2"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q3",
+        "option_b": "DX-05 Q3"
+      },
+      {
+        "motivated_by": "",
+        "type": "exclusion_pair",
+        "option_a": "DX-01 Q4",
+        "option_b": "DX-05 Q4"
+      }
+    ],
+    "seed_used": 42,
+    "solver": "highs",
+    "exact": true,
+    "time_limit": null,
+    "time_limited": false,
+    "solve_fingerprint": null,
+    "problem_snapshot": {
+      "n_options": 115,
+      "n_objectives": 3,
+      "n_scores": 345,
+      "approach": "binary",
+      "aggregation_mix": {
+        "sum": 3
+      },
+      "constraint_type_counts": {
+        "objective_bound": 1,
+        "group_limit": 42,
+        "dependency": 15,
+        "exclusion_pair": 11
+      },
+      "interaction_matrix": false,
+      "scenarios": 2,
+      "exact_fits": true,
+      "exact_fits_reason": ""
+    }
+  },
+  "scenario_run": {
+    "scenario_runs": {
+      "summer_demand_surge": {
+        "run_id": "8398d114-ac8e-47ba-bd8f-29b39b5b8a96",
+        "created_at": "2026-08-03T21:35:26.526156Z",
+        "mode": "fast",
+        "solutions": [
+          {
+            "solution_id": 1,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-01 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7374.5,
+              "DisruptionCost": 59.7,
+              "Capex": 74.53
+            },
+            "allocations": null,
+            "content_signature": "00c4824da7cb",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 2,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7191.0,
+              "DisruptionCost": 58.78,
+              "Capex": 71.56
+            },
+            "allocations": null,
+            "content_signature": "80c9507cf170",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 3,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2",
+              "DX-06 Q3"
+            ],
+            "objective_values": {
+              "RiskReduction": 7143.2,
+              "DisruptionCost": 50.62,
+              "Capex": 73.75
+            },
+            "allocations": null,
+            "content_signature": "daebf06fd985",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 4,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 7115.0,
+              "DisruptionCost": 55.58,
+              "Capex": 72.27
+            },
+            "allocations": null,
+            "content_signature": "e0a34fc47c9e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 5,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2",
+              "DX-06 Q3"
+            ],
+            "objective_values": {
+              "RiskReduction": 6924.1,
+              "DisruptionCost": 49.6,
+              "Capex": 69.47
+            },
+            "allocations": null,
+            "content_signature": "c2c8acf55385",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 6,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6915.4,
+              "DisruptionCost": 56.72,
+              "Capex": 68.08
+            },
+            "allocations": null,
+            "content_signature": "9a426c3a7653",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 7,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6876.6,
+              "DisruptionCost": 46.96,
+              "Capex": 70.43
+            },
+            "allocations": null,
+            "content_signature": "7231353eef6f",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 8,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6720.6,
+              "DisruptionCost": 56.99,
+              "Capex": 63.96
+            },
+            "allocations": null,
+            "content_signature": "cafcc3281d7d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 9,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-01 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6696.7,
+              "DisruptionCost": 52.73,
+              "Capex": 65.69
+            },
+            "allocations": null,
+            "content_signature": "ae691c4f108e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 10,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6657.5,
+              "DisruptionCost": 45.94,
+              "Capex": 66.15
+            },
+            "allocations": null,
+            "content_signature": "998c369c14a3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 11,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-04 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6626.9,
+              "DisruptionCost": 44.73,
+              "Capex": 68.85
+            },
+            "allocations": null,
+            "content_signature": "b6f3c341e14b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 12,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6489.5,
+              "DisruptionCost": 51.21,
+              "Capex": 62.98
+            },
+            "allocations": null,
+            "content_signature": "732ad54cd04d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 13,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6441.5,
+              "DisruptionCost": 42.51,
+              "Capex": 64.98
+            },
+            "allocations": null,
+            "content_signature": "ec5b89b8a83c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 14,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6428.0,
+              "DisruptionCost": 53.41,
+              "Capex": 60.54
+            },
+            "allocations": null,
+            "content_signature": "95f85c40438d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 15,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q3"
+            ],
+            "objective_values": {
+              "RiskReduction": 6380.0,
+              "DisruptionCost": 46.25,
+              "Capex": 61.32
+            },
+            "allocations": null,
+            "content_signature": "05a77fd39ba0",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 16,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6288.3,
+              "DisruptionCost": 42.13,
+              "Capex": 61.48
+            },
+            "allocations": null,
+            "content_signature": "0225d38eca54",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 17,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6251.1,
+              "DisruptionCost": 48.69,
+              "Capex": 59.84
+            },
+            "allocations": null,
+            "content_signature": "9a4ca09bda94",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 18,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6097.0,
+              "DisruptionCost": 50.14,
+              "Capex": 56.73
+            },
+            "allocations": null,
+            "content_signature": "be9d6eb7a4d5",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 19,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 6069.2,
+              "DisruptionCost": 41.11,
+              "Capex": 57.2
+            },
+            "allocations": null,
+            "content_signature": "6b540f8b313e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 20,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6025.2,
+              "DisruptionCost": 39.46,
+              "Capex": 61.72
+            },
+            "allocations": null,
+            "content_signature": "d2807fa2173c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 21,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5934.8,
+              "DisruptionCost": 49.82,
+              "Capex": 54.29
+            },
+            "allocations": null,
+            "content_signature": "932b2c633006",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 22,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5906.6,
+              "DisruptionCost": 37.78,
+              "Capex": 59.39
+            },
+            "allocations": null,
+            "content_signature": "896ad99499cd",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 23,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5865.9,
+              "DisruptionCost": 39.2,
+              "Capex": 55.72
+            },
+            "allocations": null,
+            "content_signature": "e1230f1c9d88",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 24,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5812.3,
+              "DisruptionCost": 47.21,
+              "Capex": 54.11
+            },
+            "allocations": null,
+            "content_signature": "29af52029607",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 25,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q3",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5655.3,
+              "DisruptionCost": 39.61,
+              "Capex": 53.41
+            },
+            "allocations": null,
+            "content_signature": "aa170e063601",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 26,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5626.6,
+              "DisruptionCost": 36.84,
+              "Capex": 58.26
+            },
+            "allocations": null,
+            "content_signature": "c3681b6a47de",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 27,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q2",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5550.9,
+              "DisruptionCost": 45.74,
+              "Capex": 51.19
+            },
+            "allocations": null,
+            "content_signature": "74fe29ee80e7",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 28,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5504.6,
+              "DisruptionCost": 36.55,
+              "Capex": 52.06
+            },
+            "allocations": null,
+            "content_signature": "a5a27fce76f4",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 29,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5444.4,
+              "DisruptionCost": 34.3,
+              "Capex": 54.98
+            },
+            "allocations": null,
+            "content_signature": "84261fe2b299",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 30,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5335.5,
+              "DisruptionCost": 36.07,
+              "Capex": 49.13
+            },
+            "allocations": null,
+            "content_signature": "28f71e683407",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 31,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5121.8,
+              "DisruptionCost": 33.04,
+              "Capex": 51.4
+            },
+            "allocations": null,
+            "content_signature": "fd920bcdd2e9",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 32,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 5046.0,
+              "DisruptionCost": 42.89,
+              "Capex": 46.8
+            },
+            "allocations": null,
+            "content_signature": "0b69c8f1cbd3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 33,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q3"
+            ],
+            "objective_values": {
+              "RiskReduction": 5022.7,
+              "DisruptionCost": 38.77,
+              "Capex": 46.65
+            },
+            "allocations": null,
+            "content_signature": "1c24182a5ba3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 34,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q2",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4970.5,
+              "DisruptionCost": 32.21,
+              "Capex": 47.59
+            },
+            "allocations": null,
+            "content_signature": "1ef0ee2d3cfb",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 35,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4807.6,
+              "DisruptionCost": 34.27,
+              "Capex": 44.96
+            },
+            "allocations": null,
+            "content_signature": "23c1e324f941",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 36,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-04 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4675.4,
+              "DisruptionCost": 31.65,
+              "Capex": 49.26
+            },
+            "allocations": null,
+            "content_signature": "e4f1889799f3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 37,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4552.8,
+              "DisruptionCost": 33.2,
+              "Capex": 41.85
+            },
+            "allocations": null,
+            "content_signature": "6eed667b57ef",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 38,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-07 Q4",
+              "GT-04 Q2",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4406.9,
+              "DisruptionCost": 30.36,
+              "Capex": 44.59
+            },
+            "allocations": null,
+            "content_signature": "d8ec83a62586",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 39,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4263.8,
+              "DisruptionCost": 30.7,
+              "Capex": 40.19
+            },
+            "allocations": null,
+            "content_signature": "84404f217ae3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 40,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "GT-04 Q2",
+              "HY-02 Q1",
+              "DX-02 Q2"
+            ],
+            "objective_values": {
+              "RiskReduction": 4187.8,
+              "DisruptionCost": 29.34,
+              "Capex": 40.31
+            },
+            "allocations": null,
+            "content_signature": "bac29f4581ed",
+            "sensitivity": null
+          }
+        ],
+        "total_pareto_found": 139,
+        "quality": {
+          "hypervolume_normalized": 0.5327,
+          "spacing_cv": 0.6349
+        },
+        "constraints_snapshot": [
+          {
+            "motivated_by": "",
+            "type": "objective_bound",
+            "objective": "Capex",
+            "operator": "max",
+            "value": 76.0
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-02 Q1",
+              "TX-03 Q1",
+              "TX-04 Q1",
+              "TX-05 Q1",
+              "TX-06 Q1",
+              "TX-07 Q1",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-04 Q1",
+              "SB-05 Q1",
+              "SB-07 Q1",
+              "GT-01 Q1",
+              "GT-02 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q1",
+              "DX-02 Q1",
+              "DX-03 Q1",
+              "DX-04 Q1",
+              "DX-06 Q1",
+              "DX-07 Q1"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q2",
+              "TX-02 Q2",
+              "TX-03 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-06 Q2",
+              "TX-07 Q2",
+              "SB-01 Q2",
+              "SB-02 Q2",
+              "SB-03 Q2",
+              "SB-04 Q2",
+              "SB-05 Q2",
+              "SB-06 Q2",
+              "SB-07 Q2",
+              "GT-01 Q2",
+              "GT-02 Q2",
+              "GT-03 Q2",
+              "GT-04 Q2",
+              "GT-05 Q2",
+              "HY-01 Q2",
+              "HY-02 Q2",
+              "HY-03 Q2",
+              "HY-04 Q2",
+              "DX-01 Q2",
+              "DX-02 Q2",
+              "DX-03 Q2",
+              "DX-04 Q2",
+              "DX-05 Q2",
+              "DX-06 Q2",
+              "DX-07 Q2"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q3",
+              "TX-02 Q3",
+              "TX-03 Q3",
+              "TX-04 Q3",
+              "TX-05 Q3",
+              "TX-06 Q3",
+              "TX-07 Q3",
+              "SB-01 Q3",
+              "SB-02 Q3",
+              "SB-03 Q3",
+              "SB-04 Q3",
+              "SB-05 Q3",
+              "SB-06 Q3",
+              "SB-07 Q3",
+              "GT-01 Q3",
+              "GT-02 Q3",
+              "GT-03 Q3",
+              "GT-04 Q3",
+              "GT-05 Q3",
+              "HY-01 Q3",
+              "HY-02 Q3",
+              "HY-03 Q3",
+              "HY-04 Q3",
+              "DX-01 Q3",
+              "DX-02 Q3",
+              "DX-03 Q3",
+              "DX-04 Q3",
+              "DX-05 Q3",
+              "DX-06 Q3",
+              "DX-07 Q3"
+            ],
+            "min": 0,
+            "max": 3
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q4",
+              "TX-02 Q4",
+              "TX-03 Q4",
+              "TX-04 Q4",
+              "TX-05 Q4",
+              "TX-06 Q4",
+              "TX-07 Q4",
+              "SB-01 Q4",
+              "SB-02 Q4",
+              "SB-03 Q4",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "SB-06 Q4",
+              "SB-07 Q4",
+              "GT-01 Q4",
+              "GT-02 Q4",
+              "GT-03 Q4",
+              "GT-04 Q4",
+              "GT-05 Q4",
+              "HY-01 Q4",
+              "HY-02 Q4",
+              "HY-03 Q4",
+              "HY-04 Q4",
+              "DX-01 Q4",
+              "DX-02 Q4",
+              "DX-03 Q4",
+              "DX-04 Q4",
+              "DX-05 Q4",
+              "DX-06 Q4",
+              "DX-07 Q4"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-01 Q2",
+              "TX-01 Q3",
+              "TX-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-01 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-02 Q1",
+              "TX-02 Q2",
+              "TX-02 Q3",
+              "TX-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-03 Q1",
+              "TX-03 Q2",
+              "TX-03 Q3",
+              "TX-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-04 Q1",
+              "TX-04 Q2",
+              "TX-04 Q3",
+              "TX-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-04 Q1",
+              "TX-04 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-05 Q1",
+              "TX-05 Q2",
+              "TX-05 Q3",
+              "TX-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-06 Q1",
+              "TX-06 Q2",
+              "TX-06 Q3",
+              "TX-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-07 Q1",
+              "TX-07 Q2",
+              "TX-07 Q3",
+              "TX-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-01 Q1",
+              "SB-01 Q2",
+              "SB-01 Q3",
+              "SB-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-01 Q1",
+              "SB-01 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-02 Q1",
+              "SB-02 Q2",
+              "SB-02 Q3",
+              "SB-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-02 Q1",
+              "SB-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-03 Q2",
+              "SB-03 Q3",
+              "SB-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-03 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-04 Q1",
+              "SB-04 Q2",
+              "SB-04 Q3",
+              "SB-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-05 Q1",
+              "SB-05 Q2",
+              "SB-05 Q3",
+              "SB-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-06 Q2",
+              "SB-06 Q3",
+              "SB-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-07 Q1",
+              "SB-07 Q2",
+              "SB-07 Q3",
+              "SB-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-01 Q1",
+              "GT-01 Q2",
+              "GT-01 Q3",
+              "GT-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-02 Q1",
+              "GT-02 Q2",
+              "GT-02 Q3",
+              "GT-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-03 Q2",
+              "GT-03 Q3",
+              "GT-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-04 Q1",
+              "GT-04 Q2",
+              "GT-04 Q3",
+              "GT-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-04 Q1",
+              "GT-04 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-05 Q1",
+              "GT-05 Q2",
+              "GT-05 Q3",
+              "GT-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-01 Q1",
+              "HY-01 Q2",
+              "HY-01 Q3",
+              "HY-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-02 Q1",
+              "HY-02 Q2",
+              "HY-02 Q3",
+              "HY-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-02 Q1",
+              "HY-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-03 Q1",
+              "HY-03 Q2",
+              "HY-03 Q3",
+              "HY-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-04 Q2",
+              "HY-04 Q3",
+              "HY-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-01 Q1",
+              "DX-01 Q2",
+              "DX-01 Q3",
+              "DX-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-02 Q1",
+              "DX-02 Q2",
+              "DX-02 Q3",
+              "DX-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-02 Q1",
+              "DX-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-03 Q1",
+              "DX-03 Q2",
+              "DX-03 Q3",
+              "DX-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-04 Q1",
+              "DX-04 Q2",
+              "DX-04 Q3",
+              "DX-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-05 Q2",
+              "DX-05 Q3",
+              "DX-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-06 Q1",
+              "DX-06 Q2",
+              "DX-06 Q3",
+              "DX-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-07 Q1",
+              "DX-07 Q2",
+              "DX-07 Q3",
+              "DX-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q2",
+            "then_option": "SB-02 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q3",
+            "then_option": "SB-02 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q4",
+            "then_option": "SB-02 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q2",
+            "then_option": "SB-05 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q3",
+            "then_option": "SB-05 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q4",
+            "then_option": "SB-05 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q2",
+            "then_option": "GT-02 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q3",
+            "then_option": "GT-02 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q4",
+            "then_option": "GT-02 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q2",
+            "then_option": "HY-03 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q3",
+            "then_option": "HY-03 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q4",
+            "then_option": "HY-03 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q2",
+            "then_option": "DX-04 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q3",
+            "then_option": "DX-04 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q4",
+            "then_option": "DX-04 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q1",
+            "option_b": "TX-03 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q2",
+            "option_b": "TX-03 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q3",
+            "option_b": "TX-03 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q4",
+            "option_b": "TX-03 Q4"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q1",
+            "option_b": "TX-06 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q2",
+            "option_b": "TX-06 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q3",
+            "option_b": "TX-06 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q4",
+            "option_b": "TX-06 Q4"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q2",
+            "option_b": "DX-05 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q3",
+            "option_b": "DX-05 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q4",
+            "option_b": "DX-05 Q4"
+          }
+        ],
+        "seed_used": 1694401657,
+        "solver": "nsga-ii",
+        "exact": false,
+        "time_limit": null,
+        "time_limited": false,
+        "solve_fingerprint": null,
+        "problem_snapshot": {
+          "n_options": 115,
+          "n_objectives": 3,
+          "n_scores": 345,
+          "approach": "binary",
+          "aggregation_mix": {
+            "sum": 3
+          },
+          "constraint_type_counts": {
+            "objective_bound": 1,
+            "group_limit": 42,
+            "dependency": 15,
+            "exclusion_pair": 11
+          },
+          "interaction_matrix": false,
+          "scenarios": 0,
+          "exact_fits": true,
+          "exact_fits_reason": ""
+        }
+      },
+      "crew_shortage_q2": {
+        "run_id": "27665265-67a1-4841-9ea4-fa43bac19f60",
+        "created_at": "2026-08-03T21:35:26.541147Z",
+        "mode": "fast",
+        "solutions": [
+          {
+            "solution_id": 1,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7456.6,
+              "DisruptionCost": 57.08,
+              "Capex": 75.86
+            },
+            "allocations": null,
+            "content_signature": "5783ff1c8c52",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 2,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7312.7,
+              "DisruptionCost": 54.51,
+              "Capex": 74.1
+            },
+            "allocations": null,
+            "content_signature": "cbb8d36a43ea",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 3,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7179.4,
+              "DisruptionCost": 51.66,
+              "Capex": 74.78
+            },
+            "allocations": null,
+            "content_signature": "67dc0e07364a",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 4,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7134.3,
+              "DisruptionCost": 56.82,
+              "Capex": 71.14
+            },
+            "allocations": null,
+            "content_signature": "cccda8004b1c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 5,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 7119.8,
+              "DisruptionCost": 54.39,
+              "Capex": 71.64
+            },
+            "allocations": null,
+            "content_signature": "392d76f06b60",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 6,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6986.3,
+              "DisruptionCost": 47.71,
+              "Capex": 73.27
+            },
+            "allocations": null,
+            "content_signature": "938ae6852dbd",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 7,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q3",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6974.9,
+              "DisruptionCost": 51.43,
+              "Capex": 70.8
+            },
+            "allocations": null,
+            "content_signature": "e4b02a808896",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 8,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6961.9,
+              "DisruptionCost": 54.0,
+              "Capex": 68.1
+            },
+            "allocations": null,
+            "content_signature": "c9b8e4250d44",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 9,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6844.0,
+              "DisruptionCost": 48.5,
+              "Capex": 69.11
+            },
+            "allocations": null,
+            "content_signature": "e533986dd4c4",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 10,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6818.0,
+              "DisruptionCost": 51.43,
+              "Capex": 66.34
+            },
+            "allocations": null,
+            "content_signature": "c9400cd313e3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 11,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q4",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6693.2,
+              "DisruptionCost": 44.67,
+              "Capex": 69.69
+            },
+            "allocations": null,
+            "content_signature": "995405a016b4",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 12,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6662.1,
+              "DisruptionCost": 47.02,
+              "Capex": 65.17
+            },
+            "allocations": null,
+            "content_signature": "6c4930124398",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 13,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6642.1,
+              "DisruptionCost": 51.79,
+              "Capex": 63.82
+            },
+            "allocations": null,
+            "content_signature": "0652e010c09d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 14,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6546.9,
+              "DisruptionCost": 44.1,
+              "Capex": 67.46
+            },
+            "allocations": null,
+            "content_signature": "9f3fdc79872d",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 15,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6464.4,
+              "DisruptionCost": 44.96,
+              "Capex": 64.65
+            },
+            "allocations": null,
+            "content_signature": "d772e642d23c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 16,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6389.8,
+              "DisruptionCost": 48.89,
+              "Capex": 62.02
+            },
+            "allocations": null,
+            "content_signature": "dc53e25ef6c6",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 17,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6342.3,
+              "DisruptionCost": 44.81,
+              "Capex": 60.89
+            },
+            "allocations": null,
+            "content_signature": "9f6cef38d678",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 18,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6300.1,
+              "DisruptionCost": 40.07,
+              "Capex": 66.15
+            },
+            "allocations": null,
+            "content_signature": "4973bdcdcdb1",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 19,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6269.3,
+              "DisruptionCost": 40.36,
+              "Capex": 63.53
+            },
+            "allocations": null,
+            "content_signature": "b09614ad1475",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 20,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6247.8,
+              "DisruptionCost": 41.99,
+              "Capex": 60.81
+            },
+            "allocations": null,
+            "content_signature": "afba87956294",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 21,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6148.1,
+              "DisruptionCost": 39.57,
+              "Capex": 59.85
+            },
+            "allocations": null,
+            "content_signature": "5a22e2fbde01",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 22,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6120.2,
+              "DisruptionCost": 46.67,
+              "Capex": 58.55
+            },
+            "allocations": null,
+            "content_signature": "a26ab06db1af",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 23,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 6013.0,
+              "DisruptionCost": 42.67,
+              "Capex": 57.61
+            },
+            "allocations": null,
+            "content_signature": "a4f785c8a850",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 24,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5980.3,
+              "DisruptionCost": 37.86,
+              "Capex": 61.87
+            },
+            "allocations": null,
+            "content_signature": "ec150ec55960",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 25,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q4",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5950.2,
+              "DisruptionCost": 40.25,
+              "Capex": 57.18
+            },
+            "allocations": null,
+            "content_signature": "57840b100bb2",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 26,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5887.3,
+              "DisruptionCost": 47.96,
+              "Capex": 56.45
+            },
+            "allocations": null,
+            "content_signature": "86074deb5bda",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 27,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-01 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5859.1,
+              "DisruptionCost": 37.07,
+              "Capex": 58.19
+            },
+            "allocations": null,
+            "content_signature": "ee31347e11b3",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 28,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q3",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5750.1,
+              "DisruptionCost": 41.79,
+              "Capex": 54.99
+            },
+            "allocations": null,
+            "content_signature": "d04cef439493",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 29,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-02 Q3",
+              "GT-03 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5706.7,
+              "DisruptionCost": 45.79,
+              "Capex": 54.83
+            },
+            "allocations": null,
+            "content_signature": "a5c0bff389c1",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 30,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q4",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5703.4,
+              "DisruptionCost": 36.22,
+              "Capex": 55.87
+            },
+            "allocations": null,
+            "content_signature": "af78585d5d1e",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 31,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-02 Q4",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-01 Q4",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5565.1,
+              "DisruptionCost": 35.77,
+              "Capex": 58.02
+            },
+            "allocations": null,
+            "content_signature": "b1a173956965",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 32,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5497.8,
+              "DisruptionCost": 38.89,
+              "Capex": 53.19
+            },
+            "allocations": null,
+            "content_signature": "7a54ca6a4001",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 33,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5413.1,
+              "DisruptionCost": 35.27,
+              "Capex": 51.72
+            },
+            "allocations": null,
+            "content_signature": "ec36bbfa1c30",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 34,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-02 Q1",
+              "HY-03 Q3",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5382.1,
+              "DisruptionCost": 34.54,
+              "Capex": 54.81
+            },
+            "allocations": null,
+            "content_signature": "ccc0cb30c36b",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 35,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-05 Q3",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5229.9,
+              "DisruptionCost": 37.88,
+              "Capex": 49.85
+            },
+            "allocations": null,
+            "content_signature": "f4fd0f5d6892",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 36,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "GT-05 Q4",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5184.7,
+              "DisruptionCost": 33.89,
+              "Capex": 52.72
+            },
+            "allocations": null,
+            "content_signature": "5af7e70eb2a0",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 37,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "GT-05 Q4",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 5146.2,
+              "DisruptionCost": 35.04,
+              "Capex": 50.06
+            },
+            "allocations": null,
+            "content_signature": "086db3a6c486",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 38,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "SB-07 Q4",
+              "GT-04 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 4966.9,
+              "DisruptionCost": 32.45,
+              "Capex": 50.96
+            },
+            "allocations": null,
+            "content_signature": "2d5b3e51f05c",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 39,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-01 Q1",
+              "GT-04 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 4928.4,
+              "DisruptionCost": 33.6,
+              "Capex": 48.3
+            },
+            "allocations": null,
+            "content_signature": "6d9630b5bce5",
+            "sensitivity": null
+          },
+          {
+            "solution_id": 40,
+            "selected_options": [
+              "TX-01 Q2",
+              "TX-04 Q2",
+              "TX-07 Q3",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-03 Q2",
+              "SB-05 Q4",
+              "GT-04 Q1",
+              "HY-02 Q1",
+              "DX-02 Q2",
+              "DX-06 Q4"
+            ],
+            "objective_values": {
+              "RiskReduction": 4747.8,
+              "DisruptionCost": 31.43,
+              "Capex": 46.68
+            },
+            "allocations": null,
+            "content_signature": "6a12edbc9645",
+            "sensitivity": null
+          }
+        ],
+        "total_pareto_found": 139,
+        "quality": {
+          "hypervolume_normalized": 0.5131,
+          "spacing_cv": 1.2226
+        },
+        "constraints_snapshot": [
+          {
+            "motivated_by": "",
+            "type": "objective_bound",
+            "objective": "Capex",
+            "operator": "max",
+            "value": 76.0
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-02 Q1",
+              "TX-03 Q1",
+              "TX-04 Q1",
+              "TX-05 Q1",
+              "TX-06 Q1",
+              "TX-07 Q1",
+              "SB-01 Q1",
+              "SB-02 Q1",
+              "SB-04 Q1",
+              "SB-05 Q1",
+              "SB-07 Q1",
+              "GT-01 Q1",
+              "GT-02 Q1",
+              "GT-04 Q1",
+              "GT-05 Q1",
+              "HY-01 Q1",
+              "HY-02 Q1",
+              "HY-03 Q1",
+              "DX-01 Q1",
+              "DX-02 Q1",
+              "DX-03 Q1",
+              "DX-04 Q1",
+              "DX-06 Q1",
+              "DX-07 Q1"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q2",
+              "TX-02 Q2",
+              "TX-03 Q2",
+              "TX-04 Q2",
+              "TX-05 Q2",
+              "TX-06 Q2",
+              "TX-07 Q2",
+              "SB-01 Q2",
+              "SB-02 Q2",
+              "SB-03 Q2",
+              "SB-04 Q2",
+              "SB-05 Q2",
+              "SB-06 Q2",
+              "SB-07 Q2",
+              "GT-01 Q2",
+              "GT-02 Q2",
+              "GT-03 Q2",
+              "GT-04 Q2",
+              "GT-05 Q2",
+              "HY-01 Q2",
+              "HY-02 Q2",
+              "HY-03 Q2",
+              "HY-04 Q2",
+              "DX-01 Q2",
+              "DX-02 Q2",
+              "DX-03 Q2",
+              "DX-04 Q2",
+              "DX-05 Q2",
+              "DX-06 Q2",
+              "DX-07 Q2"
+            ],
+            "min": 0,
+            "max": 4
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q3",
+              "TX-02 Q3",
+              "TX-03 Q3",
+              "TX-04 Q3",
+              "TX-05 Q3",
+              "TX-06 Q3",
+              "TX-07 Q3",
+              "SB-01 Q3",
+              "SB-02 Q3",
+              "SB-03 Q3",
+              "SB-04 Q3",
+              "SB-05 Q3",
+              "SB-06 Q3",
+              "SB-07 Q3",
+              "GT-01 Q3",
+              "GT-02 Q3",
+              "GT-03 Q3",
+              "GT-04 Q3",
+              "GT-05 Q3",
+              "HY-01 Q3",
+              "HY-02 Q3",
+              "HY-03 Q3",
+              "HY-04 Q3",
+              "DX-01 Q3",
+              "DX-02 Q3",
+              "DX-03 Q3",
+              "DX-04 Q3",
+              "DX-05 Q3",
+              "DX-06 Q3",
+              "DX-07 Q3"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q4",
+              "TX-02 Q4",
+              "TX-03 Q4",
+              "TX-04 Q4",
+              "TX-05 Q4",
+              "TX-06 Q4",
+              "TX-07 Q4",
+              "SB-01 Q4",
+              "SB-02 Q4",
+              "SB-03 Q4",
+              "SB-04 Q4",
+              "SB-05 Q4",
+              "SB-06 Q4",
+              "SB-07 Q4",
+              "GT-01 Q4",
+              "GT-02 Q4",
+              "GT-03 Q4",
+              "GT-04 Q4",
+              "GT-05 Q4",
+              "HY-01 Q4",
+              "HY-02 Q4",
+              "HY-03 Q4",
+              "HY-04 Q4",
+              "DX-01 Q4",
+              "DX-02 Q4",
+              "DX-03 Q4",
+              "DX-04 Q4",
+              "DX-05 Q4",
+              "DX-06 Q4",
+              "DX-07 Q4"
+            ],
+            "min": 0,
+            "max": 6
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-01 Q2",
+              "TX-01 Q3",
+              "TX-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-01 Q1",
+              "TX-01 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-02 Q1",
+              "TX-02 Q2",
+              "TX-02 Q3",
+              "TX-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-03 Q1",
+              "TX-03 Q2",
+              "TX-03 Q3",
+              "TX-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-04 Q1",
+              "TX-04 Q2",
+              "TX-04 Q3",
+              "TX-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-04 Q1",
+              "TX-04 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-05 Q1",
+              "TX-05 Q2",
+              "TX-05 Q3",
+              "TX-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-06 Q1",
+              "TX-06 Q2",
+              "TX-06 Q3",
+              "TX-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "TX-07 Q1",
+              "TX-07 Q2",
+              "TX-07 Q3",
+              "TX-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-01 Q1",
+              "SB-01 Q2",
+              "SB-01 Q3",
+              "SB-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-01 Q1",
+              "SB-01 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-02 Q1",
+              "SB-02 Q2",
+              "SB-02 Q3",
+              "SB-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-02 Q1",
+              "SB-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-03 Q2",
+              "SB-03 Q3",
+              "SB-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-03 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-04 Q1",
+              "SB-04 Q2",
+              "SB-04 Q3",
+              "SB-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-05 Q1",
+              "SB-05 Q2",
+              "SB-05 Q3",
+              "SB-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-06 Q2",
+              "SB-06 Q3",
+              "SB-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "SB-07 Q1",
+              "SB-07 Q2",
+              "SB-07 Q3",
+              "SB-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-01 Q1",
+              "GT-01 Q2",
+              "GT-01 Q3",
+              "GT-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-02 Q1",
+              "GT-02 Q2",
+              "GT-02 Q3",
+              "GT-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-03 Q2",
+              "GT-03 Q3",
+              "GT-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-04 Q1",
+              "GT-04 Q2",
+              "GT-04 Q3",
+              "GT-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-04 Q1",
+              "GT-04 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "GT-05 Q1",
+              "GT-05 Q2",
+              "GT-05 Q3",
+              "GT-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-01 Q1",
+              "HY-01 Q2",
+              "HY-01 Q3",
+              "HY-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-02 Q1",
+              "HY-02 Q2",
+              "HY-02 Q3",
+              "HY-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-02 Q1",
+              "HY-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-03 Q1",
+              "HY-03 Q2",
+              "HY-03 Q3",
+              "HY-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "HY-04 Q2",
+              "HY-04 Q3",
+              "HY-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-01 Q1",
+              "DX-01 Q2",
+              "DX-01 Q3",
+              "DX-01 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-02 Q1",
+              "DX-02 Q2",
+              "DX-02 Q3",
+              "DX-02 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-02 Q1",
+              "DX-02 Q2"
+            ],
+            "min": 1,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-03 Q1",
+              "DX-03 Q2",
+              "DX-03 Q3",
+              "DX-03 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-04 Q1",
+              "DX-04 Q2",
+              "DX-04 Q3",
+              "DX-04 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-05 Q2",
+              "DX-05 Q3",
+              "DX-05 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-06 Q1",
+              "DX-06 Q2",
+              "DX-06 Q3",
+              "DX-06 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "group_limit",
+            "options": [
+              "DX-07 Q1",
+              "DX-07 Q2",
+              "DX-07 Q3",
+              "DX-07 Q4"
+            ],
+            "min": 0,
+            "max": 1
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q2",
+            "then_option": "SB-02 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q3",
+            "then_option": "SB-02 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-03 Q4",
+            "then_option": "SB-02 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q2",
+            "then_option": "SB-05 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q3",
+            "then_option": "SB-05 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "SB-06 Q4",
+            "then_option": "SB-05 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q2",
+            "then_option": "GT-02 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q3",
+            "then_option": "GT-02 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "GT-03 Q4",
+            "then_option": "GT-02 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q2",
+            "then_option": "HY-03 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q3",
+            "then_option": "HY-03 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "HY-04 Q4",
+            "then_option": "HY-03 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q2",
+            "then_option": "DX-04 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q3",
+            "then_option": "DX-04 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "dependency",
+            "if_option": "DX-05 Q4",
+            "then_option": "DX-04 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q1",
+            "option_b": "TX-03 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q2",
+            "option_b": "TX-03 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q3",
+            "option_b": "TX-03 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-01 Q4",
+            "option_b": "TX-03 Q4"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q1",
+            "option_b": "TX-06 Q1"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q2",
+            "option_b": "TX-06 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q3",
+            "option_b": "TX-06 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "TX-05 Q4",
+            "option_b": "TX-06 Q4"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q2",
+            "option_b": "DX-05 Q2"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q3",
+            "option_b": "DX-05 Q3"
+          },
+          {
+            "motivated_by": "",
+            "type": "exclusion_pair",
+            "option_a": "DX-01 Q4",
+            "option_b": "DX-05 Q4"
+          }
+        ],
+        "seed_used": 1586962009,
+        "solver": "nsga-ii",
+        "exact": false,
+        "time_limit": null,
+        "time_limited": false,
+        "solve_fingerprint": null,
+        "problem_snapshot": {
+          "n_options": 115,
+          "n_objectives": 3,
+          "n_scores": 345,
+          "approach": "binary",
+          "aggregation_mix": {
+            "sum": 3
+          },
+          "constraint_type_counts": {
+            "objective_bound": 1,
+            "group_limit": 42,
+            "dependency": 15,
+            "exclusion_pair": 11
+          },
+          "interaction_matrix": false,
+          "scenarios": 0,
+          "exact_fits": true,
+          "exact_fits_reason": ""
+        }
+      }
+    },
+    "created_at": "2026-08-03T21:35:26.541968Z",
+    "solve_fingerprint": null,
+    "base_fingerprint": null
+  }
+}

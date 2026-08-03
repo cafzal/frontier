@@ -1,0 +1,2228 @@
+{
+  "name": "Annual maintenance outage program",
+  "domain": "Electric utility / asset management",
+  "context": "A regional utility locks next year's maintenance outage program: 30 jobs, each of which either takes an outage window in one of the four quarters or waits another year. Deferring a job inside the year costs risk reduction at that asset's own deterioration rate, while the disruption of taking it out swings with the season and the asset class \u2014 so the decision is which quarter, not only whether. Six outage crews a quarter, a $76M program budget, a mid-year regulatory deadline on the safety-critical work, phase-2 jobs that must follow their phase 1 in the very next window, and corridor rivals that can't be out together.",
+  "approach": "binary",
+  "objectives": [
+    {
+      "name": "RiskReduction",
+      "direction": "maximize",
+      "unit": "MWh unserved-energy avoided",
+      "aggregation": "sum"
+    },
+    {
+      "name": "DisruptionCost",
+      "direction": "minimize",
+      "unit": "$M",
+      "aggregation": "sum"
+    },
+    {
+      "name": "Capex",
+      "direction": "minimize",
+      "unit": "$M",
+      "aggregation": "sum"
+    }
+  ],
+  "constraints": [
+    {
+      "type": "objective_bound",
+      "objective": "Capex",
+      "operator": "max",
+      "value": 76.0
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q1",
+        "TX-02 Q1",
+        "TX-03 Q1",
+        "TX-04 Q1",
+        "TX-05 Q1",
+        "TX-06 Q1",
+        "TX-07 Q1",
+        "SB-01 Q1",
+        "SB-02 Q1",
+        "SB-04 Q1",
+        "SB-05 Q1",
+        "SB-07 Q1",
+        "GT-01 Q1",
+        "GT-02 Q1",
+        "GT-04 Q1",
+        "GT-05 Q1",
+        "HY-01 Q1",
+        "HY-02 Q1",
+        "HY-03 Q1",
+        "DX-01 Q1",
+        "DX-02 Q1",
+        "DX-03 Q1",
+        "DX-04 Q1",
+        "DX-06 Q1",
+        "DX-07 Q1"
+      ],
+      "min": 0,
+      "max": 6
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q2",
+        "TX-02 Q2",
+        "TX-03 Q2",
+        "TX-04 Q2",
+        "TX-05 Q2",
+        "TX-06 Q2",
+        "TX-07 Q2",
+        "SB-01 Q2",
+        "SB-02 Q2",
+        "SB-03 Q2",
+        "SB-04 Q2",
+        "SB-05 Q2",
+        "SB-06 Q2",
+        "SB-07 Q2",
+        "GT-01 Q2",
+        "GT-02 Q2",
+        "GT-03 Q2",
+        "GT-04 Q2",
+        "GT-05 Q2",
+        "HY-01 Q2",
+        "HY-02 Q2",
+        "HY-03 Q2",
+        "HY-04 Q2",
+        "DX-01 Q2",
+        "DX-02 Q2",
+        "DX-03 Q2",
+        "DX-04 Q2",
+        "DX-05 Q2",
+        "DX-06 Q2",
+        "DX-07 Q2"
+      ],
+      "min": 0,
+      "max": 6
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q3",
+        "TX-02 Q3",
+        "TX-03 Q3",
+        "TX-04 Q3",
+        "TX-05 Q3",
+        "TX-06 Q3",
+        "TX-07 Q3",
+        "SB-01 Q3",
+        "SB-02 Q3",
+        "SB-03 Q3",
+        "SB-04 Q3",
+        "SB-05 Q3",
+        "SB-06 Q3",
+        "SB-07 Q3",
+        "GT-01 Q3",
+        "GT-02 Q3",
+        "GT-03 Q3",
+        "GT-04 Q3",
+        "GT-05 Q3",
+        "HY-01 Q3",
+        "HY-02 Q3",
+        "HY-03 Q3",
+        "HY-04 Q3",
+        "DX-01 Q3",
+        "DX-02 Q3",
+        "DX-03 Q3",
+        "DX-04 Q3",
+        "DX-05 Q3",
+        "DX-06 Q3",
+        "DX-07 Q3"
+      ],
+      "min": 0,
+      "max": 6
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q4",
+        "TX-02 Q4",
+        "TX-03 Q4",
+        "TX-04 Q4",
+        "TX-05 Q4",
+        "TX-06 Q4",
+        "TX-07 Q4",
+        "SB-01 Q4",
+        "SB-02 Q4",
+        "SB-03 Q4",
+        "SB-04 Q4",
+        "SB-05 Q4",
+        "SB-06 Q4",
+        "SB-07 Q4",
+        "GT-01 Q4",
+        "GT-02 Q4",
+        "GT-03 Q4",
+        "GT-04 Q4",
+        "GT-05 Q4",
+        "HY-01 Q4",
+        "HY-02 Q4",
+        "HY-03 Q4",
+        "HY-04 Q4",
+        "DX-01 Q4",
+        "DX-02 Q4",
+        "DX-03 Q4",
+        "DX-04 Q4",
+        "DX-05 Q4",
+        "DX-06 Q4",
+        "DX-07 Q4"
+      ],
+      "min": 0,
+      "max": 6
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q1",
+        "TX-01 Q2",
+        "TX-01 Q3",
+        "TX-01 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-01 Q1",
+        "TX-01 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-02 Q1",
+        "TX-02 Q2",
+        "TX-02 Q3",
+        "TX-02 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-03 Q1",
+        "TX-03 Q2",
+        "TX-03 Q3",
+        "TX-03 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-04 Q1",
+        "TX-04 Q2",
+        "TX-04 Q3",
+        "TX-04 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-04 Q1",
+        "TX-04 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-05 Q1",
+        "TX-05 Q2",
+        "TX-05 Q3",
+        "TX-05 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-06 Q1",
+        "TX-06 Q2",
+        "TX-06 Q3",
+        "TX-06 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "TX-07 Q1",
+        "TX-07 Q2",
+        "TX-07 Q3",
+        "TX-07 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-01 Q1",
+        "SB-01 Q2",
+        "SB-01 Q3",
+        "SB-01 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-01 Q1",
+        "SB-01 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-02 Q1",
+        "SB-02 Q2",
+        "SB-02 Q3",
+        "SB-02 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-02 Q1",
+        "SB-02 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-03 Q2",
+        "SB-03 Q3",
+        "SB-03 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-03 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-04 Q1",
+        "SB-04 Q2",
+        "SB-04 Q3",
+        "SB-04 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-05 Q1",
+        "SB-05 Q2",
+        "SB-05 Q3",
+        "SB-05 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-06 Q2",
+        "SB-06 Q3",
+        "SB-06 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "SB-07 Q1",
+        "SB-07 Q2",
+        "SB-07 Q3",
+        "SB-07 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-01 Q1",
+        "GT-01 Q2",
+        "GT-01 Q3",
+        "GT-01 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-02 Q1",
+        "GT-02 Q2",
+        "GT-02 Q3",
+        "GT-02 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-03 Q2",
+        "GT-03 Q3",
+        "GT-03 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-04 Q1",
+        "GT-04 Q2",
+        "GT-04 Q3",
+        "GT-04 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-04 Q1",
+        "GT-04 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "GT-05 Q1",
+        "GT-05 Q2",
+        "GT-05 Q3",
+        "GT-05 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HY-01 Q1",
+        "HY-01 Q2",
+        "HY-01 Q3",
+        "HY-01 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HY-02 Q1",
+        "HY-02 Q2",
+        "HY-02 Q3",
+        "HY-02 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HY-02 Q1",
+        "HY-02 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HY-03 Q1",
+        "HY-03 Q2",
+        "HY-03 Q3",
+        "HY-03 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HY-04 Q2",
+        "HY-04 Q3",
+        "HY-04 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-01 Q1",
+        "DX-01 Q2",
+        "DX-01 Q3",
+        "DX-01 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-02 Q1",
+        "DX-02 Q2",
+        "DX-02 Q3",
+        "DX-02 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-02 Q1",
+        "DX-02 Q2"
+      ],
+      "min": 1,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-03 Q1",
+        "DX-03 Q2",
+        "DX-03 Q3",
+        "DX-03 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-04 Q1",
+        "DX-04 Q2",
+        "DX-04 Q3",
+        "DX-04 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-05 Q2",
+        "DX-05 Q3",
+        "DX-05 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-06 Q1",
+        "DX-06 Q2",
+        "DX-06 Q3",
+        "DX-06 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "DX-07 Q1",
+        "DX-07 Q2",
+        "DX-07 Q3",
+        "DX-07 Q4"
+      ],
+      "min": 0,
+      "max": 1
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-03 Q2",
+      "then_option": "SB-02 Q1"
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-03 Q3",
+      "then_option": "SB-02 Q2"
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-03 Q4",
+      "then_option": "SB-02 Q3"
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-06 Q2",
+      "then_option": "SB-05 Q1"
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-06 Q3",
+      "then_option": "SB-05 Q2"
+    },
+    {
+      "type": "dependency",
+      "if_option": "SB-06 Q4",
+      "then_option": "SB-05 Q3"
+    },
+    {
+      "type": "dependency",
+      "if_option": "GT-03 Q2",
+      "then_option": "GT-02 Q1"
+    },
+    {
+      "type": "dependency",
+      "if_option": "GT-03 Q3",
+      "then_option": "GT-02 Q2"
+    },
+    {
+      "type": "dependency",
+      "if_option": "GT-03 Q4",
+      "then_option": "GT-02 Q3"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HY-04 Q2",
+      "then_option": "HY-03 Q1"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HY-04 Q3",
+      "then_option": "HY-03 Q2"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HY-04 Q4",
+      "then_option": "HY-03 Q3"
+    },
+    {
+      "type": "dependency",
+      "if_option": "DX-05 Q2",
+      "then_option": "DX-04 Q1"
+    },
+    {
+      "type": "dependency",
+      "if_option": "DX-05 Q3",
+      "then_option": "DX-04 Q2"
+    },
+    {
+      "type": "dependency",
+      "if_option": "DX-05 Q4",
+      "then_option": "DX-04 Q3"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-01 Q1",
+      "option_b": "TX-03 Q1"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-01 Q2",
+      "option_b": "TX-03 Q2"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-01 Q3",
+      "option_b": "TX-03 Q3"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-01 Q4",
+      "option_b": "TX-03 Q4"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-05 Q1",
+      "option_b": "TX-06 Q1"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-05 Q2",
+      "option_b": "TX-06 Q2"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-05 Q3",
+      "option_b": "TX-06 Q3"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "TX-05 Q4",
+      "option_b": "TX-06 Q4"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "DX-01 Q2",
+      "option_b": "DX-05 Q2"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "DX-01 Q3",
+      "option_b": "DX-05 Q3"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "DX-01 Q4",
+      "option_b": "DX-05 Q4"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "summer_demand_surge",
+      "probability": null,
+      "description": "A hotter-than-planned summer: every Q3 outage costs 60% more in replacement power and interruption exposure, and system operations will release only three crews' worth of outage windows in Q3. Q1/Q2/Q4 are unchanged.",
+      "base_constraints_fingerprint": "",
+      "score_overrides": [
+        {
+          "option": "TX-01 Q3",
+          "objective": "DisruptionCost",
+          "value": 9.84
+        },
+        {
+          "option": "TX-02 Q3",
+          "objective": "DisruptionCost",
+          "value": 6.0
+        },
+        {
+          "option": "TX-03 Q3",
+          "objective": "DisruptionCost",
+          "value": 10.11
+        },
+        {
+          "option": "TX-04 Q3",
+          "objective": "DisruptionCost",
+          "value": 7.79
+        },
+        {
+          "option": "TX-05 Q3",
+          "objective": "DisruptionCost",
+          "value": 6.32
+        },
+        {
+          "option": "TX-06 Q3",
+          "objective": "DisruptionCost",
+          "value": 10.46
+        },
+        {
+          "option": "TX-07 Q3",
+          "objective": "DisruptionCost",
+          "value": 5.55
+        },
+        {
+          "option": "SB-01 Q3",
+          "objective": "DisruptionCost",
+          "value": 3.54
+        },
+        {
+          "option": "SB-02 Q3",
+          "objective": "DisruptionCost",
+          "value": 6.4
+        },
+        {
+          "option": "SB-03 Q3",
+          "objective": "DisruptionCost",
+          "value": 7.6
+        },
+        {
+          "option": "SB-04 Q3",
+          "objective": "DisruptionCost",
+          "value": 7.92
+        },
+        {
+          "option": "SB-05 Q3",
+          "objective": "DisruptionCost",
+          "value": 2.85
+        },
+        {
+          "option": "SB-06 Q3",
+          "objective": "DisruptionCost",
+          "value": 2.13
+        },
+        {
+          "option": "SB-07 Q3",
+          "objective": "DisruptionCost",
+          "value": 2.7
+        },
+        {
+          "option": "GT-01 Q3",
+          "objective": "DisruptionCost",
+          "value": 4.54
+        },
+        {
+          "option": "GT-02 Q3",
+          "objective": "DisruptionCost",
+          "value": 8.62
+        },
+        {
+          "option": "GT-03 Q3",
+          "objective": "DisruptionCost",
+          "value": 9.14
+        },
+        {
+          "option": "GT-04 Q3",
+          "objective": "DisruptionCost",
+          "value": 6.11
+        },
+        {
+          "option": "GT-05 Q3",
+          "objective": "DisruptionCost",
+          "value": 5.22
+        },
+        {
+          "option": "HY-01 Q3",
+          "objective": "DisruptionCost",
+          "value": 2.78
+        },
+        {
+          "option": "HY-02 Q3",
+          "objective": "DisruptionCost",
+          "value": 7.49
+        },
+        {
+          "option": "HY-03 Q3",
+          "objective": "DisruptionCost",
+          "value": 3.34
+        },
+        {
+          "option": "HY-04 Q3",
+          "objective": "DisruptionCost",
+          "value": 5.92
+        },
+        {
+          "option": "DX-01 Q3",
+          "objective": "DisruptionCost",
+          "value": 3.54
+        },
+        {
+          "option": "DX-02 Q3",
+          "objective": "DisruptionCost",
+          "value": 13.09
+        },
+        {
+          "option": "DX-03 Q3",
+          "objective": "DisruptionCost",
+          "value": 1.42
+        },
+        {
+          "option": "DX-04 Q3",
+          "objective": "DisruptionCost",
+          "value": 3.04
+        },
+        {
+          "option": "DX-05 Q3",
+          "objective": "DisruptionCost",
+          "value": 2.32
+        },
+        {
+          "option": "DX-06 Q3",
+          "objective": "DisruptionCost",
+          "value": 3.66
+        },
+        {
+          "option": "DX-07 Q3",
+          "objective": "DisruptionCost",
+          "value": 5.9
+        }
+      ],
+      "score_adjustments": [],
+      "constraint_overrides": [
+        {
+          "type": "objective_bound",
+          "objective": "Capex",
+          "operator": "max",
+          "value": 76.0
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-02 Q1",
+            "TX-03 Q1",
+            "TX-04 Q1",
+            "TX-05 Q1",
+            "TX-06 Q1",
+            "TX-07 Q1",
+            "SB-01 Q1",
+            "SB-02 Q1",
+            "SB-04 Q1",
+            "SB-05 Q1",
+            "SB-07 Q1",
+            "GT-01 Q1",
+            "GT-02 Q1",
+            "GT-04 Q1",
+            "GT-05 Q1",
+            "HY-01 Q1",
+            "HY-02 Q1",
+            "HY-03 Q1",
+            "DX-01 Q1",
+            "DX-02 Q1",
+            "DX-03 Q1",
+            "DX-04 Q1",
+            "DX-06 Q1",
+            "DX-07 Q1"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q2",
+            "TX-02 Q2",
+            "TX-03 Q2",
+            "TX-04 Q2",
+            "TX-05 Q2",
+            "TX-06 Q2",
+            "TX-07 Q2",
+            "SB-01 Q2",
+            "SB-02 Q2",
+            "SB-03 Q2",
+            "SB-04 Q2",
+            "SB-05 Q2",
+            "SB-06 Q2",
+            "SB-07 Q2",
+            "GT-01 Q2",
+            "GT-02 Q2",
+            "GT-03 Q2",
+            "GT-04 Q2",
+            "GT-05 Q2",
+            "HY-01 Q2",
+            "HY-02 Q2",
+            "HY-03 Q2",
+            "HY-04 Q2",
+            "DX-01 Q2",
+            "DX-02 Q2",
+            "DX-03 Q2",
+            "DX-04 Q2",
+            "DX-05 Q2",
+            "DX-06 Q2",
+            "DX-07 Q2"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q3",
+            "TX-02 Q3",
+            "TX-03 Q3",
+            "TX-04 Q3",
+            "TX-05 Q3",
+            "TX-06 Q3",
+            "TX-07 Q3",
+            "SB-01 Q3",
+            "SB-02 Q3",
+            "SB-03 Q3",
+            "SB-04 Q3",
+            "SB-05 Q3",
+            "SB-06 Q3",
+            "SB-07 Q3",
+            "GT-01 Q3",
+            "GT-02 Q3",
+            "GT-03 Q3",
+            "GT-04 Q3",
+            "GT-05 Q3",
+            "HY-01 Q3",
+            "HY-02 Q3",
+            "HY-03 Q3",
+            "HY-04 Q3",
+            "DX-01 Q3",
+            "DX-02 Q3",
+            "DX-03 Q3",
+            "DX-04 Q3",
+            "DX-05 Q3",
+            "DX-06 Q3",
+            "DX-07 Q3"
+          ],
+          "min": 0,
+          "max": 3
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q4",
+            "TX-02 Q4",
+            "TX-03 Q4",
+            "TX-04 Q4",
+            "TX-05 Q4",
+            "TX-06 Q4",
+            "TX-07 Q4",
+            "SB-01 Q4",
+            "SB-02 Q4",
+            "SB-03 Q4",
+            "SB-04 Q4",
+            "SB-05 Q4",
+            "SB-06 Q4",
+            "SB-07 Q4",
+            "GT-01 Q4",
+            "GT-02 Q4",
+            "GT-03 Q4",
+            "GT-04 Q4",
+            "GT-05 Q4",
+            "HY-01 Q4",
+            "HY-02 Q4",
+            "HY-03 Q4",
+            "HY-04 Q4",
+            "DX-01 Q4",
+            "DX-02 Q4",
+            "DX-03 Q4",
+            "DX-04 Q4",
+            "DX-05 Q4",
+            "DX-06 Q4",
+            "DX-07 Q4"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-01 Q2",
+            "TX-01 Q3",
+            "TX-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-01 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-02 Q1",
+            "TX-02 Q2",
+            "TX-02 Q3",
+            "TX-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-03 Q1",
+            "TX-03 Q2",
+            "TX-03 Q3",
+            "TX-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-04 Q1",
+            "TX-04 Q2",
+            "TX-04 Q3",
+            "TX-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-04 Q1",
+            "TX-04 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-05 Q1",
+            "TX-05 Q2",
+            "TX-05 Q3",
+            "TX-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-06 Q1",
+            "TX-06 Q2",
+            "TX-06 Q3",
+            "TX-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-07 Q1",
+            "TX-07 Q2",
+            "TX-07 Q3",
+            "TX-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-01 Q1",
+            "SB-01 Q2",
+            "SB-01 Q3",
+            "SB-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-01 Q1",
+            "SB-01 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-02 Q1",
+            "SB-02 Q2",
+            "SB-02 Q3",
+            "SB-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-02 Q1",
+            "SB-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-03 Q2",
+            "SB-03 Q3",
+            "SB-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-03 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-04 Q1",
+            "SB-04 Q2",
+            "SB-04 Q3",
+            "SB-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-05 Q1",
+            "SB-05 Q2",
+            "SB-05 Q3",
+            "SB-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-06 Q2",
+            "SB-06 Q3",
+            "SB-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-07 Q1",
+            "SB-07 Q2",
+            "SB-07 Q3",
+            "SB-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-01 Q1",
+            "GT-01 Q2",
+            "GT-01 Q3",
+            "GT-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-02 Q1",
+            "GT-02 Q2",
+            "GT-02 Q3",
+            "GT-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-03 Q2",
+            "GT-03 Q3",
+            "GT-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-04 Q1",
+            "GT-04 Q2",
+            "GT-04 Q3",
+            "GT-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-04 Q1",
+            "GT-04 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-05 Q1",
+            "GT-05 Q2",
+            "GT-05 Q3",
+            "GT-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-01 Q1",
+            "HY-01 Q2",
+            "HY-01 Q3",
+            "HY-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-02 Q1",
+            "HY-02 Q2",
+            "HY-02 Q3",
+            "HY-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-02 Q1",
+            "HY-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-03 Q1",
+            "HY-03 Q2",
+            "HY-03 Q3",
+            "HY-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-04 Q2",
+            "HY-04 Q3",
+            "HY-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-01 Q1",
+            "DX-01 Q2",
+            "DX-01 Q3",
+            "DX-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-02 Q1",
+            "DX-02 Q2",
+            "DX-02 Q3",
+            "DX-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-02 Q1",
+            "DX-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-03 Q1",
+            "DX-03 Q2",
+            "DX-03 Q3",
+            "DX-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-04 Q1",
+            "DX-04 Q2",
+            "DX-04 Q3",
+            "DX-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-05 Q2",
+            "DX-05 Q3",
+            "DX-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-06 Q1",
+            "DX-06 Q2",
+            "DX-06 Q3",
+            "DX-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-07 Q1",
+            "DX-07 Q2",
+            "DX-07 Q3",
+            "DX-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q2",
+          "then_option": "SB-02 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q3",
+          "then_option": "SB-02 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q4",
+          "then_option": "SB-02 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q2",
+          "then_option": "SB-05 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q3",
+          "then_option": "SB-05 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q4",
+          "then_option": "SB-05 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q2",
+          "then_option": "GT-02 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q3",
+          "then_option": "GT-02 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q4",
+          "then_option": "GT-02 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q2",
+          "then_option": "HY-03 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q3",
+          "then_option": "HY-03 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q4",
+          "then_option": "HY-03 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q2",
+          "then_option": "DX-04 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q3",
+          "then_option": "DX-04 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q4",
+          "then_option": "DX-04 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q1",
+          "option_b": "TX-03 Q1"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q2",
+          "option_b": "TX-03 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q3",
+          "option_b": "TX-03 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q4",
+          "option_b": "TX-03 Q4"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q1",
+          "option_b": "TX-06 Q1"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q2",
+          "option_b": "TX-06 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q3",
+          "option_b": "TX-06 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q4",
+          "option_b": "TX-06 Q4"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q2",
+          "option_b": "DX-05 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q3",
+          "option_b": "DX-05 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q4",
+          "option_b": "DX-05 Q4"
+        }
+      ],
+      "interaction_matrix_overrides": []
+    },
+    {
+      "name": "crew_shortage_q2",
+      "probability": null,
+      "description": "Spring storm restoration pulls line crews off planned work: Q2 fields four outage crews instead of six. Nothing else moves \u2014 the same jobs, the same seasonal costs, the same deadline.",
+      "base_constraints_fingerprint": "",
+      "score_overrides": [],
+      "score_adjustments": [],
+      "constraint_overrides": [
+        {
+          "type": "objective_bound",
+          "objective": "Capex",
+          "operator": "max",
+          "value": 76.0
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-02 Q1",
+            "TX-03 Q1",
+            "TX-04 Q1",
+            "TX-05 Q1",
+            "TX-06 Q1",
+            "TX-07 Q1",
+            "SB-01 Q1",
+            "SB-02 Q1",
+            "SB-04 Q1",
+            "SB-05 Q1",
+            "SB-07 Q1",
+            "GT-01 Q1",
+            "GT-02 Q1",
+            "GT-04 Q1",
+            "GT-05 Q1",
+            "HY-01 Q1",
+            "HY-02 Q1",
+            "HY-03 Q1",
+            "DX-01 Q1",
+            "DX-02 Q1",
+            "DX-03 Q1",
+            "DX-04 Q1",
+            "DX-06 Q1",
+            "DX-07 Q1"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q2",
+            "TX-02 Q2",
+            "TX-03 Q2",
+            "TX-04 Q2",
+            "TX-05 Q2",
+            "TX-06 Q2",
+            "TX-07 Q2",
+            "SB-01 Q2",
+            "SB-02 Q2",
+            "SB-03 Q2",
+            "SB-04 Q2",
+            "SB-05 Q2",
+            "SB-06 Q2",
+            "SB-07 Q2",
+            "GT-01 Q2",
+            "GT-02 Q2",
+            "GT-03 Q2",
+            "GT-04 Q2",
+            "GT-05 Q2",
+            "HY-01 Q2",
+            "HY-02 Q2",
+            "HY-03 Q2",
+            "HY-04 Q2",
+            "DX-01 Q2",
+            "DX-02 Q2",
+            "DX-03 Q2",
+            "DX-04 Q2",
+            "DX-05 Q2",
+            "DX-06 Q2",
+            "DX-07 Q2"
+          ],
+          "min": 0,
+          "max": 4
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q3",
+            "TX-02 Q3",
+            "TX-03 Q3",
+            "TX-04 Q3",
+            "TX-05 Q3",
+            "TX-06 Q3",
+            "TX-07 Q3",
+            "SB-01 Q3",
+            "SB-02 Q3",
+            "SB-03 Q3",
+            "SB-04 Q3",
+            "SB-05 Q3",
+            "SB-06 Q3",
+            "SB-07 Q3",
+            "GT-01 Q3",
+            "GT-02 Q3",
+            "GT-03 Q3",
+            "GT-04 Q3",
+            "GT-05 Q3",
+            "HY-01 Q3",
+            "HY-02 Q3",
+            "HY-03 Q3",
+            "HY-04 Q3",
+            "DX-01 Q3",
+            "DX-02 Q3",
+            "DX-03 Q3",
+            "DX-04 Q3",
+            "DX-05 Q3",
+            "DX-06 Q3",
+            "DX-07 Q3"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q4",
+            "TX-02 Q4",
+            "TX-03 Q4",
+            "TX-04 Q4",
+            "TX-05 Q4",
+            "TX-06 Q4",
+            "TX-07 Q4",
+            "SB-01 Q4",
+            "SB-02 Q4",
+            "SB-03 Q4",
+            "SB-04 Q4",
+            "SB-05 Q4",
+            "SB-06 Q4",
+            "SB-07 Q4",
+            "GT-01 Q4",
+            "GT-02 Q4",
+            "GT-03 Q4",
+            "GT-04 Q4",
+            "GT-05 Q4",
+            "HY-01 Q4",
+            "HY-02 Q4",
+            "HY-03 Q4",
+            "HY-04 Q4",
+            "DX-01 Q4",
+            "DX-02 Q4",
+            "DX-03 Q4",
+            "DX-04 Q4",
+            "DX-05 Q4",
+            "DX-06 Q4",
+            "DX-07 Q4"
+          ],
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-01 Q2",
+            "TX-01 Q3",
+            "TX-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-01 Q1",
+            "TX-01 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-02 Q1",
+            "TX-02 Q2",
+            "TX-02 Q3",
+            "TX-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-03 Q1",
+            "TX-03 Q2",
+            "TX-03 Q3",
+            "TX-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-04 Q1",
+            "TX-04 Q2",
+            "TX-04 Q3",
+            "TX-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-04 Q1",
+            "TX-04 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-05 Q1",
+            "TX-05 Q2",
+            "TX-05 Q3",
+            "TX-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-06 Q1",
+            "TX-06 Q2",
+            "TX-06 Q3",
+            "TX-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "TX-07 Q1",
+            "TX-07 Q2",
+            "TX-07 Q3",
+            "TX-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-01 Q1",
+            "SB-01 Q2",
+            "SB-01 Q3",
+            "SB-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-01 Q1",
+            "SB-01 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-02 Q1",
+            "SB-02 Q2",
+            "SB-02 Q3",
+            "SB-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-02 Q1",
+            "SB-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-03 Q2",
+            "SB-03 Q3",
+            "SB-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-03 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-04 Q1",
+            "SB-04 Q2",
+            "SB-04 Q3",
+            "SB-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-05 Q1",
+            "SB-05 Q2",
+            "SB-05 Q3",
+            "SB-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-06 Q2",
+            "SB-06 Q3",
+            "SB-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "SB-07 Q1",
+            "SB-07 Q2",
+            "SB-07 Q3",
+            "SB-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-01 Q1",
+            "GT-01 Q2",
+            "GT-01 Q3",
+            "GT-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-02 Q1",
+            "GT-02 Q2",
+            "GT-02 Q3",
+            "GT-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-03 Q2",
+            "GT-03 Q3",
+            "GT-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-04 Q1",
+            "GT-04 Q2",
+            "GT-04 Q3",
+            "GT-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-04 Q1",
+            "GT-04 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "GT-05 Q1",
+            "GT-05 Q2",
+            "GT-05 Q3",
+            "GT-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-01 Q1",
+            "HY-01 Q2",
+            "HY-01 Q3",
+            "HY-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-02 Q1",
+            "HY-02 Q2",
+            "HY-02 Q3",
+            "HY-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-02 Q1",
+            "HY-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-03 Q1",
+            "HY-03 Q2",
+            "HY-03 Q3",
+            "HY-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HY-04 Q2",
+            "HY-04 Q3",
+            "HY-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-01 Q1",
+            "DX-01 Q2",
+            "DX-01 Q3",
+            "DX-01 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-02 Q1",
+            "DX-02 Q2",
+            "DX-02 Q3",
+            "DX-02 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-02 Q1",
+            "DX-02 Q2"
+          ],
+          "min": 1,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-03 Q1",
+            "DX-03 Q2",
+            "DX-03 Q3",
+            "DX-03 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-04 Q1",
+            "DX-04 Q2",
+            "DX-04 Q3",
+            "DX-04 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-05 Q2",
+            "DX-05 Q3",
+            "DX-05 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-06 Q1",
+            "DX-06 Q2",
+            "DX-06 Q3",
+            "DX-06 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "DX-07 Q1",
+            "DX-07 Q2",
+            "DX-07 Q3",
+            "DX-07 Q4"
+          ],
+          "min": 0,
+          "max": 1
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q2",
+          "then_option": "SB-02 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q3",
+          "then_option": "SB-02 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-03 Q4",
+          "then_option": "SB-02 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q2",
+          "then_option": "SB-05 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q3",
+          "then_option": "SB-05 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "SB-06 Q4",
+          "then_option": "SB-05 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q2",
+          "then_option": "GT-02 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q3",
+          "then_option": "GT-02 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "GT-03 Q4",
+          "then_option": "GT-02 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q2",
+          "then_option": "HY-03 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q3",
+          "then_option": "HY-03 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HY-04 Q4",
+          "then_option": "HY-03 Q3"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q2",
+          "then_option": "DX-04 Q1"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q3",
+          "then_option": "DX-04 Q2"
+        },
+        {
+          "type": "dependency",
+          "if_option": "DX-05 Q4",
+          "then_option": "DX-04 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q1",
+          "option_b": "TX-03 Q1"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q2",
+          "option_b": "TX-03 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q3",
+          "option_b": "TX-03 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-01 Q4",
+          "option_b": "TX-03 Q4"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q1",
+          "option_b": "TX-06 Q1"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q2",
+          "option_b": "TX-06 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q3",
+          "option_b": "TX-06 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "TX-05 Q4",
+          "option_b": "TX-06 Q4"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q2",
+          "option_b": "DX-05 Q2"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q3",
+          "option_b": "DX-05 Q3"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "DX-01 Q4",
+          "option_b": "DX-05 Q4"
+        }
+      ],
+      "interaction_matrix_overrides": []
+    }
+  ]
+}
