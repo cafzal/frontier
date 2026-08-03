@@ -14,9 +14,17 @@ export function MarginalRates({ data }: Props) {
   const innerW = W - MARGIN.left - MARGIN.right;
   const totalH = MARGIN.top + MARGIN.bottom + data.rates.length * ROW_H;
 
+  // Scale to the trustworthy rates only. A `degenerate` row is a near-tie divided by ~0, so
+  // letting it set the domain flattens every real bar to invisibility — the same defect the
+  // engine's guard fixes on the payload side. Such bars are drawn faded and can overflow.
   const xScale = useMemo(() => {
-    const maxRate = Math.max(0.0001, ...data.rates.map((r) => Math.abs(r.rate)));
-    return d3.scaleLinear().domain([0, maxRate]).range([0, innerW]).nice();
+    const trusted = data.rates.filter((r) => !r.degenerate);
+    const scored = (trusted.length ? trusted : data.rates).map((r) => Math.abs(r.rate));
+    return d3
+      .scaleLinear()
+      .domain([0, Math.max(0.0001, ...scored)])
+      .range([0, innerW])
+      .nice();
   }, [data.rates, innerW]);
 
   if (data.rates.length === 0) {
@@ -60,7 +68,7 @@ export function MarginalRates({ data }: Props) {
           {data.rates.map((r, i) => {
             const y = i * ROW_H + 4;
             const isInf = i === inflectionPos;
-            const w = xScale(Math.abs(r.rate));
+            const w = Math.min(innerW, xScale(Math.abs(r.rate)));
             return (
               <g key={`${r.from_id}-${r.to_id}`}>
                 <text
@@ -80,16 +88,18 @@ export function MarginalRates({ data }: Props) {
                   width={w}
                   height={ROW_H - 6}
                   fill={isInf ? "#f59e0b" : "#0ea5e9"}
-                  opacity={0.85}
+                  opacity={r.degenerate ? 0.25 : 0.85}
                 />
                 <text
                   x={w + 4}
                   y={y + ROW_H / 2}
                   fontSize={9}
-                  fill="#292524"
+                  fill={r.degenerate ? "#a8a29e" : "#292524"}
                   dominantBaseline="middle"
                 >
                   {r.rate.toFixed(3)}
+                  {r.degenerate && ` · tie on ${data.from_objective.name}`}
+                  {r.co_improvement && ` · ${data.to_objective.name} gained, not paid`}
                 </text>
               </g>
             );

@@ -1860,8 +1860,8 @@ def explore(
     Structural `model/update` edits re-arm so the next solve re-injects.
 
     full_result_path: large-result actions (solutions detail=true, marginal_analysis detail=true)
-    write a full JSON dump to disk; the path is in solve/run's response — reference it instead
-    of re-requesting.
+    truncate past a cap and carry `full_result_path` — a full JSON dump on disk, also named by
+    solve/run's response. Reference the file instead of re-requesting the payload.
     content_signature: stable hash of a solution's selected options (and allocations for
     proportional problems); survives re-solves, so prefer it over solution_id when referencing
     curated solutions or recording feedback across runs.
@@ -1941,6 +1941,12 @@ def explore(
       marginal_analysis — Marginal rate analysis: cost-per-unit between adjacent solutions, inflection point detection.
                    Default: summary per pair (inflection, stats, top-5 steepest, truncated viz).
                    Pass detail=true for full rates array + untruncated visualization.
+                   `rate` is unsigned, so each pair carries a `rate_guard`: transitions marked
+                   `degenerate` tie on the denominator objective (their rate is a division
+                   artifact — excluded from the inflection and the steepest list, kept in
+                   detail), and transitions marked `co_improvement` GAINED the second
+                   objective rather than paying it, so their rate is not a price. Summary
+                   stats span every transition; the headline lists are the filtered ones.
                    Optional: detail, scenario.
       sensitivity — Solver-exact duals: where_to_invest (shadow prices, ranked; model-level
                    objective_bound levers carry role `model_bound`), near_misses (reduced
@@ -2208,6 +2214,8 @@ def explore(
                 result = explorer.marginal_analysis(p, scenario=scenario, detail=detail, source=source)
             except ValueError as e:
                 return {"error": str(e)}
+            if detail:
+                result = _cap_marginal_detail(p, result, scenario)
             return _attach_guidance_pointer(result, action)
         case "composition":
             try:
@@ -2218,6 +2226,30 @@ def explore(
             return _attach_guidance_pointer(result, action)
         case _:
             return {"error": f"Unknown action: {action}."}
+
+
+def _cap_marginal_detail(p: Problem, result: dict, scenario: str | None) -> dict:
+    """Soft-cap `marginal_analysis detail=true` the way `solutions detail=true` is capped.
+
+    The per-transition dump is O(frontier size) per pair — tens of thousands of tokens on a
+    portfolio-scale frontier — so the full payload goes to disk beside the run's own result
+    file and the response keeps the window around each inflection. The cap is per pair,
+    since each pair is its own rate view, the way the `solutions` cap is per solution list.
+    Best-effort: an unwritable data dir degrades to the full inline payload rather than
+    losing the analysis.
+    """
+    rows = max((len(pair.get("rates") or []) for pair in result.get("pairs", [])), default=0)
+    run_id = (result.get("frontier_source") or {}).get("run_id")
+    if rows <= EXPLORE_DETAIL_CAP or not run_id:
+        return result
+    try:
+        path = store.write_run_result(
+            p.problem_id, f"{run_id}-marginal", result, scenario=scenario)
+    except (OSError, ValueError):
+        return result
+    capped = explorer.cap_marginal_detail(p, result, EXPLORE_DETAIL_CAP)
+    capped["full_result_path"] = str(path)
+    return capped
 
 
 def _explore_feedback(

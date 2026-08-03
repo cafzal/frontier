@@ -1717,6 +1717,34 @@ class TestMarginalAnalysis:
             pair = detail_result["pairs"][0]
             assert "rates" in pair
 
+    def test_small_frontier_detail_stays_inline(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        result = srv.explore(action="marginal_analysis", problem_id=pid, detail=True)
+        assert "full_result_path" not in result
+        assert all("truncated" not in pair for pair in result["pairs"])
+
+    def test_large_frontier_detail_writes_full_result_path(self):
+        # One row per adjacent-solution transition per pair runs to tens of thousands of
+        # tokens on a portfolio-scale frontier, so detail=true dumps to disk and keeps a
+        # window inline — the claim the explore docstring makes for large-result actions.
+        import json
+        from pathlib import Path
+
+        pid = srv.model(action="load", source="scarce_supply_rationing")["problem_id"]
+        result = srv.explore(action="marginal_analysis", problem_id=pid, detail=True)
+        capped = [p for p in result["pairs"] if "truncated" in p]
+        assert capped, "a 300+ point frontier must exceed the per-pair detail cap"
+        for pair in capped:
+            assert len(pair["rates"]) == srv.EXPLORE_DETAIL_CAP
+            assert pair["truncated"]["total_transitions"] > srv.EXPLORE_DETAIL_CAP
+        on_disk = json.loads(Path(result["full_result_path"]).read_text())
+        by_pair = {tuple(p["objectives"]): p for p in on_disk["pairs"]}
+        for pair in capped:
+            full = by_pair[tuple(pair["objectives"])]
+            assert len(full["rates"]) == pair["truncated"]["total_transitions"]
+            assert "truncated" not in full
+
 
 # ─── Quadratic aggregation ───
 
