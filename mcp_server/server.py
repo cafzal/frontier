@@ -25,7 +25,7 @@ from pydantic import Field, ValidationError
 
 from mcp.server.fastmcp import FastMCP
 
-from engine import explorer, metrics, optimizer, problem_io
+from engine import explorer, metrics, models, optimizer, problem_io
 from engine.models import (
     AllocationBoundConstraint,
     Approach,
@@ -77,6 +77,7 @@ from mcp_server.jobs import (
     _deliver,
     _resolve_wait,
     _running_handle,
+    _scenario_fingerprint,
     _solve_dispatch,
     _solve_fingerprint,
     _solve_jobs,
@@ -492,6 +493,56 @@ def _model_create(params: dict) -> dict:
     return result
 
 
+def _results_stale(p: Problem) -> bool:
+    """Does any stored frontier predate the current model? Each frontier is compared against
+    the fingerprint of the inputs IT reads — base runs against the base inputs, the scenario
+    set against those plus scenario_config — so the blanket flag never reports a frontier
+    stale on an edit that cannot reach it. A problem with no stored run at all stays flagged,
+    as before (nothing to vouch for)."""
+    base_fp = _solve_fingerprint(p)
+    pairs = [(r.solve_fingerprint, base_fp) for r in (p.run, p.exact_run) if r is not None]
+    if p.scenario_run is not None:
+        pairs.append((p.scenario_run.solve_fingerprint, _scenario_fingerprint(p)))
+    return not pairs or any(stamp != fp for stamp, fp in pairs)
+
+
+def _stamp_scenarios(p: Problem) -> None:
+    """Stamp every scenario with the base constraint set it was authored against.
+
+    `constraint_overrides` replace the base rules wholesale, so a later base-constraint edit
+    does NOT flow through to a scenario — the user has to restate it. The stamp is what makes
+    that knowable later (at `solve run_scenarios` and on the scenario reads) without diffing
+    rule against rule. Called wherever scenarios are written: a scenario_config update, or a
+    bundle load (whose scenarios were authored against the bundle's own constraints)."""
+    if not p.scenario_config or not p.scenario_config.scenarios:
+        return
+    fp = optimizer.constraints_fingerprint(p.constraints)
+    for s in p.scenario_config.scenarios:
+        s.base_constraints_fingerprint = fp
+
+
+def _stamp_loaded_runs(p: Problem) -> None:
+    """Stamp a loaded bundle's runs with the fingerprints of the model they arrived with.
+
+    A bundle's stored results were produced from the bundle's own model, so at load they are
+    current by construction — but older bakes predate the fingerprints, and an unstamped run
+    is unknowable rather than fresh, which would leave every post-load edit undetectable on
+    exactly the flow the examples are for. Only fills what is missing, and stays out of it
+    entirely when the bundle was saved stale (the save already disowned those results)."""
+    if p.results_stale:
+        return
+    base_fp = models.solve_fingerprint(p)
+    for r in (p.run, p.exact_run):
+        if r is not None and not r.solve_fingerprint:
+            r.solve_fingerprint = base_fp
+    sr = p.scenario_run
+    if sr is not None and sr.scenario_runs:
+        if not sr.solve_fingerprint:
+            sr.solve_fingerprint = models.scenario_solve_fingerprint(p)
+        if not sr.base_fingerprint:
+            sr.base_fingerprint = base_fp
+
+
 def _model_update(params: dict) -> dict:
     pid = params.get("problem_id")
     if not pid:
@@ -618,6 +669,9 @@ def _model_update(params: dict) -> dict:
                 first = errs[0] if errs else {}
                 where = ".".join(str(x) for x in first.get("loc", ())) or "scenario_config"
                 return {"error": f"invalid scenario_config at {where}: {first.get('msg', e)}"}
+        # Record the base constraint set these scenarios were written against — the
+        # constraints branch above already ran, so a call that sets both stamps the new rules.
+        _stamp_scenarios(p)
         structural_change = True
         interpreter_rearm = True
 
@@ -674,12 +728,12 @@ def _model_update(params: dict) -> dict:
     # results_stale=False instead of permanently flagging a model identical to the solved
     # one. The flag vouches for EVERY stored frontier (exploratory, exact overlay, scenario
     # set), so it clears only when all present runs are stamped and all match; any
-    # pre-stamp run keeps the blanket flag.
+    # pre-stamp run keeps the blanket flag. Each frontier is compared against ITS OWN inputs:
+    # the base runs can't see scenario_config, so adding or editing a scenario no longer
+    # flags a base frontier it cannot affect (the scenario set, which it does affect, is
+    # compared against the composite stamp and still flags).
     if structural_change:
-        fp = _solve_fingerprint(p)
-        stamps = [r.solve_fingerprint for r in (p.run, p.exact_run, p.scenario_run)
-                  if r is not None]
-        p.results_stale = not stamps or any(s != fp for s in stamps)
+        p.results_stale = _results_stale(p)
 
     p.updated_at = datetime.now(timezone.utc)
     store.save(p)
@@ -953,6 +1007,11 @@ def _model_get_section(p: Problem, section: str) -> dict:
                 "has_exact_run": p.exact_run is not None,
                 "has_scenario_run": p.scenario_run is not None,
                 "results_stale": p.results_stale,
+                # Which frontier is stale, when the blanket flag can't say: a base re-solve
+                # clears results_stale for the frontier it just refreshed, and the scenario
+                # set it left in place may still predate the edit (the scenario reads carry
+                # the same marker).
+                **({"scenario_results_stale": True} if models.scenario_results_stale(p) else {}),
                 "curated_count": len(p.curated_solutions),
                 "visualization": _render_formulation(p),
                 "viz_data": _viz_data_formulation(p),
@@ -1046,6 +1105,11 @@ def _model_load(params: dict) -> dict:
     except ValueError as e:
         return {"error": str(e)}
 
+    # A bundle's scenarios were authored against the bundle's own base constraints, and its
+    # runs solved against its own model — stamp both so a post-load edit is detectable
+    # (unstamped is unknowable, and stays silent forever).
+    _stamp_scenarios(p)
+    _stamp_loaded_runs(p)
     store.save(p)
     _reset_all_injections(p.problem_id)
 
@@ -1684,7 +1748,9 @@ def _solve_run_scenarios(p: Problem, mode: OptimizeMode | None = None, max_solut
     if not sc.scenarios:
         return {"error": "No scenarios defined."}
 
-    fingerprint = _solve_fingerprint(p)
+    # A per-scenario solve reads scenario_config as well as the base inputs, so its stale
+    # guard fingerprints both (the base solve's fingerprint covers the base half only).
+    fingerprint = _scenario_fingerprint(p)
     label = _solve_label("run_scenarios", mode, solver, exact, time_limit)
     return _solve_dispatch(
         p, "run_scenarios",
@@ -1712,17 +1778,32 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
     # write. Stale check guards against a mid-solve edit, same as the single-run body.
     with _store_write_lock:
         p = store.load(p.problem_id)
-        if _solve_fingerprint(p) != fingerprint:
+        if _scenario_fingerprint(p) != fingerprint:
             return {
                 "status": "stale",
                 "stale": True,
                 "note": ("The problem was edited while these scenarios were solving, so the results no "
                          "longer match the current model. Nothing was overwritten — re-run."),
             }
+        # Both halves of the stamp: the composite says whether these results still describe
+        # the current model, the base half says which base model they share — that is what
+        # lets `regret` tell a coherent join from a cross-run one.
         p.scenario_run = ScenarioRun(scenario_runs=scenario_results,
-                                     solve_fingerprint=fingerprint)
-        p.results_stale = False
+                                     solve_fingerprint=fingerprint,
+                                     base_fingerprint=_solve_fingerprint(p))
+        # Refreshing the scenario set vouches for the scenario set — not for a base frontier
+        # that predates the same edit. Recompute the blanket flag per frontier instead of
+        # clearing it wholesale (the base solve path drops the frontier it can't vouch for;
+        # this path keeps both and lets the flag stay honest).
+        p.results_stale = _results_stale(p)
         store.save(p)
+
+    # Scenario `constraint_overrides` REPLACE the base rules wholesale, so an edit to the base
+    # constraints does not flow through to a scenario that carries them — the solve happily
+    # re-runs the frozen pre-edit rules and reports `complete`. Name the scenarios whose
+    # overrides were authored against a different base rule set, at the moment they are solved.
+    stale_overrides = models.stale_scenario_overrides(
+        p, optimizer.constraints_fingerprint(p.constraints))
 
     summary = {}
     result_paths: dict[str, str] = {}
@@ -1772,6 +1853,15 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
 
     result = {
         "scenarios_optimized": len(scenario_results),
+        **({"constraint_overrides_stale": {
+            "scenarios": stale_overrides,
+            "note": ("these scenarios' `constraint_overrides` were authored against an earlier "
+                     "base constraint set — overrides REPLACE the base rules wholesale, so the "
+                     "base-constraint edit did not flow through and these scenarios were solved "
+                     "under the pre-edit rules. Restate the overrides (model update "
+                     "scenario_config=…) if the edit was meant to apply here, then re-run "
+                     "solve run_scenarios."),
+        }} if stale_overrides else {}),
         "results": summary,
         "full_result_paths": result_paths,
         "next_steps": (
@@ -1925,6 +2015,11 @@ def explore(
                    tiers core/common/marginal), scenario-specific options, expected values
                    (ideal-point), scenario_risk per objective (expected/worst/best/cvar), and
                    regret (minimax-regret per solution + minimax_choice).
+                   Leads with scenario_results_stale when these runs predate the current
+                   model (re-run solve run_scenarios), and flags per-scenario
+                   constraint_overrides_stale when a scenario's wholesale override set is
+                   frozen at older base rules; regret is withheld outright when the base
+                   and scenario runs describe different models.
                    Optional: cvar_alpha (float in (0,1), default 0.2).
       scenario_frontiers — Per-scenario Pareto frontiers overlaid: viz_data for the chart
                    surface's colored parallel-coordinates overlay; ASCII range table. No params.

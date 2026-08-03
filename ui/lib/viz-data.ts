@@ -88,9 +88,14 @@ export type MarginalRatesVizData = {
 
 // Minimax-regret lens from scenario_results (engine: explorer.py `scenario_regret`).
 // Per-solution, so it's a distinct view from the per-objective scenario_risk table.
-// `available` is false when there's no base run to regret against.
+// `available` is false when there's no base run to regret against — or when the lens was
+// declined: `reason` names that case, and `note` carries the engine's wording.
 export type ScenarioRegret = {
   available: boolean;
+  // "base_scenario_mismatch" — the base run and the scenario runs were solved against
+  // different models, so re-scoring base solutions against those scenario frontiers
+  // would join two models. The ranking is withheld rather than served wrong.
+  reason?: string;
   method?: string;
   normalization?: string;
   minimax_choice?: {
@@ -130,6 +135,10 @@ export type ScenarioRegret = {
 
 export type ScenarioSummaryVizData = {
   type: "scenario_summary";
+  // Set when the stored scenario runs were solved against an earlier model — the panel
+  // leads with the note, since the ranges below describe the model as it was.
+  scenario_results_stale?: boolean;
+  scenario_stale_note?: string;
   scenarios: string[];
   option_robustness: Array<Record<string, unknown>>;
   expected_values: Record<string, unknown>;

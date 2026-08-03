@@ -6,7 +6,18 @@ from itertools import combinations
 
 import numpy as np
 
-from .models import Aggregation, Approach, CuratedSolution, Direction, Problem, Run, _content_signature
+from .models import (
+    Aggregation,
+    Approach,
+    CuratedSolution,
+    Direction,
+    Problem,
+    Run,
+    _content_signature,
+    scenario_base_mismatch,
+    scenario_results_stale,
+    stale_scenario_overrides,
+)
 from .viz import (
     _dominates_min,
     _marginal_window,
@@ -677,6 +688,23 @@ def scenario_regret(problem: Problem) -> dict:
             _consistent(problem, _srun, remedy="solve run_scenarios")
     if problem.run is None or not problem.run.solutions:
         return {"available": False}
+    # Cross-run guard. Every other scenario read serves its stored run with a stale marker —
+    # each is internally coherent. This one is not: regret re-scores the CURRENT base
+    # solutions against the STORED scenario frontiers, so when the two were solved against
+    # different base models the join is silently incoherent (fresh solution_ids ranked
+    # against a previous model's achievable ranges). Decline the join and name the re-solve
+    # rather than serve a confidently wrong ranking.
+    if scenario_base_mismatch(problem):
+        return {
+            "available": False,
+            "reason": "base_scenario_mismatch",
+            "note": ("the base frontier and the scenario frontiers were solved against "
+                     "DIFFERENT versions of the model, so regret — which re-scores base "
+                     "solutions against each scenario's achievable range — would join two "
+                     "models: current solution ids against a previous model's scenario "
+                     "ranges. Withheld. Re-run `solve run_scenarios` so both sides share "
+                     "one model, then read regret."),
+        }
     from .optimizer import make_slate_scorer
 
     scenarios = {s.name: s for s in (problem.scenario_config.scenarios if problem.scenario_config else [])}
@@ -2154,6 +2182,16 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
     opt_names = [o.name for o in problem.options]
     obj_names = [o.name for o in problem.objectives]
 
+    # Which scenarios' overrides were authored against a different base constraint set than
+    # the current one. `varies` already discloses that overrides replace the base rules
+    # wholesale; this says the replacement is FROZEN AT AN OLDER MODEL — the difference
+    # between a disclosed convention and a live warning (a frozen pre-edit rule set is how a
+    # scenario "wipeout" gets read as a finding).
+    from .optimizer import constraints_fingerprint
+
+    override_stale = set(stale_scenario_overrides(
+        problem, constraints_fingerprint(problem.constraints)))
+
     # Per-scenario summaries
     per_scenario = {}
     for name, run in scenario_runs.items():
@@ -2171,6 +2209,14 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
             entry.update(_scenario_changes(sc))     # what varies + the held-fixed line
             if sc.motivated_by:
                 entry["motivated_by"] = sc.motivated_by   # cite the lever that seeded this scenario
+            if name in override_stale:
+                entry["constraint_overrides_stale"] = True
+                entry["constraint_overrides_note"] = (
+                    "this scenario's constraint overrides were authored against an EARLIER base "
+                    "constraint set — they replace the base rules wholesale, so later base-"
+                    "constraint edits never reached this scenario. Read its results as a "
+                    "question about the frozen rules, not a finding about the current model; "
+                    "restate the overrides if the edit was meant to apply here.")
         per_scenario[name] = entry
 
     # Robust options: frequency + allocation-weighted across scenarios
@@ -2337,6 +2383,8 @@ def get_scenario_results(problem: Problem, cvar_alpha: float | None = None) -> d
         }
 
     result = {
+        # Leads the payload: a reader must meet the staleness before the numbers, not after.
+        **_scenario_stale_block(problem),
         "per_scenario": per_scenario,
         "robust_options": sorted(robust_options),
         "option_robustness": option_robustness,
@@ -2379,6 +2427,7 @@ def get_scenario_frontiers(problem: Problem) -> dict:
     scenario_runs = problem.scenario_run.scenario_runs
     counts = {name: len(run.solutions) for name, run in scenario_runs.items()}
     return {
+        **_scenario_stale_block(problem),
         "scenarios": list(scenario_runs.keys()),
         "solution_counts": counts,
         "visualization": _render_scenario_frontiers(scenario_runs, problem.objectives),
@@ -2918,6 +2967,29 @@ def _consistent(problem: Problem, run: Run, remedy: str = "solve run") -> Run:
     return run
 
 
+def _scenario_stale_block(problem: Problem) -> dict:
+    """Stale marker for any read served off the stored scenario runs.
+
+    The base-run convention is a fingerprint comparison (`results_stale`); this is its
+    scenario-side twin. A scenario run stamped against an earlier model is still internally
+    coherent — its own frontier under its own overrides — so the read is served rather than
+    refused, but never as a current finding: the marker leads the payload and names the
+    re-solve. (The one read that is NOT internally coherent, the base↔scenario regret join,
+    declines instead — see `scenario_regret`.) Empty when the runs match the current model,
+    or when they predate the stamp and staleness is unknowable."""
+    if not scenario_results_stale(problem):
+        return {}
+    return {
+        "scenario_results_stale": True,
+        "scenario_stale_note": (
+            "STALE — these scenario runs were solved against an earlier version of the model "
+            "(it has been edited since). They are shown as the last solved state, not as "
+            "findings about the current model; re-run `solve run_scenarios` before reading "
+            "anything from them. Scenario `constraint_overrides` replace the base rules "
+            "wholesale, so check whether a base-constraint edit needs restating per scenario."),
+    }
+
+
 def _require_run(problem: Problem, scenario: str | None = None, source: str | None = None) -> Run:
     if scenario:
         # Scenario runs are NSGA-only, so `source` doesn't apply to them.
@@ -2978,6 +3050,12 @@ def _frontier_provenance(problem: Problem, run: Run, scenario: str | None = None
         prov["exact_overlay_available"] = True
         prov["hint"] = ('Heuristic NSGA frontier. An exact-solver overlay exists for this '
                         'problem — pass source="exact" to analyze it.')
+    # A scenario frontier served from a run that predates the current model gets the same
+    # marker the aggregate scenario reads carry — provenance is exactly where "which model
+    # is this?" belongs, so every per-scenario read (tradeoffs / compare / solutions /
+    # marginal_analysis) inherits it from one place.
+    if scenario is not None:
+        prov.update(_scenario_stale_block(problem))
     return prov
 
 
