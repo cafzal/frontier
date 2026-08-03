@@ -770,3 +770,20 @@ def test_per_pick_slateless_pin_still_uses_stored_values():
     entry = certify_against_exact(p, _run([(9.0, 2.5)], objs),
                                   _run([(10.0, 2.0)], objs, solver="highs"))["per_pick"]["pick-bare"]
     assert entry["verdict"] == "dominated" and "stored_values_stale" not in entry
+
+
+def test_per_pick_rounding_drift_does_not_read_as_stale():
+    """The whole-percent rounding floor: on proportional problems the search stores the
+    continuous objective while score_slate re-derives it from integer allocations — a
+    ~0.4%-of-spread artifact that made every NSGA-sourced pin read stale seconds after
+    pinning. Sub-threshold drift stays unflagged; the verdict still uses values_now, so
+    nothing is judged at the stale numbers either way."""
+    p, objs = _scored_problem()
+    # Recompute of ["A"] gives exactly (10, 3); store values off by ~0.3% of the joint
+    # spread (Return spread 8, Risk spread 2 given the runs below) — rounding-scale.
+    p.curated_solutions = [CuratedSolution(
+        content_signature="pick-rounded", custom_name="Solo",
+        selected_options=["A"], objective_values={"Return": 10.02, "Risk": 3.004})]
+    entry = certify_against_exact(p, _run([(10.0, 3.0), (2.0, 1.0)], objs),
+                                  _run([(10.0, 3.0)], objs, solver="highs"))["per_pick"]["pick-rounded"]
+    assert "stored_values_stale" not in entry and "values_now" not in entry

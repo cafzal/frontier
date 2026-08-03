@@ -1376,10 +1376,16 @@ def _per_pick_verdicts(problem: Problem, names: list[str], sign: np.ndarray, N: 
             }
             continue
         # Staleness is measured, not assumed: material drift between stored and current
-        # values means a score edit happened after the pin. Threshold rides the joint
-        # spread so whole-percent rounding never trips it.
+        # values means a score edit happened after the pin. The threshold must clear the
+        # whole-percent rounding floor — on proportional problems the search records the
+        # continuous objective while score_slate re-derives it from the integer
+        # allocations, a ~0.4%-of-spread artifact that made EVERY NSGA-sourced pin read
+        # stale seconds after pinning (observed live at 1e-4). 0.5% of the joint spread
+        # sits above that floor and far below any decision-bearing edit (the live case
+        # moved a pin 60% of spread); the verdict itself always uses values_now, so an
+        # edit small enough to hide under the flag still gets judged honestly.
         stale = now is not None and any(
-            abs(now[n] - cs.objective_values[n]) > max(1e-9, 1e-4 * spread[i])
+            abs(now[n] - cs.objective_values[n]) > max(1e-9, 5e-3 * spread[i])
             for i, n in enumerate(names) if n in cs.objective_values)
         stale_fields = ({"stored_values_stale": True,
                          "values_now": {n: round(now[n], 4) for n in names}} if stale else {})
