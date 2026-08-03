@@ -1,0 +1,2310 @@
+{
+  "options": [
+    {
+      "name": "FLD-NB-01",
+      "description": "Flood standing team - North Basin"
+    },
+    {
+      "name": "FLD-NB-02",
+      "description": "Flood standing team - North Basin"
+    },
+    {
+      "name": "FLD-NB-03",
+      "description": "Flood equipment cache - North Basin"
+    },
+    {
+      "name": "FLD-NB-04",
+      "description": "Flood mobile unit - North Basin"
+    },
+    {
+      "name": "FLD-NB-05",
+      "description": "Flood standby contract - North Basin"
+    },
+    {
+      "name": "FLD-NB-06",
+      "description": "Flood standby contract - North Basin"
+    },
+    {
+      "name": "WFR-NB-01",
+      "description": "Wildfire standing team - North Basin"
+    },
+    {
+      "name": "WFR-NB-02",
+      "description": "Wildfire standing team - North Basin"
+    },
+    {
+      "name": "WFR-NB-03",
+      "description": "Wildfire equipment cache - North Basin"
+    },
+    {
+      "name": "WFR-NB-04",
+      "description": "Wildfire mobile unit - North Basin"
+    },
+    {
+      "name": "WFR-NB-05",
+      "description": "Wildfire standby contract - North Basin"
+    },
+    {
+      "name": "QKE-NB-01",
+      "description": "Quake standing team - North Basin"
+    },
+    {
+      "name": "QKE-NB-02",
+      "description": "Quake equipment cache - North Basin"
+    },
+    {
+      "name": "QKE-NB-03",
+      "description": "Quake mobile unit - North Basin"
+    },
+    {
+      "name": "QKE-NB-04",
+      "description": "Quake standby contract - North Basin"
+    },
+    {
+      "name": "STM-NB-01",
+      "description": "Storm standing team - North Basin"
+    },
+    {
+      "name": "STM-NB-02",
+      "description": "Storm equipment cache - North Basin"
+    },
+    {
+      "name": "STM-NB-03",
+      "description": "Storm mobile unit - North Basin"
+    },
+    {
+      "name": "STM-NB-04",
+      "description": "Storm standby contract - North Basin"
+    },
+    {
+      "name": "STM-NB-05",
+      "description": "Storm standby contract - North Basin"
+    },
+    {
+      "name": "HZM-NB-01",
+      "description": "Hazmat standing team - North Basin"
+    },
+    {
+      "name": "HZM-NB-02",
+      "description": "Hazmat equipment cache - North Basin"
+    },
+    {
+      "name": "HZM-NB-03",
+      "description": "Hazmat mobile unit - North Basin"
+    },
+    {
+      "name": "HZM-NB-04",
+      "description": "Hazmat standby contract - North Basin"
+    },
+    {
+      "name": "FLD-HR-01",
+      "description": "Flood standing team - Harbor Reach"
+    },
+    {
+      "name": "FLD-HR-02",
+      "description": "Flood standing team - Harbor Reach"
+    },
+    {
+      "name": "FLD-HR-03",
+      "description": "Flood equipment cache - Harbor Reach"
+    },
+    {
+      "name": "FLD-HR-04",
+      "description": "Flood mobile unit - Harbor Reach"
+    },
+    {
+      "name": "FLD-HR-05",
+      "description": "Flood standby contract - Harbor Reach"
+    },
+    {
+      "name": "FLD-HR-06",
+      "description": "Flood standby contract - Harbor Reach"
+    },
+    {
+      "name": "WFR-HR-01",
+      "description": "Wildfire standing team - Harbor Reach"
+    },
+    {
+      "name": "WFR-HR-02",
+      "description": "Wildfire standing team - Harbor Reach"
+    },
+    {
+      "name": "WFR-HR-03",
+      "description": "Wildfire equipment cache - Harbor Reach"
+    },
+    {
+      "name": "WFR-HR-04",
+      "description": "Wildfire mobile unit - Harbor Reach"
+    },
+    {
+      "name": "WFR-HR-05",
+      "description": "Wildfire standby contract - Harbor Reach"
+    },
+    {
+      "name": "QKE-HR-01",
+      "description": "Quake standing team - Harbor Reach"
+    },
+    {
+      "name": "QKE-HR-02",
+      "description": "Quake equipment cache - Harbor Reach"
+    },
+    {
+      "name": "QKE-HR-03",
+      "description": "Quake mobile unit - Harbor Reach"
+    },
+    {
+      "name": "QKE-HR-04",
+      "description": "Quake standby contract - Harbor Reach"
+    },
+    {
+      "name": "STM-HR-01",
+      "description": "Storm standing team - Harbor Reach"
+    },
+    {
+      "name": "STM-HR-02",
+      "description": "Storm equipment cache - Harbor Reach"
+    },
+    {
+      "name": "STM-HR-03",
+      "description": "Storm mobile unit - Harbor Reach"
+    },
+    {
+      "name": "STM-HR-04",
+      "description": "Storm standby contract - Harbor Reach"
+    },
+    {
+      "name": "STM-HR-05",
+      "description": "Storm standby contract - Harbor Reach"
+    },
+    {
+      "name": "HZM-HR-01",
+      "description": "Hazmat standing team - Harbor Reach"
+    },
+    {
+      "name": "HZM-HR-02",
+      "description": "Hazmat equipment cache - Harbor Reach"
+    },
+    {
+      "name": "HZM-HR-03",
+      "description": "Hazmat mobile unit - Harbor Reach"
+    },
+    {
+      "name": "HZM-HR-04",
+      "description": "Hazmat standby contract - Harbor Reach"
+    },
+    {
+      "name": "FLD-UP-01",
+      "description": "Flood standing team - Uplands"
+    },
+    {
+      "name": "FLD-UP-02",
+      "description": "Flood standing team - Uplands"
+    },
+    {
+      "name": "FLD-UP-03",
+      "description": "Flood equipment cache - Uplands"
+    },
+    {
+      "name": "FLD-UP-04",
+      "description": "Flood mobile unit - Uplands"
+    },
+    {
+      "name": "FLD-UP-05",
+      "description": "Flood standby contract - Uplands"
+    },
+    {
+      "name": "FLD-UP-06",
+      "description": "Flood standby contract - Uplands"
+    },
+    {
+      "name": "WFR-UP-01",
+      "description": "Wildfire standing team - Uplands"
+    },
+    {
+      "name": "WFR-UP-02",
+      "description": "Wildfire standing team - Uplands"
+    },
+    {
+      "name": "WFR-UP-03",
+      "description": "Wildfire equipment cache - Uplands"
+    },
+    {
+      "name": "WFR-UP-04",
+      "description": "Wildfire mobile unit - Uplands"
+    },
+    {
+      "name": "WFR-UP-05",
+      "description": "Wildfire standby contract - Uplands"
+    },
+    {
+      "name": "QKE-UP-01",
+      "description": "Quake standing team - Uplands"
+    },
+    {
+      "name": "QKE-UP-02",
+      "description": "Quake equipment cache - Uplands"
+    },
+    {
+      "name": "QKE-UP-03",
+      "description": "Quake mobile unit - Uplands"
+    },
+    {
+      "name": "QKE-UP-04",
+      "description": "Quake standby contract - Uplands"
+    },
+    {
+      "name": "STM-UP-01",
+      "description": "Storm standing team - Uplands"
+    },
+    {
+      "name": "STM-UP-02",
+      "description": "Storm equipment cache - Uplands"
+    },
+    {
+      "name": "STM-UP-03",
+      "description": "Storm mobile unit - Uplands"
+    },
+    {
+      "name": "STM-UP-04",
+      "description": "Storm standby contract - Uplands"
+    },
+    {
+      "name": "STM-UP-05",
+      "description": "Storm standby contract - Uplands"
+    },
+    {
+      "name": "HZM-UP-01",
+      "description": "Hazmat standing team - Uplands"
+    },
+    {
+      "name": "HZM-UP-02",
+      "description": "Hazmat equipment cache - Uplands"
+    },
+    {
+      "name": "HZM-UP-03",
+      "description": "Hazmat mobile unit - Uplands"
+    },
+    {
+      "name": "HZM-UP-04",
+      "description": "Hazmat standby contract - Uplands"
+    },
+    {
+      "name": "FLD-DL-01",
+      "description": "Flood standing team - Delta"
+    },
+    {
+      "name": "FLD-DL-02",
+      "description": "Flood standing team - Delta"
+    },
+    {
+      "name": "FLD-DL-03",
+      "description": "Flood equipment cache - Delta"
+    },
+    {
+      "name": "FLD-DL-04",
+      "description": "Flood mobile unit - Delta"
+    },
+    {
+      "name": "FLD-DL-05",
+      "description": "Flood standby contract - Delta"
+    },
+    {
+      "name": "FLD-DL-06",
+      "description": "Flood standby contract - Delta"
+    },
+    {
+      "name": "WFR-DL-01",
+      "description": "Wildfire standing team - Delta"
+    },
+    {
+      "name": "WFR-DL-02",
+      "description": "Wildfire standing team - Delta"
+    },
+    {
+      "name": "WFR-DL-03",
+      "description": "Wildfire equipment cache - Delta"
+    },
+    {
+      "name": "WFR-DL-04",
+      "description": "Wildfire mobile unit - Delta"
+    },
+    {
+      "name": "WFR-DL-05",
+      "description": "Wildfire standby contract - Delta"
+    },
+    {
+      "name": "QKE-DL-01",
+      "description": "Quake standing team - Delta"
+    },
+    {
+      "name": "QKE-DL-02",
+      "description": "Quake equipment cache - Delta"
+    },
+    {
+      "name": "QKE-DL-03",
+      "description": "Quake mobile unit - Delta"
+    },
+    {
+      "name": "QKE-DL-04",
+      "description": "Quake standby contract - Delta"
+    },
+    {
+      "name": "STM-DL-01",
+      "description": "Storm standing team - Delta"
+    },
+    {
+      "name": "STM-DL-02",
+      "description": "Storm equipment cache - Delta"
+    },
+    {
+      "name": "STM-DL-03",
+      "description": "Storm mobile unit - Delta"
+    },
+    {
+      "name": "STM-DL-04",
+      "description": "Storm standby contract - Delta"
+    },
+    {
+      "name": "STM-DL-05",
+      "description": "Storm standby contract - Delta"
+    },
+    {
+      "name": "HZM-DL-01",
+      "description": "Hazmat standing team - Delta"
+    },
+    {
+      "name": "HZM-DL-02",
+      "description": "Hazmat equipment cache - Delta"
+    },
+    {
+      "name": "HZM-DL-03",
+      "description": "Hazmat mobile unit - Delta"
+    },
+    {
+      "name": "HZM-DL-04",
+      "description": "Hazmat standby contract - Delta"
+    }
+  ],
+  "scores": [
+    {
+      "option": "FLD-NB-01",
+      "objective": "Readiness",
+      "value": 91.5
+    },
+    {
+      "option": "FLD-NB-01",
+      "objective": "SurgeCapacity",
+      "value": 272.0
+    },
+    {
+      "option": "FLD-NB-01",
+      "objective": "Cost",
+      "value": 3.71
+    },
+    {
+      "option": "FLD-NB-01",
+      "objective": "ActivationTime",
+      "value": 1.1
+    },
+    {
+      "option": "FLD-NB-02",
+      "objective": "Readiness",
+      "value": 87.7
+    },
+    {
+      "option": "FLD-NB-02",
+      "objective": "SurgeCapacity",
+      "value": 275.0
+    },
+    {
+      "option": "FLD-NB-02",
+      "objective": "Cost",
+      "value": 3.63
+    },
+    {
+      "option": "FLD-NB-02",
+      "objective": "ActivationTime",
+      "value": 1.7
+    },
+    {
+      "option": "FLD-NB-03",
+      "objective": "Readiness",
+      "value": 66.2
+    },
+    {
+      "option": "FLD-NB-03",
+      "objective": "SurgeCapacity",
+      "value": 69.0
+    },
+    {
+      "option": "FLD-NB-03",
+      "objective": "Cost",
+      "value": 0.8
+    },
+    {
+      "option": "FLD-NB-03",
+      "objective": "ActivationTime",
+      "value": 4.4
+    },
+    {
+      "option": "FLD-NB-04",
+      "objective": "Readiness",
+      "value": 68.4
+    },
+    {
+      "option": "FLD-NB-04",
+      "objective": "SurgeCapacity",
+      "value": 430.0
+    },
+    {
+      "option": "FLD-NB-04",
+      "objective": "Cost",
+      "value": 3.85
+    },
+    {
+      "option": "FLD-NB-04",
+      "objective": "ActivationTime",
+      "value": 2.7
+    },
+    {
+      "option": "FLD-NB-05",
+      "objective": "Readiness",
+      "value": 54.1
+    },
+    {
+      "option": "FLD-NB-05",
+      "objective": "SurgeCapacity",
+      "value": 406.0
+    },
+    {
+      "option": "FLD-NB-05",
+      "objective": "Cost",
+      "value": 1.3
+    },
+    {
+      "option": "FLD-NB-05",
+      "objective": "ActivationTime",
+      "value": 5.4
+    },
+    {
+      "option": "FLD-NB-06",
+      "objective": "Readiness",
+      "value": 37.7
+    },
+    {
+      "option": "FLD-NB-06",
+      "objective": "SurgeCapacity",
+      "value": 584.0
+    },
+    {
+      "option": "FLD-NB-06",
+      "objective": "Cost",
+      "value": 1.39
+    },
+    {
+      "option": "FLD-NB-06",
+      "objective": "ActivationTime",
+      "value": 8.7
+    },
+    {
+      "option": "WFR-NB-01",
+      "objective": "Readiness",
+      "value": 94.2
+    },
+    {
+      "option": "WFR-NB-01",
+      "objective": "SurgeCapacity",
+      "value": 275.0
+    },
+    {
+      "option": "WFR-NB-01",
+      "objective": "Cost",
+      "value": 3.98
+    },
+    {
+      "option": "WFR-NB-01",
+      "objective": "ActivationTime",
+      "value": 1.5
+    },
+    {
+      "option": "WFR-NB-02",
+      "objective": "Readiness",
+      "value": 90.3
+    },
+    {
+      "option": "WFR-NB-02",
+      "objective": "SurgeCapacity",
+      "value": 221.0
+    },
+    {
+      "option": "WFR-NB-02",
+      "objective": "Cost",
+      "value": 3.66
+    },
+    {
+      "option": "WFR-NB-02",
+      "objective": "ActivationTime",
+      "value": 1.0
+    },
+    {
+      "option": "WFR-NB-03",
+      "objective": "Readiness",
+      "value": 69.6
+    },
+    {
+      "option": "WFR-NB-03",
+      "objective": "SurgeCapacity",
+      "value": 69.0
+    },
+    {
+      "option": "WFR-NB-03",
+      "objective": "Cost",
+      "value": 1.03
+    },
+    {
+      "option": "WFR-NB-03",
+      "objective": "ActivationTime",
+      "value": 5.3
+    },
+    {
+      "option": "WFR-NB-04",
+      "objective": "Readiness",
+      "value": 81.4
+    },
+    {
+      "option": "WFR-NB-04",
+      "objective": "SurgeCapacity",
+      "value": 468.0
+    },
+    {
+      "option": "WFR-NB-04",
+      "objective": "Cost",
+      "value": 4.46
+    },
+    {
+      "option": "WFR-NB-04",
+      "objective": "ActivationTime",
+      "value": 2.4
+    },
+    {
+      "option": "WFR-NB-05",
+      "objective": "Readiness",
+      "value": 36.0
+    },
+    {
+      "option": "WFR-NB-05",
+      "objective": "SurgeCapacity",
+      "value": 441.0
+    },
+    {
+      "option": "WFR-NB-05",
+      "objective": "Cost",
+      "value": 1.34
+    },
+    {
+      "option": "WFR-NB-05",
+      "objective": "ActivationTime",
+      "value": 10.6
+    },
+    {
+      "option": "QKE-NB-01",
+      "objective": "Readiness",
+      "value": 90.7
+    },
+    {
+      "option": "QKE-NB-01",
+      "objective": "SurgeCapacity",
+      "value": 252.0
+    },
+    {
+      "option": "QKE-NB-01",
+      "objective": "Cost",
+      "value": 4.1
+    },
+    {
+      "option": "QKE-NB-01",
+      "objective": "ActivationTime",
+      "value": 1.1
+    },
+    {
+      "option": "QKE-NB-02",
+      "objective": "Readiness",
+      "value": 56.5
+    },
+    {
+      "option": "QKE-NB-02",
+      "objective": "SurgeCapacity",
+      "value": 77.0
+    },
+    {
+      "option": "QKE-NB-02",
+      "objective": "Cost",
+      "value": 1.24
+    },
+    {
+      "option": "QKE-NB-02",
+      "objective": "ActivationTime",
+      "value": 4.1
+    },
+    {
+      "option": "QKE-NB-03",
+      "objective": "Readiness",
+      "value": 69.4
+    },
+    {
+      "option": "QKE-NB-03",
+      "objective": "SurgeCapacity",
+      "value": 398.0
+    },
+    {
+      "option": "QKE-NB-03",
+      "objective": "Cost",
+      "value": 4.25
+    },
+    {
+      "option": "QKE-NB-03",
+      "objective": "ActivationTime",
+      "value": 2.5
+    },
+    {
+      "option": "QKE-NB-04",
+      "objective": "Readiness",
+      "value": 35.9
+    },
+    {
+      "option": "QKE-NB-04",
+      "objective": "SurgeCapacity",
+      "value": 416.0
+    },
+    {
+      "option": "QKE-NB-04",
+      "objective": "Cost",
+      "value": 1.6
+    },
+    {
+      "option": "QKE-NB-04",
+      "objective": "ActivationTime",
+      "value": 9.4
+    },
+    {
+      "option": "STM-NB-01",
+      "objective": "Readiness",
+      "value": 75.1
+    },
+    {
+      "option": "STM-NB-01",
+      "objective": "SurgeCapacity",
+      "value": 243.0
+    },
+    {
+      "option": "STM-NB-01",
+      "objective": "Cost",
+      "value": 3.02
+    },
+    {
+      "option": "STM-NB-01",
+      "objective": "ActivationTime",
+      "value": 1.0
+    },
+    {
+      "option": "STM-NB-02",
+      "objective": "Readiness",
+      "value": 65.7
+    },
+    {
+      "option": "STM-NB-02",
+      "objective": "SurgeCapacity",
+      "value": 45.0
+    },
+    {
+      "option": "STM-NB-02",
+      "objective": "Cost",
+      "value": 0.53
+    },
+    {
+      "option": "STM-NB-02",
+      "objective": "ActivationTime",
+      "value": 3.9
+    },
+    {
+      "option": "STM-NB-03",
+      "objective": "Readiness",
+      "value": 66.9
+    },
+    {
+      "option": "STM-NB-03",
+      "objective": "SurgeCapacity",
+      "value": 428.0
+    },
+    {
+      "option": "STM-NB-03",
+      "objective": "Cost",
+      "value": 3.61
+    },
+    {
+      "option": "STM-NB-03",
+      "objective": "ActivationTime",
+      "value": 3.0
+    },
+    {
+      "option": "STM-NB-04",
+      "objective": "Readiness",
+      "value": 38.7
+    },
+    {
+      "option": "STM-NB-04",
+      "objective": "SurgeCapacity",
+      "value": 485.0
+    },
+    {
+      "option": "STM-NB-04",
+      "objective": "Cost",
+      "value": 1.04
+    },
+    {
+      "option": "STM-NB-04",
+      "objective": "ActivationTime",
+      "value": 5.9
+    },
+    {
+      "option": "STM-NB-05",
+      "objective": "Readiness",
+      "value": 37.4
+    },
+    {
+      "option": "STM-NB-05",
+      "objective": "SurgeCapacity",
+      "value": 464.0
+    },
+    {
+      "option": "STM-NB-05",
+      "objective": "Cost",
+      "value": 0.99
+    },
+    {
+      "option": "STM-NB-05",
+      "objective": "ActivationTime",
+      "value": 8.8
+    },
+    {
+      "option": "HZM-NB-01",
+      "objective": "Readiness",
+      "value": 92.2
+    },
+    {
+      "option": "HZM-NB-01",
+      "objective": "SurgeCapacity",
+      "value": 258.0
+    },
+    {
+      "option": "HZM-NB-01",
+      "objective": "Cost",
+      "value": 4.26
+    },
+    {
+      "option": "HZM-NB-01",
+      "objective": "ActivationTime",
+      "value": 0.7
+    },
+    {
+      "option": "HZM-NB-02",
+      "objective": "Readiness",
+      "value": 80.6
+    },
+    {
+      "option": "HZM-NB-02",
+      "objective": "SurgeCapacity",
+      "value": 72.0
+    },
+    {
+      "option": "HZM-NB-02",
+      "objective": "Cost",
+      "value": 1.54
+    },
+    {
+      "option": "HZM-NB-02",
+      "objective": "ActivationTime",
+      "value": 2.0
+    },
+    {
+      "option": "HZM-NB-03",
+      "objective": "Readiness",
+      "value": 74.5
+    },
+    {
+      "option": "HZM-NB-03",
+      "objective": "SurgeCapacity",
+      "value": 341.0
+    },
+    {
+      "option": "HZM-NB-03",
+      "objective": "Cost",
+      "value": 4.24
+    },
+    {
+      "option": "HZM-NB-03",
+      "objective": "ActivationTime",
+      "value": 2.8
+    },
+    {
+      "option": "HZM-NB-04",
+      "objective": "Readiness",
+      "value": 44.6
+    },
+    {
+      "option": "HZM-NB-04",
+      "objective": "SurgeCapacity",
+      "value": 466.0
+    },
+    {
+      "option": "HZM-NB-04",
+      "objective": "Cost",
+      "value": 1.88
+    },
+    {
+      "option": "HZM-NB-04",
+      "objective": "ActivationTime",
+      "value": 11.5
+    },
+    {
+      "option": "FLD-HR-01",
+      "objective": "Readiness",
+      "value": 83.4
+    },
+    {
+      "option": "FLD-HR-01",
+      "objective": "SurgeCapacity",
+      "value": 257.0
+    },
+    {
+      "option": "FLD-HR-01",
+      "objective": "Cost",
+      "value": 3.46
+    },
+    {
+      "option": "FLD-HR-01",
+      "objective": "ActivationTime",
+      "value": 1.1
+    },
+    {
+      "option": "FLD-HR-02",
+      "objective": "Readiness",
+      "value": 86.7
+    },
+    {
+      "option": "FLD-HR-02",
+      "objective": "SurgeCapacity",
+      "value": 272.0
+    },
+    {
+      "option": "FLD-HR-02",
+      "objective": "Cost",
+      "value": 3.6
+    },
+    {
+      "option": "FLD-HR-02",
+      "objective": "ActivationTime",
+      "value": 1.4
+    },
+    {
+      "option": "FLD-HR-03",
+      "objective": "Readiness",
+      "value": 64.5
+    },
+    {
+      "option": "FLD-HR-03",
+      "objective": "SurgeCapacity",
+      "value": 91.0
+    },
+    {
+      "option": "FLD-HR-03",
+      "objective": "Cost",
+      "value": 0.85
+    },
+    {
+      "option": "FLD-HR-03",
+      "objective": "ActivationTime",
+      "value": 2.8
+    },
+    {
+      "option": "FLD-HR-04",
+      "objective": "Readiness",
+      "value": 71.9
+    },
+    {
+      "option": "FLD-HR-04",
+      "objective": "SurgeCapacity",
+      "value": 451.0
+    },
+    {
+      "option": "FLD-HR-04",
+      "objective": "Cost",
+      "value": 4.0
+    },
+    {
+      "option": "FLD-HR-04",
+      "objective": "ActivationTime",
+      "value": 3.5
+    },
+    {
+      "option": "FLD-HR-05",
+      "objective": "Readiness",
+      "value": 44.7
+    },
+    {
+      "option": "FLD-HR-05",
+      "objective": "SurgeCapacity",
+      "value": 395.0
+    },
+    {
+      "option": "FLD-HR-05",
+      "objective": "Cost",
+      "value": 1.17
+    },
+    {
+      "option": "FLD-HR-05",
+      "objective": "ActivationTime",
+      "value": 7.8
+    },
+    {
+      "option": "FLD-HR-06",
+      "objective": "Readiness",
+      "value": 52.5
+    },
+    {
+      "option": "FLD-HR-06",
+      "objective": "SurgeCapacity",
+      "value": 463.0
+    },
+    {
+      "option": "FLD-HR-06",
+      "objective": "Cost",
+      "value": 1.37
+    },
+    {
+      "option": "FLD-HR-06",
+      "objective": "ActivationTime",
+      "value": 8.8
+    },
+    {
+      "option": "WFR-HR-01",
+      "objective": "Readiness",
+      "value": 75.1
+    },
+    {
+      "option": "WFR-HR-01",
+      "objective": "SurgeCapacity",
+      "value": 247.0
+    },
+    {
+      "option": "WFR-HR-01",
+      "objective": "Cost",
+      "value": 3.44
+    },
+    {
+      "option": "WFR-HR-01",
+      "objective": "ActivationTime",
+      "value": 1.5
+    },
+    {
+      "option": "WFR-HR-02",
+      "objective": "Readiness",
+      "value": 82.2
+    },
+    {
+      "option": "WFR-HR-02",
+      "objective": "SurgeCapacity",
+      "value": 297.0
+    },
+    {
+      "option": "WFR-HR-02",
+      "objective": "Cost",
+      "value": 3.81
+    },
+    {
+      "option": "WFR-HR-02",
+      "objective": "ActivationTime",
+      "value": 1.3
+    },
+    {
+      "option": "WFR-HR-03",
+      "objective": "Readiness",
+      "value": 75.3
+    },
+    {
+      "option": "WFR-HR-03",
+      "objective": "SurgeCapacity",
+      "value": 99.0
+    },
+    {
+      "option": "WFR-HR-03",
+      "objective": "Cost",
+      "value": 1.17
+    },
+    {
+      "option": "WFR-HR-03",
+      "objective": "ActivationTime",
+      "value": 3.2
+    },
+    {
+      "option": "WFR-HR-04",
+      "objective": "Readiness",
+      "value": 73.1
+    },
+    {
+      "option": "WFR-HR-04",
+      "objective": "SurgeCapacity",
+      "value": 373.0
+    },
+    {
+      "option": "WFR-HR-04",
+      "objective": "Cost",
+      "value": 3.93
+    },
+    {
+      "option": "WFR-HR-04",
+      "objective": "ActivationTime",
+      "value": 2.5
+    },
+    {
+      "option": "WFR-HR-05",
+      "objective": "Readiness",
+      "value": 37.6
+    },
+    {
+      "option": "WFR-HR-05",
+      "objective": "SurgeCapacity",
+      "value": 468.0
+    },
+    {
+      "option": "WFR-HR-05",
+      "objective": "Cost",
+      "value": 1.4
+    },
+    {
+      "option": "WFR-HR-05",
+      "objective": "ActivationTime",
+      "value": 8.4
+    },
+    {
+      "option": "QKE-HR-01",
+      "objective": "Readiness",
+      "value": 78.6
+    },
+    {
+      "option": "QKE-HR-01",
+      "objective": "SurgeCapacity",
+      "value": 237.0
+    },
+    {
+      "option": "QKE-HR-01",
+      "objective": "Cost",
+      "value": 3.77
+    },
+    {
+      "option": "QKE-HR-01",
+      "objective": "ActivationTime",
+      "value": 0.9
+    },
+    {
+      "option": "QKE-HR-02",
+      "objective": "Readiness",
+      "value": 59.4
+    },
+    {
+      "option": "QKE-HR-02",
+      "objective": "SurgeCapacity",
+      "value": 82.0
+    },
+    {
+      "option": "QKE-HR-02",
+      "objective": "Cost",
+      "value": 1.28
+    },
+    {
+      "option": "QKE-HR-02",
+      "objective": "ActivationTime",
+      "value": 5.3
+    },
+    {
+      "option": "QKE-HR-03",
+      "objective": "Readiness",
+      "value": 65.9
+    },
+    {
+      "option": "QKE-HR-03",
+      "objective": "SurgeCapacity",
+      "value": 394.0
+    },
+    {
+      "option": "QKE-HR-03",
+      "objective": "Cost",
+      "value": 4.17
+    },
+    {
+      "option": "QKE-HR-03",
+      "objective": "ActivationTime",
+      "value": 3.2
+    },
+    {
+      "option": "QKE-HR-04",
+      "objective": "Readiness",
+      "value": 49.2
+    },
+    {
+      "option": "QKE-HR-04",
+      "objective": "SurgeCapacity",
+      "value": 383.0
+    },
+    {
+      "option": "QKE-HR-04",
+      "objective": "Cost",
+      "value": 1.7
+    },
+    {
+      "option": "QKE-HR-04",
+      "objective": "ActivationTime",
+      "value": 9.0
+    },
+    {
+      "option": "STM-HR-01",
+      "objective": "Readiness",
+      "value": 82.6
+    },
+    {
+      "option": "STM-HR-01",
+      "objective": "SurgeCapacity",
+      "value": 298.0
+    },
+    {
+      "option": "STM-HR-01",
+      "objective": "Cost",
+      "value": 3.42
+    },
+    {
+      "option": "STM-HR-01",
+      "objective": "ActivationTime",
+      "value": 0.5
+    },
+    {
+      "option": "STM-HR-02",
+      "objective": "Readiness",
+      "value": 50.9
+    },
+    {
+      "option": "STM-HR-02",
+      "objective": "SurgeCapacity",
+      "value": 83.0
+    },
+    {
+      "option": "STM-HR-02",
+      "objective": "Cost",
+      "value": 0.51
+    },
+    {
+      "option": "STM-HR-02",
+      "objective": "ActivationTime",
+      "value": 4.6
+    },
+    {
+      "option": "STM-HR-03",
+      "objective": "Readiness",
+      "value": 57.9
+    },
+    {
+      "option": "STM-HR-03",
+      "objective": "SurgeCapacity",
+      "value": 455.0
+    },
+    {
+      "option": "STM-HR-03",
+      "objective": "Cost",
+      "value": 3.54
+    },
+    {
+      "option": "STM-HR-03",
+      "objective": "ActivationTime",
+      "value": 1.9
+    },
+    {
+      "option": "STM-HR-04",
+      "objective": "Readiness",
+      "value": 48.7
+    },
+    {
+      "option": "STM-HR-04",
+      "objective": "SurgeCapacity",
+      "value": 505.0
+    },
+    {
+      "option": "STM-HR-04",
+      "objective": "Cost",
+      "value": 1.19
+    },
+    {
+      "option": "STM-HR-04",
+      "objective": "ActivationTime",
+      "value": 8.5
+    },
+    {
+      "option": "STM-HR-05",
+      "objective": "Readiness",
+      "value": 27.2
+    },
+    {
+      "option": "STM-HR-05",
+      "objective": "SurgeCapacity",
+      "value": 436.0
+    },
+    {
+      "option": "STM-HR-05",
+      "objective": "Cost",
+      "value": 0.82
+    },
+    {
+      "option": "STM-HR-05",
+      "objective": "ActivationTime",
+      "value": 9.1
+    },
+    {
+      "option": "HZM-HR-01",
+      "objective": "Readiness",
+      "value": 93.7
+    },
+    {
+      "option": "HZM-HR-01",
+      "objective": "SurgeCapacity",
+      "value": 244.0
+    },
+    {
+      "option": "HZM-HR-01",
+      "objective": "Cost",
+      "value": 4.24
+    },
+    {
+      "option": "HZM-HR-01",
+      "objective": "ActivationTime",
+      "value": 0.8
+    },
+    {
+      "option": "HZM-HR-02",
+      "objective": "Readiness",
+      "value": 62.4
+    },
+    {
+      "option": "HZM-HR-02",
+      "objective": "SurgeCapacity",
+      "value": 69.0
+    },
+    {
+      "option": "HZM-HR-02",
+      "objective": "Cost",
+      "value": 1.37
+    },
+    {
+      "option": "HZM-HR-02",
+      "objective": "ActivationTime",
+      "value": 3.4
+    },
+    {
+      "option": "HZM-HR-03",
+      "objective": "Readiness",
+      "value": 87.6
+    },
+    {
+      "option": "HZM-HR-03",
+      "objective": "SurgeCapacity",
+      "value": 335.0
+    },
+    {
+      "option": "HZM-HR-03",
+      "objective": "Cost",
+      "value": 4.47
+    },
+    {
+      "option": "HZM-HR-03",
+      "objective": "ActivationTime",
+      "value": 2.1
+    },
+    {
+      "option": "HZM-HR-04",
+      "objective": "Readiness",
+      "value": 44.7
+    },
+    {
+      "option": "HZM-HR-04",
+      "objective": "SurgeCapacity",
+      "value": 359.0
+    },
+    {
+      "option": "HZM-HR-04",
+      "objective": "Cost",
+      "value": 1.71
+    },
+    {
+      "option": "HZM-HR-04",
+      "objective": "ActivationTime",
+      "value": 8.6
+    },
+    {
+      "option": "FLD-UP-01",
+      "objective": "Readiness",
+      "value": 95.0
+    },
+    {
+      "option": "FLD-UP-01",
+      "objective": "SurgeCapacity",
+      "value": 284.0
+    },
+    {
+      "option": "FLD-UP-01",
+      "objective": "Cost",
+      "value": 3.83
+    },
+    {
+      "option": "FLD-UP-01",
+      "objective": "ActivationTime",
+      "value": 0.7
+    },
+    {
+      "option": "FLD-UP-02",
+      "objective": "Readiness",
+      "value": 83.1
+    },
+    {
+      "option": "FLD-UP-02",
+      "objective": "SurgeCapacity",
+      "value": 298.0
+    },
+    {
+      "option": "FLD-UP-02",
+      "objective": "Cost",
+      "value": 3.63
+    },
+    {
+      "option": "FLD-UP-02",
+      "objective": "ActivationTime",
+      "value": 1.2
+    },
+    {
+      "option": "FLD-UP-03",
+      "objective": "Readiness",
+      "value": 73.5
+    },
+    {
+      "option": "FLD-UP-03",
+      "objective": "SurgeCapacity",
+      "value": 157.0
+    },
+    {
+      "option": "FLD-UP-03",
+      "objective": "Cost",
+      "value": 1.13
+    },
+    {
+      "option": "FLD-UP-03",
+      "objective": "ActivationTime",
+      "value": 4.3
+    },
+    {
+      "option": "FLD-UP-04",
+      "objective": "Readiness",
+      "value": 70.7
+    },
+    {
+      "option": "FLD-UP-04",
+      "objective": "SurgeCapacity",
+      "value": 436.0
+    },
+    {
+      "option": "FLD-UP-04",
+      "objective": "Cost",
+      "value": 3.92
+    },
+    {
+      "option": "FLD-UP-04",
+      "objective": "ActivationTime",
+      "value": 2.6
+    },
+    {
+      "option": "FLD-UP-05",
+      "objective": "Readiness",
+      "value": 43.1
+    },
+    {
+      "option": "FLD-UP-05",
+      "objective": "SurgeCapacity",
+      "value": 383.0
+    },
+    {
+      "option": "FLD-UP-05",
+      "objective": "Cost",
+      "value": 1.13
+    },
+    {
+      "option": "FLD-UP-05",
+      "objective": "ActivationTime",
+      "value": 6.2
+    },
+    {
+      "option": "FLD-UP-06",
+      "objective": "Readiness",
+      "value": 52.1
+    },
+    {
+      "option": "FLD-UP-06",
+      "objective": "SurgeCapacity",
+      "value": 491.0
+    },
+    {
+      "option": "FLD-UP-06",
+      "objective": "Cost",
+      "value": 1.41
+    },
+    {
+      "option": "FLD-UP-06",
+      "objective": "ActivationTime",
+      "value": 7.3
+    },
+    {
+      "option": "WFR-UP-01",
+      "objective": "Readiness",
+      "value": 80.6
+    },
+    {
+      "option": "WFR-UP-01",
+      "objective": "SurgeCapacity",
+      "value": 313.0
+    },
+    {
+      "option": "WFR-UP-01",
+      "objective": "Cost",
+      "value": 3.84
+    },
+    {
+      "option": "WFR-UP-01",
+      "objective": "ActivationTime",
+      "value": 2.1
+    },
+    {
+      "option": "WFR-UP-02",
+      "objective": "Readiness",
+      "value": 92.8
+    },
+    {
+      "option": "WFR-UP-02",
+      "objective": "SurgeCapacity",
+      "value": 357.0
+    },
+    {
+      "option": "WFR-UP-02",
+      "objective": "Cost",
+      "value": 4.29
+    },
+    {
+      "option": "WFR-UP-02",
+      "objective": "ActivationTime",
+      "value": 1.5
+    },
+    {
+      "option": "WFR-UP-03",
+      "objective": "Readiness",
+      "value": 67.2
+    },
+    {
+      "option": "WFR-UP-03",
+      "objective": "SurgeCapacity",
+      "value": 77.0
+    },
+    {
+      "option": "WFR-UP-03",
+      "objective": "Cost",
+      "value": 1.04
+    },
+    {
+      "option": "WFR-UP-03",
+      "objective": "ActivationTime",
+      "value": 5.4
+    },
+    {
+      "option": "WFR-UP-04",
+      "objective": "Readiness",
+      "value": 88.0
+    },
+    {
+      "option": "WFR-UP-04",
+      "objective": "SurgeCapacity",
+      "value": 420.0
+    },
+    {
+      "option": "WFR-UP-04",
+      "objective": "Cost",
+      "value": 4.41
+    },
+    {
+      "option": "WFR-UP-04",
+      "objective": "ActivationTime",
+      "value": 1.9
+    },
+    {
+      "option": "WFR-UP-05",
+      "objective": "Readiness",
+      "value": 52.3
+    },
+    {
+      "option": "WFR-UP-05",
+      "objective": "SurgeCapacity",
+      "value": 422.0
+    },
+    {
+      "option": "WFR-UP-05",
+      "objective": "Cost",
+      "value": 1.5
+    },
+    {
+      "option": "WFR-UP-05",
+      "objective": "ActivationTime",
+      "value": 7.4
+    },
+    {
+      "option": "QKE-UP-01",
+      "objective": "Readiness",
+      "value": 88.0
+    },
+    {
+      "option": "QKE-UP-01",
+      "objective": "SurgeCapacity",
+      "value": 260.0
+    },
+    {
+      "option": "QKE-UP-01",
+      "objective": "Cost",
+      "value": 4.08
+    },
+    {
+      "option": "QKE-UP-01",
+      "objective": "ActivationTime",
+      "value": 2.2
+    },
+    {
+      "option": "QKE-UP-02",
+      "objective": "Readiness",
+      "value": 63.1
+    },
+    {
+      "option": "QKE-UP-02",
+      "objective": "SurgeCapacity",
+      "value": 73.0
+    },
+    {
+      "option": "QKE-UP-02",
+      "objective": "Cost",
+      "value": 1.29
+    },
+    {
+      "option": "QKE-UP-02",
+      "objective": "ActivationTime",
+      "value": 3.3
+    },
+    {
+      "option": "QKE-UP-03",
+      "objective": "Readiness",
+      "value": 69.2
+    },
+    {
+      "option": "QKE-UP-03",
+      "objective": "SurgeCapacity",
+      "value": 342.0
+    },
+    {
+      "option": "QKE-UP-03",
+      "objective": "Cost",
+      "value": 4.03
+    },
+    {
+      "option": "QKE-UP-03",
+      "objective": "ActivationTime",
+      "value": 0.8
+    },
+    {
+      "option": "QKE-UP-04",
+      "objective": "Readiness",
+      "value": 42.7
+    },
+    {
+      "option": "QKE-UP-04",
+      "objective": "SurgeCapacity",
+      "value": 421.0
+    },
+    {
+      "option": "QKE-UP-04",
+      "objective": "Cost",
+      "value": 1.69
+    },
+    {
+      "option": "QKE-UP-04",
+      "objective": "ActivationTime",
+      "value": 10.4
+    },
+    {
+      "option": "STM-UP-01",
+      "objective": "Readiness",
+      "value": 78.1
+    },
+    {
+      "option": "STM-UP-01",
+      "objective": "SurgeCapacity",
+      "value": 318.0
+    },
+    {
+      "option": "STM-UP-01",
+      "objective": "Cost",
+      "value": 3.4
+    },
+    {
+      "option": "STM-UP-01",
+      "objective": "ActivationTime",
+      "value": 1.3
+    },
+    {
+      "option": "STM-UP-02",
+      "objective": "Readiness",
+      "value": 52.7
+    },
+    {
+      "option": "STM-UP-02",
+      "objective": "SurgeCapacity",
+      "value": 56.0
+    },
+    {
+      "option": "STM-UP-02",
+      "objective": "Cost",
+      "value": 0.44
+    },
+    {
+      "option": "STM-UP-02",
+      "objective": "ActivationTime",
+      "value": 3.6
+    },
+    {
+      "option": "STM-UP-03",
+      "objective": "Readiness",
+      "value": 74.3
+    },
+    {
+      "option": "STM-UP-03",
+      "objective": "SurgeCapacity",
+      "value": 353.0
+    },
+    {
+      "option": "STM-UP-03",
+      "objective": "Cost",
+      "value": 3.48
+    },
+    {
+      "option": "STM-UP-03",
+      "objective": "ActivationTime",
+      "value": 2.6
+    },
+    {
+      "option": "STM-UP-04",
+      "objective": "Readiness",
+      "value": 49.6
+    },
+    {
+      "option": "STM-UP-04",
+      "objective": "SurgeCapacity",
+      "value": 477.0
+    },
+    {
+      "option": "STM-UP-04",
+      "objective": "Cost",
+      "value": 1.16
+    },
+    {
+      "option": "STM-UP-04",
+      "objective": "ActivationTime",
+      "value": 9.7
+    },
+    {
+      "option": "STM-UP-05",
+      "objective": "Readiness",
+      "value": 28.0
+    },
+    {
+      "option": "STM-UP-05",
+      "objective": "SurgeCapacity",
+      "value": 404.0
+    },
+    {
+      "option": "STM-UP-05",
+      "objective": "Cost",
+      "value": 0.78
+    },
+    {
+      "option": "STM-UP-05",
+      "objective": "ActivationTime",
+      "value": 9.6
+    },
+    {
+      "option": "HZM-UP-01",
+      "objective": "Readiness",
+      "value": 88.0
+    },
+    {
+      "option": "HZM-UP-01",
+      "objective": "SurgeCapacity",
+      "value": 259.0
+    },
+    {
+      "option": "HZM-UP-01",
+      "objective": "Cost",
+      "value": 4.17
+    },
+    {
+      "option": "HZM-UP-01",
+      "objective": "ActivationTime",
+      "value": 1.2
+    },
+    {
+      "option": "HZM-UP-02",
+      "objective": "Readiness",
+      "value": 79.3
+    },
+    {
+      "option": "HZM-UP-02",
+      "objective": "SurgeCapacity",
+      "value": 67.0
+    },
+    {
+      "option": "HZM-UP-02",
+      "objective": "Cost",
+      "value": 1.51
+    },
+    {
+      "option": "HZM-UP-02",
+      "objective": "ActivationTime",
+      "value": 4.1
+    },
+    {
+      "option": "HZM-UP-03",
+      "objective": "Readiness",
+      "value": 75.9
+    },
+    {
+      "option": "HZM-UP-03",
+      "objective": "SurgeCapacity",
+      "value": 313.0
+    },
+    {
+      "option": "HZM-UP-03",
+      "objective": "Cost",
+      "value": 4.16
+    },
+    {
+      "option": "HZM-UP-03",
+      "objective": "ActivationTime",
+      "value": 4.0
+    },
+    {
+      "option": "HZM-UP-04",
+      "objective": "Readiness",
+      "value": 43.1
+    },
+    {
+      "option": "HZM-UP-04",
+      "objective": "SurgeCapacity",
+      "value": 348.0
+    },
+    {
+      "option": "HZM-UP-04",
+      "objective": "Cost",
+      "value": 1.67
+    },
+    {
+      "option": "HZM-UP-04",
+      "objective": "ActivationTime",
+      "value": 9.8
+    },
+    {
+      "option": "FLD-DL-01",
+      "objective": "Readiness",
+      "value": 82.6
+    },
+    {
+      "option": "FLD-DL-01",
+      "objective": "SurgeCapacity",
+      "value": 324.0
+    },
+    {
+      "option": "FLD-DL-01",
+      "objective": "Cost",
+      "value": 3.73
+    },
+    {
+      "option": "FLD-DL-01",
+      "objective": "ActivationTime",
+      "value": 0.9
+    },
+    {
+      "option": "FLD-DL-02",
+      "objective": "Readiness",
+      "value": 80.9
+    },
+    {
+      "option": "FLD-DL-02",
+      "objective": "SurgeCapacity",
+      "value": 243.0
+    },
+    {
+      "option": "FLD-DL-02",
+      "objective": "Cost",
+      "value": 3.35
+    },
+    {
+      "option": "FLD-DL-02",
+      "objective": "ActivationTime",
+      "value": 0.4
+    },
+    {
+      "option": "FLD-DL-03",
+      "objective": "Readiness",
+      "value": 54.8
+    },
+    {
+      "option": "FLD-DL-03",
+      "objective": "SurgeCapacity",
+      "value": 89.0
+    },
+    {
+      "option": "FLD-DL-03",
+      "objective": "Cost",
+      "value": 0.76
+    },
+    {
+      "option": "FLD-DL-03",
+      "objective": "ActivationTime",
+      "value": 3.4
+    },
+    {
+      "option": "FLD-DL-04",
+      "objective": "Readiness",
+      "value": 79.1
+    },
+    {
+      "option": "FLD-DL-04",
+      "objective": "SurgeCapacity",
+      "value": 420.0
+    },
+    {
+      "option": "FLD-DL-04",
+      "objective": "Cost",
+      "value": 4.03
+    },
+    {
+      "option": "FLD-DL-04",
+      "objective": "ActivationTime",
+      "value": 2.3
+    },
+    {
+      "option": "FLD-DL-05",
+      "objective": "Readiness",
+      "value": 42.9
+    },
+    {
+      "option": "FLD-DL-05",
+      "objective": "SurgeCapacity",
+      "value": 544.0
+    },
+    {
+      "option": "FLD-DL-05",
+      "objective": "Cost",
+      "value": 1.39
+    },
+    {
+      "option": "FLD-DL-05",
+      "objective": "ActivationTime",
+      "value": 7.9
+    },
+    {
+      "option": "FLD-DL-06",
+      "objective": "Readiness",
+      "value": 38.6
+    },
+    {
+      "option": "FLD-DL-06",
+      "objective": "SurgeCapacity",
+      "value": 488.0
+    },
+    {
+      "option": "FLD-DL-06",
+      "objective": "Cost",
+      "value": 1.24
+    },
+    {
+      "option": "FLD-DL-06",
+      "objective": "ActivationTime",
+      "value": 12.3
+    },
+    {
+      "option": "WFR-DL-01",
+      "objective": "Readiness",
+      "value": 90.3
+    },
+    {
+      "option": "WFR-DL-01",
+      "objective": "SurgeCapacity",
+      "value": 310.0
+    },
+    {
+      "option": "WFR-DL-01",
+      "objective": "Cost",
+      "value": 4.04
+    },
+    {
+      "option": "WFR-DL-01",
+      "objective": "ActivationTime",
+      "value": 0.5
+    },
+    {
+      "option": "WFR-DL-02",
+      "objective": "Readiness",
+      "value": 91.4
+    },
+    {
+      "option": "WFR-DL-02",
+      "objective": "SurgeCapacity",
+      "value": 339.0
+    },
+    {
+      "option": "WFR-DL-02",
+      "objective": "Cost",
+      "value": 4.18
+    },
+    {
+      "option": "WFR-DL-02",
+      "objective": "ActivationTime",
+      "value": 1.1
+    },
+    {
+      "option": "WFR-DL-03",
+      "objective": "Readiness",
+      "value": 70.3
+    },
+    {
+      "option": "WFR-DL-03",
+      "objective": "SurgeCapacity",
+      "value": 100.0
+    },
+    {
+      "option": "WFR-DL-03",
+      "objective": "Cost",
+      "value": 1.13
+    },
+    {
+      "option": "WFR-DL-03",
+      "objective": "ActivationTime",
+      "value": 4.0
+    },
+    {
+      "option": "WFR-DL-04",
+      "objective": "Readiness",
+      "value": 73.1
+    },
+    {
+      "option": "WFR-DL-04",
+      "objective": "SurgeCapacity",
+      "value": 430.0
+    },
+    {
+      "option": "WFR-DL-04",
+      "objective": "Cost",
+      "value": 4.15
+    },
+    {
+      "option": "WFR-DL-04",
+      "objective": "ActivationTime",
+      "value": 2.3
+    },
+    {
+      "option": "WFR-DL-05",
+      "objective": "Readiness",
+      "value": 37.2
+    },
+    {
+      "option": "WFR-DL-05",
+      "objective": "SurgeCapacity",
+      "value": 543.0
+    },
+    {
+      "option": "WFR-DL-05",
+      "objective": "Cost",
+      "value": 1.52
+    },
+    {
+      "option": "WFR-DL-05",
+      "objective": "ActivationTime",
+      "value": 10.6
+    },
+    {
+      "option": "QKE-DL-01",
+      "objective": "Readiness",
+      "value": 77.6
+    },
+    {
+      "option": "QKE-DL-01",
+      "objective": "SurgeCapacity",
+      "value": 219.0
+    },
+    {
+      "option": "QKE-DL-01",
+      "objective": "Cost",
+      "value": 3.68
+    },
+    {
+      "option": "QKE-DL-01",
+      "objective": "ActivationTime",
+      "value": 1.6
+    },
+    {
+      "option": "QKE-DL-02",
+      "objective": "Readiness",
+      "value": 65.2
+    },
+    {
+      "option": "QKE-DL-02",
+      "objective": "SurgeCapacity",
+      "value": 95.0
+    },
+    {
+      "option": "QKE-DL-02",
+      "objective": "Cost",
+      "value": 1.37
+    },
+    {
+      "option": "QKE-DL-02",
+      "objective": "ActivationTime",
+      "value": 3.9
+    },
+    {
+      "option": "QKE-DL-03",
+      "objective": "Readiness",
+      "value": 74.8
+    },
+    {
+      "option": "QKE-DL-03",
+      "objective": "SurgeCapacity",
+      "value": 433.0
+    },
+    {
+      "option": "QKE-DL-03",
+      "objective": "Cost",
+      "value": 4.49
+    },
+    {
+      "option": "QKE-DL-03",
+      "objective": "ActivationTime",
+      "value": 1.6
+    },
+    {
+      "option": "QKE-DL-04",
+      "objective": "Readiness",
+      "value": 44.0
+    },
+    {
+      "option": "QKE-DL-04",
+      "objective": "SurgeCapacity",
+      "value": 367.0
+    },
+    {
+      "option": "QKE-DL-04",
+      "objective": "Cost",
+      "value": 1.62
+    },
+    {
+      "option": "QKE-DL-04",
+      "objective": "ActivationTime",
+      "value": 7.2
+    },
+    {
+      "option": "STM-DL-01",
+      "objective": "Readiness",
+      "value": 65.7
+    },
+    {
+      "option": "STM-DL-01",
+      "objective": "SurgeCapacity",
+      "value": 334.0
+    },
+    {
+      "option": "STM-DL-01",
+      "objective": "Cost",
+      "value": 3.2
+    },
+    {
+      "option": "STM-DL-01",
+      "objective": "ActivationTime",
+      "value": 1.3
+    },
+    {
+      "option": "STM-DL-02",
+      "objective": "Readiness",
+      "value": 59.8
+    },
+    {
+      "option": "STM-DL-02",
+      "objective": "SurgeCapacity",
+      "value": 125.0
+    },
+    {
+      "option": "STM-DL-02",
+      "objective": "Cost",
+      "value": 0.71
+    },
+    {
+      "option": "STM-DL-02",
+      "objective": "ActivationTime",
+      "value": 2.1
+    },
+    {
+      "option": "STM-DL-03",
+      "objective": "Readiness",
+      "value": 69.9
+    },
+    {
+      "option": "STM-DL-03",
+      "objective": "SurgeCapacity",
+      "value": 483.0
+    },
+    {
+      "option": "STM-DL-03",
+      "objective": "Cost",
+      "value": 3.88
+    },
+    {
+      "option": "STM-DL-03",
+      "objective": "ActivationTime",
+      "value": 2.4
+    },
+    {
+      "option": "STM-DL-04",
+      "objective": "Readiness",
+      "value": 30.5
+    },
+    {
+      "option": "STM-DL-04",
+      "objective": "SurgeCapacity",
+      "value": 491.0
+    },
+    {
+      "option": "STM-DL-04",
+      "objective": "Cost",
+      "value": 0.95
+    },
+    {
+      "option": "STM-DL-04",
+      "objective": "ActivationTime",
+      "value": 3.1
+    },
+    {
+      "option": "STM-DL-05",
+      "objective": "Readiness",
+      "value": 33.8
+    },
+    {
+      "option": "STM-DL-05",
+      "objective": "SurgeCapacity",
+      "value": 456.0
+    },
+    {
+      "option": "STM-DL-05",
+      "objective": "Cost",
+      "value": 0.94
+    },
+    {
+      "option": "STM-DL-05",
+      "objective": "ActivationTime",
+      "value": 11.4
+    },
+    {
+      "option": "HZM-DL-01",
+      "objective": "Readiness",
+      "value": 38.2
+    },
+    {
+      "option": "HZM-DL-01",
+      "objective": "SurgeCapacity",
+      "value": 234.0
+    },
+    {
+      "option": "HZM-DL-01",
+      "objective": "Cost",
+      "value": 2.97
+    },
+    {
+      "option": "HZM-DL-01",
+      "objective": "ActivationTime",
+      "value": 1.7
+    },
+    {
+      "option": "HZM-DL-02",
+      "objective": "Readiness",
+      "value": 30.9
+    },
+    {
+      "option": "HZM-DL-02",
+      "objective": "SurgeCapacity",
+      "value": 135.0
+    },
+    {
+      "option": "HZM-DL-02",
+      "objective": "Cost",
+      "value": 1.28
+    },
+    {
+      "option": "HZM-DL-02",
+      "objective": "ActivationTime",
+      "value": 4.2
+    },
+    {
+      "option": "HZM-DL-03",
+      "objective": "Readiness",
+      "value": 33.4
+    },
+    {
+      "option": "HZM-DL-03",
+      "objective": "SurgeCapacity",
+      "value": 336.0
+    },
+    {
+      "option": "HZM-DL-03",
+      "objective": "Cost",
+      "value": 3.39
+    },
+    {
+      "option": "HZM-DL-03",
+      "objective": "ActivationTime",
+      "value": 2.0
+    },
+    {
+      "option": "HZM-DL-04",
+      "objective": "Readiness",
+      "value": 41.8
+    },
+    {
+      "option": "HZM-DL-04",
+      "objective": "SurgeCapacity",
+      "value": 388.0
+    },
+    {
+      "option": "HZM-DL-04",
+      "objective": "Cost",
+      "value": 1.72
+    },
+    {
+      "option": "HZM-DL-04",
+      "objective": "ActivationTime",
+      "value": 8.6
+    }
+  ]
+}

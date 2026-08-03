@@ -437,6 +437,53 @@ def test_shift_coverage_staffing_kit():
                    ("FatigueRisk", "minimize", "sum")], "offer")
 
 
+def test_emergency_readiness_portfolio_kit():
+    rows = _rows("emergency_readiness_portfolio")
+    lines = _groups(rows, "asset", "hazard_line")
+    subs = _groups(rows, "asset", "subregion")
+    swift = [r["asset"] for r in rows if r["hazard_line"] == "Flood" and r["kind"] == "Team"]
+    hazmat = {sub: [r["asset"] for r in rows
+                    if r["hazard_line"] == "Hazmat" and r["subregion"] == sub] for sub in subs}
+
+    def built(hazmat_floor):
+        # The hazmat line cap has to leave room for the per-subregion floor (4 subregions).
+        hazmat_cap = max(7, 4 * hazmat_floor)
+        out = [{"type": "objective_bound", "objective": "Cost", "operator": "max", "value": 58.0},
+               {"type": "objective_bound", "objective": "SurgeCapacity", "operator": "min",
+                "value": 4600.0},
+               {"type": "cardinality", "min": 20, "max": 24}]
+        out += [{"type": "group_limit", "options": opts, "min": 2,
+                 "max": hazmat_cap if line == "Hazmat" else 7}
+                for line, opts in lines.items()]
+        out += [{"type": "group_limit", "options": opts, "min": 3, "max": 8}
+                for opts in subs.values()]
+        out += [{"type": "group_limit", "options": swift, "min": 2, "max": len(swift)}]
+        out += [{"type": "group_limit", "options": opts, "min": hazmat_floor, "max": len(opts)}
+                for opts in hazmat.values()]
+        out += _exclusions(rows, "asset", "shares_crew_with")
+        out += [{"type": "dependency", "if_option": r["asset"], "then_option": r["requires_cache"]}
+                for r in rows if r["requires_cache"]]
+        return out
+
+    scores = _scores_from(rows, "asset", [("Readiness", "readiness_0_100"),
+                                          ("SurgeCapacity", "surge_hours_72h"),
+                                          ("Cost", "annual_cost_musd"),
+                                          ("ActivationTime", "activation_hours")])
+    p, _ = _assert_model("emergency_readiness_portfolio", built(1), scores,
+                         [("Readiness", "maximize", "min"),
+                          ("SurgeCapacity", "maximize", "sum"),
+                          ("Cost", "minimize", "sum"),
+                          ("ActivationTime", "minimize", "avg")], "asset")
+    concurrent = [{"option": r["asset"], "objective": obj, "value": float(r[col])}
+                  for r in rows
+                  for obj, col in [("Readiness", "readiness_under_concurrent_season"),
+                                   ("ActivationTime", "activation_under_concurrent_season")]
+                  if r[col]]
+    assert _canon_scores(_scenario(p, "concurrent_season")["score_overrides"]) == \
+           _canon_scores(concurrent)
+    assert _canon(_scenario(p, "dual_hazmat_rule")["constraint_overrides"]) == _canon(built(2))
+
+
 def test_community_program_funding_kit():
     rows = _rows("community_program_funding")
     built = [{"type": "max_allocation", "max": 12},
@@ -467,6 +514,7 @@ KIT_COVERED = [
     "charging_network_siting",
     "claims_investigation_triage",
     "community_program_funding",
+    "emergency_readiness_portfolio",
     "interconnection_approvals",
     "investment_portfolio",
     "production_mix",
@@ -493,6 +541,10 @@ ASK_LITERALS = {
     "claims_investigation_triage": ["1170 hours", "$4840k", "between 45 and 100",
                                     "38 Auto", "32 Property", "28 Liability",
                                     "26 Workers", "1140 hours"],
+    "emergency_readiness_portfolio": ["$58M", "4600 response-hours", "between 20 and 24",
+                                      "at least 2", "at most 7", "at least 3", "at most 8",
+                                      "2 standing swift-water", "1 hazmat unit", "66%", "78%",
+                                      "40% slower", "two hazmat units"],
     "interconnection_approvals": ["$400M", "$320M", "$480M", "$560M",
                                   "9 approvals per zone"],
     "investment_portfolio": ["30%", "at most 3", "20%", "15% lower", "1.5x"],

@@ -1,0 +1,1400 @@
+{
+  "name": "Regional emergency readiness portfolio",
+  "domain": "Emergency management / disaster response",
+  "context": "A regional resilience authority renews its standing response portfolio: 96 assets \u2014 standing teams, equipment caches, mobile units, and standby contracts \u2014 across five hazard lines (flood, wildfire, quake, storm, hazmat) and four subregions, of which 20-24 are funded. Readiness does not add up: when a hazard hits, every asset the authority holds on that line is tasked, and the line performs at the level of the least-ready unit it fields. Portfolio readiness is therefore the WEAKEST hazard line \u2014 a min, not a total \u2014 so a low-readiness asset drags the whole portfolio down, and buying more capability on a strong line cannot move it.",
+  "approach": "binary",
+  "objectives": [
+    {
+      "name": "Readiness",
+      "direction": "maximize",
+      "unit": "0-100 (weakest line)",
+      "aggregation": "min"
+    },
+    {
+      "name": "SurgeCapacity",
+      "direction": "maximize",
+      "unit": "response-hours/72h",
+      "aggregation": "sum"
+    },
+    {
+      "name": "Cost",
+      "direction": "minimize",
+      "unit": "$M/yr",
+      "aggregation": "sum"
+    },
+    {
+      "name": "ActivationTime",
+      "direction": "minimize",
+      "unit": "hours",
+      "aggregation": "avg"
+    }
+  ],
+  "constraints": [
+    {
+      "type": "objective_bound",
+      "objective": "Cost",
+      "operator": "max",
+      "value": 58.0
+    },
+    {
+      "type": "objective_bound",
+      "objective": "SurgeCapacity",
+      "operator": "min",
+      "value": 4600.0
+    },
+    {
+      "type": "cardinality",
+      "min": 20,
+      "max": 24
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-NB-01",
+        "FLD-NB-02",
+        "FLD-NB-03",
+        "FLD-NB-04",
+        "FLD-NB-05",
+        "FLD-NB-06",
+        "FLD-HR-01",
+        "FLD-HR-02",
+        "FLD-HR-03",
+        "FLD-HR-04",
+        "FLD-HR-05",
+        "FLD-HR-06",
+        "FLD-UP-01",
+        "FLD-UP-02",
+        "FLD-UP-03",
+        "FLD-UP-04",
+        "FLD-UP-05",
+        "FLD-UP-06",
+        "FLD-DL-01",
+        "FLD-DL-02",
+        "FLD-DL-03",
+        "FLD-DL-04",
+        "FLD-DL-05",
+        "FLD-DL-06"
+      ],
+      "min": 2,
+      "max": 7
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "WFR-NB-01",
+        "WFR-NB-02",
+        "WFR-NB-03",
+        "WFR-NB-04",
+        "WFR-NB-05",
+        "WFR-HR-01",
+        "WFR-HR-02",
+        "WFR-HR-03",
+        "WFR-HR-04",
+        "WFR-HR-05",
+        "WFR-UP-01",
+        "WFR-UP-02",
+        "WFR-UP-03",
+        "WFR-UP-04",
+        "WFR-UP-05",
+        "WFR-DL-01",
+        "WFR-DL-02",
+        "WFR-DL-03",
+        "WFR-DL-04",
+        "WFR-DL-05"
+      ],
+      "min": 2,
+      "max": 7
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "QKE-NB-01",
+        "QKE-NB-02",
+        "QKE-NB-03",
+        "QKE-NB-04",
+        "QKE-HR-01",
+        "QKE-HR-02",
+        "QKE-HR-03",
+        "QKE-HR-04",
+        "QKE-UP-01",
+        "QKE-UP-02",
+        "QKE-UP-03",
+        "QKE-UP-04",
+        "QKE-DL-01",
+        "QKE-DL-02",
+        "QKE-DL-03",
+        "QKE-DL-04"
+      ],
+      "min": 2,
+      "max": 7
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "STM-NB-01",
+        "STM-NB-02",
+        "STM-NB-03",
+        "STM-NB-04",
+        "STM-NB-05",
+        "STM-HR-01",
+        "STM-HR-02",
+        "STM-HR-03",
+        "STM-HR-04",
+        "STM-HR-05",
+        "STM-UP-01",
+        "STM-UP-02",
+        "STM-UP-03",
+        "STM-UP-04",
+        "STM-UP-05",
+        "STM-DL-01",
+        "STM-DL-02",
+        "STM-DL-03",
+        "STM-DL-04",
+        "STM-DL-05"
+      ],
+      "min": 2,
+      "max": 7
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HZM-NB-01",
+        "HZM-NB-02",
+        "HZM-NB-03",
+        "HZM-NB-04",
+        "HZM-HR-01",
+        "HZM-HR-02",
+        "HZM-HR-03",
+        "HZM-HR-04",
+        "HZM-UP-01",
+        "HZM-UP-02",
+        "HZM-UP-03",
+        "HZM-UP-04",
+        "HZM-DL-01",
+        "HZM-DL-02",
+        "HZM-DL-03",
+        "HZM-DL-04"
+      ],
+      "min": 2,
+      "max": 7
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-NB-01",
+        "FLD-NB-02",
+        "FLD-NB-03",
+        "FLD-NB-04",
+        "FLD-NB-05",
+        "FLD-NB-06",
+        "WFR-NB-01",
+        "WFR-NB-02",
+        "WFR-NB-03",
+        "WFR-NB-04",
+        "WFR-NB-05",
+        "QKE-NB-01",
+        "QKE-NB-02",
+        "QKE-NB-03",
+        "QKE-NB-04",
+        "STM-NB-01",
+        "STM-NB-02",
+        "STM-NB-03",
+        "STM-NB-04",
+        "STM-NB-05",
+        "HZM-NB-01",
+        "HZM-NB-02",
+        "HZM-NB-03",
+        "HZM-NB-04"
+      ],
+      "min": 3,
+      "max": 8
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-HR-01",
+        "FLD-HR-02",
+        "FLD-HR-03",
+        "FLD-HR-04",
+        "FLD-HR-05",
+        "FLD-HR-06",
+        "WFR-HR-01",
+        "WFR-HR-02",
+        "WFR-HR-03",
+        "WFR-HR-04",
+        "WFR-HR-05",
+        "QKE-HR-01",
+        "QKE-HR-02",
+        "QKE-HR-03",
+        "QKE-HR-04",
+        "STM-HR-01",
+        "STM-HR-02",
+        "STM-HR-03",
+        "STM-HR-04",
+        "STM-HR-05",
+        "HZM-HR-01",
+        "HZM-HR-02",
+        "HZM-HR-03",
+        "HZM-HR-04"
+      ],
+      "min": 3,
+      "max": 8
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-UP-01",
+        "FLD-UP-02",
+        "FLD-UP-03",
+        "FLD-UP-04",
+        "FLD-UP-05",
+        "FLD-UP-06",
+        "WFR-UP-01",
+        "WFR-UP-02",
+        "WFR-UP-03",
+        "WFR-UP-04",
+        "WFR-UP-05",
+        "QKE-UP-01",
+        "QKE-UP-02",
+        "QKE-UP-03",
+        "QKE-UP-04",
+        "STM-UP-01",
+        "STM-UP-02",
+        "STM-UP-03",
+        "STM-UP-04",
+        "STM-UP-05",
+        "HZM-UP-01",
+        "HZM-UP-02",
+        "HZM-UP-03",
+        "HZM-UP-04"
+      ],
+      "min": 3,
+      "max": 8
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-DL-01",
+        "FLD-DL-02",
+        "FLD-DL-03",
+        "FLD-DL-04",
+        "FLD-DL-05",
+        "FLD-DL-06",
+        "WFR-DL-01",
+        "WFR-DL-02",
+        "WFR-DL-03",
+        "WFR-DL-04",
+        "WFR-DL-05",
+        "QKE-DL-01",
+        "QKE-DL-02",
+        "QKE-DL-03",
+        "QKE-DL-04",
+        "STM-DL-01",
+        "STM-DL-02",
+        "STM-DL-03",
+        "STM-DL-04",
+        "STM-DL-05",
+        "HZM-DL-01",
+        "HZM-DL-02",
+        "HZM-DL-03",
+        "HZM-DL-04"
+      ],
+      "min": 3,
+      "max": 8
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "FLD-NB-01",
+        "FLD-NB-02",
+        "FLD-HR-01",
+        "FLD-HR-02",
+        "FLD-UP-01",
+        "FLD-UP-02",
+        "FLD-DL-01",
+        "FLD-DL-02"
+      ],
+      "min": 2,
+      "max": 8
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HZM-NB-01",
+        "HZM-NB-02",
+        "HZM-NB-03",
+        "HZM-NB-04"
+      ],
+      "min": 1,
+      "max": 4
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HZM-HR-01",
+        "HZM-HR-02",
+        "HZM-HR-03",
+        "HZM-HR-04"
+      ],
+      "min": 1,
+      "max": 4
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HZM-UP-01",
+        "HZM-UP-02",
+        "HZM-UP-03",
+        "HZM-UP-04"
+      ],
+      "min": 1,
+      "max": 4
+    },
+    {
+      "type": "group_limit",
+      "options": [
+        "HZM-DL-01",
+        "HZM-DL-02",
+        "HZM-DL-03",
+        "HZM-DL-04"
+      ],
+      "min": 1,
+      "max": 4
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "FLD-NB-02",
+      "option_b": "WFR-NB-02"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "QKE-NB-01",
+      "option_b": "HZM-NB-01"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "FLD-HR-02",
+      "option_b": "WFR-HR-02"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "QKE-HR-01",
+      "option_b": "HZM-HR-01"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "FLD-UP-02",
+      "option_b": "WFR-UP-02"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "QKE-UP-01",
+      "option_b": "HZM-UP-01"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "FLD-DL-02",
+      "option_b": "WFR-DL-02"
+    },
+    {
+      "type": "exclusion_pair",
+      "option_a": "QKE-DL-01",
+      "option_b": "HZM-DL-01"
+    },
+    {
+      "type": "dependency",
+      "if_option": "FLD-NB-04",
+      "then_option": "FLD-NB-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "WFR-NB-04",
+      "then_option": "WFR-NB-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "QKE-NB-03",
+      "then_option": "QKE-NB-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "STM-NB-03",
+      "then_option": "STM-NB-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HZM-NB-03",
+      "then_option": "HZM-NB-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "FLD-HR-04",
+      "then_option": "FLD-HR-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "WFR-HR-04",
+      "then_option": "WFR-HR-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "QKE-HR-03",
+      "then_option": "QKE-HR-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "STM-HR-03",
+      "then_option": "STM-HR-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HZM-HR-03",
+      "then_option": "HZM-HR-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "FLD-UP-04",
+      "then_option": "FLD-UP-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "WFR-UP-04",
+      "then_option": "WFR-UP-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "QKE-UP-03",
+      "then_option": "QKE-UP-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "STM-UP-03",
+      "then_option": "STM-UP-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HZM-UP-03",
+      "then_option": "HZM-UP-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "FLD-DL-04",
+      "then_option": "FLD-DL-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "WFR-DL-04",
+      "then_option": "WFR-DL-03"
+    },
+    {
+      "type": "dependency",
+      "if_option": "QKE-DL-03",
+      "then_option": "QKE-DL-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "STM-DL-03",
+      "then_option": "STM-DL-02"
+    },
+    {
+      "type": "dependency",
+      "if_option": "HZM-DL-03",
+      "then_option": "HZM-DL-02"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "concurrent_season",
+      "probability": null,
+      "description": "A two-hazard-concurrent season: floodwater inundates tank farms and rail sidings, so the flood and hazmat lines answer the same event and split across it \u2014 flood assets rate 66% of their single-event readiness, hazmat assets 78%, and both lines activate 40% slower. Every rule stays as-is.",
+      "base_constraints_fingerprint": "",
+      "score_overrides": [
+        {
+          "option": "FLD-NB-01",
+          "objective": "Readiness",
+          "value": 60.4
+        },
+        {
+          "option": "FLD-NB-01",
+          "objective": "ActivationTime",
+          "value": 1.5
+        },
+        {
+          "option": "FLD-NB-02",
+          "objective": "Readiness",
+          "value": 57.9
+        },
+        {
+          "option": "FLD-NB-02",
+          "objective": "ActivationTime",
+          "value": 2.4
+        },
+        {
+          "option": "FLD-NB-03",
+          "objective": "Readiness",
+          "value": 43.7
+        },
+        {
+          "option": "FLD-NB-03",
+          "objective": "ActivationTime",
+          "value": 6.2
+        },
+        {
+          "option": "FLD-NB-04",
+          "objective": "Readiness",
+          "value": 45.1
+        },
+        {
+          "option": "FLD-NB-04",
+          "objective": "ActivationTime",
+          "value": 3.8
+        },
+        {
+          "option": "FLD-NB-05",
+          "objective": "Readiness",
+          "value": 35.7
+        },
+        {
+          "option": "FLD-NB-05",
+          "objective": "ActivationTime",
+          "value": 7.6
+        },
+        {
+          "option": "FLD-NB-06",
+          "objective": "Readiness",
+          "value": 24.9
+        },
+        {
+          "option": "FLD-NB-06",
+          "objective": "ActivationTime",
+          "value": 12.2
+        },
+        {
+          "option": "HZM-NB-01",
+          "objective": "Readiness",
+          "value": 71.9
+        },
+        {
+          "option": "HZM-NB-01",
+          "objective": "ActivationTime",
+          "value": 1.0
+        },
+        {
+          "option": "HZM-NB-02",
+          "objective": "Readiness",
+          "value": 62.9
+        },
+        {
+          "option": "HZM-NB-02",
+          "objective": "ActivationTime",
+          "value": 2.8
+        },
+        {
+          "option": "HZM-NB-03",
+          "objective": "Readiness",
+          "value": 58.1
+        },
+        {
+          "option": "HZM-NB-03",
+          "objective": "ActivationTime",
+          "value": 3.9
+        },
+        {
+          "option": "HZM-NB-04",
+          "objective": "Readiness",
+          "value": 34.8
+        },
+        {
+          "option": "HZM-NB-04",
+          "objective": "ActivationTime",
+          "value": 16.1
+        },
+        {
+          "option": "FLD-HR-01",
+          "objective": "Readiness",
+          "value": 55.0
+        },
+        {
+          "option": "FLD-HR-01",
+          "objective": "ActivationTime",
+          "value": 1.5
+        },
+        {
+          "option": "FLD-HR-02",
+          "objective": "Readiness",
+          "value": 57.2
+        },
+        {
+          "option": "FLD-HR-02",
+          "objective": "ActivationTime",
+          "value": 2.0
+        },
+        {
+          "option": "FLD-HR-03",
+          "objective": "Readiness",
+          "value": 42.6
+        },
+        {
+          "option": "FLD-HR-03",
+          "objective": "ActivationTime",
+          "value": 3.9
+        },
+        {
+          "option": "FLD-HR-04",
+          "objective": "Readiness",
+          "value": 47.5
+        },
+        {
+          "option": "FLD-HR-04",
+          "objective": "ActivationTime",
+          "value": 4.9
+        },
+        {
+          "option": "FLD-HR-05",
+          "objective": "Readiness",
+          "value": 29.5
+        },
+        {
+          "option": "FLD-HR-05",
+          "objective": "ActivationTime",
+          "value": 10.9
+        },
+        {
+          "option": "FLD-HR-06",
+          "objective": "Readiness",
+          "value": 34.6
+        },
+        {
+          "option": "FLD-HR-06",
+          "objective": "ActivationTime",
+          "value": 12.3
+        },
+        {
+          "option": "HZM-HR-01",
+          "objective": "Readiness",
+          "value": 73.1
+        },
+        {
+          "option": "HZM-HR-01",
+          "objective": "ActivationTime",
+          "value": 1.1
+        },
+        {
+          "option": "HZM-HR-02",
+          "objective": "Readiness",
+          "value": 48.7
+        },
+        {
+          "option": "HZM-HR-02",
+          "objective": "ActivationTime",
+          "value": 4.8
+        },
+        {
+          "option": "HZM-HR-03",
+          "objective": "Readiness",
+          "value": 68.3
+        },
+        {
+          "option": "HZM-HR-03",
+          "objective": "ActivationTime",
+          "value": 2.9
+        },
+        {
+          "option": "HZM-HR-04",
+          "objective": "Readiness",
+          "value": 34.9
+        },
+        {
+          "option": "HZM-HR-04",
+          "objective": "ActivationTime",
+          "value": 12.0
+        },
+        {
+          "option": "FLD-UP-01",
+          "objective": "Readiness",
+          "value": 62.7
+        },
+        {
+          "option": "FLD-UP-01",
+          "objective": "ActivationTime",
+          "value": 1.0
+        },
+        {
+          "option": "FLD-UP-02",
+          "objective": "Readiness",
+          "value": 54.8
+        },
+        {
+          "option": "FLD-UP-02",
+          "objective": "ActivationTime",
+          "value": 1.7
+        },
+        {
+          "option": "FLD-UP-03",
+          "objective": "Readiness",
+          "value": 48.5
+        },
+        {
+          "option": "FLD-UP-03",
+          "objective": "ActivationTime",
+          "value": 6.0
+        },
+        {
+          "option": "FLD-UP-04",
+          "objective": "Readiness",
+          "value": 46.7
+        },
+        {
+          "option": "FLD-UP-04",
+          "objective": "ActivationTime",
+          "value": 3.6
+        },
+        {
+          "option": "FLD-UP-05",
+          "objective": "Readiness",
+          "value": 28.4
+        },
+        {
+          "option": "FLD-UP-05",
+          "objective": "ActivationTime",
+          "value": 8.7
+        },
+        {
+          "option": "FLD-UP-06",
+          "objective": "Readiness",
+          "value": 34.4
+        },
+        {
+          "option": "FLD-UP-06",
+          "objective": "ActivationTime",
+          "value": 10.2
+        },
+        {
+          "option": "HZM-UP-01",
+          "objective": "Readiness",
+          "value": 68.6
+        },
+        {
+          "option": "HZM-UP-01",
+          "objective": "ActivationTime",
+          "value": 1.7
+        },
+        {
+          "option": "HZM-UP-02",
+          "objective": "Readiness",
+          "value": 61.9
+        },
+        {
+          "option": "HZM-UP-02",
+          "objective": "ActivationTime",
+          "value": 5.7
+        },
+        {
+          "option": "HZM-UP-03",
+          "objective": "Readiness",
+          "value": 59.2
+        },
+        {
+          "option": "HZM-UP-03",
+          "objective": "ActivationTime",
+          "value": 5.6
+        },
+        {
+          "option": "HZM-UP-04",
+          "objective": "Readiness",
+          "value": 33.6
+        },
+        {
+          "option": "HZM-UP-04",
+          "objective": "ActivationTime",
+          "value": 13.7
+        },
+        {
+          "option": "FLD-DL-01",
+          "objective": "Readiness",
+          "value": 54.5
+        },
+        {
+          "option": "FLD-DL-01",
+          "objective": "ActivationTime",
+          "value": 1.3
+        },
+        {
+          "option": "FLD-DL-02",
+          "objective": "Readiness",
+          "value": 53.4
+        },
+        {
+          "option": "FLD-DL-02",
+          "objective": "ActivationTime",
+          "value": 0.6
+        },
+        {
+          "option": "FLD-DL-03",
+          "objective": "Readiness",
+          "value": 36.2
+        },
+        {
+          "option": "FLD-DL-03",
+          "objective": "ActivationTime",
+          "value": 4.8
+        },
+        {
+          "option": "FLD-DL-04",
+          "objective": "Readiness",
+          "value": 52.2
+        },
+        {
+          "option": "FLD-DL-04",
+          "objective": "ActivationTime",
+          "value": 3.2
+        },
+        {
+          "option": "FLD-DL-05",
+          "objective": "Readiness",
+          "value": 28.3
+        },
+        {
+          "option": "FLD-DL-05",
+          "objective": "ActivationTime",
+          "value": 11.1
+        },
+        {
+          "option": "FLD-DL-06",
+          "objective": "Readiness",
+          "value": 25.5
+        },
+        {
+          "option": "FLD-DL-06",
+          "objective": "ActivationTime",
+          "value": 17.2
+        },
+        {
+          "option": "HZM-DL-01",
+          "objective": "Readiness",
+          "value": 29.8
+        },
+        {
+          "option": "HZM-DL-01",
+          "objective": "ActivationTime",
+          "value": 2.4
+        },
+        {
+          "option": "HZM-DL-02",
+          "objective": "Readiness",
+          "value": 24.1
+        },
+        {
+          "option": "HZM-DL-02",
+          "objective": "ActivationTime",
+          "value": 5.9
+        },
+        {
+          "option": "HZM-DL-03",
+          "objective": "Readiness",
+          "value": 26.1
+        },
+        {
+          "option": "HZM-DL-03",
+          "objective": "ActivationTime",
+          "value": 2.8
+        },
+        {
+          "option": "HZM-DL-04",
+          "objective": "Readiness",
+          "value": 32.6
+        },
+        {
+          "option": "HZM-DL-04",
+          "objective": "ActivationTime",
+          "value": 12.0
+        }
+      ],
+      "score_adjustments": [],
+      "constraint_overrides": [],
+      "interaction_matrix_overrides": []
+    },
+    {
+      "name": "dual_hazmat_rule",
+      "probability": null,
+      "description": "A rule change after the regional spill review: every subregion must field TWO hazmat units instead of one. Every other rule \u2014 the $58M budget, the surge floor, the portfolio size, the line and subregion floors and caps, the shared crews, the mobile-unit caches \u2014 stays as-is.",
+      "base_constraints_fingerprint": "",
+      "score_overrides": [],
+      "score_adjustments": [],
+      "constraint_overrides": [
+        {
+          "type": "objective_bound",
+          "objective": "Cost",
+          "operator": "max",
+          "value": 58.0
+        },
+        {
+          "type": "objective_bound",
+          "objective": "SurgeCapacity",
+          "operator": "min",
+          "value": 4600.0
+        },
+        {
+          "type": "cardinality",
+          "min": 20,
+          "max": 24
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-NB-01",
+            "FLD-NB-02",
+            "FLD-NB-03",
+            "FLD-NB-04",
+            "FLD-NB-05",
+            "FLD-NB-06",
+            "FLD-HR-01",
+            "FLD-HR-02",
+            "FLD-HR-03",
+            "FLD-HR-04",
+            "FLD-HR-05",
+            "FLD-HR-06",
+            "FLD-UP-01",
+            "FLD-UP-02",
+            "FLD-UP-03",
+            "FLD-UP-04",
+            "FLD-UP-05",
+            "FLD-UP-06",
+            "FLD-DL-01",
+            "FLD-DL-02",
+            "FLD-DL-03",
+            "FLD-DL-04",
+            "FLD-DL-05",
+            "FLD-DL-06"
+          ],
+          "min": 2,
+          "max": 7
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "WFR-NB-01",
+            "WFR-NB-02",
+            "WFR-NB-03",
+            "WFR-NB-04",
+            "WFR-NB-05",
+            "WFR-HR-01",
+            "WFR-HR-02",
+            "WFR-HR-03",
+            "WFR-HR-04",
+            "WFR-HR-05",
+            "WFR-UP-01",
+            "WFR-UP-02",
+            "WFR-UP-03",
+            "WFR-UP-04",
+            "WFR-UP-05",
+            "WFR-DL-01",
+            "WFR-DL-02",
+            "WFR-DL-03",
+            "WFR-DL-04",
+            "WFR-DL-05"
+          ],
+          "min": 2,
+          "max": 7
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "QKE-NB-01",
+            "QKE-NB-02",
+            "QKE-NB-03",
+            "QKE-NB-04",
+            "QKE-HR-01",
+            "QKE-HR-02",
+            "QKE-HR-03",
+            "QKE-HR-04",
+            "QKE-UP-01",
+            "QKE-UP-02",
+            "QKE-UP-03",
+            "QKE-UP-04",
+            "QKE-DL-01",
+            "QKE-DL-02",
+            "QKE-DL-03",
+            "QKE-DL-04"
+          ],
+          "min": 2,
+          "max": 7
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "STM-NB-01",
+            "STM-NB-02",
+            "STM-NB-03",
+            "STM-NB-04",
+            "STM-NB-05",
+            "STM-HR-01",
+            "STM-HR-02",
+            "STM-HR-03",
+            "STM-HR-04",
+            "STM-HR-05",
+            "STM-UP-01",
+            "STM-UP-02",
+            "STM-UP-03",
+            "STM-UP-04",
+            "STM-UP-05",
+            "STM-DL-01",
+            "STM-DL-02",
+            "STM-DL-03",
+            "STM-DL-04",
+            "STM-DL-05"
+          ],
+          "min": 2,
+          "max": 7
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HZM-NB-01",
+            "HZM-NB-02",
+            "HZM-NB-03",
+            "HZM-NB-04",
+            "HZM-HR-01",
+            "HZM-HR-02",
+            "HZM-HR-03",
+            "HZM-HR-04",
+            "HZM-UP-01",
+            "HZM-UP-02",
+            "HZM-UP-03",
+            "HZM-UP-04",
+            "HZM-DL-01",
+            "HZM-DL-02",
+            "HZM-DL-03",
+            "HZM-DL-04"
+          ],
+          "min": 2,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-NB-01",
+            "FLD-NB-02",
+            "FLD-NB-03",
+            "FLD-NB-04",
+            "FLD-NB-05",
+            "FLD-NB-06",
+            "WFR-NB-01",
+            "WFR-NB-02",
+            "WFR-NB-03",
+            "WFR-NB-04",
+            "WFR-NB-05",
+            "QKE-NB-01",
+            "QKE-NB-02",
+            "QKE-NB-03",
+            "QKE-NB-04",
+            "STM-NB-01",
+            "STM-NB-02",
+            "STM-NB-03",
+            "STM-NB-04",
+            "STM-NB-05",
+            "HZM-NB-01",
+            "HZM-NB-02",
+            "HZM-NB-03",
+            "HZM-NB-04"
+          ],
+          "min": 3,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-HR-01",
+            "FLD-HR-02",
+            "FLD-HR-03",
+            "FLD-HR-04",
+            "FLD-HR-05",
+            "FLD-HR-06",
+            "WFR-HR-01",
+            "WFR-HR-02",
+            "WFR-HR-03",
+            "WFR-HR-04",
+            "WFR-HR-05",
+            "QKE-HR-01",
+            "QKE-HR-02",
+            "QKE-HR-03",
+            "QKE-HR-04",
+            "STM-HR-01",
+            "STM-HR-02",
+            "STM-HR-03",
+            "STM-HR-04",
+            "STM-HR-05",
+            "HZM-HR-01",
+            "HZM-HR-02",
+            "HZM-HR-03",
+            "HZM-HR-04"
+          ],
+          "min": 3,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-UP-01",
+            "FLD-UP-02",
+            "FLD-UP-03",
+            "FLD-UP-04",
+            "FLD-UP-05",
+            "FLD-UP-06",
+            "WFR-UP-01",
+            "WFR-UP-02",
+            "WFR-UP-03",
+            "WFR-UP-04",
+            "WFR-UP-05",
+            "QKE-UP-01",
+            "QKE-UP-02",
+            "QKE-UP-03",
+            "QKE-UP-04",
+            "STM-UP-01",
+            "STM-UP-02",
+            "STM-UP-03",
+            "STM-UP-04",
+            "STM-UP-05",
+            "HZM-UP-01",
+            "HZM-UP-02",
+            "HZM-UP-03",
+            "HZM-UP-04"
+          ],
+          "min": 3,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-DL-01",
+            "FLD-DL-02",
+            "FLD-DL-03",
+            "FLD-DL-04",
+            "FLD-DL-05",
+            "FLD-DL-06",
+            "WFR-DL-01",
+            "WFR-DL-02",
+            "WFR-DL-03",
+            "WFR-DL-04",
+            "WFR-DL-05",
+            "QKE-DL-01",
+            "QKE-DL-02",
+            "QKE-DL-03",
+            "QKE-DL-04",
+            "STM-DL-01",
+            "STM-DL-02",
+            "STM-DL-03",
+            "STM-DL-04",
+            "STM-DL-05",
+            "HZM-DL-01",
+            "HZM-DL-02",
+            "HZM-DL-03",
+            "HZM-DL-04"
+          ],
+          "min": 3,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "FLD-NB-01",
+            "FLD-NB-02",
+            "FLD-HR-01",
+            "FLD-HR-02",
+            "FLD-UP-01",
+            "FLD-UP-02",
+            "FLD-DL-01",
+            "FLD-DL-02"
+          ],
+          "min": 2,
+          "max": 8
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HZM-NB-01",
+            "HZM-NB-02",
+            "HZM-NB-03",
+            "HZM-NB-04"
+          ],
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HZM-HR-01",
+            "HZM-HR-02",
+            "HZM-HR-03",
+            "HZM-HR-04"
+          ],
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HZM-UP-01",
+            "HZM-UP-02",
+            "HZM-UP-03",
+            "HZM-UP-04"
+          ],
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "group_limit",
+          "options": [
+            "HZM-DL-01",
+            "HZM-DL-02",
+            "HZM-DL-03",
+            "HZM-DL-04"
+          ],
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "FLD-NB-02",
+          "option_b": "WFR-NB-02"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "QKE-NB-01",
+          "option_b": "HZM-NB-01"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "FLD-HR-02",
+          "option_b": "WFR-HR-02"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "QKE-HR-01",
+          "option_b": "HZM-HR-01"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "FLD-UP-02",
+          "option_b": "WFR-UP-02"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "QKE-UP-01",
+          "option_b": "HZM-UP-01"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "FLD-DL-02",
+          "option_b": "WFR-DL-02"
+        },
+        {
+          "type": "exclusion_pair",
+          "option_a": "QKE-DL-01",
+          "option_b": "HZM-DL-01"
+        },
+        {
+          "type": "dependency",
+          "if_option": "FLD-NB-04",
+          "then_option": "FLD-NB-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "WFR-NB-04",
+          "then_option": "WFR-NB-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "QKE-NB-03",
+          "then_option": "QKE-NB-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "STM-NB-03",
+          "then_option": "STM-NB-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HZM-NB-03",
+          "then_option": "HZM-NB-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "FLD-HR-04",
+          "then_option": "FLD-HR-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "WFR-HR-04",
+          "then_option": "WFR-HR-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "QKE-HR-03",
+          "then_option": "QKE-HR-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "STM-HR-03",
+          "then_option": "STM-HR-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HZM-HR-03",
+          "then_option": "HZM-HR-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "FLD-UP-04",
+          "then_option": "FLD-UP-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "WFR-UP-04",
+          "then_option": "WFR-UP-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "QKE-UP-03",
+          "then_option": "QKE-UP-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "STM-UP-03",
+          "then_option": "STM-UP-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HZM-UP-03",
+          "then_option": "HZM-UP-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "FLD-DL-04",
+          "then_option": "FLD-DL-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "WFR-DL-04",
+          "then_option": "WFR-DL-03"
+        },
+        {
+          "type": "dependency",
+          "if_option": "QKE-DL-03",
+          "then_option": "QKE-DL-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "STM-DL-03",
+          "then_option": "STM-DL-02"
+        },
+        {
+          "type": "dependency",
+          "if_option": "HZM-DL-03",
+          "then_option": "HZM-DL-02"
+        }
+      ],
+      "interaction_matrix_overrides": []
+    }
+  ]
+}
