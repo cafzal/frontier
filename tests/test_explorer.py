@@ -615,6 +615,51 @@ class TestAnalyzeComposition:
         fr = analyze_composition(p)["feedback_rules"]
         assert fr["available"] is True
         assert any("A" in rule["condition"] for rule in fr["rules"])
+        assert fr["n_liked"] == 2 and fr["n_disliked"] == 2
+
+    def _rated(self, ratings: dict[int, int]):
+        """A 6-solution frontier where the liked side is exactly the A-including ones,
+        rated per the {index: rating} map."""
+        sols = [
+            _csol(0, ["A", "C"], {"X": 5, "Y": 5}),
+            _csol(1, ["A", "D"], {"X": 6, "Y": 4}),
+            _csol(2, ["A", "E"], {"X": 7, "Y": 3}),
+            _csol(3, ["B", "C"], {"X": 4, "Y": 6}),
+            _csol(4, ["B", "D"], {"X": 3, "Y": 7}),
+            _csol(5, ["B", "E"], {"X": 2, "Y": 8}),
+        ]
+        p = _problem_with_run(sols, ["A", "B", "C", "D", "E"], self._objs())
+        p.feedback = [Feedback(content_signature=sols[i].content_signature, rating=r)
+                      for i, r in ratings.items()]
+        return p
+
+    def test_thin_evidence_is_named_on_the_rules_block(self):
+        """Observed twice: separation 1.0 / coverage 1.0 learned from ONE liked solution,
+        presented as a clean rule (one was later falsified by certify). The counts and the
+        hypothesis-not-constraint note make the evidence size readable."""
+        r = analyze_composition(self._rated({0: 5, 3: 1, 4: 2}))
+        fr = r["feedback_rules"]
+        assert fr["available"] is True and fr["rules"]
+        assert fr["n_liked"] == 1 and fr["n_disliked"] == 2
+        assert fr["rules"][0]["separation"] == 1.0     # by arithmetic, off one solution
+        assert "Thin evidence: 1 liked, 2 disliked" in fr["note"]
+        assert "hypothesis to confirm" in fr["note"]
+        assert "region_bound" in fr["note"]
+        assert "thin evidence" in r["visualization"]
+        assert "(1 liked / 2 disliked)" in r["visualization"]
+
+    def test_thick_evidence_carries_counts_without_the_note(self):
+        r = analyze_composition(self._rated({0: 5, 1: 5, 2: 4, 3: 1, 4: 2, 5: 1}))
+        fr = r["feedback_rules"]
+        assert fr["n_liked"] == 3 and fr["n_disliked"] == 3
+        assert "Thin evidence" not in fr["note"]
+        assert "candidate latent constraints" in fr["note"]
+        assert "thin evidence" not in r["visualization"]
+
+    def test_counts_present_when_one_side_is_missing(self):
+        fr = analyze_composition(self._rated({0: 5, 1: 4}))["feedback_rules"]
+        assert fr["available"] is False
+        assert fr["n_liked"] == 2 and fr["n_disliked"] == 0
 
 
 def test_tradeoffs_has_option_selection(solved_problem):

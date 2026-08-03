@@ -201,6 +201,40 @@ class TestModelUpdate:
         assert "cardinality:1:2" in shrunk["constraints_note"]
         assert "force_exclude:C" in shrunk["constraints_note"]
 
+    def test_duplicate_allocation_bounds_are_merged_and_echoed(self):
+        """The silent-loss case from the live capture: an option carrying a contractual
+        floor row AND a separate cap row kept only the last one. They now intersect, and
+        the response says which box was applied instead of leaving it to the allocations."""
+        pid = srv.model(
+            action="create", approach="proportional",
+            options=[{"name": "A"}, {"name": "B"}, {"name": "C"}],
+            objectives=[{"name": "Value", "direction": "maximize"},
+                        {"name": "Cost", "direction": "minimize"}],
+        )["problem_id"]
+        r = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "allocation_bound", "option": "A", "min": 20, "max": 100},
+            {"type": "allocation_bound", "option": "A", "min": 0, "max": 40},
+        ])
+        assert r["status"]["constraints"] == 2
+        note = r["constraints_merged_note"]
+        assert "'A' (2 rows) → min 20%, max 40%" in note
+        assert any("2 allocation_bound rows" in i["message"] and i["severity"] == "warning"
+                   for i in r["validation_issues"])
+        # The formulation reads the APPLIED box back, once, on both surfaces — the raw
+        # rows ("A allocation 20–100%" and "A allocation 0–40%") describe neither.
+        card = srv.model(action="get", problem_id=pid, section="summary")
+        assert card["viz_data"]["constraints"] == ["A allocation 20–40% (2 rows merged)"]
+        assert "A allocation 20–40% (2 rows merged)" in card["visualization"]
+        assert "20–100%" not in card["visualization"]
+
+        # A single-row model says nothing — the note and the merge caption are for the
+        # merged case only.
+        clean = srv.model(action="update", problem_id=pid, constraints=[
+            {"type": "allocation_bound", "option": "A", "min": 20, "max": 40}])
+        assert "constraints_merged_note" not in clean
+        clean_card = srv.model(action="get", problem_id=pid, section="summary")
+        assert clean_card["viz_data"]["constraints"] == ["A allocation 20–40%"]
+
     def test_option_removal_cascade_carries_constraints_note(self):
         """An options replacement that cascade-drops referencing constraints is
         named too — rules must never vanish without a callout."""
@@ -1580,6 +1614,7 @@ class TestFeedbackLoop:
         assert len(result["content_signature"]) == 12
 
     def test_feedback_without_solution_has_no_signature(self):
+        """Process-level feedback — a rating with no solution — stays serveable."""
         pid = _build_solvable_problem()
         srv.solve(action="run", problem_id=pid)
         result = srv.explore(
@@ -1587,6 +1622,29 @@ class TestFeedbackLoop:
         )
         assert result["recorded"] is True
         assert result["content_signature"] is None
+
+    def test_feedback_without_solution_or_rating_is_refused(self):
+        """Observed live: no solution_id, no content_signature, no rating recorded a
+        null-signature row and bumped feedback_count. Nothing attaches to it and rule
+        induction skips it, so it's a can't-serve — the error names all three params."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        result = srv.explore(action="feedback", problem_id=pid, notes="Nice tool", stage="exploration")
+        assert "error" in result and "recorded" not in result
+        for param in ("solution_id", "content_signature", "rating"):
+            assert param in result["error"]
+        # And nothing was written.
+        assert srv.explore(action="feedback", problem_id=pid, rating=3)["feedback_count"] == 1
+
+    def test_notes_only_feedback_on_a_solution_is_allowed(self):
+        """A rating-less annotation on a named solution is a legitimate shape — it has a
+        signature, so it travels with the pin."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        result = srv.explore(action="feedback", problem_id=pid, solution_id=1,
+                             notes="Board would ask about the vendor here")
+        assert result["recorded"] is True
+        assert result["content_signature"] is not None
 
     def test_feedback_attaches_to_curated_solution(self):
         """Feedback on a curated solution gets attached to its feedback list."""

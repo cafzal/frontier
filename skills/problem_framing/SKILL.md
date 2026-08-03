@@ -101,7 +101,7 @@ When a user expresses a constraint, determine which type fits the restriction be
 - **exclusion_pair**: two options that cannot coexist
 - **dependency**: selecting one option requires another
 - **group_limit**: bounds on how many options from a named group can be selected — a cap ("at most 3 per region"), an optional floor ("every region represented", "at least 2 per stratum"), or both
-- **allocation_bound** (proportional only): a floor or cap on one option's allocation percentage — a committed minimum share, or a per-option limit tighter than the global cap
+- **allocation_bound** (proportional only): a floor and/or cap on one option's allocation percentage — ONE row per option carrying both bounds — a committed minimum share, or a per-option limit tighter than the global cap
 
 Classify by the nature of the restriction, not by matching specific phrases — users express the same constraint in many different ways, and the underlying structure matters more than the wording.
 

@@ -1148,6 +1148,79 @@ class TestExtremeSeeds:
         assert seeds.shape[0] == 0
 
 
+class TestDuplicateAllocationBounds:
+    """Two allocation_bound rows on ONE option intersect — a contractual floor row sent
+    beside a separate cap row used to be silently overwritten by whichever came last."""
+
+    def _floor_and_cap(self):
+        from engine.models import AllocationBoundConstraint
+        return _make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=20, max=100),   # contractual floor row
+            AllocationBoundConstraint(option="A", min=0, max=40)])    # separate cap row
+
+    def test_parse_intersects_instead_of_overwriting(self):
+        from engine.optimizer import _parse_constraints
+
+        cp = _parse_constraints(self._floor_and_cap())
+        a_idx = 0  # options are A..E
+        assert cp["allocation_bounds"][a_idx] == (20, 40)
+
+    def test_merged_helper_and_echo(self):
+        from engine.optimizer import allocation_bound_merges, merged_allocation_bounds
+
+        cons = self._floor_and_cap().constraints
+        assert merged_allocation_bounds(cons) == {"A": (20, 40)}
+        assert allocation_bound_merges(cons) == [
+            {"option": "A", "rows": 2, "min": 20, "max": 40}]
+
+    def test_solved_plans_hold_both_rows(self):
+        """The observed loss: the floor vanished and only the allocations revealed it."""
+        run = optimize(self._floor_and_cap(), mode="fast", seed=7)
+        assert len(run.solutions) > 0
+        for s in run.solutions:
+            assert 20 <= s.allocations.get("A", 0) <= 40
+
+    def test_merge_is_echoed_as_a_validation_warning(self):
+        v = validate(self._floor_and_cap())
+        assert any("2 allocation_bound rows" in i.message and "tightest box" in i.message
+                   and i.severity == "warning" for i in v.issues)
+
+    def test_empty_intersection_is_a_validation_error(self):
+        from engine.models import AllocationBoundConstraint
+
+        v = validate(_make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=60, max=100),
+            AllocationBoundConstraint(option="A", min=0, max=40)]))
+        assert any("empty box" in i.message and "60% > merged max 40%" in i.message
+                   and i.severity == "error" for i in v.issues)
+
+    def test_floor_sum_counts_each_option_once(self):
+        """Summing the raw rows double-counted a merged option's floor: two floor-carrying
+        rows on 'A' (60 each, the same commitment stated twice) summed to 120% and hard-
+        errored a model whose one applied floor is 60%."""
+        from engine.models import AllocationBoundConstraint
+
+        v = validate(_make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=60, max=100),
+            AllocationBoundConstraint(option="A", min=60, max=80)]))
+        assert not any("floors sum to" in i.message for i in v.issues)
+        assert v.ready is True
+
+    def test_cap_sum_reads_the_merged_cap(self):
+        """The mirror case: the cap sum took whichever row came last, so a genuinely
+        starved model passed validation. A's applied cap is the tighter row (10%), and
+        10 + 4×20 = 90% cannot sum to 100."""
+        from engine.models import AllocationBoundConstraint
+
+        v = validate(_make_problem(approach="proportional", constraints=[
+            AllocationBoundConstraint(option="A", min=0, max=10),
+            AllocationBoundConstraint(option="A", min=0, max=90),
+            *(AllocationBoundConstraint(option=n, min=0, max=20) for n in "BCDE")]))
+        assert any("caps sum to 90%" in i.message and i.severity == "error"
+                   for i in v.issues)
+        assert v.ready is False
+
+
 # ─── Elite preservation (Fix 5) ───
 
 

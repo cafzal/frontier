@@ -266,6 +266,45 @@ _MAX_OBJECTIVES = int(os.environ.get("FRONTIER_MAX_OBJECTIVES", "50"))
 _MAX_SCORES = int(os.environ.get("FRONTIER_MAX_SCORES", "10000000"))
 
 
+def _intersect_bounds(prev: tuple[int, int] | None, lo: int, hi: int) -> tuple[int, int]:
+    """Tightest box covering both rows: max of the mins, min of the maxes."""
+    return (lo, hi) if prev is None else (max(prev[0], lo), min(prev[1], hi))
+
+
+def merged_allocation_bounds(constraints) -> dict[str, tuple[int, int]]:
+    """Per-option allocation box built from EVERY ``allocation_bound`` row on that option.
+
+    Several rows on one option INTERSECT — the same accumulate semantics several
+    ``objective_bound`` rows have on one objective — so a contractual floor row sent
+    beside a separate cap row yields the box both asked for. Keying a dict by option
+    instead kept only the last row and silently dropped the other, which no validation
+    error and no infeasibility ever revealed; only the allocations did.
+
+    An empty intersection (merged min > merged max) is left intact here and reported by
+    ``validate`` — the caller sent two rules that cannot both hold, and naming the
+    conflict beats clamping it into something neither row asked for.
+    """
+    merged: dict[str, tuple[int, int]] = {}
+    for c in constraints or []:
+        if getattr(c, "type", "") != "allocation_bound":
+            continue
+        merged[c.option] = _intersect_bounds(
+            merged.get(c.option), int(c.min), int(c.max))
+    return merged
+
+
+def allocation_bound_merges(constraints) -> list[dict]:
+    """The options that carried MORE than one ``allocation_bound`` row, each with the
+    merged box actually applied — the echo that keeps the intersection visible."""
+    merged = merged_allocation_bounds(constraints)
+    counts: dict[str, int] = {}
+    for c in constraints or []:
+        if getattr(c, "type", "") == "allocation_bound":
+            counts[c.option] = counts.get(c.option, 0) + 1
+    return [{"option": o, "rows": n, "min": merged[o][0], "max": merged[o][1]}
+            for o, n in counts.items() if n > 1]
+
+
 def validate(problem: Problem) -> ValidationResult:
     """Check if a problem is ready to optimize."""
     issues: list[ValidationIssue] = []
@@ -663,7 +702,27 @@ def _check_constraint_conflicts(
                     ))
         ab = [c for c in problem.constraints if c.type == "allocation_bound"]
         if ab:
-            floor_sum = sum(c.min for c in ab)
+            # Several rows on one option apply intersected, so every arithmetic check below
+            # runs on the MERGED box — summing the raw rows would double-count an option's
+            # floor and read its cap off whichever row happened to come last.
+            bounded = merged_allocation_bounds(problem.constraints)
+            for m in allocation_bound_merges(problem.constraints):
+                if m["min"] > m["max"]:
+                    issues.append(ValidationIssue(
+                        severity="error",
+                        message=(f"'{m['option']}' carries {m['rows']} allocation_bound rows that "
+                                 f"intersect to an empty box (merged min {m['min']}% > merged max "
+                                 f"{m['max']}%) — the rows cannot both hold. Send ONE merged row "
+                                 "for that option."),
+                    ))
+                else:
+                    issues.append(ValidationIssue(
+                        severity="warning",
+                        message=(f"'{m['option']}' carries {m['rows']} allocation_bound rows; they "
+                                 f"apply intersected, as the tightest box (min {m['min']}%, max "
+                                 f"{m['max']}%). Send one merged row to state that directly."),
+                    ))
+            floor_sum = sum(lo for lo, _hi in bounded.values())
             if floor_sum > 100:
                 issues.append(ValidationIssue(
                     severity="error",
@@ -672,27 +731,28 @@ def _check_constraint_conflicts(
                 ))
             global_cap_for_floors = next(
                 (c.max for c in problem.constraints if c.type == "max_allocation"), 100)
-            for c in ab:
-                eff_cap = min(global_cap_for_floors, c.max)
-                if c.min > eff_cap:
+            for name, (lo, hi) in bounded.items():
+                if lo > hi:
+                    continue  # empty intersection — already named above, in its own terms
+                eff_cap = min(global_cap_for_floors, hi)
+                if lo > eff_cap:
                     issues.append(ValidationIssue(
                         severity="error",
-                        message=(f"allocation_bound floor ({c.min}%) on '{c.option}' exceeds its "
+                        message=(f"allocation_bound floor ({lo}%) on '{name}' exceeds its "
                                  f"effective cap ({eff_cap}% = min of the global max_allocation "
                                  "and its own max) — the bound box is empty."),
                     ))
-            for c in ab:
-                if c.min > 0 and c.option in forced_out:
+            for name, (lo, _hi) in bounded.items():
+                if lo > 0 and name in forced_out:
                     issues.append(ValidationIssue(
                         severity="error",
-                        message=(f"allocation_bound floor ({c.min}%) on '{c.option}' conflicts "
+                        message=(f"allocation_bound floor ({lo}%) on '{name}' conflicts "
                                  "with force_exclude on the same option."),
                     ))
             global_cap = next((c.max for c in problem.constraints if c.type == "max_allocation"),
                               None)
-            bounded = {c.option: c for c in ab}
             cap_sum = sum(
-                min(global_cap or 100, bounded[o].max) if o in bounded else (global_cap or 100)
+                min(global_cap or 100, bounded[o][1]) if o in bounded else (global_cap or 100)
                 for o in (opt.name for opt in problem.options) if o not in forced_out
             )
             if cap_sum < 100:
@@ -762,7 +822,11 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
         elif c.type == "max_allocation":
             max_allocation = c.max
         elif c.type == "allocation_bound":
-            allocation_bounds[_opt_idx(c.option, c)] = (int(c.min), int(c.max))
+            # Rows on the same option intersect (see merged_allocation_bounds) — assigning
+            # into the dict would keep only the last one and drop the rest in silence.
+            idx = _opt_idx(c.option, c)
+            allocation_bounds[idx] = _intersect_bounds(
+                allocation_bounds.get(idx), int(c.min), int(c.max))
 
     return {
         "forced_in": forced_in_idx,
