@@ -562,11 +562,18 @@ def _results_stale(p: Problem) -> bool:
     "the other base frontier predates the edit" and dropped a still-valid exact overlay,
     and fill_gaps refused a legitimate fill.) The scenario set carries its own marker,
     `models.scenario_results_stale`, computed from the composite stamp and echoed beside
-    this flag wherever staleness is reported. A problem with no stored base run stays
-    flagged, as before (nothing to vouch for)."""
+    this flag wherever staleness is reported.
+
+    With no base run at all, the scenario-only workflow decides: a populated scenario set
+    means solved (its freshness is the scenario marker's question, so this flag stays
+    clear — a permanent "re-solve the base" on a problem that deliberately has no base run
+    would misdirect, and would flip `model load`'s has_results gate to solve guidance);
+    a problem with no stored results anywhere stays flagged (nothing to vouch for)."""
     base_fp = _solve_fingerprint(p)
     pairs = [(r.solve_fingerprint, base_fp) for r in (p.run, p.exact_run) if r is not None]
-    return not pairs or any(stamp != fp for stamp, fp in pairs)
+    if not pairs:
+        return not (p.scenario_run is not None and p.scenario_run.scenario_runs)
+    return any(stamp != fp for stamp, fp in pairs)
 
 
 def _stamp_scenarios(p: Problem) -> None:

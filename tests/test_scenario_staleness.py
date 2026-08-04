@@ -341,6 +341,36 @@ class TestRoundTripAndScopedFingerprints:
         assert srv.store.load(pid).exact_run is not None, (
             "a scenario-only edit must not cost the exact overlay on the next base solve")
 
+    def test_scenario_only_workflow_is_not_permanently_stale(self):
+        """A problem that deliberately has NO base run: a fresh, successful
+        run_scenarios must land at results_stale false — with no scenario marker either —
+        or the echo misdirects to "re-solve the base" forever and model load's
+        has_results gate routes a solved scenario-only bundle to solve guidance.
+        A problem with no stored results anywhere still flags on a structural edit."""
+        pid = _scenario_problem()
+        # Never-solved: the structural edits in setup flagged it (nothing to vouch for).
+        assert srv.store.load(pid).results_stale is True
+        # Scenario-only solve: fresh scenario set, still no base run.
+        r = srv.solve(action="run_scenarios", problem_id=pid, seed=7, wait_seconds=60)
+        assert r.get("scenarios_optimized") == 2, r
+        p = srv.store.load(pid)
+        assert p.run is None and p.exact_run is None
+        assert p.results_stale is False, (
+            "a scenario-only workflow must not read as base-stale after its own solve")
+        assert models.scenario_results_stale(p) is False
+        got = srv.model(action="get", problem_id=pid, section="summary")
+        assert got["results_stale"] is False
+        assert "scenario_results_stale" not in got
+        # And the scenario marker still owns scenario staleness: a scenario edit flags
+        # it while the base flag stays clear (no base frontier to re-solve).
+        srv.model(action="update", problem_id=pid, scenario_config={
+            "enabled": True, "scenarios": [{"name": "tight"}, {"name": "loose"},
+                                           {"name": "extra"}],
+        })
+        p = srv.store.load(pid)
+        assert p.results_stale is False
+        assert models.scenario_results_stale(p) is True
+
     def test_run_scenarios_does_not_vouch_for_a_stale_base_frontier(self):
         """Refreshing the scenario set clears staleness for the scenario set only — the
         base frontier still predates the edit, so the base flag stays honest."""
