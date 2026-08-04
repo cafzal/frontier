@@ -592,7 +592,9 @@ def _feedback_rules(problem: Problem, run_solutions: list, proportional: bool) -
     if off_frontier:
         evidence["n_rated_off_frontier"] = off_frontier
     off_tail = (f" {off_frontier} rated solution(s) sit on a frontier this composition "
-                "is not reading — pass the source/scenario they were rated on to use them."
+                "is not reading — if they were rated on the other base frontier, pass its "
+                "source (\"exact\" or \"run\"); a plan a re-solve dropped rejoins the counts "
+                "when it reappears."
                 if off_frontier else "")
     if not liked or not disliked:
         return {"available": False, **evidence,

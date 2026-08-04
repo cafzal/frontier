@@ -1792,6 +1792,25 @@ class TestFeedbackLoop:
         assert "error" in result and "recorded" not in result
         assert srv.explore(action="feedback", problem_id=pid, rating=3)["feedback_count"] == 1
 
+    def test_feedback_scenario_with_solution_id_declines_in_words(self):
+        """The scenario-axis sibling of the source mislink: feedback carries no scenario,
+        so a solution_id sent with one would silently resolve against a BASE frontier — a
+        different plan than the scenario read the id came from. Refuse and name the
+        signature path that does work; signature-based feedback stays serveable."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        result = srv.explore(action="feedback", problem_id=pid, scenario="tight",
+                             solution_id=1, rating=2)
+        assert "error" in result and "recorded" not in result
+        assert "content_signature" in result["error"]
+        assert srv.store.load(pid).feedback == []
+        # A signature already names one exact plan, so the scenario axis adds nothing to
+        # resolve — that shape records even with scenario present.
+        sig = srv.store.load(pid).run.solutions[0].content_signature
+        ok = srv.explore(action="feedback", problem_id=pid, scenario="tight",
+                         content_signature=sig, rating=2)
+        assert ok["recorded"] is True
+
     def test_a_dislike_is_not_a_selection(self):
         """Observed live: rating a plan 1 ("non-starter") echoed
         outcome.user_selected_solution as that plan. Selection requires endorsement."""

@@ -2151,6 +2151,8 @@ def explore(
                    the three has nothing to attach and errors.
                    solution_id resolves against the run you name (source="exact" to rate
                    a point on the exact overlay); the response echoes `frontier_source`.
+                   No scenario axis: solution_id + scenario errors — rate a scenario plan
+                   by its content_signature (explore solutions scenario=… carries one).
                    Optional: rating (1-5), notes, stage, source.
       compare_runs — Diff two runs (criteria, frontier ranges, option coverage).
                    Default: current run vs the previous one ("what changed since my
@@ -2362,6 +2364,14 @@ def explore(
                 )
             return result
         case "feedback":
+            # Decline the scenario axis in words: feedback carries no scenario, so a
+            # solution_id sent with one would resolve against a BASE frontier — a different
+            # plan than the scenario read the id came from (the same mislink `source` fixes).
+            if scenario is not None and solution_id is not None:
+                return {"error": "feedback has no scenario axis — solution_id would resolve "
+                                 "against the base frontier, not the scenario's. Rate a "
+                                 "scenario plan by its content_signature instead (explore "
+                                 "solutions scenario=… carries one per solution)."}
             return _explore_feedback(p, solution_id, content_signature, rating, notes, stage,
                                      source)
         case "compare_runs":

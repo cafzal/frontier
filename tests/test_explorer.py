@@ -661,6 +661,25 @@ class TestAnalyzeComposition:
         assert fr["available"] is False
         assert fr["n_liked"] == 2 and fr["n_disliked"] == 0
 
+    def test_off_frontier_ratings_are_named_not_vanished(self):
+        """Observed live: dislikes linked to plans the read frontier wasn't carrying read
+        as n_disliked: 0 with nothing saying where they went. They can't feed rule
+        induction, but the block names them (`n_rated_off_frontier` + note), and the
+        advice points only at levers composition actually has (`source`)."""
+        p = self._rated({0: 5, 1: 4})
+        p.feedback.append(Feedback(content_signature="feedbeefcafe", rating=1))
+        p.feedback.append(Feedback(content_signature="deadbeefcafe", rating=2))
+        fr = analyze_composition(p)["feedback_rules"]
+        assert fr["available"] is False
+        assert fr["n_liked"] == 2 and fr["n_disliked"] == 0
+        assert fr["n_rated_off_frontier"] == 2
+        assert "2 rated solution(s) sit on a frontier" in fr["note"]
+        assert "scenario" not in fr["note"]  # composition takes source, not scenario
+
+    def test_on_frontier_ratings_carry_no_off_frontier_field(self):
+        fr = analyze_composition(self._rated({0: 5, 3: 1}))["feedback_rules"]
+        assert "n_rated_off_frontier" not in fr
+
 
 def test_tradeoffs_has_option_selection(solved_problem):
     r = get_tradeoffs(solved_problem)
