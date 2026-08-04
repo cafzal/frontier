@@ -325,10 +325,13 @@ def merged_max_allocation(constraints) -> int | None:
     return min(caps) if caps else None
 
 
-def merged_cardinality(constraints) -> tuple[int, int] | None:
+def merged_cardinality(constraints) -> tuple[int | None, int | None] | None:
     """The selection-count range actually applied: the intersection of every
     ``cardinality`` row — max of the mins, min of the maxes (``None`` when the model
     carries none, leaving the caller's own default in place).
+
+    Rows may be one-sided ("at least 20" is ``min`` alone), so either side of the merged
+    range can be ``None`` — unbounded there, again leaving the caller's default in place.
 
     An empty intersection (merged min > merged max) is returned intact and reported by
     ``validate``: two rows that cannot both hold are a conflict to name, not something to
@@ -337,7 +340,20 @@ def merged_cardinality(constraints) -> tuple[int, int] | None:
     rows = [c for c in (constraints or []) if getattr(c, "type", "") == "cardinality"]
     if not rows:
         return None
-    return (max(int(c.min) for c in rows), min(int(c.max) for c in rows))
+    return (max((int(c.min) for c in rows if c.min is not None), default=None),
+            min((int(c.max) for c in rows if c.max is not None), default=None))
+
+
+def cardinality_range_str(card: tuple[int | None, int | None]) -> str:
+    """One renderer for a (min, max) selection range everywhere prose states it, so a
+    one-sided range never renders as 'None': (2, None) → '≥2', (None, 3) → '≤3',
+    (2, 3) → '2–3', (3, 3) → 'exactly 3'."""
+    lo, hi = card
+    if lo is None:
+        return f"≤{hi}"
+    if hi is None:
+        return f"≥{lo}"
+    return f"exactly {lo}" if lo == hi else f"{lo}–{hi}"
 
 
 def singleton_constraint_merges(constraints) -> list[dict]:
@@ -546,7 +562,8 @@ def validate(problem: Problem) -> ValidationResult:
     # (the intersection of every row), so validate and the engine reason about one model.
     available = len(opt_names - forced_out)
     for c in problem.constraints:
-        if c.type == "cardinality" and c.min > c.max:
+        if (c.type == "cardinality" and c.min is not None and c.max is not None
+                and c.min > c.max):
             issues.append(ValidationIssue(
                 severity="error",
                 message=f"Cardinality min ({c.min}) > max ({c.max}).",
@@ -554,10 +571,12 @@ def validate(problem: Problem) -> ValidationResult:
     card = merged_cardinality(problem.constraints)
     if card is not None:
         card_min, card_max = card
+        empty_range = (card_min is not None and card_max is not None
+                       and card_min > card_max)
         for m in singleton_constraint_merges(problem.constraints):
             if m["type"] != "cardinality":
                 continue
-            if card_min > card_max:
+            if empty_range:
                 issues.append(ValidationIssue(
                     severity="error",
                     message=(f"{m['rows']} cardinality rows intersect to an empty range "
@@ -568,16 +587,16 @@ def validate(problem: Problem) -> ValidationResult:
                 issues.append(ValidationIssue(
                     severity="warning",
                     message=(f"{m['rows']} cardinality rows apply intersected, as the "
-                             f"tightest range (select {card_min}–{card_max}). Send one "
-                             "cardinality row to state that directly."),
+                             f"tightest range (select {cardinality_range_str(card)}). Send "
+                             "one cardinality row to state that directly."),
                 ))
-        if card_min <= card_max:
-            if card_min > available:
+        if not empty_range:
+            if card_min is not None and card_min > available:
                 issues.append(ValidationIssue(
                     severity="error",
                     message=f"Cardinality min ({card_min}) exceeds available options ({available}).",
                 ))
-            if len(forced_in) > card_max:
+            if card_max is not None and len(forced_in) > card_max:
                 issues.append(ValidationIssue(
                     severity="error",
                     message=f"force_include count ({len(forced_in)}) exceeds cardinality max ({card_max}).",
@@ -913,10 +932,15 @@ def _parse_constraints(problem: Problem, search_floor: bool = False) -> dict:
 
     # Whole-plan constraints resolve through the shared functions the validator also
     # reads, so the two sides can never reason about different rows (see the resolution
-    # note above them). A single row of either type resolves to itself.
+    # note above them). A single row of either type resolves to itself. A one-sided row
+    # leaves the absent side at the default above — a max-only row says nothing about the
+    # minimum, so the EA's search floor (or the model's honest 0) stays in force.
     card = merged_cardinality(problem.constraints)
     if card is not None:
-        cardinality_min, cardinality_max = card
+        if card[0] is not None:
+            cardinality_min = card[0]
+        if card[1] is not None:
+            cardinality_max = card[1]
     max_allocation = merged_max_allocation(problem.constraints)
 
     return {
@@ -1923,9 +1947,15 @@ def _negate_property(problem: Problem, prop) -> list[list[tuple]]:
     if t == "cardinality":         # holds: min ≤ count ≤ max → witness: count≤min-1 OR count≥max+1
         ones = [1.0] * n
         disjuncts = []
-        if prop.min > 0:
+        if prop.min is not None and prop.min > 0:
             disjuncts.append([(ones, "le", prop.min - 1)])
-        disjuncts.append([(ones, "ge", prop.max + 1)])
+        if prop.max is not None:
+            disjuncts.append([(ones, "ge", prop.max + 1)])
+        if not disjuncts:
+            # min 0 with no max binds nothing — every plan satisfies it, so a "holds"
+            # verdict would certify a tautology. Decline rather than solve.
+            raise ValueError("cardinality property with no binding bound (min 0 or absent, "
+                             "max absent) is vacuous — every plan satisfies it.")
         return disjuncts
     if t == "objective_bound":
         ocol = {o.name: j for j, o in enumerate(problem.objectives)}
@@ -2878,10 +2908,14 @@ def analyze_infeasibility(problem: Problem) -> dict:
     # back empty, so it reasons over the plans the search actually proposes.
     card_min, card_max = 1, n_options
     # Through the resolver, like the rest of the stack: this explains why the SEARCH came
-    # back empty, so it has to reason about the range the search actually applied.
+    # back empty, so it has to reason about the range the search actually applied — a
+    # one-sided row leaves the absent side at the search default above.
     card = merged_cardinality(problem.constraints)
     if card is not None:
-        card_min, card_max = card
+        if card[0] is not None:
+            card_min = card[0]
+        if card[1] is not None:
+            card_max = card[1]
     obj_bounds = []
     for c in problem.constraints:
         if c.type == "objective_bound":

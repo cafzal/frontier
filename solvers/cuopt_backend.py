@@ -557,9 +557,12 @@ def _solve_milp_cuopt(min_coef, eps_list, mc, n, exact=False):
         expr = sum(float(coef[i]) * x[i] for i in range(n))
         prob.addConstraint((expr >= float(rhs)) if op == "ge" else (expr <= float(rhs)), name="eps")
     if mc["card"] is not None:
+        # One-sided ranges are legal — an absent bound adds no row (unbounded that side).
         lo, hi = mc["card"]
-        prob.addConstraint(sum(x) >= lo, name="card_lo")
-        prob.addConstraint(sum(x) <= hi, name="card_hi")
+        if lo is not None:
+            prob.addConstraint(sum(x) >= lo, name="card_lo")
+        if hi is not None:
+            prob.addConstraint(sum(x) <= hi, name="card_hi")
     for coef, op, val in mc["bounds"]:
         expr = sum(float(coef[i]) * x[i] for i in range(n))
         prob.addConstraint((expr <= val) if op == "max" else (expr >= val), name="bound")

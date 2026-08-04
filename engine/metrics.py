@@ -570,9 +570,10 @@ def _check_binding_objective_bound(constraint, solutions, results):
 
 
 def _check_binding_cardinality(constraint, solutions, results):
+    # Bounds may be one-sided (an absent side is unbounded — nothing to bind on).
     for sol in solutions:
         count = len(sol.selected_options)
-        if count == constraint.max:
+        if constraint.max is not None and count == constraint.max:
             results.append({
                 "pattern": "binding_constraint",
                 "severity": "info",
@@ -580,7 +581,7 @@ def _check_binding_cardinality(constraint, solutions, results):
                 "actual_value": count,
             })
             return
-        if count == constraint.min and constraint.min > 1:
+        if constraint.min is not None and count == constraint.min and constraint.min > 1:
             results.append({
                 "pattern": "binding_constraint",
                 "severity": "info",

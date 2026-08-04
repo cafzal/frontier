@@ -7,7 +7,7 @@ JSON shapes for the structured fields passed through `model/create` and `model/u
 Pass to the `constraints` param as a list of dicts:
 
 ```
-{"type": "cardinality", "min": <int>, "max": <int>}  (whole-plan: ONE row states the selection count — several rows apply intersected, and an empty intersection is a validation error)
+{"type": "cardinality", "min": <int>, "max": <int>}  (whole-plan: ONE row states the selection count; each bound is optional — state only the one the user gave ("at least 20" is min alone, "at most 24" is max alone; absent = unbounded that side), never invent the other; several rows apply intersected, and an empty intersection is a validation error)
 {"type": "force_include", "option": "<name>"}
 {"type": "force_exclude", "option": "<name>"}
 {"type": "objective_bound", "objective": "<name>", "operator": "min"|"max", "value": <float>}

@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 # Reject non-finite floats (inf / nan) on user-supplied numeric fields. A NaN score
 # silently passes validation, serializes to JSON `null` on save, then raises an
@@ -127,10 +127,21 @@ class _Motivated(BaseModel):
 class CardinalityConstraint(_Motivated):
     """How many options the plan selects. A whole-plan rule, so ONE row states it: several
     rows apply intersected (max of the mins, min of the maxes), which `validate` echoes,
-    and an empty intersection is a validation error."""
+    and an empty intersection is a validation error.
+
+    One-sided rows are legal — "fund at least 20" is `min` alone, "at most 24" is `max`
+    alone — and an absent bound leaves that side unbounded. A row with neither bound
+    states no rule, so it is rejected here rather than carried as a silent no-op."""
     type: Literal["cardinality"] = "cardinality"
-    min: int
-    max: int
+    min: int | None = None
+    max: int | None = None
+
+    @model_validator(mode="after")
+    def _at_least_one_bound(self):
+        if self.min is None and self.max is None:
+            raise ValueError("cardinality needs min, max, or both — a row with neither "
+                             "bound states no rule.")
+        return self
 
 
 class ForceIncludeConstraint(_Motivated):
