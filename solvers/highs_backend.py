@@ -258,9 +258,12 @@ def _add_milp_constraints(h, n, eps_list, mc):
         expr = (x * [float(c) for c in coef]).sum()
         h.addConstr(expr >= float(rhs) if op == "ge" else expr <= float(rhs))
     if mc["card"] is not None:
+        # One-sided ranges are legal — an absent bound adds no row (unbounded that side).
         lo, hi = mc["card"]
-        h.addConstr(x.sum() >= lo)
-        h.addConstr(x.sum() <= hi)
+        if lo is not None:
+            h.addConstr(x.sum() >= lo)
+        if hi is not None:
+            h.addConstr(x.sum() <= hi)
     for coef, op, val in mc["bounds"]:
         expr = (x * [float(c) for c in coef]).sum()
         h.addConstr(expr <= val if op == "max" else expr >= val)

@@ -539,8 +539,10 @@ def _attach_constraint_merge_note(result: dict, p: Problem) -> None:
     for m in optimizer.singleton_constraint_merges(p.constraints):
         if m["type"] == "max_allocation":
             parts.append(f"{m['rows']} max_allocation rows → ≤{m['max']}% per option")
-        elif m["min"] <= m["max"]:
-            parts.append(f"{m['rows']} cardinality rows → select {m['min']}–{m['max']}")
+        elif (m["min"] is None or m["max"] is None or m["min"] <= m["max"]):
+            # Either side may be None — one-sided rows leave that side unbounded.
+            parts.append(f"{m['rows']} cardinality rows → select "
+                         f"{optimizer.cardinality_range_str((m['min'], m['max']))}")
     if not parts:
         return
     result["constraints_merged_note"] = (
@@ -958,8 +960,9 @@ def _format_constraint(c, units: dict | None = None) -> str:
         unit = units.get(obj, "")
         return f"{obj} {op} {_fmt_num(d.get('value'))}{(' ' + unit) if unit else ''}"
     if t == "cardinality":
-        lo, hi = d.get("min"), d.get("max")
-        return f"select exactly {lo}" if lo == hi else f"select {lo}–{hi}"
+        # One renderer with validate's echo and the merge note, so a one-sided row
+        # ("at least 20" = min alone) never reads as "select None–20".
+        return f"select {optimizer.cardinality_range_str((d.get('min'), d.get('max')))}"
     if t == "force_include":
         return f"must include {d.get('option')}"
     if t == "force_exclude":

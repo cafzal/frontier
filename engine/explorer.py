@@ -3596,8 +3596,9 @@ def _binding_cardinality(c, solutions, objectives) -> dict | None:
     if len(counts) < 2:
         return None
 
-    at_max = counts == c.max
-    at_min = counts == c.min
+    # Bounds may be one-sided — an absent side is unbounded, so nothing binds on it.
+    at_max = counts == c.max if c.max is not None else np.zeros(len(counts), dtype=bool)
+    at_min = counts == c.min if c.min is not None else np.zeros(len(counts), dtype=bool)
     # Determine which side is binding
     if at_max.sum() > 0:
         binding_level, adjacent_level = c.max, c.max - 1

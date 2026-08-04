@@ -107,7 +107,7 @@ def exact_solver_fits(problem: "Problem") -> tuple[bool, str]:
     # scope — they fold into the variable box as a 1% floor / 0 cap.)
     combinatorial = sorted({c.type for c in (problem.constraints or [])
                             if c.type in ("exclusion_pair", "dependency")
-                            or (c.type == "cardinality" and int(c.min) > 1)})
+                            or (c.type == "cardinality" and int(c.min or 0) > 1)})
     if combinatorial:
         return False, (
             f"{', '.join(combinatorial)} constraints on a proportional allocation are "

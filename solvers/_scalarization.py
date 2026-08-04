@@ -144,7 +144,9 @@ def _build_milp_data(problem: Problem):
     # pass searched, and `explore certify` compares those two frontiers: an optimality gap
     # and a never-dominates invariant measured across two feasible sets certify nothing.
     mc["card"] = _opt.merged_cardinality(problem.constraints)
-    if mc["card"] is not None and mc["card"][0] > mc["card"][1]:
+    # Either side may be None (a one-sided row) — unbounded there, nothing to conflict on.
+    if (mc["card"] is not None and mc["card"][0] is not None
+            and mc["card"][1] is not None and mc["card"][0] > mc["card"][1]):
         lo, hi = mc["card"]
         raise ValueError(
             f"cardinality rows intersect to an empty range (merged min {lo} > merged max "
