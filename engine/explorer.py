@@ -2744,6 +2744,26 @@ def cap_marginal_detail(problem: Problem, result: dict, max_rows: int) -> dict:
     return {**result, "pairs": capped}
 
 
+def cap_composition_detail(result: dict, max_rows: int) -> dict:
+    """A token-capped view of a ``detail=true`` composition payload.
+
+    detail=true lifts the co-occurrence top-N from a summary handful to every
+    sometimes-but-not-always option pair — O(options²), which runs to thousands of rows
+    and hundreds of KB at portfolio scale. This returns a new payload keeping the top
+    ``max_rows`` pairs: the list is already ranked by departure from independence, so the
+    head IS the summary view scaled up, and no re-rendering is needed (the visualization
+    reads option_selection / principles / clusters, never the pair list). Nothing is
+    mutated: the caller keeps the full payload for the on-disk dump the capped response
+    points at.
+    """
+    pairs = result.get("co_occurrence") or []
+    if len(pairs) <= max_rows:
+        return result
+    return {**result,
+            "co_occurrence": pairs[:max_rows],
+            "truncated": {"total_pairs": len(pairs), "shown": max_rows}}
+
+
 def _rate_guard(rates: list[dict], obj_a, obj_b, floors: tuple[float, float]) -> dict:
     """What the unsigned `rate` column hides, echoed so the pair's inflection is auditable.
 

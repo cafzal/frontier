@@ -2950,6 +2950,34 @@ class TestComposition:
         assert r["scope"]["set"] == "curated"
         assert r["scope"]["n_solutions"] == 1
 
+    def test_small_frontier_detail_stays_inline(self):
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        r = srv.explore(action="composition", problem_id=pid, detail=True)
+        assert "full_result_path" not in r
+        assert "truncated" not in r
+
+    def test_large_frontier_detail_writes_full_result_path(self):
+        # detail=true lifts the co-occurrence top-N to every sometimes-but-not-always
+        # pair — O(options²), ~400 KB on the 300-option showcase — so detail=true dumps
+        # to disk and keeps the top-ranked pairs inline, exactly as marginal_analysis
+        # detail=true does (the claim the explore docstring makes for large-result actions).
+        import json
+        from pathlib import Path
+
+        pid = srv.model(action="load", source="capital_project_selection_300")["problem_id"]
+        r = srv.explore(action="composition", problem_id=pid, detail=True)
+        assert len(r["co_occurrence"]) == srv.EXPLORE_DETAIL_CAP
+        assert r["truncated"]["total_pairs"] > srv.EXPLORE_DETAIL_CAP
+        assert r["truncated"]["shown"] == srv.EXPLORE_DETAIL_CAP
+        # The inline response fits a tool-result budget the full dump blows past.
+        assert len(json.dumps(r)) < 100_000
+        on_disk = json.loads(Path(r["full_result_path"]).read_text())
+        assert len(on_disk["co_occurrence"]) == r["truncated"]["total_pairs"]
+        assert "truncated" not in on_disk
+        # The inline pairs are the head of the ranked full list — a window, not a re-rank.
+        assert on_disk["co_occurrence"][:srv.EXPLORE_DETAIL_CAP] == r["co_occurrence"]
+
 
 class TestRegret:
     def _add_scenarios(self, pid):

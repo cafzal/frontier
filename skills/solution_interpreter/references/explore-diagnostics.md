@@ -181,7 +181,7 @@ Mining the solution set — operates on the active frontier, or a curated subset
 |---|---|---|
 | `scope` | obj | `{set: "frontier"\|"curated", n_solutions, approach}` |
 | `option_selection` | list | Per option, sorted by `selection_pct` desc (also on `tradeoffs`, and per-option on `solution` via `option_context`) |
-| `co_occurrence` | list | Option pairs ranked by departure from independence (top 8; all when `detail=true`) |
+| `co_occurrence` | list | Option pairs ranked by departure from independence (top 8; all when `detail=true` — past the detail cap the top-ranked pairs stay inline, `truncated` echoes total vs shown, and the full list is on disk at `full_result_path`) |
 | `design_principles` | list | Statements that hold across the set |
 | `clusters` | list | Decision-space strategy families (omitted when too few solutions) |
 | `clusters_summary` | obj | `{n_families, largest_family_share}`, plus a `note` when the share exceeds 0.9 — rides with `clusters` |
