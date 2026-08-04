@@ -585,10 +585,21 @@ def _feedback_rules(problem: Problem, run_solutions: list, proportional: bool) -
     liked = [sig for sig, r in rated.items() if r >= 4 and sig in sig_to_sol]
     disliked = [sig for sig, r in rated.items() if r <= 2 and sig in sig_to_sol]
     evidence = {"n_liked": len(liked), "n_disliked": len(disliked)}
+    # Ratings on plans this frontier is not carrying (rated on another run, or the plan
+    # left the frontier on a re-solve) can't feed rule induction — but omitting them
+    # silently reads as "your ratings vanished" (observed live). Name them.
+    off_frontier = sum(1 for sig in rated if sig not in sig_to_sol)
+    if off_frontier:
+        evidence["n_rated_off_frontier"] = off_frontier
+    off_tail = (f" {off_frontier} rated solution(s) sit on a frontier this composition "
+                "is not reading — if they were rated on the other base frontier, pass its "
+                "source (\"exact\" or \"run\"); a plan a re-solve dropped rejoins the counts "
+                "when it reappears."
+                if off_frontier else "")
     if not liked or not disliked:
         return {"available": False, **evidence,
                 "note": (f"Need rated solutions on both sides in the current frontier; "
-                         f"have {len(liked)} liked, {len(disliked)} disliked.")}
+                         f"have {len(liked)} liked, {len(disliked)} disliked.{off_tail}")}
     pos = [_present_options(sig_to_sol[s], proportional) for s in liked]
     neg = [_present_options(sig_to_sol[s], proportional) for s in disliked]
     rules = _greedy_separating_rules([o.name for o in problem.options], pos, neg)
