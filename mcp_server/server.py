@@ -2113,9 +2113,10 @@ def explore(
     `model` docstring for `_skill_guidance` shape and the once-per-problem throttle).
     Structural `model/update` edits re-arm so the next solve re-injects.
 
-    full_result_path: large-result actions (solutions detail=true, marginal_analysis detail=true)
-    truncate past a cap and carry `full_result_path` — a full JSON dump on disk, also named by
-    solve/run's response. Reference the file instead of re-requesting the payload.
+    full_result_path: large-result actions (solutions detail=true, marginal_analysis detail=true,
+    composition detail=true) truncate past a cap and carry `full_result_path` — a full JSON dump
+    on disk, also named by solve/run's response. Reference the file instead of re-requesting
+    the payload.
     content_signature: stable hash of a solution's selected options (and allocations for
     proportional problems); survives re-solves, so prefer it over solution_id when referencing
     curated solutions or recording feedback across runs.
@@ -2234,6 +2235,8 @@ def explore(
                    clusters_summary reports the partition's quality (n_families,
                    largest_family_share) — a lopsided split is one strategy with corner
                    variants, not a menu of families; present it that way.
+                   Pass detail=true for the full co-occurrence pair list; past the cap it
+                   keeps the top-ranked pairs inline and carries full_result_path.
                    Optional: solution_ids, signatures, detail, source.
 
     Scenario param (optional):
@@ -2516,6 +2519,8 @@ def explore(
                     p, solution_ids=solution_ids, signatures=signatures, source=source, detail=detail)
             except ValueError as e:
                 return {"error": str(e)}
+            if detail:
+                result = _cap_composition_detail(p, result)
             return _attach_guidance_pointer(result, action)
         case _:
             return {"error": f"Unknown action: {action}."}
@@ -2541,6 +2546,29 @@ def _cap_marginal_detail(p: Problem, result: dict, scenario: str | None) -> dict
     except (OSError, ValueError):
         return result
     capped = explorer.cap_marginal_detail(p, result, EXPLORE_DETAIL_CAP)
+    capped["full_result_path"] = str(path)
+    return capped
+
+
+def _cap_composition_detail(p: Problem, result: dict) -> dict:
+    """Soft-cap `composition detail=true` the way `marginal_analysis detail=true` is capped.
+
+    detail=true lifts the co-occurrence top-N to every sometimes-but-not-always option
+    pair — O(options²), hundreds of KB on a portfolio-scale option set — so the full
+    payload goes to disk beside the run's own result file and the response keeps the
+    top-ranked pairs (the list is ranked by departure from independence, so the head is
+    the summary view scaled up). Best-effort: an unwritable data dir degrades to the full
+    inline payload rather than losing the analysis.
+    """
+    rows = len(result.get("co_occurrence") or [])
+    run_id = (result.get("frontier_source") or {}).get("run_id")
+    if rows <= EXPLORE_DETAIL_CAP or not run_id:
+        return result
+    try:
+        path = store.write_run_result(p.problem_id, f"{run_id}-composition", result)
+    except (OSError, ValueError):
+        return result
+    capped = explorer.cap_composition_detail(result, EXPLORE_DETAIL_CAP)
     capped["full_result_path"] = str(path)
     return capped
 
