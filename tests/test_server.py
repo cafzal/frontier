@@ -1726,6 +1726,84 @@ class TestCuration:
 class TestFeedbackLoop:
     """Feedback links to content_signature and attaches to curated solutions."""
 
+    @staticmethod
+    def _overlay_disjoint_exact_run(pid):
+        """Stamp an exact overlay whose plans all differ from the base run's — so a
+        signature resolved from the wrong frontier is provably wrong, not coincidentally
+        right. Both frontiers index from 1, which is exactly the trap."""
+        from engine.models import Run, Solution, _content_signature
+
+        p = srv.store.load(pid)
+        base_sigs = {s.content_signature for s in p.run.solutions}
+        exact_sols = []
+        sid = 0
+        for opts in (["A", "B"], ["A", "C"], ["A", "D"], ["B", "C"], ["B", "D"],
+                     ["C", "D"], ["A", "B", "C"], ["A", "B", "D"], ["A", "C", "D"],
+                     ["B", "C", "D"]):
+            sig = _content_signature(opts)
+            if sig in base_sigs:
+                continue
+            sid += 1
+            exact_sols.append(Solution(
+                solution_id=sid, selected_options=opts,
+                objective_values={"Rev": 10.0 + sid, "Eff": 1.0 + sid},
+                content_signature=sig,
+            ))
+        assert len(exact_sols) >= 3, "base run left too few distinct plans to overlay"
+        p.exact_run = Run(solver="highs", solutions=exact_sols)
+        srv.store.save(p)
+        return exact_sols
+
+    def test_feedback_solution_id_resolves_against_the_source_frontier(self):
+        """Observed live (corpus capture, rev 9dceb63): dislikes recorded with
+        solution_id + source="exact" were resolved against the BASE run — a different
+        plan's signature — so `composition source="exact"` read n_disliked: 0 despite
+        the recorded dislikes. Feedback must resolve solution_id on the same frontier
+        every other explore action selects with `source`."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        exact_sols = self._overlay_disjoint_exact_run(pid)
+
+        like = srv.explore(action="feedback", problem_id=pid, solution_id=1,
+                           source="exact", rating=5, notes="cheap, clears every floor")
+        d1 = srv.explore(action="feedback", problem_id=pid, solution_id=2,
+                         source="exact", rating=1, notes="integration cannot absorb that")
+        d2 = srv.explore(action="feedback", problem_id=pid, solution_id=3,
+                         source="exact", rating=2)
+        # The wire-level truth: each rating landed on the exact-run plan it named.
+        assert like["content_signature"] == exact_sols[0].content_signature
+        assert d1["content_signature"] == exact_sols[1].content_signature
+        assert d2["content_signature"] == exact_sols[2].content_signature
+        # And the response says which frontier the id resolved against.
+        assert like["frontier_source"]["kind"] == "exact"
+
+        fr = srv.explore(action="composition", problem_id=pid,
+                         source="exact")["feedback_rules"]
+        assert fr["n_liked"] == 1
+        assert fr["n_disliked"] == 2
+
+    def test_feedback_unknown_solution_id_errors_instead_of_recording(self):
+        """A solution_id that resolves to nothing used to record a null-signature row —
+        rule induction skips it and nothing can ever link to it. Decline in words, the
+        way curate does."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        result = srv.explore(action="feedback", problem_id=pid, solution_id=999, rating=2)
+        assert "error" in result and "recorded" not in result
+        assert srv.explore(action="feedback", problem_id=pid, rating=3)["feedback_count"] == 1
+
+    def test_a_dislike_is_not_a_selection(self):
+        """Observed live: rating a plan 1 ("non-starter") echoed
+        outcome.user_selected_solution as that plan. Selection requires endorsement."""
+        pid = _build_solvable_problem()
+        srv.solve(action="run", problem_id=pid)
+        r = srv.explore(action="feedback", problem_id=pid, solution_id=1, rating=1,
+                        notes="non-starter")
+        assert r["outcome"]["user_selected_solution"] is None
+        assert r["outcome"]["user_rating"] == 1
+        r2 = srv.explore(action="feedback", problem_id=pid, solution_id=2, rating=5)
+        assert r2["outcome"]["user_selected_solution"] == 2
+
     def test_feedback_computes_signature_from_solution_id(self):
         pid = _build_solvable_problem()
         srv.solve(action="run", problem_id=pid)

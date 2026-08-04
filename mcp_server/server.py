@@ -2149,7 +2149,9 @@ def explore(
                    a rating-less notes annotation is fine and travels with the pin), OR
                    rating (1-5) alone for process-level feedback. A call carrying none of
                    the three has nothing to attach and errors.
-                   Optional: rating (1-5), notes, stage.
+                   solution_id resolves against the run you name (source="exact" to rate
+                   a point on the exact overlay); the response echoes `frontier_source`.
+                   Optional: rating (1-5), notes, stage, source.
       compare_runs — Diff two runs (criteria, frontier ranges, option coverage).
                    Default: current run vs the previous one ("what changed since my
                    last solve?"). Optional: run_ids (2+) for explicit historical runs.
@@ -2246,8 +2248,8 @@ def explore(
 
     Source param (optional):
       Selects the base-case frontier: "run" (default, NSGA) or "exact" (the exact_run
-      overlay). Works with: tradeoffs, compare, solutions, curate, marginal_analysis.
-      Ignored when scenario is set. Analytics results echo `frontier_source`
+      overlay). Works with: tradeoffs, compare, solutions, curate, feedback,
+      marginal_analysis. Ignored when scenario is set. Analytics results echo `frontier_source`
       ({run_id, solver, kind}) — trust that label over your request (a stale transport
       can drop `source`); a heuristic result flags exact_overlay_available when an
       overlay exists.
@@ -2360,7 +2362,8 @@ def explore(
                 )
             return result
         case "feedback":
-            return _explore_feedback(p, solution_id, content_signature, rating, notes, stage)
+            return _explore_feedback(p, solution_id, content_signature, rating, notes, stage,
+                                     source)
         case "compare_runs":
             # Default: current run vs the most recently archived one — the "what changed
             # since my last solve?" question the skills steer agents to ask.
@@ -2580,11 +2583,18 @@ def _explore_feedback(
     rating: int | None,
     notes: str | None,
     stage: str | None,
+    source: str | None = None,
 ) -> dict:
     """Record user feedback on solutions or the overall process.
 
     Feedback is linked to a content_signature (stable across runs). If only
-    solution_id is provided, the signature is computed from the current run.
+    solution_id is provided, the signature is resolved on the frontier `source`
+    selects — the same run every other explore action reads — and the response
+    echoes that frontier's provenance. (Observed live: solution_ids from the exact
+    overlay resolved against the base run, silently rating a different plan, so the
+    exact-frontier composition read n_disliked: 0 despite the recorded dislikes.)
+    An id that matches nothing on that frontier is refused, the way curate refuses
+    it — a row nothing can link to teaches the rule induction nothing.
     Feedback is also appended to any curated solution with the same signature.
 
     Two shapes are serveable: feedback ON a solution (solution_id or content_signature,
@@ -2603,14 +2613,19 @@ def _explore_feedback(
 
     # Resolve content_signature from solution_id if not provided directly
     sig = content_signature
-    frontier = p.run or p.exact_run  # exact-only solves carry the frontier in exact_run
-    if sig is None and solution_id is not None and frontier:
-        for s in frontier.solutions:
-            if s.solution_id == solution_id:
-                sig = s.content_signature or _content_signature(
-                    s.selected_options, s.allocations
-                )
-                break
+    frontier_source = None
+    if sig is None and solution_id is not None:
+        try:
+            frontier = explorer._require_run(p, None, source)
+        except ValueError as e:
+            return {"error": str(e)}
+        sol = next((s for s in frontier.solutions if s.solution_id == solution_id), None)
+        if sol is None:
+            return {"error": f"Solution {solution_id} not found in current run."}
+        sig = sol.content_signature or _content_signature(
+            sol.selected_options, sol.allocations
+        )
+        frontier_source = explorer._frontier_provenance(p, frontier, None)
 
     fb = Feedback(
         content_signature=sig,
@@ -2636,6 +2651,7 @@ def _explore_feedback(
     return {
         "recorded": True,
         "content_signature": sig,
+        **({"frontier_source": frontier_source} if frontier_source else {}),
         "feedback_count": len(p.feedback),
         "outcome": metrics.outcome_metrics(p),
     }

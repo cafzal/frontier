@@ -362,34 +362,31 @@ def readiness(problem: Problem, vr: ValidationResult) -> dict:
     return block
 
 
+_SELECTION_RATING_FLOOR = 4  # the liked bar — same threshold feedback-rule induction uses
+
+
 def outcome_metrics(problem: Problem) -> dict:
     """Metrics about user engagement and decision progress.
 
-    Uses the latest feedback entry that has both solution_id and rating,
-    falling back to the latest of each independently.
+    ``user_selected_solution`` is the solution the user most recently ENDORSED —
+    a rating at or above the liked bar (>= 4, matching feedback-rule induction).
+    A low or neutral rating names a plan to rule out or annotate, so it selects
+    nothing (observed live: a rating-1 "non-starter" used to echo back as the
+    user's pick). ``user_rating`` is the latest rating of any polarity — the
+    engagement pulse, not the selection's score.
     """
     feedback_list = problem.feedback
 
-    # Prefer the latest feedback that has both fields paired
     selected = None
     rating = None
     for fb in reversed(feedback_list):
-        if fb.solution_id is not None and fb.rating is not None:
-            selected = fb.solution_id
+        if rating is None and fb.rating is not None:
             rating = fb.rating
+        if (selected is None and fb.solution_id is not None
+                and fb.rating is not None and fb.rating >= _SELECTION_RATING_FLOOR):
+            selected = fb.solution_id
+        if selected is not None and rating is not None:
             break
-
-    # Fall back to latest of each if no paired entry exists
-    if selected is None:
-        for fb in reversed(feedback_list):
-            if fb.solution_id is not None:
-                selected = fb.solution_id
-                break
-    if rating is None:
-        for fb in reversed(feedback_list):
-            if fb.rating is not None:
-                rating = fb.rating
-                break
 
     return {
         "user_selected_solution": selected,

@@ -242,6 +242,32 @@ class TestOutcomeMetrics:
         assert m["user_rating"] == 4
         assert m["feedback_count"] == 1
 
+    def test_dislike_names_a_rejection_not_a_selection(self, solved_problem):
+        """Observed live: a rating-1 dislike on solution 95 came back with
+        outcome.user_selected_solution=95 — the plan the user just ruled OUT presented
+        as their pick. Selection means endorsement (the liked bar, rating >= 4); a low
+        or neutral rating leaves nothing selected while still counting as the latest
+        rating pulse."""
+        solved_problem.feedback.append(
+            Feedback(solution_id=3, rating=1, notes="non-starter")
+        )
+        m = outcome_metrics(solved_problem)
+        assert m["user_selected_solution"] is None
+        assert m["user_rating"] == 1
+        solved_problem.feedback.append(Feedback(solution_id=2, rating=3))
+        m = outcome_metrics(solved_problem)
+        assert m["user_selected_solution"] is None  # neutral is not an endorsement
+
+    def test_selection_holds_through_a_later_dislike(self, solved_problem):
+        """Endorse one plan, then rule out another: the endorsement stays the selection
+        while user_rating tracks the latest rating of any polarity."""
+        solved_problem.feedback.append(Feedback(solution_id=1, rating=5))
+        solved_problem.feedback.append(Feedback(solution_id=2, rating=2, notes="too risky"))
+        m = outcome_metrics(solved_problem)
+        assert m["user_selected_solution"] == 1
+        assert m["user_rating"] == 2
+        assert m["feedback_count"] == 2
+
 
 class TestDiagnostics:
     def test_no_run(self, scored_problem):
