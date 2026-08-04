@@ -362,6 +362,9 @@ def model(
                 response echoes interaction_matrix_cells so a wipe is visible). objectives,
                 options, constraints, and reference_points are full replacement.
                 Side effects: score and structural edits both mark the latest run stale.
+                status.results_stale covers the base frontiers (run + exact overlay); a
+                scenario-only edit leaves it clear and flags status.scenario_results_stale
+                instead (re-run solve run_scenarios, the base runs stand).
                 Only structural edits (objectives/options/constraints/approach/matrices/scenarios)
                 re-arm solution_interpreter — and, on an objectives/options shape change,
                 optimization_strategy — so the next solve re-injects fresh guidance.
@@ -551,15 +554,18 @@ def _attach_constraint_merge_note(result: dict, p: Problem) -> None:
 
 
 def _results_stale(p: Problem) -> bool:
-    """Does any stored frontier predate the current model? Each frontier is compared against
-    the fingerprint of the inputs IT reads — base runs against the base inputs, the scenario
-    set against those plus scenario_config — so the blanket flag never reports a frontier
-    stale on an edit that cannot reach it. A problem with no stored run at all stays flagged,
-    as before (nothing to vouch for)."""
+    """Does a BASE frontier (exploratory run or exact overlay) predate the current model?
+
+    Scoped to the frontiers a base solve refreshes, each compared against the inputs it
+    reads — a scenario-only edit cannot reach them, so it never flips this flag. (Folding
+    the scenario set in here had real casualties: the next base solve read the flag as
+    "the other base frontier predates the edit" and dropped a still-valid exact overlay,
+    and fill_gaps refused a legitimate fill.) The scenario set carries its own marker,
+    `models.scenario_results_stale`, computed from the composite stamp and echoed beside
+    this flag wherever staleness is reported. A problem with no stored base run stays
+    flagged, as before (nothing to vouch for)."""
     base_fp = _solve_fingerprint(p)
     pairs = [(r.solve_fingerprint, base_fp) for r in (p.run, p.exact_run) if r is not None]
-    if p.scenario_run is not None:
-        pairs.append((p.scenario_run.solve_fingerprint, _scenario_fingerprint(p)))
     return not pairs or any(stamp != fp for stamp, fp in pairs)
 
 
@@ -783,12 +789,12 @@ def _model_update(params: dict) -> dict:
     # carry the fingerprint of the inputs they were solved on, so a round-trip edit — add a
     # cap to audit it, then restore the original constraints — lands back at
     # results_stale=False instead of permanently flagging a model identical to the solved
-    # one. The flag vouches for EVERY stored frontier (exploratory, exact overlay, scenario
-    # set), so it clears only when all present runs are stamped and all match; any
-    # pre-stamp run keeps the blanket flag. Each frontier is compared against ITS OWN inputs:
-    # the base runs can't see scenario_config, so adding or editing a scenario no longer
-    # flags a base frontier it cannot affect (the scenario set, which it does affect, is
-    # compared against the composite stamp and still flags).
+    # one. The flag vouches for the BASE frontiers (exploratory run + exact overlay), so it
+    # clears only when both present base runs are stamped and match; any pre-stamp base run
+    # keeps it set. Each frontier is compared against ITS OWN inputs: the base runs can't
+    # see scenario_config, so adding or editing a scenario never flags a base frontier it
+    # cannot affect — the scenario set, which it does affect, flags on its own marker
+    # (scenario_results_stale, echoed in the status below and on the scenario reads).
     if structural_change:
         p.results_stale = _results_stale(p)
 
@@ -807,6 +813,11 @@ def _model_update(params: dict) -> dict:
             "has_run": p.run is not None,
             "has_exact_run": p.exact_run is not None,
             "results_stale": p.results_stale,
+            # The scenario set reads base inputs PLUS scenario_config, so it can go stale
+            # when the base flag stays clear (a scenario-only edit) — same convention as
+            # `model get` and the scenario reads: present only when it fires.
+            **({"scenario_results_stale": True}
+               if models.scenario_results_stale(p) else {}),
             "total_runs": len(p.runs) + (1 if p.run else 0),
         },
     }
@@ -1111,10 +1122,10 @@ def _model_get_section(p: Problem, section: str) -> dict:
                 "has_exact_run": p.exact_run is not None,
                 "has_scenario_run": p.scenario_run is not None,
                 "results_stale": p.results_stale,
-                # Which frontier is stale, when the blanket flag can't say: a base re-solve
-                # clears results_stale for the frontier it just refreshed, and the scenario
-                # set it left in place may still predate the edit (the scenario reads carry
-                # the same marker).
+                # results_stale is scoped to the base frontiers, so the scenario set's
+                # staleness rides its own marker beside it (the scenario reads carry the
+                # same one) — e.g. after a scenario-only edit, or a base re-solve that
+                # left the scenario set in place.
                 **({"scenario_results_stale": True} if models.scenario_results_stale(p) else {}),
                 "curated_count": len(p.curated_solutions),
                 "visualization": _render_formulation(p),
@@ -1247,6 +1258,10 @@ def _model_load(params: dict) -> dict:
             "has_exact_run": p.exact_run is not None,
             "has_scenario_run": p.scenario_run is not None,
             "results_stale": p.results_stale,
+            # Same convention as `model update`/`model get`: the scenario set's own
+            # staleness marker, present only when it fires.
+            **({"scenario_results_stale": True}
+               if models.scenario_results_stale(p) else {}),
             "curated": len(p.curated_solutions),
         },
     }
@@ -1950,10 +1965,11 @@ def _solve_run_scenarios_body(p: Problem, fingerprint: str, *, mode: OptimizeMod
         p.scenario_run = ScenarioRun(scenario_runs=scenario_results,
                                      solve_fingerprint=fingerprint,
                                      base_fingerprint=_solve_fingerprint(p))
-        # Refreshing the scenario set vouches for the scenario set — not for a base frontier
-        # that predates the same edit. Recompute the blanket flag per frontier instead of
-        # clearing it wholesale (the base solve path drops the frontier it can't vouch for;
-        # this path keeps both and lets the flag stay honest).
+        # Refreshing the scenario set vouches for the scenario set — never for a base
+        # frontier that predates the same edit. The fresh composite stamp above clears the
+        # scenario-side marker; recompute the base flag from its own runs instead of
+        # clearing it wholesale (the base solve path drops the frontier it can't vouch
+        # for; this path keeps both and lets each flag stay honest).
         p.results_stale = _results_stale(p)
         store.save(p)
 

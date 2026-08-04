@@ -319,8 +319,9 @@ class TestStaleFingerprintRoundTrip:
 
 
 class TestStaleFingerprintAllRuns:
-    """results_stale vouches for EVERY stored frontier — the clear applies only when all
-    present runs (exploratory, exact overlay, scenario set) match the current inputs."""
+    """results_stale vouches for the BASE frontiers — the clear applies only when the
+    present base runs (exploratory + exact overlay) match the current inputs. The scenario
+    set reports on its own marker (scenario_results_stale), never on the base flag."""
 
     def test_exact_only_problem_clears_on_restore(self):
         """The exact-first workflow (where explore audit lives) gets the round-trip clear
@@ -342,24 +343,28 @@ class TestStaleFingerprintAllRuns:
         srv.model(action="update", problem_id=pid, constraints=original)
         assert srv.store.load(pid).results_stale is False
 
-    def test_mismatched_scenario_run_blocks_the_clear(self):
-        """A scenario set solved under different inputs must keep the flag: restoring
-        p.run's inputs does not vouch for a scenario_run solved under an edit."""
-        from engine.models import ScenarioRun
+    def test_mismatched_scenario_run_flags_its_own_marker_not_the_base_clear(self):
+        """A scenario set solved under different inputs stays flagged on ITS marker:
+        restoring p.run's inputs clears the base flag (the base frontier is vouched for),
+        and the stale scenario set keeps saying so as scenario_results_stale."""
+        from engine.models import Run, ScenarioRun
 
         pid = _ready()
         r = srv.solve(action="run", problem_id=pid, seed=42)
         assert r["status"] == "complete"
         p = srv.store.load(pid)
-        p.scenario_run = ScenarioRun(scenario_runs={}, solve_fingerprint="stale-inputs")
+        p.scenario_run = ScenarioRun(scenario_runs={"s": Run(solutions=[])},
+                                     solve_fingerprint="stale-inputs")
         srv.store.save(p)
 
         original = [c.model_dump(mode="json") for c in (p.constraints or [])]
         srv.model(action="update", problem_id=pid,
                   constraints=original + [{"type": "cardinality", "min": 1, "max": 3}])
-        srv.model(action="update", problem_id=pid, constraints=original)
-        assert srv.store.load(pid).results_stale is True, (
-            "p.run matches but scenario_run was solved under other inputs — must stay stale")
+        result = srv.model(action="update", problem_id=pid, constraints=original)
+        assert srv.store.load(pid).results_stale is False, (
+            "p.run matches again — the base flag clears; the scenario set is not its scope")
+        assert result["status"]["scenario_results_stale"] is True, (
+            "the scenario set solved under other inputs must keep saying so on its marker")
 
     def test_model_get_echoes_the_region_fingerprint(self):
         """model get carries the same constraints_fingerprint the audit pin uses, so a
