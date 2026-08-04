@@ -270,7 +270,8 @@ class TestRoundTripAndScopedFingerprints:
             "adding a scenario cannot change the base frontier — it must not read as stale")
 
     def test_scenario_only_edit_does_flag_the_scenario_frontier(self):
-        """...and the frontier it CAN affect still flags, per-run and on the blanket flag."""
+        """...and the frontier it CAN affect still flags — on its own scenario-side marker,
+        never on the base flag (the base frontiers still match the model)."""
         pid = _scenario_problem()
         _solve_both(pid)
         srv.model(action="update", problem_id=pid, scenario_config={
@@ -282,13 +283,97 @@ class TestRoundTripAndScopedFingerprints:
         })
         p = srv.store.load(pid)
         assert models.scenario_results_stale(p) is True
-        assert p.results_stale is True
+        assert p.results_stale is False
         assert srv.model(action="get", problem_id=pid,
                          section="summary")["scenario_results_stale"] is True
 
+    def test_scenario_only_edit_echo_stales_the_scenario_set_not_the_base(self):
+        """Observed live: a scenario_config-only update echoed status.results_stale: true
+        while both base frontiers still matched the model — read as "re-solve the base run"
+        when the only stale side was the scenario set. results_stale is scoped to the
+        frontiers a base solve refreshes; the scenario set's own marker rides beside it in
+        the same status payload, so the echo says exactly which re-solve is owed."""
+        pid = _scenario_problem()
+        _solve_both(pid)
+        r = srv.model(action="update", problem_id=pid, scenario_config={
+            "enabled": True,
+            "scenarios": [{"name": "tight",
+                           "constraint_overrides": [{"type": "cardinality", "min": 1, "max": 2}]},
+                          {"name": "loose"},
+                          {"name": "extra"}],
+        })
+        assert r["status"]["results_stale"] is False
+        assert r["status"]["scenario_results_stale"] is True
+        # A base-input edit still stales the base flag — and the scenario marker keeps
+        # riding beside it, since the scenario set reads those inputs too.
+        r2 = srv.model(action="update", problem_id=pid,
+                       scores=[{"option": "o0", "objective": "value", "value": 99.0}])
+        assert r2["status"]["results_stale"] is True
+        assert r2["status"]["scenario_results_stale"] is True
+
+    def test_scenario_only_edit_does_not_cost_a_base_frontier_on_the_next_solve(self):
+        """The blanket flag's real casualty: a solve treats results_stale as "the OTHER
+        base frontier predates the edit" and drops it. After a scenario-only edit that
+        discarded an exact overlay still certifying the current model."""
+        pid = _scenario_problem()
+        _solve_both(pid)
+        # Stamp an exact overlay that matches the current model, the way a real
+        # certify pass would (solve_fingerprint of the base inputs as solved).
+        p = srv.store.load(pid)
+        from engine.models import Run, Solution, _content_signature
+        sol = Solution(solution_id=1, selected_options=["o0"],
+                       objective_values={"value": 1.0, "cost": 1.0})
+        sol.content_signature = _content_signature(sol.selected_options, None)
+        p.exact_run = Run(solver="highs", solutions=[sol],
+                          solve_fingerprint=srv._solve_fingerprint(p))
+        srv.store.save(p)
+
+        srv.model(action="update", problem_id=pid, scenario_config={
+            "enabled": True,
+            "scenarios": [{"name": "tight",
+                           "constraint_overrides": [{"type": "cardinality", "min": 1, "max": 2}]},
+                          {"name": "loose"},
+                          {"name": "extra"}],
+        })
+        r = srv.solve(action="run", problem_id=pid, seed=7, wait_seconds=60)
+        assert r["status"] != "running"
+        assert "dropped_frontier_note" not in r, r.get("dropped_frontier_note")
+        assert srv.store.load(pid).exact_run is not None, (
+            "a scenario-only edit must not cost the exact overlay on the next base solve")
+
+    def test_scenario_only_workflow_is_not_permanently_stale(self):
+        """A problem that deliberately has NO base run: a fresh, successful
+        run_scenarios must land at results_stale false — with no scenario marker either —
+        or the echo misdirects to "re-solve the base" forever and model load's
+        has_results gate routes a solved scenario-only bundle to solve guidance.
+        A problem with no stored results anywhere still flags on a structural edit."""
+        pid = _scenario_problem()
+        # Never-solved: the structural edits in setup flagged it (nothing to vouch for).
+        assert srv.store.load(pid).results_stale is True
+        # Scenario-only solve: fresh scenario set, still no base run.
+        r = srv.solve(action="run_scenarios", problem_id=pid, seed=7, wait_seconds=60)
+        assert r.get("scenarios_optimized") == 2, r
+        p = srv.store.load(pid)
+        assert p.run is None and p.exact_run is None
+        assert p.results_stale is False, (
+            "a scenario-only workflow must not read as base-stale after its own solve")
+        assert models.scenario_results_stale(p) is False
+        got = srv.model(action="get", problem_id=pid, section="summary")
+        assert got["results_stale"] is False
+        assert "scenario_results_stale" not in got
+        # And the scenario marker still owns scenario staleness: a scenario edit flags
+        # it while the base flag stays clear (no base frontier to re-solve).
+        srv.model(action="update", problem_id=pid, scenario_config={
+            "enabled": True, "scenarios": [{"name": "tight"}, {"name": "loose"},
+                                           {"name": "extra"}],
+        })
+        p = srv.store.load(pid)
+        assert p.results_stale is False
+        assert models.scenario_results_stale(p) is True
+
     def test_run_scenarios_does_not_vouch_for_a_stale_base_frontier(self):
         """Refreshing the scenario set clears staleness for the scenario set only — the
-        base frontier still predates the edit, so the blanket flag stays honest."""
+        base frontier still predates the edit, so the base flag stays honest."""
         pid = _scenario_problem()
         _solve_both(pid)
         srv.model(action="update", problem_id=pid,
